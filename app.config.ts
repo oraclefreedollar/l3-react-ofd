@@ -2,6 +2,7 @@
 
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { mainnet } from "wagmi";
+import { envConfig } from "./app.env.config";
 
 // URIs
 export const URI_APP_LOCALHOST = "http://localhost:3000";
@@ -15,17 +16,17 @@ export const URI_PONDER_MAINDEV = "https://maindevponder.frankencoin.com";
 export const URI_PONDER_DEVELOPER = "https://ponder.frankencoin.3dotshub.com";
 
 // >>>>>> SELECTED URI HERE <<<<<<
-export const URI_APP_SELECTED = URI_APP_MAINNET;
-export const URI_PONDER_SELECTED = URI_PONDER_DEVELOPER;
+export const URI_APP_SELECTED = envConfig.URI_APP_SELECTED;
+export const URI_PONDER_SELECTED = envConfig.URI_PONDER_DEVELOPER;
 // >>>>>> SELECTED URI HERE <<<<<<
 
 // API KEYS
 // FIXME: move to env or white list domain
-export const COINGECKO_API_KEY = "CG-8et9S7NgcRF3qDs3nghcxPz5"; // demo key @samclassix
+export const COINGECKO_API_KEY = envConfig.COINGECKO_API_KEY; // demo key @samclassix
 
 // WAGMI CONFIG
 // FIXME: move to env or white list domain
-export const WAGMI_PROJECT_ID = "26fb3341cffa779adebdb59dc32b24e5";
+export const WAGMI_PROJECT_ID = envConfig.WAGMI_PROJECT_ID;
 export const WAGMI_CHAINS = [mainnet];
 export const WAGMI_METADATA = {
 	name: "Frankencoin",
