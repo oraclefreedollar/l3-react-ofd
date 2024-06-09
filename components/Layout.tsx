@@ -2,6 +2,7 @@ import Head from "next/head";
 import { ReactNode } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { envConfig } from "../app.env.config";
 
 type LayoutProps = {
   children: NonNullable<ReactNode>;
@@ -11,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Frankencoin - Home</title>
+        <title>{envConfig.AppName} - Home</title>
       </Head>
       <Navbar />
       <div className="h-main overflow-scroll no-scrollbar pt-24">

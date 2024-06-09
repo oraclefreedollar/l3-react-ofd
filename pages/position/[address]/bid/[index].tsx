@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { TxToast, renderErrorToast } from "@components/TxToast";
 import DisplayLabel from "@components/DisplayLabel";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import { envConfig } from "../../../../app.env.config";
 
 export default function ChallengePlaceBid({}) {
 	const [amount, setAmount] = useState(0n);
@@ -140,7 +141,7 @@ export default function ChallengePlaceBid({}) {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Place Bid</title>
+				<title>{envConfig.AppName} - Place Bid</title>
 			</Head>
 			<div>
 				<AppPageHeader title="Place your bid" backText="Back to position" backTo={`/position/${address}`} />

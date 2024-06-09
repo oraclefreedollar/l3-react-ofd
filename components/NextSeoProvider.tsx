@@ -1,10 +1,11 @@
 import { NextSeo } from 'next-seo';
+import { envConfig } from '../app.env.config';
 
 export default function NextSeoProvider() {
 	return (
 		<NextSeo
-			title="Frankencoin"
-			description="The Frankencoin is a collateralized, oracle-free stablecoin that tracks the value of the Swiss franc."
+			title={envConfig.AppName}
+			description={`The ${envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Swiss franc.`}
 			openGraph={{
 				type: 'website',
 				locale: 'en_US',

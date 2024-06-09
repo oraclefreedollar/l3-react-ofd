@@ -14,6 +14,7 @@ import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { SOCIAL, formatBigInt, shortenAddress } from "@utils";
 import { TxToast, renderErrorToast } from "@components/TxToast";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import { envConfig } from "../app.env.config";
 
 export default function Swap() {
 	const [amount, setAmount] = useState(0n);
@@ -163,7 +164,7 @@ export default function Swap() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Swap</title>
+				<title>{envConfig.AppName} - Swap</title>
 			</Head>
 			<div>
 				<AppPageHeader title="Swap XCHF and ZCHF" />

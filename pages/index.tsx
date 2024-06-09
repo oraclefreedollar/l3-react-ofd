@@ -10,6 +10,7 @@ import { SOCIAL, formatBigInt } from "../utils";
 import { parseUnits } from "viem";
 import { polygon, mainnet, arbitrum, optimism } from "viem/chains";
 import TokenLogo from "@components/TokenLogo";
+import { envConfig } from "../app.env.config";
 
 export default function Home() {
 	const chainId = useChainId();
@@ -27,24 +28,24 @@ export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin</title>
+				<title>{envConfig.AppName}</title>
 			</Head>
 			<main className="block">
 				<section className="mt-16 grid items-center gap-20 align-middle lg:grid-cols-5">
 					<div className="lg:col-span-3">
 						<h1 className="mb-12 text-right text-4xl font-bold">
 							<picture>
-								<img src="/assets/logo.svg" alt="logo" />
+								<img src="/assets/logo.png" alt="logo" />
 							</picture>
 						</h1>
 						<p className="text-lg font-bold">
-							Frankencoin is a collateralized, oracle-free stablecoin that tracks the value of the Swiss franc. Its strengths
+							{envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Swiss franc. Its strengths
 							are its decentralization and its versatility.
 						</p>
 						<p>
 							Unlike other collateralized stablecoins,&nbsp;
 							<a href="https://etherscan.io/address/0xB58E61C3098d85632Df34EecfB899A1Ed80921cB" target="_blank">
-								Frankencoin&apos;s
+								{envConfig.AppName}&apos;s
 							</a>{" "}
 							auction-based liquidation mechanism does not depend on external price sources. It is very flexible with regards
 							to the used collateral. In principle, it supports any collateral with sufficient availability on the market.
@@ -52,7 +53,7 @@ export default function Home() {
 							suitable for highly volatile types of collateral.
 						</p>
 						<p>
-							The frontend you are looking at provides access to five basic functions of the Frankencoin system. Advanced
+							The frontend you are looking at provides access to five basic functions of the {envConfig.AppName} system. Advanced
 							functions, such as proposing new types of collateral or vetoing proposals must at this point in time be
 							performed manually. The{" "}
 							<a href={SOCIAL.Github_dapp} target="_blank">
@@ -80,7 +81,7 @@ export default function Home() {
 
 					<div className="lg:col-span-2">
 						<picture>
-							<img className="m-auto max-w-lg" src="/assets/logoSquare.svg" alt="logo" />
+							<img className="m-auto max-w-lg" src="/assets/logoSquare.png" alt="logo" />
 						</picture>
 					</div>
 				</section>
@@ -144,7 +145,7 @@ export default function Home() {
 							<TokenLogo currency="ZCHF" chain="mainnet" />
 							<div className="flex flex-col text-right">
 								<Link className="underline" href={frankenLinkEth} target="_blank">
-									Frankencoin Contract
+									{envConfig.AppName} Contract
 								</Link>
 								<Link href={SOCIAL.Uniswap_Mainnet} target="_blank" className="underline text-sm text-slate-500">
 									Trade
@@ -158,7 +159,7 @@ export default function Home() {
 							<TokenLogo currency="ZCHF" chain="polygon" />
 							<div className="flex flex-col text-right">
 								<Link className="underline" href={frankenLinkPolygon} target="_blank">
-									Frankencoin (PoS) Contract
+									{envConfig.AppName} (PoS) Contract
 								</Link>
 								<Link href={SOCIAL.Uniswap_Polygon} target="_blank" className="underline text-sm text-slate-500">
 									Trade
@@ -172,7 +173,7 @@ export default function Home() {
 							<TokenLogo currency="ZCHF" chain="arbitrum" />
 							<div className="flex flex-col text-right">
 								<Link className="underline" href={frankenLinkArb} target="_blank">
-									Frankencoin (Arb) Contract
+									{envConfig.AppName} (Arb) Contract
 								</Link>
 								<Link href={SOCIAL.Uniswap_Arbitrum} target="_blank" className="underline text-sm text-slate-500">
 									Trade
@@ -186,7 +187,7 @@ export default function Home() {
 							<TokenLogo currency="ZCHF" chain="optimism" />
 							<div className="flex flex-col text-right">
 								<Link className="underline" href={frankenLinkOp} target="_blank">
-									Frankencoin (Op) Contract
+									{envConfig.AppName} (Op) Contract
 								</Link>
 								<Link href={SOCIAL.Uniswap_Optimism} target="_blank" className="underline text-sm text-slate-500">
 									Trade

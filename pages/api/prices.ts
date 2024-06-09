@@ -6,6 +6,7 @@ import { Address, getAddress } from "viem";
 import { ERC20Info, PositionQuery } from "../../redux/slices/positions.types";
 import { uniqueValues } from "../../utils/format-array";
 import { fetchPositions } from "./positions";
+import { envConfig } from "../../app.env.config";
 
 // forced init caching of ERC20Infos
 // solves development mode caching issue with coingecko free plan
@@ -22,7 +23,7 @@ let fetchedAddresses: Address[] = [
 let fetchedERC20Infos: ERC20Info[] = [
 	{
 		address: "0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-		name: "Frankencoin",
+		name: `${envConfig.AppName}`,
 		symbol: "ZCHF",
 		decimals: 18,
 	},
@@ -40,7 +41,7 @@ let fetchedERC20Infos: ERC20Info[] = [
 	},
 	{
 		address: "0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-		name: "Frankencoin Pool Share",
+		name: `${envConfig.AppName} Pool Share`,
 		symbol: "FPS",
 		decimals: 18,
 	},
@@ -66,7 +67,7 @@ let fetchedERC20Infos: ERC20Info[] = [
 let fetchedPrices: PriceQueryObjectArray = {
 	"0xb58e61c3098d85632df34eecfb899a1ed80921cb": {
 		address: "0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-		name: "Frankencoin",
+		name: envConfig.AppName,
 		symbol: "ZCHF",
 		decimals: 18,
 		timestamp: 1716389270047,

@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { TxToast, renderErrorToast } from "@components/TxToast";
 import DisplayLabel from "@components/DisplayLabel";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import { envConfig } from "../../../app.env.config";
 
 export default function PositionChallenge() {
 	const router = useRouter();
@@ -129,7 +130,7 @@ export default function PositionChallenge() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Position Challenge</title>
+				<title>{envConfig.AppName} - Position Challenge</title>
 			</Head>
 			<div>
 				<AppPageHeader title="Launch Challenge" backText="Back to position" backTo={`/position/${position}`} />
