@@ -13,6 +13,7 @@ import { ABIS, ADDRESS } from "@contracts";
 import ChallengeTable from "@components/ChallengeTable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { envConfig } from "../../../app.env.config";
 
 export default function PositionDetail() {
 	const router = useRouter();
@@ -45,7 +46,7 @@ export default function PositionDetail() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Position Overview</title>
+				<title>{envConfig.AppName} - Position Overview</title>
 			</Head>
 			<div>
 				<AppPageHeader

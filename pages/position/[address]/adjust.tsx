@@ -15,6 +15,7 @@ import { ABIS, ADDRESS } from "@contracts";
 import { toast } from "react-toastify";
 import { TxToast, renderErrorToast } from "@components/TxToast";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import { envConfig } from "../../../app.env.config";
 
 export default function PositionAdjust() {
 	const router = useRouter();
@@ -184,7 +185,7 @@ export default function PositionAdjust() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Adjust Position</title>
+				<title>{envConfig.AppName} - Adjust Position</title>
 			</Head>
 			<div>
 				<AppPageHeader title="Adjust Position" backText="Back to position" backTo={`/position/${positionAddr}`} />

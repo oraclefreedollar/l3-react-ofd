@@ -17,6 +17,7 @@ import { TxToast, renderErrorToast } from "@components/TxToast";
 import AppBox from "@components/AppBox";
 import DateInput from "@components/Input/DateInput";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import { envConfig } from "../../../app.env.config";
 
 export default function PositionBorrow({}) {
 	const router = useRouter();
@@ -185,7 +186,7 @@ export default function PositionBorrow({}) {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Mint</title>
+				<title>{envConfig.AppName} - Mint</title>
 			</Head>
 			<div>
 				<AppPageHeader title="Mint Frankencoins for Yourself" backText="Back to position" backTo={`/position/${position}`} />

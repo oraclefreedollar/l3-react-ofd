@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import { envConfig } from "../app.env.config";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export default function Pool() {
@@ -192,10 +193,10 @@ export default function Pool() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Equity</title>
+				<title>{envConfig.AppName} - Equity</title>
 			</Head>
 			<div>
-				<AppPageHeader title="Frankencoin Pool Shares (FPS)" link={equityUrl} />
+				<AppPageHeader title={`${envConfig.AppName} Pool Shares (FPS)`} link={equityUrl} />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4 container mx-auto">
 					<div className="bg-slate-950 rounded-xl p-4 flex flex-col">
 						<div className="text-lg font-bold text-center">Pool Details</div>

@@ -20,6 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { Tooltip } from "flowbite-react";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import { envConfig } from "../../app.env.config";
 
 export default function PositionCreate({}) {
 	const [minCollAmount, setMinCollAmount] = useState(0n);
@@ -281,7 +282,7 @@ export default function PositionCreate({}) {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Propose Position</title>
+				<title>{envConfig.AppName} - Propose Position</title>
 			</Head>
 			<div>
 				<AppPageHeader

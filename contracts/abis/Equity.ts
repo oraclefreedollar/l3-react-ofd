@@ -1,8 +1,10 @@
+import { envConfig } from "../../app.env.config";
+
 export const EquityABI = [
   {
     inputs: [
       {
-        internalType: "contract Frankencoin",
+        internalType: `contract ${envConfig.AppName}`,
         name: "zchf_",
         type: "address",
       },
@@ -796,7 +798,7 @@ export const EquityABI = [
     name: "zchf",
     outputs: [
       {
-        internalType: "contract Frankencoin",
+        internalType: `contract ${envConfig.AppName}`,
         name: "",
         type: "address",
       },

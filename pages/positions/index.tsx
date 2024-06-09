@@ -3,12 +3,13 @@ import AppPageHeader from "@components/AppPageHeader";
 import PositionTable from "@components/PositionTable";
 import Link from "next/link";
 import PositionCollateral from "@components/PositionTable/PositionCollateral";
+import { envConfig } from "../../app.env.config";
 
 export default function Positions() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Positions</title>
+				<title>{envConfig.AppName} - Positions</title>
 			</Head>
 
 			<div className="mt-8">

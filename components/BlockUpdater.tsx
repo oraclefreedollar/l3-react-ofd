@@ -7,6 +7,7 @@ import { fetchPositionsList } from "../redux/slices/positions.slice";
 import { fetchPricesList } from "../redux/slices/prices.slice";
 import { fetchAccount } from "../redux/slices/account.slice";
 import { ERC20Info } from "../redux/slices/positions.types";
+import { envConfig } from "../app.env.config";
 
 let initializing: boolean = false;
 let initStart: number = 0;
@@ -116,9 +117,9 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 			// TODO: remake loading component
 			<div className="flex items-center justify-center gap-4 h-screen">
 				<picture>
-					<img className="h-10" src="/assets/logoSquare.svg" alt="Logo" />
+					<img className="h-10" src="/assets/logoSquare.png" alt="Logo" />
 				</picture>
-				<h1>Frankencoin is loading...</h1>
+				<h1>{envConfig.AppName} is loading...</h1>
 			</div>
 		);
 	}
