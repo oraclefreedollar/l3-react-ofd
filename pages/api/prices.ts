@@ -21,10 +21,16 @@ let fetchedAddresses: Address[] = [
 ];
 let fetchedERC20Infos: ERC20Info[] = [
 	{
+<<<<<<< HEAD
 		// address: "0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
 		address: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E", //changed
 		name: `${envConfig.AppName}`,
 		symbol: "OFD", //change to OFD
+=======
+		address: "0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+		name: "Frankencoin",
+		symbol: "ZCHF",
+>>>>>>> main
 		decimals: 18,
 	},
 	{
@@ -42,10 +48,16 @@ let fetchedERC20Infos: ERC20Info[] = [
 		decimals: 0,
 	},
 	{
+<<<<<<< HEAD
 		// address: "0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
 		address: "0xeA38b0cD48fA781181FDAa37291e8d6668462261",
 		name: `${envConfig.AppName} Pool Share`,
 		symbol: "OFDPS", //change to OFDPS
+=======
+		address: "0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
+		name: "Frankencoin Pool Share",
+		symbol: "FPS",
+>>>>>>> main
 		decimals: 18,
 	},
 	{
@@ -71,10 +83,17 @@ let fetchedERC20Infos: ERC20Info[] = [
 	},
 ];
 let fetchedPrices: PriceQueryObjectArray = {
+<<<<<<< HEAD
 	"0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E": {
 		address: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E",
 		name: envConfig.AppName,
 		symbol: "OFD",
+=======
+	"0xb58e61c3098d85632df34eecfb899a1ed80921cb": {
+		address: "0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
+		name: "Frankencoin",
+		symbol: "ZCHF",
+>>>>>>> main
 		decimals: 18,
 		timestamp: 1716389270047,
 		price: {
