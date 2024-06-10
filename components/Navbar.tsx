@@ -12,7 +12,7 @@ export default function Navbar() {
 			<header className="flex items-center p-2 sm:gap-x-4 md:p-4 relative w-full">
 				<Link className="" href="/">
 					<picture>
-						<img className="h-9 transition" src="/assets/logoSquare.png" alt="Logo" />
+						<img className="h-9 transition" src="/assets/logoSquare.svg" alt="Logo" />
 					</picture>
 				</Link>
 

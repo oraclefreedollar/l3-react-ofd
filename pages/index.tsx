@@ -35,12 +35,12 @@ export default function Home() {
 					<div className="lg:col-span-3">
 						<h1 className="mb-12 text-right text-4xl font-bold">
 							<picture>
-								<img src="/assets/logo.png" alt="logo" />
+								<img src="/assets/logo.svg" alt="logo" />
 							</picture>
 						</h1>
 						<p className="text-lg font-bold">
-							{envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Swiss franc. Its strengths
-							are its decentralization and its versatility.
+							{envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Swiss franc. Its
+							strengths are its decentralization and its versatility.
 						</p>
 						<p>
 							Unlike other collateralized stablecoins,&nbsp;
@@ -53,8 +53,8 @@ export default function Home() {
 							suitable for highly volatile types of collateral.
 						</p>
 						<p>
-							The frontend you are looking at provides access to five basic functions of the {envConfig.AppName} system. Advanced
-							functions, such as proposing new types of collateral or vetoing proposals must at this point in time be
+							The frontend you are looking at provides access to five basic functions of the {envConfig.AppName} system.
+							Advanced functions, such as proposing new types of collateral or vetoing proposals must at this point in time be
 							performed manually. The{" "}
 							<a href={SOCIAL.Github_dapp} target="_blank">
 								source code of this website
@@ -81,7 +81,7 @@ export default function Home() {
 
 					<div className="lg:col-span-2">
 						<picture>
-							<img className="m-auto max-w-lg" src="/assets/logoSquare.png" alt="logo" />
+							<img className="m-auto max-w-lg" src="/assets/logoSquare.svg" alt="logo" />
 						</picture>
 					</div>
 				</section>

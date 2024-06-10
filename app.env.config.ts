@@ -4,5 +4,5 @@ export const envConfig = {
 	COINGECKO_API_KEY: process.env.NEXT_PUBLIC_COINGECKO_API_KEY || "",
 	WAGMI_PROJECT_ID: process.env.NEXT_PUBLIC_WAGMI_PROJECT_ID || "",
 	ENV: process.env.NEXT_PUBLIC_ENV || "",
-	AppName: "OFDCoin",
+	AppName: "Oracal Free Dollar",
 };

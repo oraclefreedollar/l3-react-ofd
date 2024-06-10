@@ -117,7 +117,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 			// TODO: remake loading component
 			<div className="flex items-center justify-center gap-4 h-screen">
 				<picture>
-					<img className="h-10" src="/assets/logoSquare.png" alt="Logo" />
+					<img className="h-10" src="/assets/logoSquare.svg" alt="Logo" />
 				</picture>
 				<h1>{envConfig.AppName} is loading...</h1>
 			</div>

@@ -4,6 +4,7 @@ import { useChallengeListStats, useChallengeLists } from "@hooks";
 import { useAccount } from "wagmi";
 import AppPageHeader from "@components/AppPageHeader";
 import ChallengeTable from "@components/ChallengeTable";
+import { envConfig } from "../app.env.config";
 
 export default function Auction({}) {
 	const { address } = useAccount();
@@ -14,7 +15,7 @@ export default function Auction({}) {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Auctions</title>
+				<title>{envConfig.AppName} - Auctions</title>
 			</Head>
 			<div>
 				<AppPageHeader title="Your Auctions" />
