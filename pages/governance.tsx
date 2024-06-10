@@ -18,6 +18,7 @@ import MinterProposal from "@components/MinterProposal";
 import FPSHolder from "@components/FPSHolder";
 import { useVotingPowers } from "../hooks/useVotingPowers";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import { envConfig } from "../app.env.config";
 
 export default function Governance() {
 	const [inputField, setInputField] = useState("");
@@ -91,7 +92,7 @@ export default function Governance() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Governance</title>
+				<title>{envConfig.AppName} - Governance</title>
 			</Head>
 			<div>
 				<AppPageHeader title="Governance" link={equityUrl} />
