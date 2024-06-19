@@ -4,10 +4,10 @@ import { MockVolABI } from "./MockVOLToken";
 import { PositionABI } from "./Position";
 import { StablecoinBridgeABI } from "./StablecoinBridge";
 import { UniswapV3PoolABI } from "./UniswapV3Pool";
-import { FrankencoinABI } from "./oracleFreeDollar";
+import { oracleFreeDollarABI } from "./oracleFreeDollar";
 
 export const ABIS = {
-	FrankencoinABI,
+	oracleFreeDollarABI,
 	EquityABI,
 	StablecoinBridgeABI,
 	MintingHubABI,
