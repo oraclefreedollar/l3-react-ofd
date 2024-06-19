@@ -1,14 +1,19 @@
-export const EquityABI = [
+export const oracleFreeDollarABI = [
 	{
 		inputs: [
 			{
-				internalType: "contract IOracleFreeDollar",
-				name: "ofd_",
-				type: "address",
+				internalType: "uint256",
+				name: "_minApplicationPeriod",
+				type: "uint256",
 			},
 		],
 		stateMutability: "nonpayable",
 		type: "constructor",
+	},
+	{
+		inputs: [],
+		name: "AlreadyRegistered",
+		type: "error",
 	},
 	{
 		inputs: [
@@ -54,7 +59,22 @@ export const EquityABI = [
 	},
 	{
 		inputs: [],
-		name: "NotQualified",
+		name: "FeeTooLow",
+		type: "error",
+	},
+	{
+		inputs: [],
+		name: "NotMinter",
+		type: "error",
+	},
+	{
+		inputs: [],
+		name: "PeriodTooShort",
+		type: "error",
+	},
+	{
+		inputs: [],
+		name: "TooLate",
 		type: "error",
 	},
 	{
@@ -88,48 +108,86 @@ export const EquityABI = [
 			{
 				indexed: true,
 				internalType: "address",
-				name: "from",
+				name: "reportingMinter",
 				type: "address",
 			},
 			{
-				indexed: true,
-				internalType: "address",
-				name: "to",
-				type: "address",
+				indexed: false,
+				internalType: "uint256",
+				name: "amount",
+				type: "uint256",
 			},
 		],
-		name: "Delegation",
+		name: "Loss",
 		type: "event",
 	},
 	{
 		anonymous: false,
 		inputs: [
 			{
-				indexed: false,
+				indexed: true,
 				internalType: "address",
-				name: "who",
+				name: "minter",
 				type: "address",
 			},
 			{
 				indexed: false,
-				internalType: "int256",
-				name: "amount",
-				type: "int256",
-			},
-			{
-				indexed: false,
 				internalType: "uint256",
-				name: "totPrice",
+				name: "applicationPeriod",
 				type: "uint256",
 			},
 			{
 				indexed: false,
 				internalType: "uint256",
-				name: "newprice",
+				name: "applicationFee",
+				type: "uint256",
+			},
+			{
+				indexed: false,
+				internalType: "string",
+				name: "message",
+				type: "string",
+			},
+		],
+		name: "MinterApplied",
+		type: "event",
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{
+				indexed: true,
+				internalType: "address",
+				name: "minter",
+				type: "address",
+			},
+			{
+				indexed: false,
+				internalType: "string",
+				name: "message",
+				type: "string",
+			},
+		],
+		name: "MinterDenied",
+		type: "event",
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{
+				indexed: true,
+				internalType: "address",
+				name: "reportingMinter",
+				type: "address",
+			},
+			{
+				indexed: false,
+				internalType: "uint256",
+				name: "amount",
 				type: "uint256",
 			},
 		],
-		name: "Trade",
+		name: "Profit",
 		type: "event",
 	},
 	{
@@ -172,7 +230,7 @@ export const EquityABI = [
 	},
 	{
 		inputs: [],
-		name: "MIN_HOLDING_DURATION",
+		name: "MIN_APPLICATION_PERIOD",
 		outputs: [
 			{
 				internalType: "uint256",
@@ -185,12 +243,12 @@ export const EquityABI = [
 	},
 	{
 		inputs: [],
-		name: "VALUATION_FACTOR",
+		name: "MIN_FEE",
 		outputs: [
 			{
-				internalType: "uint32",
+				internalType: "uint256",
 				name: "",
-				type: "uint32",
+				type: "uint256",
 			},
 		],
 		stateMutability: "view",
@@ -267,75 +325,186 @@ export const EquityABI = [
 		inputs: [
 			{
 				internalType: "uint256",
-				name: "shares",
+				name: "_amount",
 				type: "uint256",
 			},
 		],
-		name: "calculateProceeds",
-		outputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "uint256",
-				name: "investment",
-				type: "uint256",
-			},
-		],
-		name: "calculateShares",
-		outputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "address",
-				name: "owner",
-				type: "address",
-			},
-		],
-		name: "canRedeem",
-		outputs: [
-			{
-				internalType: "bool",
-				name: "",
-				type: "bool",
-			},
-		],
-		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "address",
-				name: "sender",
-				type: "address",
-			},
-			{
-				internalType: "address[]",
-				name: "helpers",
-				type: "address[]",
-			},
-		],
-		name: "checkQualified",
+		name: "burn",
 		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "_owner",
+				type: "address",
+			},
+			{
+				internalType: "uint256",
+				name: "_amount",
+				type: "uint256",
+			},
+		],
+		name: "burnFrom",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "payer",
+				type: "address",
+			},
+			{
+				internalType: "uint256",
+				name: "targetTotalBurnAmount",
+				type: "uint256",
+			},
+			{
+				internalType: "uint32",
+				name: "reservePPM",
+				type: "uint32",
+			},
+		],
+		name: "burnFromWithReserve",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "uint256",
+				name: "_amountExcludingReserve",
+				type: "uint256",
+			},
+			{
+				internalType: "uint32",
+				name: "_reservePPM",
+				type: "uint32",
+			},
+		],
+		name: "burnWithReserve",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "uint256",
+				name: "amount",
+				type: "uint256",
+			},
+			{
+				internalType: "uint32",
+				name: "reservePPM",
+				type: "uint32",
+			},
+		],
+		name: "burnWithoutReserve",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "uint256",
+				name: "mintedAmount",
+				type: "uint256",
+			},
+			{
+				internalType: "uint32",
+				name: "_reservePPM",
+				type: "uint32",
+			},
+		],
+		name: "calculateAssignedReserve",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
 		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "uint256",
+				name: "amountExcludingReserve",
+				type: "uint256",
+			},
+			{
+				internalType: "uint32",
+				name: "reservePPM",
+				type: "uint32",
+			},
+		],
+		name: "calculateFreedAmount",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "source",
+				type: "address",
+			},
+			{
+				internalType: "uint256",
+				name: "_amount",
+				type: "uint256",
+			},
+		],
+		name: "collectProfits",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "source",
+				type: "address",
+			},
+			{
+				internalType: "uint256",
+				name: "_amount",
+				type: "uint256",
+			},
+		],
+		name: "coverLoss",
+		outputs: [],
+		stateMutability: "nonpayable",
 		type: "function",
 	},
 	{
@@ -355,93 +524,170 @@ export const EquityABI = [
 		inputs: [
 			{
 				internalType: "address",
-				name: "delegate",
+				name: "_minter",
 				type: "address",
 			},
-		],
-		name: "delegateVoteTo",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "address",
-				name: "owner",
-				type: "address",
-			},
-		],
-		name: "delegates",
-		outputs: [
-			{
-				internalType: "address",
-				name: "delegate",
-				type: "address",
-			},
-		],
-		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "address",
-				name: "holder",
-				type: "address",
-			},
-		],
-		name: "holdingDuration",
-		outputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "uint256",
-				name: "amount",
-				type: "uint256",
-			},
-			{
-				internalType: "uint256",
-				name: "expectedShares",
-				type: "uint256",
-			},
-		],
-		name: "invest",
-		outputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [
 			{
 				internalType: "address[]",
-				name: "targets",
+				name: "_helpers",
 				type: "address[]",
 			},
 			{
+				internalType: "string",
+				name: "_message",
+				type: "string",
+			},
+		],
+		name: "denyMinter",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [],
+		name: "equity",
+		outputs: [
+			{
 				internalType: "uint256",
-				name: "votesToDestroy",
+				name: "",
 				type: "uint256",
 			},
 		],
-		name: "kamikaze",
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "_position",
+				type: "address",
+			},
+		],
+		name: "getPositionParent",
+		outputs: [
+			{
+				internalType: "address",
+				name: "",
+				type: "address",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "_minter",
+				type: "address",
+			},
+			{
+				internalType: "string",
+				name: "_message",
+				type: "string",
+			},
+		],
+		name: "initialize",
 		outputs: [],
 		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "_minter",
+				type: "address",
+			},
+		],
+		name: "isMinter",
+		outputs: [
+			{
+				internalType: "bool",
+				name: "",
+				type: "bool",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "_target",
+				type: "address",
+			},
+			{
+				internalType: "uint256",
+				name: "_amount",
+				type: "uint256",
+			},
+		],
+		name: "mint",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "_target",
+				type: "address",
+			},
+			{
+				internalType: "uint256",
+				name: "_amount",
+				type: "uint256",
+			},
+			{
+				internalType: "uint32",
+				name: "_reservePPM",
+				type: "uint32",
+			},
+			{
+				internalType: "uint32",
+				name: "_feesPPM",
+				type: "uint32",
+			},
+		],
+		name: "mintWithReserve",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [],
+		name: "minterReserve",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "minter",
+				type: "address",
+			},
+		],
+		name: "minters",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "validityStart",
+				type: "uint256",
+			},
+		],
+		stateMutability: "view",
 		type: "function",
 	},
 	{
@@ -471,19 +717,6 @@ export const EquityABI = [
 				internalType: "uint256",
 				name: "nonce",
 				type: "uint256",
-			},
-		],
-		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [],
-		name: "ofd",
-		outputs: [
-			{
-				internalType: "contract IOracleFreeDollar",
-				name: "",
-				type: "address",
 			},
 		],
 		stateMutability: "view",
@@ -533,13 +766,45 @@ export const EquityABI = [
 		type: "function",
 	},
 	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "position",
+				type: "address",
+			},
+		],
+		name: "positions",
+		outputs: [
+			{
+				internalType: "address",
+				name: "registeringMinter",
+				type: "address",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+				name: "_position",
+				type: "address",
+			},
+		],
+		name: "registerPosition",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
 		inputs: [],
-		name: "price",
+		name: "reserve",
 		outputs: [
 			{
-				internalType: "uint256",
+				internalType: "contract IReserve",
 				name: "",
-				type: "uint256",
+				type: "address",
 			},
 		],
 		stateMutability: "view",
@@ -549,122 +814,26 @@ export const EquityABI = [
 		inputs: [
 			{
 				internalType: "address",
-				name: "target",
+				name: "_minter",
 				type: "address",
 			},
 			{
 				internalType: "uint256",
-				name: "shares",
-				type: "uint256",
-			},
-		],
-		name: "redeem",
-		outputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "address",
-				name: "target",
-				type: "address",
-			},
-			{
-				internalType: "uint256",
-				name: "shares",
+				name: "_applicationPeriod",
 				type: "uint256",
 			},
 			{
 				internalType: "uint256",
-				name: "expectedProceeds",
-				type: "uint256",
-			},
-		],
-		name: "redeemExpected",
-		outputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "address",
-				name: "owner",
-				type: "address",
-			},
-			{
-				internalType: "address",
-				name: "target",
-				type: "address",
-			},
-			{
-				internalType: "uint256",
-				name: "shares",
+				name: "_applicationFee",
 				type: "uint256",
 			},
 			{
-				internalType: "uint256",
-				name: "expectedProceeds",
-				type: "uint256",
+				internalType: "string",
+				name: "_message",
+				type: "string",
 			},
 		],
-		name: "redeemFrom",
-		outputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "address",
-				name: "holder",
-				type: "address",
-			},
-		],
-		name: "relativeVotes",
-		outputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "address[]",
-				name: "helpers",
-				type: "address[]",
-			},
-			{
-				internalType: "address[]",
-				name: "addressesToWipe",
-				type: "address[]",
-			},
-		],
-		name: "restructureCapTable",
+		name: "suggestMinter",
 		outputs: [],
 		stateMutability: "nonpayable",
 		type: "function",
@@ -685,19 +854,6 @@ export const EquityABI = [
 	{
 		inputs: [],
 		name: "totalSupply",
-		outputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [],
-		name: "totalVotes",
 		outputs: [
 			{
 				internalType: "uint256",
@@ -759,49 +915,6 @@ export const EquityABI = [
 			},
 		],
 		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "address",
-				name: "holder",
-				type: "address",
-			},
-		],
-		name: "votes",
-		outputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "address",
-				name: "sender",
-				type: "address",
-			},
-			{
-				internalType: "address[]",
-				name: "helpers",
-				type: "address[]",
-			},
-		],
-		name: "votesDelegated",
-		outputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		stateMutability: "view",
 		type: "function",
 	},
 ] as const;

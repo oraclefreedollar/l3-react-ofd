@@ -1,16 +1,16 @@
-import Head from "next/head";
 import AppBox from "@components/AppBox";
-import DisplayLabel from "@components/DisplayLabel";
 import DisplayAmount from "@components/DisplayAmount";
-import { useHomeStats, useContractUrl, useTvl, usePositionLists, useChallengeCount, useZchfPrice } from "@hooks";
-import Link from "next/link";
-import { ADDRESS } from "@contracts";
-import { useChainId } from "wagmi";
-import { SOCIAL, formatBigInt } from "../utils";
-import { parseUnits } from "viem";
-import { polygon, mainnet, arbitrum, optimism } from "viem/chains";
+import DisplayLabel from "@components/DisplayLabel";
 import TokenLogo from "@components/TokenLogo";
+import { ADDRESS } from "@contracts";
+import { useChallengeCount, useContractUrl, useHomeStats, usePositionLists, useTvl, useZchfPrice } from "@hooks";
+import Head from "next/head";
+import Link from "next/link";
+import { parseUnits } from "viem";
+import { arbitrum, optimism, polygon } from "viem/chains";
+import { useChainId } from "wagmi";
 import { envConfig } from "../app.env.config";
+import { SOCIAL, formatBigInt } from "../utils";
 
 export default function Home() {
 	const chainId = useChainId();

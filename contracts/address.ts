@@ -1,5 +1,6 @@
+import { zeroAddress } from "viem";
 import { Address } from "wagmi";
-import { mainnet } from "wagmi/chains";
+import { arbitrum, mainnet, optimism, polygon } from "wagmi/chains";
 
 export interface ProtocolAddress {
 	frankenCoin: Address;
@@ -120,33 +121,34 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 		usdt: "0x55d398326f99059fF775485246999027B3197955",
 		equity: "0xeA38b0cD48fA781181FDAa37291e8d6668462261",
 		mintingHub: "0xFe00054AF44E24f0B4bd49b1A2d2984C4264aabE",
-		// wFPS: "0x7a915393E5eD3a18ADb5a96B53070E31023CbeD1", //need to change the address
+		// positionFactory: 0x4096831dC711C1A20aC011FBf0AA90A6c56dcF55
+		// wFPS: "null", //need to change the address
 	},
 
-	// [polygon.id]: {
-	// 	frankenCoin: "0x02567e4b14b25549331fCEe2B56c647A8bAB16FD",
-	// 	bridge: zeroAddress,
-	// 	xchf: zeroAddress,
-	// 	equity: zeroAddress,
-	// 	mintingHub: zeroAddress,
-	// 	wFPS: "0x54Cc50D5CC4914F0c5DA8b0581938dC590d29b3D",
-	// },
-	// [arbitrum.id]: {
-	// 	frankenCoin: "0xB33c4255938de7A6ec1200d397B2b2F329397F9B",
-	// 	bridge: zeroAddress,
-	// 	xchf: zeroAddress,
-	// 	equity: zeroAddress,
-	// 	mintingHub: zeroAddress,
-	// 	wFPS: zeroAddress,
-	// },
-	// [optimism.id]: {
-	// 	frankenCoin: "0x4F8a84C442F9675610c680990EdDb2CCDDB8aB6f",
-	// 	bridge: zeroAddress,
-	// 	xchf: zeroAddress,
-	// 	equity: zeroAddress,
-	// 	mintingHub: zeroAddress,
-	// 	wFPS: zeroAddress,
-	// },
+	[polygon.id]: {
+		frankenCoin: "0x02567e4b14b25549331fCEe2B56c647A8bAB16FD",
+		bridge: zeroAddress,
+		usdt: zeroAddress,
+		equity: zeroAddress,
+		mintingHub: zeroAddress,
+		// wFPS: "0x54Cc50D5CC4914F0c5DA8b0581938dC590d29b3D",
+	},
+	[arbitrum.id]: {
+		frankenCoin: "0xB33c4255938de7A6ec1200d397B2b2F329397F9B",
+		bridge: zeroAddress,
+		usdt: zeroAddress,
+		equity: zeroAddress,
+		mintingHub: zeroAddress,
+		// wFPS: zeroAddress,
+	},
+	[optimism.id]: {
+		frankenCoin: "0x4F8a84C442F9675610c680990EdDb2CCDDB8aB6f",
+		bridge: zeroAddress,
+		usdt: zeroAddress,
+		equity: zeroAddress,
+		mintingHub: zeroAddress,
+		// wFPS: zeroAddress,
+	},
 };
 
 export const TokenAddresses = {
