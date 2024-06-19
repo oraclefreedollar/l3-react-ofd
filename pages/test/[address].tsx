@@ -1,16 +1,16 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import AppPageHeader from "@components/AppPageHeader";
 import AppBox from "@components/AppBox";
-import DisplayLabel from "@components/DisplayLabel";
-import DisplayAmount from "@components/DisplayAmount";
-import { formatDate, shortenAddress } from "@utils";
-import { getAddress, zeroAddress } from "viem";
-import { useChallengeListStats, useChallengeLists, useContractUrl, usePositionStats } from "@hooks";
-import { useAccount, useChainId, useContractRead } from "wagmi";
-import { ABIS, ADDRESS } from "@contracts";
+import AppPageHeader from "@components/AppPageHeader";
 import ChallengeTable from "@components/ChallengeTable";
+import DisplayAmount from "@components/DisplayAmount";
+import DisplayLabel from "@components/DisplayLabel";
+import { ABIS, ADDRESS } from "@contracts";
+import { useChallengeListStats, useChallengeLists, useContractUrl, usePositionStats } from "@hooks";
+import { formatDate, shortenAddress } from "@utils";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { getAddress, zeroAddress } from "viem";
+import { useAccount, useChainId, useContractRead } from "wagmi";
 import { envConfig } from "../../app.env.config";
 
 export default function PositionDetail() {
@@ -27,8 +27,8 @@ export default function PositionDetail() {
 	const { challengsData, loading } = useChallengeListStats(challenges);
 
 	const { data: positionAssignedReserve } = useContractRead({
-		address: ADDRESS[chainId].frankenCoin,
-		abi: ABIS.FrankencoinABI,
+		address: ADDRESS[chainId].oracleFreeDollar,
+		abi: ABIS.oracleFreeDollarABI,
 		functionName: "calculateAssignedReserve",
 		args: [positionStats.minted, Number(positionStats.reserveContribution)],
 		enabled: positionStats.isSuccess,
@@ -52,7 +52,7 @@ export default function PositionDetail() {
 						<div className="bg-slate-900 rounded-xl p-4 grid gap-2 grid-cols-2 lg:grid-cols-6">
 							<AppBox className="col-span-3">
 								<DisplayLabel label="Minted Total" />
-								<DisplayAmount amount={positionStats.minted} currency="ZCHF" address={ADDRESS[chainId].frankenCoin} />
+								<DisplayAmount amount={positionStats.minted} currency="OFD" address={ADDRESS[chainId].oracleFreeDollar} />
 							</AppBox>
 							<AppBox className="col-span-3">
 								<DisplayLabel label="Collateral" />
@@ -67,22 +67,22 @@ export default function PositionDetail() {
 								<DisplayLabel label="Liquidation Price" />
 								<DisplayAmount
 									amount={positionStats.liqPrice}
-									currency={"ZCHF"}
+									currency={"OFD"}
 									digits={36 - positionStats.collateralDecimal}
-									address={ADDRESS[chainId].frankenCoin}
+									address={ADDRESS[chainId].oracleFreeDollar}
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
 								<DisplayLabel label="Retained Reserve" />
 								<DisplayAmount
 									amount={positionAssignedReserve || 0n}
-									currency={"ZCHF"}
-									address={ADDRESS[chainId].frankenCoin}
+									currency={"OFD"}
+									address={ADDRESS[chainId].oracleFreeDollar}
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
 								<DisplayLabel label="Limit" />
-								<DisplayAmount amount={positionStats.limit} currency={"ZCHF"} address={ADDRESS[chainId].frankenCoin} />
+								<DisplayAmount amount={positionStats.limit} currency={"OFD"} address={ADDRESS[chainId].oracleFreeDollar} />
 							</AppBox>
 							<AppBox className="col-span-1 sm:col-span-3">
 								<DisplayLabel label="Owner" />

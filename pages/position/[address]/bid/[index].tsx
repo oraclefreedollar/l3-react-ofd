@@ -1,22 +1,22 @@
-import { useState } from "react";
-import Head from "next/head";
-import AppPageHeader from "@components/AppPageHeader";
-import { useRouter } from "next/router";
 import AppBox from "@components/AppBox";
-import TokenInput from "@components/Input/TokenInput";
-import DisplayAmount from "@components/DisplayAmount";
-import { useChallengeListStats, useChallengeLists, usePositionStats, useContractUrl } from "@hooks";
-import { formatUnits, getAddress, zeroAddress } from "viem";
-import { formatBigInt, formatDate, formatDuration, min, shortenAddress } from "@utils";
-import Link from "next/link";
+import AppPageHeader from "@components/AppPageHeader";
 import Button from "@components/Button";
-import { erc20ABI, useChainId, useContractWrite } from "wagmi";
-import { waitForTransaction } from "wagmi/actions";
-import { ABIS, ADDRESS } from "@contracts";
-import { toast } from "react-toastify";
-import { TxToast, renderErrorToast } from "@components/TxToast";
+import DisplayAmount from "@components/DisplayAmount";
 import DisplayLabel from "@components/DisplayLabel";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import TokenInput from "@components/Input/TokenInput";
+import { TxToast, renderErrorToast } from "@components/TxToast";
+import { ABIS, ADDRESS } from "@contracts";
+import { useChallengeListStats, useChallengeLists, useContractUrl, usePositionStats } from "@hooks";
+import { formatBigInt, formatDate, formatDuration, min, shortenAddress } from "@utils";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { formatUnits, getAddress, zeroAddress } from "viem";
+import { erc20ABI, useChainId, useContractWrite } from "wagmi";
+import { waitForTransaction } from "wagmi/actions";
 import { envConfig } from "../../../../app.env.config";
 
 export default function ChallengePlaceBid({}) {
@@ -40,7 +40,7 @@ export default function ChallengePlaceBid({}) {
 
 	const remainingCol = (challenge?.size || 0n) - (challenge?.filledSize || 0n);
 	const buyNowPrice = challenge?.price || 0n;
-	const expectedZCHF = (bidAmount?: bigint) => {
+	const expectedOFD = (bidAmount?: bigint) => {
 		if (!bidAmount) bidAmount = amount;
 		return challenge ? (bidAmount * challenge.price) / BigInt(1e18) : BigInt(0);
 	};
@@ -71,13 +71,13 @@ export default function ChallengePlaceBid({}) {
 
 	const handleApprove = async () => {
 		const tx = await approveWrite.writeAsync({
-			args: [ADDRESS[chainId].mintingHub, expectedZCHF()],
+			args: [ADDRESS[chainId].mintingHub, expectedOFD()],
 		});
 
 		const toastContent = [
 			{
 				title: "Amount:",
-				value: formatBigInt(expectedZCHF()) + " ZCHF",
+				value: formatBigInt(expectedOFD()) + " OFD",
 			},
 			{
 				title: "Spender: ",
@@ -91,10 +91,10 @@ export default function ChallengePlaceBid({}) {
 
 		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
 			pending: {
-				render: <TxToast title={`Approving ZCHF`} rows={toastContent} />,
+				render: <TxToast title={`Approving OFD`} rows={toastContent} />,
 			},
 			success: {
-				render: <TxToast title="Successfully Approved ZCHF" rows={toastContent} />,
+				render: <TxToast title="Successfully Approved OFD" rows={toastContent} />,
 			},
 			error: {
 				render(error: any) {
@@ -114,8 +114,8 @@ export default function ChallengePlaceBid({}) {
 				value: formatBigInt(amount, positionStats.collateralDecimal) + " " + positionStats.collateralSymbol,
 			},
 			{
-				title: `Expected ZCHF: `,
-				value: formatBigInt(expectedZCHF()) + " ZCHF",
+				title: `Expected OFD: `,
+				value: formatBigInt(expectedOFD()) + " OFD",
 			},
 			{
 				title: "Transaction:",
@@ -161,7 +161,7 @@ export default function ChallengePlaceBid({}) {
 									placeholder="Collateral Amount"
 								/>
 								<div className="flex flex-col gap-1">
-									<span>Expected total price: {formatUnits(expectedZCHF(), 18)} ZCHF</span>
+									<span>Expected total price: {formatUnits(expectedOFD(), 18)} OFD</span>
 								</div>
 							</div>
 						</div>
@@ -187,8 +187,8 @@ export default function ChallengePlaceBid({}) {
 								<DisplayAmount
 									amount={buyNowPrice}
 									digits={36 - positionStats.collateralDecimal}
-									address={ADDRESS[chainId].frankenCoin}
-									currency={"ZCHF"}
+									address={ADDRESS[chainId].oracleFreeDollar}
+									currency={"OFD"}
 								/>
 							</AppBox>
 							<AppBox>
@@ -208,7 +208,7 @@ export default function ChallengePlaceBid({}) {
 						</div>
 						<div className="mx-auto mt-4 w-72 max-w-full flex-col">
 							<GuardToAllowedChainBtn>
-								{expectedZCHF() > positionStats.frankenAllowance ? (
+								{expectedOFD() > positionStats.frankenAllowance ? (
 									<Button isLoading={approveWrite.isLoading || isConfirming} onClick={() => handleApprove()}>
 										Approve
 									</Button>

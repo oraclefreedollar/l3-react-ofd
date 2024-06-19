@@ -1,20 +1,19 @@
+import AppPageHeader from "@components/AppPageHeader";
+import Button from "@components/Button";
+import DisplayAmount from "@components/DisplayAmount";
+import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import TokenInput from "@components/Input/TokenInput";
+import { TxToast, renderErrorToast } from "@components/TxToast";
+import { ABIS, ADDRESS } from "@contracts";
+import { usePositionStats } from "@hooks";
+import { abs, formatBigInt, shortenAddress } from "@utils";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { formatUnits, maxUint256, getAddress, zeroAddress } from "viem";
-import { usePositionStats } from "@hooks";
-import Link from "next/link";
-import Head from "next/head";
-import AppPageHeader from "@components/AppPageHeader";
-import TokenInput from "@components/Input/TokenInput";
-import DisplayAmount from "@components/DisplayAmount";
-import { abs, formatBigInt, shortenAddress } from "@utils";
-import Button from "@components/Button";
+import { toast } from "react-toastify";
+import { formatUnits, getAddress, maxUint256, zeroAddress } from "viem";
 import { erc20ABI, useAccount, useChainId, useContractWrite } from "wagmi";
 import { waitForTransaction } from "wagmi/actions";
-import { ABIS, ADDRESS } from "@contracts";
-import { toast } from "react-toastify";
-import { TxToast, renderErrorToast } from "@components/TxToast";
-import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
 import { envConfig } from "../../../app.env.config";
 
 export default function PositionAdjust() {
@@ -77,15 +76,15 @@ export default function PositionAdjust() {
 	/* <div
             className={`flex gap-2 items-center cursor-pointer`}
             onClick={() => setAmount(positionStats.limit)}
-          >This position is limited to {formatUnits(positionStats.limit, 18)} ZCHF </div>)
+          >This position is limited to {formatUnits(positionStats.limit, 18)} OFD </div>)
  */
 	function getAmountError() {
 		if (amount > positionStats.limit) {
-			return `This position is limited to ${formatUnits(positionStats.limit, 18)} ZCHF`;
+			return `This position is limited to ${formatUnits(positionStats.limit, 18)} OFD`;
 		} else if (-paidOutAmount() > positionStats.frankenBalance) {
-			return "Insufficient ZCHF in wallet";
+			return "Insufficient OFD in wallet";
 		} else if (liqPrice * collateralAmount < amount * 10n ** 18n) {
-			return `Can mint at most ${formatUnits((collateralAmount * liqPrice) / 10n ** 36n, 0)} ZCHF given price and collateral.`;
+			return `Can mint at most ${formatUnits((collateralAmount * liqPrice) / 10n ** 36n, 0)} OFD given price and collateral.`;
 		} else if (positionStats.liqPrice * collateralAmount < amount * 10n ** 18n) {
 			return "Amount can only be increased after new price has gone through cooldown.";
 		} else {
@@ -194,7 +193,7 @@ export default function PositionAdjust() {
 						<div className="text-lg font-bold text-center">Variables</div>
 						<TokenInput
 							label="Amount"
-							symbol="ZCHF"
+							symbol="OFD"
 							output={positionStats.closed ? "0" : ""}
 							balanceLabel="Min:"
 							max={repayPosition}
@@ -218,7 +217,7 @@ export default function PositionAdjust() {
 						<TokenInput
 							label="Liquidation Price"
 							balanceLabel="Current Value"
-							symbol={"ZCHF"}
+							symbol={"OFD"}
 							max={positionStats.liqPrice}
 							value={liqPrice.toString()}
 							digit={36 - positionStats.collateralDecimal}
@@ -256,17 +255,17 @@ export default function PositionAdjust() {
 						<div className="bg-slate-900 rounded-xl p-4 flex flex-col gap-2">
 							<div className="flex">
 								<div className="flex-1">Current minted amount</div>
-								<DisplayAmount amount={positionStats.minted} currency={"ZCHF"} address={ADDRESS[chainId].frankenCoin} />
+								<DisplayAmount amount={positionStats.minted} currency={"OFD"} address={ADDRESS[chainId].oracleFreeDollar} />
 							</div>
 							<div className="flex">
 								<div className="flex-1">{amount >= positionStats.minted ? "You receive" : "You return"}</div>
-								<DisplayAmount amount={paidOutAmount()} currency={"ZCHF"} address={ADDRESS[chainId].frankenCoin} />
+								<DisplayAmount amount={paidOutAmount()} currency={"OFD"} address={ADDRESS[chainId].oracleFreeDollar} />
 							</div>
 							<div className="flex">
 								<div className="flex-1">
 									{amount >= positionStats.minted ? "Added to reserve on your behalf" : "Returned from reserve"}
 								</div>
-								<DisplayAmount amount={returnFromReserve()} currency={"ZCHF"} address={ADDRESS[chainId].frankenCoin} />
+								<DisplayAmount amount={returnFromReserve()} currency={"OFD"} address={ADDRESS[chainId].oracleFreeDollar} />
 							</div>
 							<div className="flex">
 								<div className="flex-1">Minting fee (interest)</div>
@@ -276,14 +275,14 @@ export default function PositionAdjust() {
 											? ((amount - positionStats.minted) * positionStats.mintingFee) / 1_000_000n
 											: 0n
 									}
-									currency={"ZCHF"}
-									address={ADDRESS[chainId].frankenCoin}
+									currency={"OFD"}
+									address={ADDRESS[chainId].oracleFreeDollar}
 								/>
 							</div>
 							<hr className="border-slate-700 border-dashed" />
 							<div className="flex font-bold">
 								<div className="flex-1">Future minted amount</div>
-								<DisplayAmount amount={amount} currency={"ZCHF"} address={ADDRESS[chainId].frankenCoin} />
+								<DisplayAmount amount={amount} currency={"OFD"} address={ADDRESS[chainId].oracleFreeDollar} />
 							</div>
 						</div>
 					</div>
