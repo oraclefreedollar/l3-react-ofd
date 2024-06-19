@@ -1,25 +1,21 @@
 "use client";
-import Head from "next/head";
 import AppPageHeader from "@components/AppPageHeader";
-import { useEffect } from "react";
-import { isAddress, maxUint256 } from "viem";
-import TokenInput from "@components/Input/TokenInput";
-import { useTokenData, useUserBalance } from "@hooks";
-import { useState } from "react";
 import Button from "@components/Button";
+import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import AddressInput from "@components/Input/AddressInput";
+import NormalInput from "@components/Input/NormalInput";
+import TokenInput from "@components/Input/TokenInput";
+import { TxToast, renderErrorToast } from "@components/TxToast";
+import { ABIS, ADDRESS } from "@contracts";
+import { useTokenData, useUserBalance } from "@hooks";
+import { formatBigInt, shortenAddress } from "@utils";
+import Head from "next/head";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { isAddress, maxUint256 } from "viem";
 import { erc20ABI, useChainId, useContractWrite } from "wagmi";
 import { waitForTransaction } from "wagmi/actions";
-import { ABIS, ADDRESS } from "@contracts";
-import { formatBigInt, shortenAddress } from "@utils";
-import { toast } from "react-toastify";
-import { TxToast, renderErrorToast } from "@components/TxToast";
-import Link from "next/link";
-import NormalInput from "@components/Input/NormalInput";
-import AddressInput from "@components/Input/AddressInput";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { Tooltip } from "flowbite-react";
-import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
 import { envConfig } from "../../app.env.config";
 
 export default function PositionCreate({}) {
@@ -134,8 +130,8 @@ export default function PositionCreate({}) {
 
 	function checkCollateralAmount(coll: bigint, price: bigint) {
 		if (coll * price < 5000n * 10n ** 36n) {
-			setLiqPriceError("The liquidation value of the collateral must be at least 5000 ZCHF");
-			setMinCollAmountError("The collateral must be worth at least 5000 ZCHF");
+			setLiqPriceError("The liquidation value of the collateral must be at least 5000 OFD");
+			setMinCollAmountError("The collateral must be worth at least 5000 OFD");
 		} else {
 			setLiqPriceError("");
 			setMinCollAmountError("");
@@ -297,12 +293,12 @@ export default function PositionCreate({}) {
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 							<TokenInput
 								label="Proposal Fee"
-								symbol="ZCHF"
+								symbol="OFD"
 								hideMaxLabel
 								value={BigInt(1000 * 1e18).toString()}
 								onChange={onChangeInitialCollAmount}
 								digit={18}
-								error={userBalance.frankenBalance < BigInt(1000 * 1e18) ? "Not enough ZCHF" : ""}
+								error={userBalance.frankenBalance < BigInt(1000 * 1e18) ? "Not enough OFD" : ""}
 								disabled
 							/>
 							<NormalInput
@@ -318,7 +314,7 @@ export default function PositionCreate({}) {
 						</div>
 						<div>
 							It is recommended to{" "}
-							<Link href="https://github.com/Frankencoin-ZCHF/FrankenCoin/discussions" target="_blank">
+							<Link href="https://github.com/oracleFreeDollar-OFD/oracleFreeDollar/discussions" target="_blank">
 								{" "}
 								discuss{" "}
 							</Link>{" "}
@@ -379,7 +375,7 @@ export default function PositionCreate({}) {
 						<TokenInput
 							label="Minting Limit"
 							hideMaxLabel
-							symbol="ZCHF"
+							symbol="OFD"
 							error={limitAmountError}
 							value={limitAmount.toString()}
 							onChange={onChangeLimitAmount}
@@ -412,7 +408,7 @@ export default function PositionCreate({}) {
 						<TokenInput
 							label="Liquidation Price"
 							balanceLabel="Pick"
-							symbol="ZCHF"
+							symbol="OFD"
 							error={liqPriceError}
 							digit={36n - collTokenData.decimals}
 							hideMaxLabel={minCollAmount == 0n}

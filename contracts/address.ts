@@ -3,7 +3,7 @@ import { Address } from "wagmi";
 import { arbitrum, mainnet, optimism, polygon } from "wagmi/chains";
 
 export interface ProtocolAddress {
-	frankenCoin: Address;
+	oracleFreeDollar: Address;
 	bridge: Address;
 	usdt: Address;
 	equity: Address;
@@ -56,7 +56,7 @@ export interface ProtocolAddress {
 
 export const ADDRESS: Record<number, ProtocolAddress> = {
 	// [hardhat.id]: {
-	// 	frankenCoin: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+	// 	oracleFreeDollar: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
 	// 	bridge: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
 	// 	xchf: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
 	// 	equity: "0xCafac3dD18aC6c6e92c921884f9E4176737C052c",
@@ -65,7 +65,7 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 	// 	wFPS: zeroAddress,
 	// },
 	// [sepolia.id]: {
-	// 	frankenCoin: "0x28c4efd564103730160ad1E6A241b30808445363",
+	// 	oracleFreeDollar: "0x28c4efd564103730160ad1E6A241b30808445363",
 	// 	bridge: "0x1Fc726149c6d6CC16C5f23cD9ec004a501D06012",
 	// 	xchf: "0xe94c49Dcf0c7D761c173E9C131B132A1Cfb81A80",
 	// 	equity: "0x22f3b4CEED90207620C5631b748f65f805bc774f",
@@ -116,7 +116,7 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 	// },
 
 	[mainnet.id]: {
-		frankenCoin: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E",
+		oracleFreeDollar: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E",
 		bridge: "0x5330B9275C9094555286998D20c96bc63a9A575f",
 		usdt: "0x55d398326f99059fF775485246999027B3197955",
 		equity: "0xeA38b0cD48fA781181FDAa37291e8d6668462261",
@@ -126,7 +126,7 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 	},
 
 	[polygon.id]: {
-		frankenCoin: "0x02567e4b14b25549331fCEe2B56c647A8bAB16FD",
+		oracleFreeDollar: "0x02567e4b14b25549331fCEe2B56c647A8bAB16FD",
 		bridge: zeroAddress,
 		usdt: zeroAddress,
 		equity: zeroAddress,
@@ -134,7 +134,7 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 		// wFPS: "0x54Cc50D5CC4914F0c5DA8b0581938dC590d29b3D",
 	},
 	[arbitrum.id]: {
-		frankenCoin: "0xB33c4255938de7A6ec1200d397B2b2F329397F9B",
+		oracleFreeDollar: "0xB33c4255938de7A6ec1200d397B2b2F329397F9B",
 		bridge: zeroAddress,
 		usdt: zeroAddress,
 		equity: zeroAddress,
@@ -142,7 +142,7 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 		// wFPS: zeroAddress,
 	},
 	[optimism.id]: {
-		frankenCoin: "0x4F8a84C442F9675610c680990EdDb2CCDDB8aB6f",
+		oracleFreeDollar: "0x4F8a84C442F9675610c680990EdDb2CCDDB8aB6f",
 		bridge: zeroAddress,
 		usdt: zeroAddress,
 		equity: zeroAddress,

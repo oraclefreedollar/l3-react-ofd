@@ -3,7 +3,7 @@ import DisplayAmount from "@components/DisplayAmount";
 import DisplayLabel from "@components/DisplayLabel";
 import TokenLogo from "@components/TokenLogo";
 import { ADDRESS } from "@contracts";
-import { useChallengeCount, useContractUrl, useHomeStats, usePositionLists, useTvl, useZchfPrice } from "@hooks";
+import { useChallengeCount, useContractUrl, useHomeStats, useOfdPrice, usePositionLists, useTvl } from "@hooks";
 import Head from "next/head";
 import Link from "next/link";
 import { parseUnits } from "viem";
@@ -15,11 +15,11 @@ import { SOCIAL, formatBigInt } from "../utils";
 export default function Home() {
 	const chainId = useChainId();
 	const homestats = useHomeStats();
-	const frankenLinkEth = useContractUrl(ADDRESS[chainId].frankenCoin);
-	const frankenLinkPolygon = useContractUrl(ADDRESS[polygon.id].frankenCoin, polygon);
-	const frankenLinkArb = useContractUrl(ADDRESS[arbitrum.id].frankenCoin, arbitrum);
-	const frankenLinkOp = useContractUrl(ADDRESS[optimism.id].frankenCoin, optimism);
-	const frankenPrice = useZchfPrice();
+	const frankenLinkEth = useContractUrl(ADDRESS[chainId].oracleFreeDollar);
+	const frankenLinkPolygon = useContractUrl(ADDRESS[polygon.id].oracleFreeDollar, polygon);
+	const frankenLinkArb = useContractUrl(ADDRESS[arbitrum.id].oracleFreeDollar, arbitrum);
+	const frankenLinkOp = useContractUrl(ADDRESS[optimism.id].oracleFreeDollar, optimism);
+	const frankenPrice = useOfdPrice();
 
 	const tvlData = useTvl<number>();
 	const positionData = usePositionLists();
@@ -75,7 +75,7 @@ export default function Home() {
 							<a href={SOCIAL.Audit_Chainsecurity} target="_blank">
 								ChainSecurity
 							</a>
-							. Its economic properties have been analyzed as part of a <a href="thesis-frankencoin.pdf">phd thesis</a>.
+							. Its economic properties have been analyzed as part of a <a href="thesis-oracleFreeDollar.pdf">phd thesis</a>.
 						</p>
 					</div>
 
@@ -142,7 +142,7 @@ export default function Home() {
 					<AppBox className="col-span-6 sm:col-span-3">
 						<DisplayLabel label="Mainnet Deployment" />
 						<div className="flex items-center py-2 justify-end">
-							<TokenLogo currency="ZCHF" chain="mainnet" />
+							<TokenLogo currency="OFD" chain="mainnet" />
 							<div className="flex flex-col text-right">
 								<Link className="underline" href={frankenLinkEth} target="_blank">
 									{envConfig.AppName} Contract
@@ -156,7 +156,7 @@ export default function Home() {
 					<AppBox className="col-span-6 sm:col-span-3">
 						<DisplayLabel label="Polygon PoS Bridge" />
 						<div className="flex items-center py-2 justify-end">
-							<TokenLogo currency="ZCHF" chain="polygon" />
+							<TokenLogo currency="OFD" chain="polygon" />
 							<div className="flex flex-col text-right">
 								<Link className="underline" href={frankenLinkPolygon} target="_blank">
 									{envConfig.AppName} (PoS) Contract
@@ -170,7 +170,7 @@ export default function Home() {
 					<AppBox className="col-span-6 sm:col-span-3">
 						<DisplayLabel label="Arbitrum Bridge" />
 						<div className="flex items-center py-2 justify-end">
-							<TokenLogo currency="ZCHF" chain="arbitrum" />
+							<TokenLogo currency="OFD" chain="arbitrum" />
 							<div className="flex flex-col text-right">
 								<Link className="underline" href={frankenLinkArb} target="_blank">
 									{envConfig.AppName} (Arb) Contract
@@ -184,7 +184,7 @@ export default function Home() {
 					<AppBox className="col-span-6 sm:col-span-3">
 						<DisplayLabel label="Optimism Bridge" />
 						<div className="flex items-center py-2 justify-end">
-							<TokenLogo currency="ZCHF" chain="optimism" />
+							<TokenLogo currency="OFD" chain="optimism" />
 							<div className="flex flex-col text-right">
 								<Link className="underline" href={frankenLinkOp} target="_blank">
 									{envConfig.AppName} (Op) Contract
@@ -282,21 +282,21 @@ export default function Home() {
           <hr className="my-12 border-dashed border-slate-800" />
 
           <h2 className="text-2xl font-bold text-center">
-            Frankencoin Pool Shares (FPS)
+            oracleFreeDollar Pool Shares (FPS)
           </h2>
           <div className="bg-slate-900 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
             <AppBox>
               <p>
-                The Frankencoin system receives income in the form of fees, and
+                The oracleFreeDollar system receives income in the form of fees, and
                 it can incur losses in case a collateral proved to be
-                insufficient. These go into a reserve pool. If the Frankencoin
+                insufficient. These go into a reserve pool. If the oracleFreeDollar
                 system was a company, this reserve pool would be called
                 <em>equity</em>. It accumulates profits and absorbs losses.
                 Anyone can contribute to the reserve pool, thereby getting
-                freshly minted Frankencoin Pool Share (FPS) tokens. Anyone who
+                freshly minted oracleFreeDollar Pool Share (FPS) tokens. Anyone who
                 held onto their FPS tokens for long enough, namely at least 90
-                days, can also redeem them again against Frankencoins from the
-                reserve pool at any time. If the Frankencoin&apos;s equity has
+                days, can also redeem them again against oracleFreeDollars from the
+                reserve pool at any time. If the oracleFreeDollar&apos;s equity has
                 grown in the meantime, you will make a profit (and a loss if it
                 declined). Essentially, this is a system of continuous issuance
                 and redemption inspired by the idea of the&nbsp;
@@ -396,9 +396,9 @@ export default function Home() {
             <AppBox>
               <p>
                 Bridge contracts allow to convert other Swiss Franc stablecoins
-                1:1 into Frankencoins and also back again as long as there are
+                1:1 into oracleFreeDollars and also back again as long as there are
                 some left. The deposited stablecoins are kept in the bridge
-                until another user wants to convert ZCHF back into the
+                until another user wants to convert OFD back into the
                 resprective stablecoin. <br />
                 For now, the only bridge is the one to the&nbsp;
                 <a
@@ -460,9 +460,9 @@ export default function Home() {
           <div className="bg-slate-900 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
             <AppBox>
               <p>
-                Collateralized minting positions allow their owner to mint ZCHF
+                Collateralized minting positions allow their owner to mint OFD
                 against a collateral. Anyone can open new collateral positions
-                and start minting ZCHF once the initialization period has
+                and start minting OFD once the initialization period has
                 passed. Positions that are not sufficiently collateralized can
                 be challenged by anyone through an auction mechanism. When
                 challenging a position, the challenger must provide some of the

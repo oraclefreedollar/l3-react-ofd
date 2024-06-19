@@ -21,8 +21,8 @@ let fetchedAddresses: Address[] = [
 let fetchedERC20Infos: ERC20Info[] = [
 	{
 		address: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E",
-		name: "Frankencoin",
-		symbol: "ZCHF",
+		name: "oracleFreeDollar",
+		symbol: "OFD",
 		decimals: 18,
 	},
 	{
@@ -41,7 +41,7 @@ let fetchedERC20Infos: ERC20Info[] = [
 	},
 	{
 		address: "0xeA38b0cD48fA781181FDAa37291e8d6668462261",
-		name: "Frankencoin Pool Share",
+		name: "oracleFreeDollar Pool Share",
 		symbol: "FPS",
 		decimals: 18,
 	},
@@ -70,8 +70,8 @@ let fetchedERC20Infos: ERC20Info[] = [
 let fetchedPrices: PriceQueryObjectArray = {
 	"0xb58e61c3098d85632df34eecfb899a1ed80921cb": {
 		address: "0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-		name: "Frankencoin",
-		symbol: "ZCHF",
+		name: "oracleFreeDollar",
+		symbol: "OFD",
 		decimals: 18,
 		timestamp: 1716389270047,
 		price: {
@@ -156,15 +156,15 @@ export async function updateDetails(): Promise<updateDetailsResponse> {
 	fetchedPositions = tmp;
 
 	const collateralAddresses = fetchedPositions.map((position) => position.collateral).filter(uniqueValues);
-	const mintAddress = fetchedPositions.at(-1)!.zchf;
+	const mintAddress = fetchedPositions.at(-1)!.ofd;
 	fetchedAddresses = [mintAddress, ...collateralAddresses];
 
 	const erc20infos = [
 		{
-			address: fetchedPositions.at(-1)!.zchf,
-			name: fetchedPositions.at(-1)!.zchfName,
-			symbol: fetchedPositions.at(-1)!.zchfSymbol,
-			decimals: fetchedPositions.at(-1)!.zchfDecimals,
+			address: fetchedPositions.at(-1)!.ofd,
+			name: fetchedPositions.at(-1)!.ofdName,
+			symbol: fetchedPositions.at(-1)!.ofdSymbol,
+			decimals: fetchedPositions.at(-1)!.ofdDecimals,
 		},
 	];
 

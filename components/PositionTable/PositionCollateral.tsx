@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
-import { PositionQuery } from "../../redux/slices/positions.types";
-import { RootState } from "../../redux/redux.store";
 import TokenLogo from "@components/TokenLogo";
-import { PriceQueryObjectArray } from "../../redux/slices/prices.types";
+import { useSelector } from "react-redux";
 import { Address } from "wagmi";
+import { RootState } from "../../redux/redux.store";
+import { PositionQuery } from "../../redux/slices/positions.types";
+import { PriceQueryObjectArray } from "../../redux/slices/prices.types";
 import { formatCurrency } from "../../utils/format";
 
 export type CollateralItem = {
@@ -28,11 +28,11 @@ export type CollateralItem = {
 		totalNum: number;
 	};
 	ratios: {
-		highestZCHFPrice: number;
+		highestOFDPrice: number;
 		collateralizedPct: number;
 		availableForClonesPct: number;
 		minted: number;
-		collateralPriceInZCHF: number;
+		collateralPriceInOFD: number;
 		worstStatus: string;
 		worstStatusColors: string;
 	};
@@ -43,7 +43,7 @@ export function PositionCollateralCalculate(listByCollateral: PositionQuery[][],
 	for (let positions of listByCollateral) {
 		const original = positions.at(0) as PositionQuery;
 		const collateral = prices[original!.collateral.toLowerCase() as Address];
-		const mint = prices[original!.zchf.toLowerCase() as Address];
+		const mint = prices[original!.ofd.toLowerCase() as Address];
 
 		if (!collateral || !mint) continue;
 
@@ -54,21 +54,21 @@ export function PositionCollateralCalculate(listByCollateral: PositionQuery[][],
 		for (let pos of positions) {
 			balance += parseInt(pos.collateralBalance);
 			if (pos.isOriginal) {
-				limitForClones += parseInt(pos.limitForClones) / 10 ** pos.zchfDecimals;
-				availableForClones += parseInt(pos.availableForClones) / 10 ** pos.zchfDecimals;
+				limitForClones += parseInt(pos.limitForClones) / 10 ** pos.ofdDecimals;
+				availableForClones += parseInt(pos.availableForClones) / 10 ** pos.ofdDecimals;
 			}
 		}
 
 		balance = balance / 10 ** collateral.decimals;
 		const valueLockedUsd = Math.round(balance * collateral.price.usd);
-		const highestZCHFPrice =
+		const highestOFDPrice =
 			Math.round(Math.max(...positions.map((p) => (parseInt(p.price) * 10000) / 10 ** (36 - p.collateralDecimals)))) / 10000;
 
-		const collateralizedPct = Math.round((collateral.price.usd / (highestZCHFPrice * mint.price.usd)) * 10000) / 100;
+		const collateralizedPct = Math.round((collateral.price.usd / (highestOFDPrice * mint.price.usd)) * 10000) / 100;
 		const availableForClonesPct = Math.round((availableForClones / limitForClones) * 10000) / 100;
 
 		const minted = Math.round(limitForClones - availableForClones);
-		const collateralPriceInZCHF = Math.round((collateral.price.usd / mint.price.usd) * 100) / 100;
+		const collateralPriceInOFD = Math.round((collateral.price.usd / mint.price.usd) * 100) / 100;
 		const worstStatus =
 			collateralizedPct < 100
 				? `Danger, blow ${collateralizedPct}% collaterized`
@@ -87,7 +87,7 @@ export function PositionCollateralCalculate(listByCollateral: PositionQuery[][],
 				valueUsd: valueLockedUsd,
 			},
 			mint: {
-				address: original!.zchf,
+				address: original!.ofd,
 				name: mint.name,
 				symbol: mint.symbol,
 				decimals: mint.decimals,
@@ -99,11 +99,11 @@ export function PositionCollateralCalculate(listByCollateral: PositionQuery[][],
 				cloneNum: positions.filter((pos) => pos.isClone).length,
 			},
 			ratios: {
-				highestZCHFPrice,
+				highestOFDPrice,
 				collateralizedPct,
 				availableForClonesPct,
 				minted,
-				collateralPriceInZCHF,
+				collateralPriceInOFD,
 				worstStatus,
 				worstStatusColors,
 			},
@@ -160,7 +160,7 @@ export function PositionCollateralItem({ item }: { item: CollateralItem }): Reac
 						<div
 							className={`rounded-full text-center max-h-7 max-w-[100] text-gray-900 font-bold ${item.ratios.worstStatusColors}`}
 						>
-							{formatCurrency(item.ratios.highestZCHFPrice.toString(), 2)} {item.mint.symbol}
+							{formatCurrency(item.ratios.highestOFDPrice.toString(), 2)} {item.mint.symbol}
 						</div>
 					</div>
 				</div>

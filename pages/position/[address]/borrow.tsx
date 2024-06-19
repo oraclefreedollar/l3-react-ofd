@@ -1,22 +1,21 @@
-import Head from "next/head";
+import AppBox from "@components/AppBox";
 import AppPageHeader from "@components/AppPageHeader";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { formatUnits, getAddress, zeroAddress, maxUint256 } from "viem";
-import TokenInput from "@components/Input/TokenInput";
-import { usePositionStats } from "@hooks";
-import { useState } from "react";
-import DisplayAmount from "@components/DisplayAmount";
 import Button from "@components/Button";
+import DisplayAmount from "@components/DisplayAmount";
+import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import DateInput from "@components/Input/DateInput";
+import TokenInput from "@components/Input/TokenInput";
+import { TxToast, renderErrorToast } from "@components/TxToast";
+import { ABIS, ADDRESS } from "@contracts";
+import { usePositionStats } from "@hooks";
+import { formatBigInt, min, shortenAddress, toTimestamp } from "@utils";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { formatUnits, getAddress, maxUint256, zeroAddress } from "viem";
 import { erc20ABI, useChainId, useContractWrite } from "wagmi";
 import { waitForTransaction } from "wagmi/actions";
-import { ABIS, ADDRESS } from "@contracts";
-import { formatBigInt, min, shortenAddress, toTimestamp } from "@utils";
-import { toast } from "react-toastify";
-import { TxToast, renderErrorToast } from "@components/TxToast";
-import AppBox from "@components/AppBox";
-import DateInput from "@components/Input/DateInput";
-import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
 import { envConfig } from "../../../app.env.config";
 
 export default function PositionBorrow({}) {
@@ -66,7 +65,7 @@ export default function PositionBorrow({}) {
 			if (availableAmount > userValue) {
 				setError(`Not enough ${positionStats.collateralSymbol} in your wallet.`);
 			} else {
-				setError("Not enough ZCHF available for this position.");
+				setError("Not enough OFD available for this position.");
 			}
 		} else {
 			setError("");
@@ -156,7 +155,7 @@ export default function PositionBorrow({}) {
 		const toastContent = [
 			{
 				title: `Amount: `,
-				value: formatBigInt(amount) + " ZCHF",
+				value: formatBigInt(amount) + " OFD",
 			},
 			{
 				title: `Collateral: `,
@@ -170,10 +169,10 @@ export default function PositionBorrow({}) {
 
 		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
 			pending: {
-				render: <TxToast title={`Minting ZCHF`} rows={toastContent} />,
+				render: <TxToast title={`Minting OFD`} rows={toastContent} />,
 			},
 			success: {
-				render: <TxToast title="Successfully Minted ZCHF" rows={toastContent} />,
+				render: <TxToast title="Successfully Minted OFD" rows={toastContent} />,
 			},
 			error: {
 				render(error: any) {
@@ -189,7 +188,7 @@ export default function PositionBorrow({}) {
 				<title>{envConfig.AppName} - Mint</title>
 			</Head>
 			<div>
-				<AppPageHeader title="Mint Frankencoins for Yourself" backText="Back to position" backTo={`/position/${position}`} />
+				<AppPageHeader title="Mint oracleFreeDollars for Yourself" backText="Back to position" backTo={`/position/${position}`} />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div className="bg-slate-950 rounded-xl p-4 flex flex-col gap-y-4">
 						<div className="text-lg font-bold text-center mt-3">Minting Amount and Collateral</div>
@@ -197,7 +196,7 @@ export default function PositionBorrow({}) {
 							<TokenInput
 								label="Amount"
 								balanceLabel="Limit:"
-								symbol="ZCHF"
+								symbol="OFD"
 								error={error}
 								max={availableAmount}
 								value={amount.toString()}
@@ -216,7 +215,7 @@ export default function PositionBorrow({}) {
 									`Valued at ${formatBigInt(
 										positionStats.liqPrice,
 										36 - positionStats.collateralDecimal
-									)} ZCHF, minimum is ` +
+									)} OFD, minimum is ` +
 									formatBigInt(positionStats.minimumCollateral, Number(positionStats.collateralDecimal)) +
 									" " +
 									positionStats.collateralSymbol
@@ -269,8 +268,8 @@ export default function PositionBorrow({}) {
 									<div className="flex-1">Sent to your wallet</div>
 									<DisplayAmount
 										amount={paidOutToWallet}
-										currency="ZCHF"
-										address={ADDRESS[chainId].frankenCoin}
+										currency="OFD"
+										address={ADDRESS[chainId].oracleFreeDollar}
 										hideLogo
 									/>
 								</div>
@@ -278,19 +277,19 @@ export default function PositionBorrow({}) {
 									<div className="flex-1">Locked in borrowers reserve</div>
 									<DisplayAmount
 										amount={borrowersReserveContribution}
-										currency="ZCHF"
-										address={ADDRESS[chainId].frankenCoin}
+										currency="OFD"
+										address={ADDRESS[chainId].oracleFreeDollar}
 										hideLogo
 									/>
 								</div>
 								<div className="flex">
 									<div className="flex-1">Fees ({formatBigInt(feePercent, 4)}%)</div>
-									<DisplayAmount amount={fees} currency="ZCHF" address={ADDRESS[chainId].frankenCoin} hideLogo />
+									<DisplayAmount amount={fees} currency="OFD" address={ADDRESS[chainId].oracleFreeDollar} hideLogo />
 								</div>
 								<hr className="border-slate-700 border-dashed" />
 								<div className="flex font-bold">
 									<div className="flex-1">Total</div>
-									<DisplayAmount amount={amount} currency="ZCHF" address={ADDRESS[chainId].frankenCoin} hideLogo />
+									<DisplayAmount amount={amount} currency="OFD" address={ADDRESS[chainId].oracleFreeDollar} hideLogo />
 								</div>
 							</div>
 						</div>

@@ -1,21 +1,21 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
 import AppBox from "@components/AppBox";
 import AppPageHeader from "@components/AppPageHeader";
 import Button from "@components/Button";
 import DisplayAmount from "@components/DisplayAmount";
-import TokenInput from "@components/Input/TokenInput";
-import { usePositionStats, useTokenPrice, useZchfPrice } from "@hooks";
-import { getAddress, zeroAddress } from "viem";
-import { useState } from "react";
-import { formatBigInt, formatDuration, shortenAddress } from "@utils";
-import { erc20ABI, useAccount, useChainId, useContractWrite } from "wagmi";
-import { waitForTransaction } from "wagmi/actions";
-import { ABIS, ADDRESS } from "@contracts";
-import { toast } from "react-toastify";
-import { TxToast, renderErrorToast } from "@components/TxToast";
 import DisplayLabel from "@components/DisplayLabel";
 import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import TokenInput from "@components/Input/TokenInput";
+import { TxToast, renderErrorToast } from "@components/TxToast";
+import { ABIS, ADDRESS } from "@contracts";
+import { useOfdPrice, usePositionStats, useTokenPrice } from "@hooks";
+import { formatBigInt, formatDuration, shortenAddress } from "@utils";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { getAddress, zeroAddress } from "viem";
+import { erc20ABI, useAccount, useChainId, useContractWrite } from "wagmi";
+import { waitForTransaction } from "wagmi/actions";
 import { envConfig } from "../../../app.env.config";
 
 export default function PositionChallenge() {
@@ -31,7 +31,7 @@ export default function PositionChallenge() {
 	const position = getAddress(String(positionAddr || zeroAddress));
 	const positionStats = usePositionStats(position);
 	const collateralPrice = useTokenPrice(positionStats.collateral);
-	const zchfPrice = useZchfPrice();
+	const ofdPrice = useOfdPrice();
 
 	const onChangeAmount = (value: string) => {
 		const valueBigInt = BigInt(value);
@@ -152,20 +152,20 @@ export default function PositionChallenge() {
 								<DisplayLabel label="Starting Price" />
 								<DisplayAmount
 									amount={positionStats.liqPrice}
-									currency={"ZCHF"}
+									currency={"OFD"}
 									digits={36 - positionStats.collateralDecimal}
-									address={ADDRESS[chainId].frankenCoin}
-									usdPrice={zchfPrice}
+									address={ADDRESS[chainId].oracleFreeDollar}
+									usdPrice={ofdPrice}
 								/>
 							</AppBox>
 							<AppBox className="col-span-6 sm:col-span-3">
 								<DisplayLabel label="Maximum Proceeds" />
 								<DisplayAmount
 									amount={positionStats.liqPrice * amount}
-									currency={"ZCHF"}
+									currency={"OFD"}
 									digits={36 - positionStats.collateralDecimal + 18}
-									address={ADDRESS[chainId].frankenCoin}
-									usdPrice={zchfPrice}
+									address={ADDRESS[chainId].oracleFreeDollar}
+									usdPrice={ofdPrice}
 								/>
 							</AppBox>
 							<AppBox className="col-span-6 sm:col-span-3">
@@ -232,7 +232,7 @@ export default function PositionChallenge() {
 									During the fixed price phase, anyone can buy the {positionStats.collateralSymbol} you provided at the
 									liquidation price. If everything gets sold before the phase ends, the challenge is averted and you have
 									effectively sold the provided {positionStats.collateralSymbol} to the bidders for{" "}
-									{formatBigInt(positionStats.liqPrice, 36 - positionStats.collateralDecimal)} ZCHF per unit.
+									{formatBigInt(positionStats.liqPrice, 36 - positionStats.collateralDecimal)} OFD per unit.
 								</li>
 								<li>
 									If the challenge is not averted, the fixed price phase is followed by a declining price phase during

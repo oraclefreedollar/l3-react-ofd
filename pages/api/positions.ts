@@ -12,7 +12,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 					items {
 						position
 						owner
-						zchf
+						ofd
 						collateral
 						price
 
@@ -31,9 +31,9 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 						expiration
 						challengePeriod
 
-						zchfName
-						zchfSymbol
-						zchfDecimals
+						ofdName
+						ofdSymbol
+						ofdDecimals
 
 						collateralName
 						collateralSymbol
@@ -61,7 +61,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 			list.push({
 				position: getAddress(p.position),
 				owner: getAddress(p.owner),
-				zchf: getAddress(p.zchf),
+				ofd: getAddress(p.ofd),
 				collateral: getAddress(p.collateral),
 				price: p.price,
 
@@ -80,9 +80,9 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 				expiration: p.expiration,
 				challengePeriod: p.challengePeriod,
 
-				zchfName: p.zchfName,
-				zchfSymbol: p.zchfSymbol,
-				zchfDecimals: p.zchfDecimals,
+				ofdName: p.ofdName,
+				ofdSymbol: p.ofdSymbol,
+				ofdDecimals: p.ofdDecimals,
 
 				collateralName: p.collateralName,
 				collateralSymbol: p.collateralSymbol,

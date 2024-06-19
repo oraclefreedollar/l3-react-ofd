@@ -1,20 +1,20 @@
-import Head from "next/head";
 import AppPageHeader from "@components/AppPageHeader";
-import DisplayAmount from "@components/DisplayAmount";
-import { useAccount, useChainId, useContractWrite, useNetwork } from "wagmi";
-import { waitForTransaction } from "wagmi/actions";
-import { useFaucetStats } from "@hooks";
 import Button from "@components/Button";
-import { ABIS, ADDRESS } from "@contracts";
-import { useState } from "react";
-import { Address, parseUnits, zeroAddress } from "viem";
-import { toast } from "react-toastify";
-import { TxToast, renderErrorToast } from "@components/TxToast";
+import DisplayAmount from "@components/DisplayAmount";
 import Table from "@components/Table";
-import TableHeader from "@components/Table/TableHead";
 import TableBody from "@components/Table/TableBody";
+import TableHeader from "@components/Table/TableHead";
 import TableRow from "@components/Table/TableRow";
 import TokenLogo from "@components/TokenLogo";
+import { TxToast, renderErrorToast } from "@components/TxToast";
+import { ABIS } from "@contracts";
+import { useFaucetStats } from "@hooks";
+import Head from "next/head";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { Address, parseUnits, zeroAddress } from "viem";
+import { useAccount, useChainId, useContractWrite, useNetwork } from "wagmi";
+import { waitForTransaction } from "wagmi/actions";
 
 interface RowProps {
 	addr: Address;
@@ -107,7 +107,7 @@ export default function Faucet() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Faucet</title>
+				<title>OracleFreeDollar - Faucet</title>
 			</Head>
 			<div>
 				<AppPageHeader title="Faucets" />
