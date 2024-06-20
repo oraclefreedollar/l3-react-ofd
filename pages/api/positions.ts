@@ -8,7 +8,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 	const { data } = await clientPonder.query({
 		query: gql`
 			query {
-				positionOpened(orderBy: "availableForClones", orderDirection: "desc") {
+				positions(orderBy: "availableForClones", orderDirection: "desc") {
 					items {
 						position
 						owner
