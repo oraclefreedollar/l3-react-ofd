@@ -1,13 +1,13 @@
+import { Badge } from "flowbite-react";
+import Link from "next/link";
+import { useSelector } from "react-redux";
 import { Address, zeroAddress } from "viem";
-import DisplayAmount from "../DisplayAmount";
-import TableRow from "../Table/TableRow";
 import { useAccount, useChainId } from "wagmi";
 import { ADDRESS } from "../../contracts/address";
-import Link from "next/link";
-import { Badge } from "flowbite-react";
-import { PositionQuery } from "../../redux/slices/positions.types";
 import { RootState } from "../../redux/redux.store";
-import { useSelector } from "react-redux";
+import { PositionQuery } from "../../redux/slices/positions.types";
+import DisplayAmount from "../DisplayAmount";
+import TableRow from "../Table/TableRow";
 
 interface Props {
 	position: PositionQuery;
@@ -18,8 +18,8 @@ export default function PositionRow({ position }: Props) {
 	const chainId = useChainId();
 	const prices = useSelector((state: RootState) => state.prices.coingecko);
 	const collTokenPrice = prices[position.collateral.toLowerCase() as Address]?.price?.usd;
-	const zchfPrice = prices[position.zchf.toLowerCase() as Address]?.price?.usd;
-	if (!collTokenPrice || !zchfPrice) return null;
+	const ofdPrice = prices[position.ofd.toLowerCase() as Address]?.price?.usd;
+	if (!collTokenPrice || !ofdPrice) return null;
 
 	const account = address || zeroAddress;
 	const isMine = position.owner == account;
@@ -60,12 +60,12 @@ export default function PositionRow({ position }: Props) {
 			<div>
 				<DisplayAmount
 					amount={BigInt(position.price)}
-					currency={"ZCHF"}
+					currency={"OFD"}
 					hideLogo
 					// bold={positionStats.cooldown * 1000n > Date.now()}
 					digits={36 - position.collateralDecimals}
-					address={ADDRESS[chainId].frankenCoin}
-					usdPrice={zchfPrice}
+					address={ADDRESS[chainId].oracleFreeDollar}
+					usdPrice={ofdPrice}
 				/>
 			</div>
 
@@ -81,10 +81,10 @@ export default function PositionRow({ position }: Props) {
 				) : (
 					<DisplayAmount
 						amount={BigInt(position.availableForClones)}
-						currency={"ZCHF"}
+						currency={"OFD"}
 						hideLogo
-						address={ADDRESS[chainId].frankenCoin}
-						usdPrice={zchfPrice}
+						address={ADDRESS[chainId].oracleFreeDollar}
+						usdPrice={ofdPrice}
 					/>
 				)}
 			</div>

@@ -1,19 +1,17 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
-import { clientPonder } from "../../app.config";
-import { gql } from "@apollo/client";
-import { Address, getAddress } from "viem";
 import { uniqueValues } from "@utils";
+import { Address } from "viem";
+import { fetchPositions } from "../../pages/api/positions";
 import {
-	PositionsState,
-	PositionQuery,
 	DispatchAddressArray,
 	DispatchBoolean,
+	DispatchERC20InfoArray,
 	DispatchPositionQueryArray,
 	DispatchPositionQueryArray2,
 	ERC20Info,
-	DispatchERC20InfoArray,
+	PositionQuery,
+	PositionsState,
 } from "./positions.types";
-import { fetchPositions } from "../../pages/api/positions";
 
 // --------------------------------------------------------------------------------
 
@@ -153,13 +151,13 @@ export const fetchPositionsList =
 
 		// ---------------------------------------------------------------
 		// filter collateral and ERC20 and dispatch
-		// TODO: Change hardcoded ZCHF Info (zchfERC20Info), if adding additional currencies dynamically is needed.
+		// TODO: Change hardcoded OFD Info (ofdERC20Info), if adding additional currencies dynamically is needed.
 		const mintERC20Infos: ERC20Info[] = [
 			{
-				address: originalPositions.at(0)!.zchf,
-				name: originalPositions.at(0)!.zchfName,
-				symbol: originalPositions.at(0)!.zchfSymbol,
-				decimals: originalPositions.at(0)!.zchfDecimals,
+				address: originalPositions.at(0)!.ofd,
+				name: originalPositions.at(0)!.ofdName,
+				symbol: originalPositions.at(0)!.ofdSymbol,
+				decimals: originalPositions.at(0)!.ofdDecimals,
 			},
 		];
 		const collateralERC20Info = collateralAddresses.map((c): ERC20Info => {

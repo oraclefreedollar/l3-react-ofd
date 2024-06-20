@@ -1,19 +1,19 @@
-import Head from "next/head";
 import AppPageHeader from "@components/AppPageHeader";
-import TokenInput from "@components/Input/TokenInput";
-import { useState } from "react";
-import { useSwapStats } from "@hooks";
-import { formatUnits, maxUint256 } from "viem";
 import Button from "@components/Button";
+import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import TokenInput from "@components/Input/TokenInput";
+import { TxToast, renderErrorToast } from "@components/TxToast";
+import { ABIS, ADDRESS } from "@contracts";
+import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSwapStats } from "@hooks";
+import { SOCIAL, formatBigInt, shortenAddress } from "@utils";
+import Head from "next/head";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { formatUnits, maxUint256 } from "viem";
 import { erc20ABI, useChainId, useContractWrite } from "wagmi";
 import { waitForTransaction } from "wagmi/actions";
-import { ABIS, ADDRESS } from "@contracts";
-import { toast } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { SOCIAL, formatBigInt, shortenAddress } from "@utils";
-import { TxToast, renderErrorToast } from "@components/TxToast";
-import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
 import { envConfig } from "../app.env.config";
 
 export default function Swap() {
@@ -25,7 +25,7 @@ export default function Swap() {
 	const chainId = useChainId();
 	const swapStats = useSwapStats();
 	const approveWrite = useContractWrite({
-		address: ADDRESS[chainId].xchf,
+		address: ADDRESS[chainId].usdt,
 		abi: erc20ABI,
 		functionName: "approve",
 	});
@@ -61,10 +61,10 @@ export default function Swap() {
 
 		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
 			pending: {
-				render: <TxToast title="Approving XCHF" rows={toastContent} />,
+				render: <TxToast title="Approving USDT" rows={toastContent} />,
 			},
 			success: {
-				render: <TxToast title="Successfully Approved XCHF" rows={toastContent} />,
+				render: <TxToast title="Successfully Approved USDT" rows={toastContent} />,
 			},
 			error: {
 				render(error: any) {
@@ -138,11 +138,11 @@ export default function Swap() {
 		});
 	};
 
-	const fromBalance = direction ? swapStats.xchfUserBal : swapStats.zchfUserBal;
-	const toBalance = !direction ? swapStats.xchfUserBal : swapStats.zchfUserBal;
-	const fromSymbol = direction ? "XCHF" : "ZCHF";
-	const toSymbol = !direction ? "XCHF" : "ZCHF";
-	const swapLimit = direction ? swapStats.bridgeLimit - swapStats.xchfBridgeBal : swapStats.xchfBridgeBal;
+	const fromBalance = direction ? swapStats.usdtUserBal : swapStats.ofdUserBal;
+	const toBalance = !direction ? swapStats.usdtUserBal : swapStats.ofdUserBal;
+	const fromSymbol = direction ? "USDT" : "OFD";
+	const toSymbol = !direction ? "USDT" : "OFD";
+	const swapLimit = direction ? swapStats.bridgeLimit - swapStats.usdtBridgeBal : swapStats.usdtBridgeBal;
 
 	const onChangeDirection = () => {
 		setDirection(!direction);
@@ -167,7 +167,7 @@ export default function Swap() {
 				<title>{envConfig.AppName} - Swap</title>
 			</Head>
 			<div>
-				<AppPageHeader title="Swap XCHF and ZCHF" />
+				<AppPageHeader title="Swap USDT and OFD" />
 				<section className="mx-auto flex max-w-2xl flex-col gap-y-4 px-4 sm:px-8">
 					<div className="bg-slate-950 rounded-xl p-8">
 						<TokenInput
@@ -203,7 +203,7 @@ export default function Swap() {
 						<div className="mx-auto mt-8 w-72 max-w-full flex-col">
 							<GuardToAllowedChainBtn>
 								{direction ? (
-									amount > swapStats.xchfUserAllowance ? (
+									amount > swapStats.usdtUserAllowance ? (
 										<Button isLoading={approveWrite.isLoading || isConfirming} onClick={() => handleApprove()}>
 											Approve
 										</Button>

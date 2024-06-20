@@ -22,7 +22,7 @@ export type PositionsState = {
 export type PositionQuery = {
 	position: Address;
 	owner: Address;
-	zchf: Address;
+	ofd: Address;
 	collateral: Address;
 	price: string;
 
@@ -41,9 +41,9 @@ export type PositionQuery = {
 	expiration: number;
 	challengePeriod: number;
 
-	zchfName: string;
-	zchfSymbol: string;
-	zchfDecimals: number;
+	ofdName: string;
+	ofdSymbol: string;
+	ofdDecimals: number;
 
 	collateralName: string;
 	collateralSymbol: string;

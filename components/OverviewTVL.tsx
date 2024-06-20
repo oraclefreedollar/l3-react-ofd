@@ -1,17 +1,17 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/redux.store";
-import { PositionQuery, PositionsState } from "../redux/slices/positions.types";
-import { PriceQueryObjectArray } from "../redux/slices/prices.types";
 import { Address } from "wagmi";
-import TokenLogo from "./TokenLogo";
+import { RootState } from "../redux/redux.store";
+import { PositionQuery } from "../redux/slices/positions.types";
+import { PriceQueryObjectArray } from "../redux/slices/prices.types";
 import { formatCurrency } from "../utils/format";
+import TokenLogo from "./TokenLogo";
 
 export function calcOverviewStats(listByCollateral: PositionQuery[][], prices: PriceQueryObjectArray) {
 	const stats = [];
 	for (let positions of listByCollateral) {
 		const original = positions.at(0) as PositionQuery;
 		const collateral = prices[original!.collateral.toLowerCase() as Address];
-		const mint = prices[original!.zchf.toLowerCase() as Address];
+		const mint = prices[original!.ofd.toLowerCase() as Address];
 
 		if (!collateral || !mint) continue;
 
@@ -22,21 +22,21 @@ export function calcOverviewStats(listByCollateral: PositionQuery[][], prices: P
 		for (let pos of positions) {
 			balance += parseInt(pos.collateralBalance);
 			if (pos.isOriginal) {
-				limitForClones += parseInt(pos.limitForClones) / 10 ** pos.zchfDecimals;
-				availableForClones += parseInt(pos.availableForClones) / 10 ** pos.zchfDecimals;
+				limitForClones += parseInt(pos.limitForClones) / 10 ** pos.ofdDecimals;
+				availableForClones += parseInt(pos.availableForClones) / 10 ** pos.ofdDecimals;
 			}
 		}
 
 		balance = balance / 10 ** collateral.decimals;
 		const valueLocked = Math.round(balance * collateral.price.usd);
-		const highestZCHFPrice =
+		const highestOFDPrice =
 			Math.round(Math.max(...positions.map((p) => (parseInt(p.price) * 100) / 10 ** (36 - p.collateralDecimals)))) / 100;
 
-		const collateralizedPct = Math.round((collateral.price.usd / (highestZCHFPrice * mint.price.usd)) * 10000) / 100;
+		const collateralizedPct = Math.round((collateral.price.usd / (highestOFDPrice * mint.price.usd)) * 10000) / 100;
 		const availableForClonesPct = Math.round((availableForClones / limitForClones) * 10000) / 100;
 
 		const minted = Math.round(limitForClones - availableForClones);
-		const collateralPriceInZCHF = Math.round((collateral.price.usd / mint.price.usd) * 100) / 100;
+		const collateralPriceInOFD = Math.round((collateral.price.usd / mint.price.usd) * 100) / 100;
 		const worstStatus =
 			collateralizedPct < 100
 				? `Danger, blow ${collateralizedPct}% collaterized`
@@ -56,10 +56,10 @@ export function calcOverviewStats(listByCollateral: PositionQuery[][], prices: P
 			limitForClones,
 			availableForClones,
 			valueLocked,
-			highestZCHFPrice,
+			highestOFDPrice,
 			collateralizedPct,
 			availableForClonesPct,
-			collateralPriceInZCHF,
+			collateralPriceInOFD,
 			worstStatus,
 			worstStatusColors,
 		});
@@ -113,13 +113,13 @@ export default function OverviewTVL() {
 					<div className="mb-5">
 						The highest liquidation price from all positions is{" "}
 						<span className="front-bold font-semibold text-gray-300">
-							{formatCurrency(stat.highestZCHFPrice.toString(), 2)} ZCHF/{stat.collateral.symbol}
+							{formatCurrency(stat.highestOFDPrice.toString(), 2)} OFD/{stat.collateral.symbol}
 						</span>
 						, which represents the worst{" "}
 						<span className="front-bold font-semibold text-gray-300">collateralisation of {stat.collateralizedPct}%</span> for
 						this collateral. The current price of {stat.collateral.name} ({stat.collateral.symbol}) on Coingecko is{" "}
 						<span className="front-bold font-semibold text-gray-300">
-							{formatCurrency(stat.collateralPriceInZCHF.toString(), 2)} ZCHF/{stat.collateral.symbol}
+							{formatCurrency(stat.collateralPriceInOFD.toString(), 2)} OFD/{stat.collateral.symbol}
 						</span>{" "}
 						or {formatCurrency(stat.collateral.price.usd.toString(), 2)} USD/{stat.collateral.symbol}.
 					</div>
