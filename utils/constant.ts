@@ -12,7 +12,7 @@ export const SOCIAL = {
 	Uniswap_Polygon: "",
 	Uniswap_Arbitrum: "",
 	Uniswap_Optimism: "",
-	Uniswap_WFPS_Polygon: "",
+	Uniswap_WOFDPS_Polygon: "",
 	Audit_Blockbite: "",
 	Audit_Code4rena: "",
 	Audit_Chainsecurity: "",

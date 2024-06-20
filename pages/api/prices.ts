@@ -1,82 +1,85 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PriceQueryObjectArray, PriceQuery, PriceQueryCurrencies } from "../../redux/slices/prices.types";
-import { clientCoingecko, clientPonder } from "../../app.config";
-import { gql } from "@apollo/client";
-import { Address, getAddress } from "viem";
+import { Address } from "viem";
+import { clientCoingecko } from "../../app.config";
 import { ERC20Info, PositionQuery } from "../../redux/slices/positions.types";
+import { PriceQuery, PriceQueryCurrencies, PriceQueryObjectArray } from "../../redux/slices/prices.types";
 import { uniqueValues } from "../../utils/format-array";
 import { fetchPositions } from "./positions";
-import { envConfig } from "../../app.env.config";
 
 // forced init caching of ERC20Infos
 // solves development mode caching issue with coingecko free plan
 let fetchedPositions: PositionQuery[] = [];
 let fetchedAddresses: Address[] = [
-	"0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-	"0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
-	"0x8747a3114Ef7f0eEBd3eB337F745E31dBF81a952",
-	"0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-	"0x8c1BEd5b9a0928467c9B1341Da1D7BD5e10b6549",
-	"0x553C7f9C780316FC1D34b8e14ac2465Ab22a090B",
-	"0x2E880962A9609aA3eab4DEF919FE9E917E99073B",
+	"0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E", //changed
+	"0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", //changed
+	"0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47", //changed
+	"0x7a915393E5eD3a18ADb5a96B53070E31023CbeD1", //changed
+	"0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82", //changed
+	"0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", //changed
+	"0xb1547683DA678f2e1F003A780143EC10Af8a832B", //changed
 ];
 let fetchedERC20Infos: ERC20Info[] = [
 	{
-		address: "0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-		name: "Frankencoin",
-		symbol: "ZCHF",
+		address: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E",
+		name: "oracleFreeDollar",
+		symbol: "OFD",
 		decimals: 18,
 	},
 	{
-		address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+		// address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+		address: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", //changed
 		name: "Wrapped BTC",
 		symbol: "WBTC",
 		decimals: 8,
 	},
 	{
-		address: "0x8747a3114Ef7f0eEBd3eB337F745E31dBF81a952",
-		name: "Draggable quitt.shares",
-		symbol: "DQTS",
+		// address: "0x8747a3114Ef7f0eEBd3eB337F745E31dBF81a952"
+		address: "0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47", //changed
+		name: "Cardano", //change to Binance-Peg Cardano Token
+		symbol: "ADA", //change to ADA
 		decimals: 0,
 	},
 	{
-		address: "0x1bA26788dfDe592fec8bcB0Eaff472a42BE341B2",
-		name: "Frankencoin Pool Share",
-		symbol: "FPS",
+		address: "0xeA38b0cD48fA781181FDAa37291e8d6668462261",
+		name: "oracleFreeDollar Pool Share",
+		symbol: "OFDPS",
 		decimals: 18,
 	},
 	{
-		address: "0x8c1BEd5b9a0928467c9B1341Da1D7BD5e10b6549",
-		name: "Liquid Staked ETH",
-		symbol: "LsETH",
+		// address: "0x8c1BEd5b9a0928467c9B1341Da1D7BD5e10b6549",
+		address: "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
+		name: "PancakeSwap",
+		symbol: "CAKE", //Change to CAKE
 		decimals: 18,
 	},
 	{
-		address: "0x553C7f9C780316FC1D34b8e14ac2465Ab22a090B",
-		name: "RealUnit Shares",
-		symbol: "REALU",
+		// address: "0x553C7f9C780316FC1D34b8e14ac2465Ab22a090B",
+		address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+		name: "USDC",
+		symbol: "USDC",
 		decimals: 0,
 	},
 	{
-		address: "0x2E880962A9609aA3eab4DEF919FE9E917E99073B",
-		name: "Boss Info AG",
-		symbol: "BOSS",
-		decimals: 0,
+		// address: "0x2E880962A9609aA3eab4DEF919FE9E917E99073B",
+		address: "0xb1547683DA678f2e1F003A780143EC10Af8a832B",
+		name: "Shiba Inu", //change to Boss Token
+		symbol: "SHIB",
+		decimals: 18,
 	},
 ];
 let fetchedPrices: PriceQueryObjectArray = {
 	"0xb58e61c3098d85632df34eecfb899a1ed80921cb": {
 		address: "0xB58E61C3098d85632Df34EecfB899A1Ed80921cB",
-		name: "Frankencoin",
-		symbol: "ZCHF",
+		name: "oracleFreeDollar",
+		symbol: "OFD",
 		decimals: 18,
 		timestamp: 1716389270047,
 		price: {
-			usd: 1.098,
+			usd: 1.0,
 		},
 	},
-	"0x2260fac5e5542a773aa44fbcfedf7c193bc2c599": {
-		address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+	"0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c": {
+		address: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
 		name: "Wrapped BTC",
 		symbol: "WBTC",
 		decimals: 8,
@@ -85,44 +88,44 @@ let fetchedPrices: PriceQueryObjectArray = {
 			usd: 69942,
 		},
 	},
-	"0x8747a3114ef7f0eebd3eb337f745e31dbf81a952": {
-		address: "0x8747a3114Ef7f0eEBd3eB337F745E31dBF81a952",
-		name: "Draggable quitt.shares",
-		symbol: "DQTS",
-		decimals: 0,
-		timestamp: 1716389270047,
-		price: {
-			usd: 8.91,
-		},
-	},
-	"0x8c1bed5b9a0928467c9b1341da1d7bd5e10b6549": {
-		address: "0x8c1BEd5b9a0928467c9B1341Da1D7BD5e10b6549",
-		name: "Liquid Staked ETH",
-		symbol: "LsETH",
+	"0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47": {
+		address: "0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47",
+		name: "Cardano",
+		symbol: "ADA", //ADA
 		decimals: 18,
 		timestamp: 1716389270047,
 		price: {
-			usd: 3875.55,
+			usd: 0.4442,
 		},
 	},
-	"0x553c7f9c780316fc1d34b8e14ac2465ab22a090b": {
-		address: "0x553C7f9C780316FC1D34b8e14ac2465Ab22a090B",
-		name: "RealUnit Shares",
-		symbol: "REALU",
-		decimals: 0,
+	"0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82": {
+		address: "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
+		name: "PancakeSwap",
+		symbol: "CAKE", //CAKE
+		decimals: 18,
 		timestamp: 1716389270047,
 		price: {
-			usd: 1.11,
+			usd: 2.6922,
 		},
 	},
-	"0x2e880962a9609aa3eab4def919fe9e917e99073b": {
-		address: "0x2E880962A9609aA3eab4DEF919FE9E917E99073B",
-		name: "Boss Info AG",
-		symbol: "BOSS",
-		decimals: 0,
+	"0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d": {
+		address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+		name: "USDC",
+		symbol: "USDC",
+		decimals: 18,
 		timestamp: 1716389270047,
 		price: {
-			usd: 11.54,
+			usd: 1.0,
+		},
+	},
+	"0xb1547683DA678f2e1F003A780143EC10Af8a832B": {
+		address: "0xb1547683DA678f2e1F003A780143EC10Af8a832B",
+		name: "Shiba Inu",
+		symbol: "SHIB",
+		decimals: 18,
+		timestamp: 1716389270047,
+		price: {
+			usd: 0.00002298,
 		},
 	},
 };
@@ -153,15 +156,15 @@ export async function updateDetails(): Promise<updateDetailsResponse> {
 	fetchedPositions = tmp;
 
 	const collateralAddresses = fetchedPositions.map((position) => position.collateral).filter(uniqueValues);
-	const mintAddress = fetchedPositions.at(-1)!.zchf;
+	const mintAddress = fetchedPositions.at(-1)!.ofd;
 	fetchedAddresses = [mintAddress, ...collateralAddresses];
 
 	const erc20infos = [
 		{
-			address: fetchedPositions.at(-1)!.zchf,
-			name: fetchedPositions.at(-1)!.zchfName,
-			symbol: fetchedPositions.at(-1)!.zchfSymbol,
-			decimals: fetchedPositions.at(-1)!.zchfDecimals,
+			address: fetchedPositions.at(-1)!.ofd,
+			name: fetchedPositions.at(-1)!.ofdName,
+			symbol: fetchedPositions.at(-1)!.ofdSymbol,
+			decimals: fetchedPositions.at(-1)!.ofdDecimals,
 		},
 	];
 

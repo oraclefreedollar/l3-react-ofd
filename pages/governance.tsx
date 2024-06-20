@@ -1,24 +1,24 @@
-import Head from "next/head";
+import AppBox from "@components/AppBox";
 import AppPageHeader from "@components/AppPageHeader";
-import { useContractUrl, useDelegationQuery, useFPSHolders, useGovStats, useMinterQuery } from "@hooks";
+import Button from "@components/Button";
+import DisplayAmount from "@components/DisplayAmount";
+import DisplayLabel from "@components/DisplayLabel";
+import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import MinterProposal from "@components/MinterProposal";
+import OFDPSHolder from "@components/OFDPSHolder";
+import { TxToast, renderErrorToast } from "@components/TxToast";
+import { ABIS, ADDRESS } from "@contracts";
+import { useContractUrl, useDelegationQuery, useGovStats, useMinterQuery, useOFDPSHolders } from "@hooks";
+import { shortenAddress } from "@utils";
+import Head from "next/head";
+import Link from "next/link";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { isAddress, zeroAddress } from "viem";
 import { useAccount, useChainId, useContractWrite, useNetwork } from "wagmi";
 import { waitForTransaction } from "wagmi/actions";
-import { ABIS, ADDRESS } from "@contracts";
-import { useState } from "react";
-import { isAddress, zeroAddress } from "viem";
-import Button from "@components/Button";
-import { TxToast, renderErrorToast } from "@components/TxToast";
-import { toast } from "react-toastify";
-import AppBox from "@components/AppBox";
-import DisplayLabel from "@components/DisplayLabel";
-import Link from "next/link";
-import { shortenAddress } from "@utils";
-import DisplayAmount from "@components/DisplayAmount";
-import MinterProposal from "@components/MinterProposal";
-import FPSHolder from "@components/FPSHolder";
-import { useVotingPowers } from "../hooks/useVotingPowers";
-import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
 import { envConfig } from "../app.env.config";
+import { useVotingPowers } from "../hooks/useVotingPowers";
 
 export default function Governance() {
 	const [inputField, setInputField] = useState("");
@@ -35,8 +35,8 @@ export default function Governance() {
 	const { minters } = useMinterQuery();
 	const delegationData = useDelegationQuery(account);
 	const delegationStats = useGovStats(delegationData.pureDelegatedFrom);
-	const fpsHolders = useFPSHolders();
-	const votingPowers = useVotingPowers(fpsHolders.holders);
+	const ofdpsHolders = useOFDPSHolders();
+	const votingPowers = useVotingPowers(ofdpsHolders.holders);
 
 	const userRawVotesPercent = delegationStats.totalVotes === 0n ? 0n : (delegationStats.userVotes * 10000n) / delegationStats.totalVotes;
 	const userTotalVotesPercent =
@@ -194,11 +194,11 @@ export default function Governance() {
 						<div className="mt-4 text-lg font-bold text-center">Top Voters</div>
 						<div className="bg-slate-900 rounded-xl p-4 flex flex-col gap-2">
 							{votingPowers.votesData.map((power) => (
-								<FPSHolder
+								<OFDPSHolder
 									key={power.holder}
 									id={power.holder}
 									holder={power.holder}
-									fps={power.fps}
+									ofdps={power.ofdps}
 									votingPower={power.votingPower}
 									totalVotingPower={votingPowers.totalVotes}
 								/>

@@ -1,14 +1,14 @@
-import { clientPonder } from "../../app.config";
 import { gql } from "@apollo/client";
-import { PositionQuery } from "../../redux/slices/positions.types";
-import { getAddress } from "viem";
 import { NextApiRequest, NextApiResponse } from "next";
+import { getAddress } from "viem";
+import { clientPonder } from "../../app.config";
+import { PositionQuery } from "../../redux/slices/positions.types";
 
 export async function fetchPositions(): Promise<PositionQuery[]> {
 	const { data } = await clientPonder.query({
 		query: gql`
 			query {
-				positions(orderBy: "availableForClones", orderDirection: "desc") {
+				positionOpened(orderBy: "availableForClones", orderDirection: "desc") {
 					items {
 						position
 						owner
@@ -61,7 +61,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 			list.push({
 				position: getAddress(p.position),
 				owner: getAddress(p.owner),
-				zchf: getAddress(p.zchf),
+				ofd: getAddress(p.ofd),
 				collateral: getAddress(p.collateral),
 				price: p.price,
 
@@ -80,9 +80,9 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 				expiration: p.expiration,
 				challengePeriod: p.challengePeriod,
 
-				zchfName: p.zchfName,
-				zchfSymbol: p.zchfSymbol,
-				zchfDecimals: p.zchfDecimals,
+				ofdName: p.ofdName,
+				ofdSymbol: p.ofdSymbol,
+				ofdDecimals: p.ofdDecimals,
 
 				collateralName: p.collateralName,
 				collateralSymbol: p.collateralSymbol,

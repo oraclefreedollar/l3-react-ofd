@@ -1,24 +1,24 @@
-import Head from "next/head";
-import AppPageHeader from "@components/AppPageHeader";
 import AppBox from "@components/AppBox";
-import DisplayLabel from "@components/DisplayLabel";
+import AppPageHeader from "@components/AppPageHeader";
+import Button from "@components/Button";
 import DisplayAmount from "@components/DisplayAmount";
-import { usePoolStats, useContractUrl, useFPSQuery, useTradeQuery } from "@hooks";
-import { formatBigInt, formatDuration, shortenAddress, SOCIAL } from "@utils";
+import DisplayLabel from "@components/DisplayLabel";
+import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import TokenInput from "@components/Input/TokenInput";
+import { TxToast, renderErrorToast } from "@components/TxToast";
+import { ABIS, ADDRESS } from "@contracts";
+import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContractUrl, useOFDPSQuery, usePoolStats, useTradeQuery } from "@hooks";
+import { SOCIAL, formatBigInt, formatDuration, shortenAddress } from "@utils";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import Link from "next/link";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { formatUnits, zeroAddress } from "viem";
 import { erc20ABI, useAccount, useChainId, useContractRead, useContractWrite } from "wagmi";
 import { waitForTransaction } from "wagmi/actions";
-import { ABIS, ADDRESS } from "@contracts";
-import TokenInput from "@components/Input/TokenInput";
-import { useState } from "react";
-import { formatUnits, zeroAddress } from "viem";
-import Button from "@components/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { TxToast, renderErrorToast } from "@components/TxToast";
-import { toast } from "react-toastify";
-import Link from "next/link";
-import dynamic from "next/dynamic";
-import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
 import { envConfig } from "../app.env.config";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -32,12 +32,12 @@ export default function Pool() {
 	const chainId = useChainId();
 	const poolStats = usePoolStats();
 	const equityUrl = useContractUrl(ADDRESS[chainId].equity);
-	const { profit, loss } = useFPSQuery(ADDRESS[chainId].frankenCoin);
+	const { profit, loss } = useOFDPSQuery(ADDRESS[chainId].oracleFreeDollar);
 	const { trades } = useTradeQuery();
 	const account = address || zeroAddress;
 
 	const approveWrite = useContractWrite({
-		address: ADDRESS[chainId].frankenCoin,
+		address: ADDRESS[chainId].oracleFreeDollar,
 		abi: erc20ABI,
 		functionName: "approve",
 		args: [ADDRESS[chainId].equity, amount],
@@ -58,7 +58,7 @@ export default function Pool() {
 		const toastContent = [
 			{
 				title: "Amount:",
-				value: formatBigInt(amount) + " ZCHF",
+				value: formatBigInt(amount) + " OFD",
 			},
 			{
 				title: "Spender: ",
@@ -72,10 +72,10 @@ export default function Pool() {
 
 		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
 			pending: {
-				render: <TxToast title={`Approving ZCHF`} rows={toastContent} />,
+				render: <TxToast title={`Approving OFD`} rows={toastContent} />,
 			},
 			success: {
-				render: <TxToast title="Successfully Approved ZCHF" rows={toastContent} />,
+				render: <TxToast title="Successfully Approved OFD" rows={toastContent} />,
 			},
 			error: {
 				render(error: any) {
@@ -90,11 +90,11 @@ export default function Pool() {
 		const toastContent = [
 			{
 				title: "Amount:",
-				value: formatBigInt(amount, 18) + " ZCHF",
+				value: formatBigInt(amount, 18) + " OFD",
 			},
 			{
 				title: "Shares: ",
-				value: formatBigInt(result) + " FPS",
+				value: formatBigInt(result) + " OFDPS",
 			},
 			{
 				title: "Transaction: ",
@@ -104,7 +104,7 @@ export default function Pool() {
 
 		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
 			pending: {
-				render: <TxToast title={`Investing ZCHF`} rows={toastContent} />,
+				render: <TxToast title={`Investing OFD`} rows={toastContent} />,
 			},
 			success: {
 				render: <TxToast title="Successfully Invested" rows={toastContent} />,
@@ -122,11 +122,11 @@ export default function Pool() {
 		const toastContent = [
 			{
 				title: "Amount:",
-				value: formatBigInt(amount) + " FPS",
+				value: formatBigInt(amount) + " OFDPS",
 			},
 			{
 				title: "Receive: ",
-				value: formatBigInt(result) + " ZCHF",
+				value: formatBigInt(result) + " OFD",
 			},
 			{
 				title: "Transaction: ",
@@ -136,7 +136,7 @@ export default function Pool() {
 
 		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
 			pending: {
-				render: <TxToast title={`Redeeming FPS`} rows={toastContent} />,
+				render: <TxToast title={`Redeeming OFDPS`} rows={toastContent} />,
 			},
 			success: {
 				render: <TxToast title="Successfully Redeemed" rows={toastContent} />,
@@ -149,7 +149,7 @@ export default function Pool() {
 		});
 	};
 
-	const { data: fpsResult, isLoading: shareLoading } = useContractRead({
+	const { data: ofdpsResult, isLoading: shareLoading } = useContractRead({
 		address: ADDRESS[chainId].equity,
 		abi: ABIS.EquityABI,
 		functionName: "calculateShares",
@@ -166,9 +166,9 @@ export default function Pool() {
 	});
 
 	const fromBalance = direction ? poolStats.frankenBalance : poolStats.equityBalance;
-	const result = (direction ? fpsResult : frankenResult) || 0n;
-	const fromSymbol = direction ? "ZCHF" : "FPS";
-	const toSymbol = !direction ? "ZCHF" : "FPS";
+	const result = (direction ? ofdpsResult : frankenResult) || 0n;
+	const fromSymbol = direction ? "OFD" : "OFDPS";
+	const toSymbol = !direction ? "OFD" : "OFDPS";
 	const redeemLeft = 86400n * 90n - (poolStats.equityBalance ? poolStats.equityUserVotes / poolStats.equityBalance / 2n ** 20n : 0n);
 
 	const onChangeAmount = (value: string) => {
@@ -196,7 +196,7 @@ export default function Pool() {
 				<title>{envConfig.AppName} - Equity</title>
 			</Head>
 			<div>
-				<AppPageHeader title={`${envConfig.AppName} Pool Shares (FPS)`} link={equityUrl} />
+				<AppPageHeader title={`${envConfig.AppName} Pool Shares (OFDPS)`} link={equityUrl} />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4 container mx-auto">
 					<div className="bg-slate-950 rounded-xl p-4 flex flex-col">
 						<div className="text-lg font-bold text-center">Pool Details</div>
@@ -263,14 +263,14 @@ export default function Pool() {
 						<div className="mt-5 bg-slate-900 rounded-xl p-4 grid grid-cols-1 md:grid-cols-2 gap-2">
 							<AppBox>
 								<DisplayLabel label="Your Balance" />
-								<DisplayAmount amount={poolStats.equityBalance} currency="FPS" address={ADDRESS[chainId].equity} />
+								<DisplayAmount amount={poolStats.equityBalance} currency="OFDPS" address={ADDRESS[chainId].equity} />
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Value at Current Price" />
 								<DisplayAmount
 									amount={(poolStats.equityPrice * poolStats.equityBalance) / BigInt(1e18)}
-									currency="ZCHF"
-									address={ADDRESS[chainId].frankenCoin}
+									currency="OFD"
+									address={ADDRESS[chainId].oracleFreeDollar}
 								/>
 							</AppBox>
 							<AppBox>
@@ -289,10 +289,10 @@ export default function Pool() {
 								target="_blank"
 								className="underline"
 							>
-								WFPS
+								WOFDPS
 							</Link>{" "}
 							for{" "}
-							<Link href={SOCIAL.Uniswap_WFPS_Polygon} target="_blank" className="underline">
+							<Link href={SOCIAL.Uniswap_WOFDPS_Polygon} target="_blank" className="underline">
 								trading on Polygon
 							</Link>
 						</div>
@@ -301,12 +301,12 @@ export default function Pool() {
 						<div id="chart-timeline">
 							<div className="flex justify-between">
 								<div>
-									<DisplayLabel label="FPS Price" />
-									<DisplayAmount amount={poolStats.equityPrice} currency="ZCHF" />
+									<DisplayLabel label="OFDPS Price" />
+									<DisplayAmount amount={poolStats.equityPrice} currency="OFD" />
 								</div>
 								<div className="text-right">
 									<DisplayLabel label="Supply" />
-									<DisplayAmount amount={poolStats.equitySupply} currency="FPS" />
+									<DisplayAmount amount={poolStats.equitySupply} currency="OFDPS" />
 								</div>
 							</div>
 							<ApexChart
@@ -371,7 +371,7 @@ export default function Pool() {
 								}}
 								series={[
 									{
-										name: "FPS Price",
+										name: "OFDPS Price",
 										data: trades.map((trade) => {
 											return [parseFloat(trade.time) * 1000, Math.round(Number(trade.lastPrice) / 10 ** 16) / 100];
 										}),
@@ -382,44 +382,48 @@ export default function Pool() {
 						<div className="bg-slate-900 rounded-xl p-4 grid grid-cols-1 md:grid-cols-2 gap-2">
 							<AppBox>
 								<DisplayLabel label="Market Cap" />
-								<DisplayAmount amount={(poolStats.equitySupply * poolStats.equityPrice) / BigInt(1e18)} currency="ZCHF" />
+								<DisplayAmount amount={(poolStats.equitySupply * poolStats.equityPrice) / BigInt(1e18)} currency="OFD" />
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Total Reserve" />
 								<DisplayAmount
 									amount={poolStats.frankenTotalReserve}
-									currency="ZCHF"
-									address={ADDRESS[chainId].frankenCoin}
+									currency="OFD"
+									address={ADDRESS[chainId].oracleFreeDollar}
 								/>
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Equity Capital" />
-								<DisplayAmount amount={poolStats.frankenEquity} currency="ZCHF" address={ADDRESS[chainId].frankenCoin} />
+								<DisplayAmount
+									amount={poolStats.frankenEquity}
+									currency="OFD"
+									address={ADDRESS[chainId].oracleFreeDollar}
+								/>
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Minter Reserve" />
 								<DisplayAmount
 									amount={poolStats.frankenMinterReserve}
-									currency="ZCHF"
-									address={ADDRESS[chainId].frankenCoin}
+									currency="OFD"
+									address={ADDRESS[chainId].oracleFreeDollar}
 								/>
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Total Income" />
 								<DisplayAmount
 									amount={profit}
-									currency="ZCHF"
+									currency="OFD"
 									className="text-green-300"
-									address={ADDRESS[chainId].frankenCoin}
+									address={ADDRESS[chainId].oracleFreeDollar}
 								/>
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Total Losses" />
 								<DisplayAmount
 									amount={loss}
-									currency="ZCHF"
+									currency="OFD"
 									className="text-rose-400"
-									address={ADDRESS[chainId].frankenCoin}
+									address={ADDRESS[chainId].oracleFreeDollar}
 								/>
 							</AppBox>
 						</div>

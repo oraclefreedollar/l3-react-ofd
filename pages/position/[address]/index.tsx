@@ -1,18 +1,18 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import AppPageHeader from "@components/AppPageHeader";
 import AppBox from "@components/AppBox";
-import DisplayLabel from "@components/DisplayLabel";
-import DisplayAmount from "@components/DisplayAmount";
-import { formatDate, shortenAddress } from "@utils";
-import { getAddress, zeroAddress } from "viem";
-import { useChallengeListStats, useChallengeLists, useContractUrl, usePositionStats, useTokenPrice, useZchfPrice } from "@hooks";
-import { useAccount, useChainId, useContractRead } from "wagmi";
-import { ABIS, ADDRESS } from "@contracts";
+import AppPageHeader from "@components/AppPageHeader";
 import ChallengeTable from "@components/ChallengeTable";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DisplayAmount from "@components/DisplayAmount";
+import DisplayLabel from "@components/DisplayLabel";
+import { ABIS, ADDRESS } from "@contracts";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useChallengeListStats, useChallengeLists, useContractUrl, useOfdPrice, usePositionStats, useTokenPrice } from "@hooks";
+import { formatDate, shortenAddress } from "@utils";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { getAddress, zeroAddress } from "viem";
+import { useAccount, useChainId, useContractRead } from "wagmi";
 import { envConfig } from "../../../app.env.config";
 
 export default function PositionDetail() {
@@ -28,11 +28,11 @@ export default function PositionDetail() {
 	const { challenges, loading: queryLoading } = useChallengeLists({ position });
 	const { challengsData, loading } = useChallengeListStats(challenges);
 	const collateralPrice = useTokenPrice(positionStats.collateral);
-	const zchfPrice = useZchfPrice();
+	const ofdPrice = useOfdPrice();
 
 	const { data: positionAssignedReserve } = useContractRead({
-		address: ADDRESS[chainId].frankenCoin,
-		abi: ABIS.FrankencoinABI,
+		address: ADDRESS[chainId].oracleFreeDollar,
+		abi: ABIS.oracleFreeDollarABI,
 		functionName: "calculateAssignedReserve",
 		args: [positionStats.minted, Number(positionStats.reserveContribution)],
 		enabled: positionStats.isSuccess,
@@ -63,9 +63,9 @@ export default function PositionDetail() {
 								<DisplayLabel label="Minted Total" />
 								<DisplayAmount
 									amount={positionStats.minted}
-									currency="ZCHF"
-									address={ADDRESS[chainId].frankenCoin}
-									usdPrice={zchfPrice}
+									currency="OFD"
+									address={ADDRESS[chainId].oracleFreeDollar}
+									usdPrice={ofdPrice}
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
@@ -82,28 +82,28 @@ export default function PositionDetail() {
 								<DisplayLabel label="Liquidation Price" />
 								<DisplayAmount
 									amount={positionStats.liqPrice}
-									currency={"ZCHF"}
+									currency={"OFD"}
 									digits={36 - positionStats.collateralDecimal}
-									address={ADDRESS[chainId].frankenCoin}
-									usdPrice={zchfPrice}
+									address={ADDRESS[chainId].oracleFreeDollar}
+									usdPrice={ofdPrice}
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
 								<DisplayLabel label="Retained Reserve" />
 								<DisplayAmount
 									amount={positionAssignedReserve || 0n}
-									currency={"ZCHF"}
-									address={ADDRESS[chainId].frankenCoin}
-									usdPrice={zchfPrice}
+									currency={"OFD"}
+									address={ADDRESS[chainId].oracleFreeDollar}
+									usdPrice={ofdPrice}
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
 								<DisplayLabel label="Limit" />
 								<DisplayAmount
 									amount={positionStats.limit}
-									currency={"ZCHF"}
-									address={ADDRESS[chainId].frankenCoin}
-									usdPrice={zchfPrice}
+									currency={"OFD"}
+									address={ADDRESS[chainId].oracleFreeDollar}
+									usdPrice={ofdPrice}
 								/>
 							</AppBox>
 							<AppBox className="col-span-1 sm:col-span-3">
@@ -154,7 +154,7 @@ export default function PositionDetail() {
 									<p>
 										This position is subject to a cooldown period that ends on {formatDate(positionStats.cooldown)} as
 										its owner has recently increased the applicable liquidation price. The cooldown period gives other
-										users an opportunity to challenge the position before additional Frankencoins can be minted.
+										users an opportunity to challenge the position before additional oracleFreeDollars can be minted.
 									</p>
 								</AppBox>
 							</div>
