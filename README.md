@@ -49,7 +49,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 1. Add token logo in **svg** or **png** format under `public/coin/` folder.
 2. Make sure logo file name should be in lower case and same as real token symbol.
-   e.g `public/coin/xchf.svg`
+   e.g `public/coin/usdt.svg`
 
 ## Automatic deployment
 

@@ -406,7 +406,7 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Crypto Franc (XCHF)
+                  Crypto Franc (USDT)
                 </a>
                 .
               </p>
@@ -416,8 +416,8 @@ export default function Home() {
                 <AppBox>
                   <DisplayLabel label="Bridge Balance">
                     <DisplayAmount
-                      amount={homestats.xchfBridgeBal}
-                      currency={homestats.xchfSymbol}
+                      amount={homestats.usdtBridgeBal}
+                      currency={homestats.usdtSymbol}
                       big
                     />
                   </DisplayLabel>
@@ -426,8 +426,8 @@ export default function Home() {
                 <AppBox>
                   <DisplayLabel label="Your Balance">
                     <DisplayAmount
-                      amount={homestats.xchfUserBal}
-                      currency={homestats.xchfSymbol}
+                      amount={homestats.usdtUserBal}
+                      currency={homestats.usdtSymbol}
                       big
                     />
                   </DisplayLabel>
