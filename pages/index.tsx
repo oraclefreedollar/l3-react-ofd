@@ -118,7 +118,7 @@ export default function Home() {
 						</DisplayLabel>
 					</AppBox>
 					<AppBox className="col-span-6 sm:col-span-4">
-						<DisplayLabel label="FPS Market Cap">
+						<DisplayLabel label="OFDPS Market Cap">
 							<DisplayAmount
 								amount={homestats.equityMarketCap}
 								currency={homestats.frankenSymbol}
@@ -198,10 +198,10 @@ export default function Home() {
 					{/* <AppBox className="col-span-6 sm:col-span-6">
             <DisplayLabel label="Mainnet Deployment" />
             <div className="flex items-center py-2 justify-end">
-              <TokenLogo currency="FPS" chain="mainnet" />
+              <TokenLogo currency="OFDPS" chain="mainnet" />
               <div className="flex flex-col text-right">
-                <Link className="underline" href={fpsLinkEth} target="_blank">
-                  Wrapped FPS Contract
+                <Link className="underline" href={ofdpsLinkEth} target="_blank">
+                  Wrapped OFDPS Contract
                 </Link>
                 <Link href={""} className="underline text-sm text-slate-500">
                   Coming Soon
@@ -212,17 +212,17 @@ export default function Home() {
           <AppBox className="col-span-6 sm:col-span-6">
             <DisplayLabel label="Polygon PoS Bridge" />
             <div className="flex items-center py-2 justify-end">
-              <TokenLogo currency="FPS" chain="polygon" />
+              <TokenLogo currency="OFDPS" chain="polygon" />
               <div className="flex flex-col text-right">
                 <Link
                   className="underline"
-                  href={fpsLinkPolygon}
+                  href={ofdpsLinkPolygon}
                   target="_blank"
                 >
-                  Wrapped FPS (Pos) Contract
+                  Wrapped OFDPS (Pos) Contract
                 </Link>
                 <Link
-                  href={SOCIAL.Uniswap_WFPS_Polygon}
+                  href={SOCIAL.Uniswap_WOFDPS_Polygon}
                   target="_blank"
                   className="underline text-sm text-slate-500"
                 >
@@ -282,7 +282,7 @@ export default function Home() {
           <hr className="my-12 border-dashed border-slate-800" />
 
           <h2 className="text-2xl font-bold text-center">
-            oracleFreeDollar Pool Shares (FPS)
+            oracleFreeDollar Pool Shares (OFDPS)
           </h2>
           <div className="bg-slate-900 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
             <AppBox>
@@ -293,8 +293,8 @@ export default function Home() {
                 system was a company, this reserve pool would be called
                 <em>equity</em>. It accumulates profits and absorbs losses.
                 Anyone can contribute to the reserve pool, thereby getting
-                freshly minted oracleFreeDollar Pool Share (FPS) tokens. Anyone who
-                held onto their FPS tokens for long enough, namely at least 90
+                freshly minted oracleFreeDollar Pool Share (OFDPS) tokens. Anyone who
+                held onto their OFDPS tokens for long enough, namely at least 90
                 days, can also redeem them again against oracleFreeDollars from the
                 reserve pool at any time. If the oracleFreeDollar&apos;s equity has
                 grown in the meantime, you will make a profit (and a loss if it
@@ -336,7 +336,7 @@ export default function Home() {
                   <DisplayLabel label="Total Supply">
                     <DisplayAmount
                       amount={homestats.equityTotalSupply}
-                      currency="FPS"
+                      currency="OFDPS"
                       big
                     />
                   </DisplayLabel>
@@ -345,7 +345,7 @@ export default function Home() {
                   <DisplayLabel label="Your Balance">
                     <DisplayAmount
                       amount={homestats.equityBalance}
-                      currency="FPS"
+                      currency="OFDPS"
                       big
                     />
                   </DisplayLabel>

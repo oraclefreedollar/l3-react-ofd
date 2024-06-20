@@ -42,7 +42,7 @@ let fetchedERC20Infos: ERC20Info[] = [
 	{
 		address: "0xeA38b0cD48fA781181FDAa37291e8d6668462261",
 		name: "oracleFreeDollar Pool Share",
-		symbol: "FPS",
+		symbol: "OFDPS",
 		decimals: 18,
 	},
 	{

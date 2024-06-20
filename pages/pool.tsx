@@ -9,7 +9,7 @@ import { TxToast, renderErrorToast } from "@components/TxToast";
 import { ABIS, ADDRESS } from "@contracts";
 import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContractUrl, useFPSQuery, usePoolStats, useTradeQuery } from "@hooks";
+import { useContractUrl, useOFDPSQuery, usePoolStats, useTradeQuery } from "@hooks";
 import { SOCIAL, formatBigInt, formatDuration, shortenAddress } from "@utils";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -32,7 +32,7 @@ export default function Pool() {
 	const chainId = useChainId();
 	const poolStats = usePoolStats();
 	const equityUrl = useContractUrl(ADDRESS[chainId].equity);
-	const { profit, loss } = useFPSQuery(ADDRESS[chainId].oracleFreeDollar);
+	const { profit, loss } = useOFDPSQuery(ADDRESS[chainId].oracleFreeDollar);
 	const { trades } = useTradeQuery();
 	const account = address || zeroAddress;
 
@@ -94,7 +94,7 @@ export default function Pool() {
 			},
 			{
 				title: "Shares: ",
-				value: formatBigInt(result) + " FPS",
+				value: formatBigInt(result) + " OFDPS",
 			},
 			{
 				title: "Transaction: ",
@@ -122,7 +122,7 @@ export default function Pool() {
 		const toastContent = [
 			{
 				title: "Amount:",
-				value: formatBigInt(amount) + " FPS",
+				value: formatBigInt(amount) + " OFDPS",
 			},
 			{
 				title: "Receive: ",
@@ -136,7 +136,7 @@ export default function Pool() {
 
 		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
 			pending: {
-				render: <TxToast title={`Redeeming FPS`} rows={toastContent} />,
+				render: <TxToast title={`Redeeming OFDPS`} rows={toastContent} />,
 			},
 			success: {
 				render: <TxToast title="Successfully Redeemed" rows={toastContent} />,
@@ -149,7 +149,7 @@ export default function Pool() {
 		});
 	};
 
-	const { data: fpsResult, isLoading: shareLoading } = useContractRead({
+	const { data: ofdpsResult, isLoading: shareLoading } = useContractRead({
 		address: ADDRESS[chainId].equity,
 		abi: ABIS.EquityABI,
 		functionName: "calculateShares",
@@ -166,9 +166,9 @@ export default function Pool() {
 	});
 
 	const fromBalance = direction ? poolStats.frankenBalance : poolStats.equityBalance;
-	const result = (direction ? fpsResult : frankenResult) || 0n;
-	const fromSymbol = direction ? "OFD" : "FPS";
-	const toSymbol = !direction ? "OFD" : "FPS";
+	const result = (direction ? ofdpsResult : frankenResult) || 0n;
+	const fromSymbol = direction ? "OFD" : "OFDPS";
+	const toSymbol = !direction ? "OFD" : "OFDPS";
 	const redeemLeft = 86400n * 90n - (poolStats.equityBalance ? poolStats.equityUserVotes / poolStats.equityBalance / 2n ** 20n : 0n);
 
 	const onChangeAmount = (value: string) => {
@@ -196,7 +196,7 @@ export default function Pool() {
 				<title>{envConfig.AppName} - Equity</title>
 			</Head>
 			<div>
-				<AppPageHeader title={`${envConfig.AppName} Pool Shares (FPS)`} link={equityUrl} />
+				<AppPageHeader title={`${envConfig.AppName} Pool Shares (OFDPS)`} link={equityUrl} />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4 container mx-auto">
 					<div className="bg-slate-950 rounded-xl p-4 flex flex-col">
 						<div className="text-lg font-bold text-center">Pool Details</div>
@@ -263,7 +263,7 @@ export default function Pool() {
 						<div className="mt-5 bg-slate-900 rounded-xl p-4 grid grid-cols-1 md:grid-cols-2 gap-2">
 							<AppBox>
 								<DisplayLabel label="Your Balance" />
-								<DisplayAmount amount={poolStats.equityBalance} currency="FPS" address={ADDRESS[chainId].equity} />
+								<DisplayAmount amount={poolStats.equityBalance} currency="OFDPS" address={ADDRESS[chainId].equity} />
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Value at Current Price" />
@@ -289,10 +289,10 @@ export default function Pool() {
 								target="_blank"
 								className="underline"
 							>
-								WFPS
+								WOFDPS
 							</Link>{" "}
 							for{" "}
-							<Link href={SOCIAL.Uniswap_WFPS_Polygon} target="_blank" className="underline">
+							<Link href={SOCIAL.Uniswap_WOFDPS_Polygon} target="_blank" className="underline">
 								trading on Polygon
 							</Link>
 						</div>
@@ -301,12 +301,12 @@ export default function Pool() {
 						<div id="chart-timeline">
 							<div className="flex justify-between">
 								<div>
-									<DisplayLabel label="FPS Price" />
+									<DisplayLabel label="OFDPS Price" />
 									<DisplayAmount amount={poolStats.equityPrice} currency="OFD" />
 								</div>
 								<div className="text-right">
 									<DisplayLabel label="Supply" />
-									<DisplayAmount amount={poolStats.equitySupply} currency="FPS" />
+									<DisplayAmount amount={poolStats.equitySupply} currency="OFDPS" />
 								</div>
 							</div>
 							<ApexChart
@@ -371,7 +371,7 @@ export default function Pool() {
 								}}
 								series={[
 									{
-										name: "FPS Price",
+										name: "OFDPS Price",
 										data: trades.map((trade) => {
 											return [parseFloat(trade.time) * 1000, Math.round(Number(trade.lastPrice) / 10 ** 16) / 100];
 										}),
