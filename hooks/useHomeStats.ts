@@ -11,7 +11,7 @@ export const useHomeStats = () => {
 		abi: ABIS.oracleFreeDollarABI,
 	} as const;
 
-	const xchfContract = {
+	const usdtContract = {
 		address: ADDRESS[chainId].usdt,
 		abi: erc20ABI,
 	};
@@ -48,19 +48,19 @@ export const useHomeStats = () => {
 				...frankenContract,
 				functionName: "minterReserve",
 			},
-			// XCHF Calls
+			// USDT Calls
 			{
-				...xchfContract,
+				...usdtContract,
 				functionName: "balanceOf",
 				args: [account],
 			},
 			{
-				...xchfContract,
+				...usdtContract,
 				functionName: "balanceOf",
 				args: [ADDRESS[chainId].bridge],
 			},
 			{
-				...xchfContract,
+				...usdtContract,
 				functionName: "symbol",
 			},
 			// Equity Calls
@@ -95,9 +95,9 @@ export const useHomeStats = () => {
 	const frankenEquity: bigint = data ? decodeBigIntCall(data[3]) : BigInt(0);
 	const frankenMinterReserve: bigint = data ? decodeBigIntCall(data[4]) : BigInt(0);
 
-	const xchfUserBal: bigint = data ? decodeBigIntCall(data[5]) : BigInt(0);
-	const xchfBridgeBal: bigint = data ? decodeBigIntCall(data[6]) : BigInt(0);
-	const xchfSymbol: string = data ? String(data[7].result) : "";
+	const usdtUserBal: bigint = data ? decodeBigIntCall(data[5]) : BigInt(0);
+	const usdtBridgeBal: bigint = data ? decodeBigIntCall(data[6]) : BigInt(0);
+	const usdtSymbol: string = data ? String(data[7].result) : "";
 
 	const equityPrice: bigint = data ? decodeBigIntCall(data[8]) : BigInt(0);
 	const equityTotalSupply: bigint = data ? decodeBigIntCall(data[9]) : BigInt(0);
@@ -113,9 +113,9 @@ export const useHomeStats = () => {
 		frankenEquity,
 		frankenMinterReserve,
 
-		xchfUserBal,
-		xchfBridgeBal,
-		xchfSymbol,
+		usdtUserBal,
+		usdtBridgeBal,
+		usdtSymbol,
 
 		equityPrice,
 		equityTotalSupply,

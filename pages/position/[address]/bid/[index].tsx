@@ -59,7 +59,7 @@ export default function ChallengePlaceBid({}) {
 	};
 
 	const approveWrite = useContractWrite({
-		address: ADDRESS[chainId].xchf,
+		address: ADDRESS[chainId].usdt,
 		abi: erc20ABI,
 		functionName: "approve",
 	});
