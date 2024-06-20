@@ -37,7 +37,7 @@ export const WAGMI_METADATA = {
 
 // PONDER CLIENT
 export const clientPonder = new ApolloClient({
-	uri: "https://api.studio.thegraph.com/query/78473/ofd_subgraph/version/latest",
+	uri: URI_PONDER_SELECTED,
 	cache: new InMemoryCache(),
 });
 

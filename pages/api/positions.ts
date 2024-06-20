@@ -8,11 +8,11 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 	const { data } = await clientPonder.query({
 		query: gql`
 			query {
-				positions(orderBy: "availableForClones", orderDirection: "desc") {
+				positionOpened(orderBy: "availableForClones", orderDirection: "desc") {
 					items {
 						position
 						owner
-						ofd
+						zchf
 						collateral
 						price
 
@@ -31,9 +31,9 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 						expiration
 						challengePeriod
 
-						ofdName
-						ofdSymbol
-						ofdDecimals
+						zchfName
+						zchfSymbol
+						zchfDecimals
 
 						collateralName
 						collateralSymbol
