@@ -61,7 +61,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 			list.push({
 				position: getAddress(p.position),
 				owner: getAddress(p.owner),
-				ofd: getAddress(p.ofd),
+				ofd: p.ofd && getAddress(p?.ofd),
 				collateral: getAddress(p.collateral),
 				price: p.price,
 
