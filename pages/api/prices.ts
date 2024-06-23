@@ -201,7 +201,7 @@ export async function updateDetails(): Promise<updateDetailsResponse> {
 		const price: PriceQueryCurrencies = contract ? response[contract] : null;
 		if (!price) continue;
 
-		const erc = erc20infos.find((i) => i.address.toLowerCase() == contract);
+		const erc = erc20infos.find((i) => i.address && i.address.toLowerCase() == contract);
 		if (!erc) continue;
 
 		const timestamp = Date.now();
