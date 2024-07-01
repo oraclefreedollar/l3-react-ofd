@@ -33,7 +33,6 @@ export const initialState: PositionsState = {
 };
 
 // --------------------------------------------------------------------------------
-
 export const slice = createSlice({
 	name: "positions",
 	initialState,

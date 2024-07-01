@@ -1,5 +1,6 @@
 import { ABIS, ADDRESS } from "@contracts";
-import { mainnet, useContractReads } from "wagmi";
+import { bsc } from "viem/chains";
+import { useContractReads } from "wagmi";
 import { decodeBigIntCall } from "../utils/format";
 import { OFDPSHolder } from "./useOFDPSHolders";
 
@@ -7,14 +8,14 @@ export const useVotingPowers = (holders: OFDPSHolder[]) => {
 	let contractCalls: any[] = [];
 	holders.forEach((holder) => {
 		contractCalls.push({
-			address: ADDRESS[mainnet.id].equity,
+			address: ADDRESS[bsc.id].equity,
 			abi: ABIS.EquityABI,
 			functionName: "votes",
 			args: [holder.address],
 		});
 	});
 	contractCalls.push({
-		address: ADDRESS[mainnet.id].equity,
+		address: ADDRESS[bsc.id].equity,
 		abi: ABIS.EquityABI,
 		functionName: "totalVotes",
 	});
