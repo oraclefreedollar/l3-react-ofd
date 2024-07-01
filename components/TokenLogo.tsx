@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
 
 interface Props {
 	currency: string;
 	size?: number;
-	chain?: "mainnet" | "polygon" | "arbitrum" | "optimism";
+	chain?: "bsc" | "mainnet" | "polygon" | "arbitrum" | "optimism";
 }
 
 export default function TokenLogo({ currency, size = 8, chain }: Props) {

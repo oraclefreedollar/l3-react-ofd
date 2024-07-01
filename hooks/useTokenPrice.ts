@@ -1,15 +1,15 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { zeroAddress } from "viem";
-import { mainnet } from "wagmi";
+import { bsc } from "viem/chains";
 import { ADDRESS } from "../contracts/address";
 import { useLocalStorage } from "./useLocalStorage";
 
 export const useTokenPrice = (address: string | undefined) => {
 	if (!address) address = zeroAddress;
 	let addressToFetch = address.toLowerCase();
-	if (address == ADDRESS[mainnet.id].oracleFreeDollar) {
-		addressToFetch = "0xb4272071ecadd69d933adcd19ca99fe80664fc08";
+	if (address == ADDRESS[bsc.id].oracleFreeDollar) {
+		addressToFetch = "0x55d398326f99059fF775485246999027B3197955";
 	}
 	const [price, setPrice] = useLocalStorage(addressToFetch.toLowerCase());
 

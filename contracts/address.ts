@@ -1,16 +1,17 @@
 import { zeroAddress } from "viem";
 import { Address } from "wagmi";
-import { arbitrum, mainnet, optimism, polygon } from "wagmi/chains";
+import { arbitrum, bsc, optimism, polygon } from "wagmi/chains";
 
 export interface ProtocolAddress {
 	oracleFreeDollar: Address;
 	bridge: Address;
-	usdt: Address;
+	usdt?: Address;
 	equity: Address;
 	mintingHub: Address;
 	// wFPS: Address;
-	positionFactory?: Address;
-	// mockVol?: Address;
+	// positionFactory?: Address;
+	mockVol?: Address;
+	mockXofd?: Address;
 	// mockVids?: Address;
 	// mockBoss?: Address;
 	// mockRealu?: Address;
@@ -114,8 +115,18 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 	// 	mockLines: "0x0d9a2e156E45628C16F8f94e1E488B62F611A94b",
 	// 	mockDkkb: "0xAA115D40D67883a58A1e05d8FB1153473b9b087d",
 	// },
-
-	[mainnet.id]: {
+	// [bscTestnet.id]: {
+	// 	oracleFreeDollar: "0xbaB3b0d3767c732F08AeB40A1a92A23BA1683883",
+	// 	bridge: "0xa8ca17040e4C096866644B9936b2cAAeD8476C29",
+	// 	usdt: "0xD44b185D0B0da9b5d702DaC55cb0848bc747eE76", //need to change
+	// 	equity: "0x7a915393E5eD3a18ADb5a96B53070E31023CbeD1",
+	// 	mintingHub: "0xa3BE4D03C96035A8C22cB9B74Cd4b244D8080561",
+	// 	// positionFactory: "0x6ad579D11349d70704df66bc78f84Ae5BBce8D4A",
+	// 	// wFPS: zeroAddress,
+	// 	mockVol: "0xe94c49Dcf0c7D761c173E9C131B132A1Cfb81A80",
+	// 	mockXofd: "0xe677211b1B98cea1d86Ef59611c8e33D6261E158",
+	// },
+	[bsc.id]: {
 		oracleFreeDollar: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E",
 		bridge: "0x5330B9275C9094555286998D20c96bc63a9A575f",
 		usdt: "0x55d398326f99059fF775485246999027B3197955",
@@ -153,9 +164,9 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 
 export const TokenAddresses = {
 	OFD: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E", //need change to OFD
-	SHIB: "0xb1547683DA678f2e1F003A780143EC10Af8a832B", //changed
-	CAKE: "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82", //change to CAKE
-	WBTC: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", //changed
-	USDC: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", // change to USDC
+	// SHIB: "0xb1547683DA678f2e1F003A780143EC10Af8a832B", //changed
+	// CAKE: "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82", //change to CAKE
+	// WBTC: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", //changed
+	// USDC: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", // change to USDC
 	USDT: "0x55d398326f99059fF775485246999027B3197955", //change to USDT
 };

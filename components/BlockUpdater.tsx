@@ -1,13 +1,13 @@
-import { Address, useAccount, useBlockNumber } from "wagmi";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Address, useAccount, useBlockNumber } from "wagmi";
 
-import { RootState, store } from "../redux/redux.store";
-import { fetchPositionsList } from "../redux/slices/positions.slice";
-import { fetchPricesList } from "../redux/slices/prices.slice";
-import { fetchAccount } from "../redux/slices/account.slice";
-import { ERC20Info } from "../redux/slices/positions.types";
 import { envConfig } from "../app.env.config";
+import { RootState, store } from "../redux/redux.store";
+import { fetchAccount } from "../redux/slices/account.slice";
+import { fetchPositionsList } from "../redux/slices/positions.slice";
+import { ERC20Info } from "../redux/slices/positions.types";
+import { fetchPricesList } from "../redux/slices/prices.slice";
 
 let initializing: boolean = false;
 let initStart: number = 0;
@@ -23,8 +23,8 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 	const [latestCollateralERC20Infos, setLatestCollateralERC20Infos] = useState<ERC20Info[]>([]);
 	const [latestAddress, setLatestAddress] = useState<Address | undefined>(undefined);
 
-	const loadedPositions: boolean = useSelector((state: RootState) => state.positions.loaded);
-	const loadedPrices: boolean = useSelector((state: RootState) => state.prices.loaded);
+	const loadedPositions: boolean = useSelector((state: RootState) => state.positions && state.positions.loaded);
+	const loadedPrices: boolean = useSelector((state: RootState) => state.prices && state.prices.loaded);
 	const { mintERC20Infos, collateralERC20Infos } = useSelector((state: RootState) => state.positions);
 
 	// --------------------------------------------------------------------------------
