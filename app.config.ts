@@ -37,7 +37,7 @@ export const WAGMI_METADATA = {
 
 // PONDER CLIENT
 export const clientPonder = new ApolloClient({
-	uri: "http://localhost:42069/",
+	uri: "https://ofd-ponder-production-8631.up.railway.app/",
 	cache: new InMemoryCache(),
 });
 
