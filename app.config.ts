@@ -27,7 +27,7 @@ export const COINGECKO_API_KEY = envConfig.COINGECKO_API_KEY; // demo key @samcl
 // WAGMI CONFIG
 // FIXME: move to env or white list domain
 export const WAGMI_PROJECT_ID = envConfig.WAGMI_PROJECT_ID;
-export const WAGMI_CHAINS = [bsc, bscTestnet];
+export const WAGMI_CHAINS = envConfig.ENV == "prod" ? [bsc] : [bscTestnet];
 export const WAGMI_METADATA = {
 	name: "OracleFreeDollar",
 	description: "OracleFreeDollar Frontend Application",
@@ -37,8 +37,7 @@ export const WAGMI_METADATA = {
 
 // PONDER CLIENT
 export const clientPonder = new ApolloClient({
-	uri: "https://ofd-ponder-production-8631.up.railway.app/", //mainnet uri
-	// uri: "https://ofd-ponder-testnet-production-b615.up.railway.app/", //testnet uri
+	uri: URI_PONDER_SELECTED,
 	cache: new InMemoryCache(),
 });
 
