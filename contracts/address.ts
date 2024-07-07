@@ -1,6 +1,5 @@
-import { zeroAddress } from "viem";
 import { Address } from "wagmi";
-import { arbitrum, bsc, bscTestnet, optimism, polygon } from "wagmi/chains";
+import { bsc, bscTestnet } from "wagmi/chains";
 
 export interface ProtocolAddress {
 	oracleFreeDollar: Address;
@@ -135,30 +134,30 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 		// positionFactory: 0x4096831dC711C1A20aC011FBf0AA90A6c56dcF55
 		// wFPS: "null", //need to change the address
 	},
-	[polygon.id]: {
-		oracleFreeDollar: "0x02567e4b14b25549331fCEe2B56c647A8bAB16FD",
-		bridge: zeroAddress,
-		usdt: zeroAddress,
-		equity: zeroAddress,
-		mintingHub: zeroAddress,
-		// wFPS: "0x54Cc50D5CC4914F0c5DA8b0581938dC590d29b3D",
-	},
-	[arbitrum.id]: {
-		oracleFreeDollar: "0xB33c4255938de7A6ec1200d397B2b2F329397F9B",
-		bridge: zeroAddress,
-		usdt: zeroAddress,
-		equity: zeroAddress,
-		mintingHub: zeroAddress,
-		// wFPS: zeroAddress,
-	},
-	[optimism.id]: {
-		oracleFreeDollar: "0x4F8a84C442F9675610c680990EdDb2CCDDB8aB6f",
-		bridge: zeroAddress,
-		usdt: zeroAddress,
-		equity: zeroAddress,
-		mintingHub: zeroAddress,
-		// wFPS: zeroAddress,
-	},
+	// [polygon.id]: {
+	// 	oracleFreeDollar: "0x02567e4b14b25549331fCEe2B56c647A8bAB16FD",
+	// 	bridge: zeroAddress,
+	// 	usdt: zeroAddress,
+	// 	equity: zeroAddress,
+	// 	mintingHub: zeroAddress,
+	// 	// wFPS: "0x54Cc50D5CC4914F0c5DA8b0581938dC590d29b3D",
+	// },
+	// [arbitrum.id]: {
+	// 	oracleFreeDollar: "0xB33c4255938de7A6ec1200d397B2b2F329397F9B",
+	// 	bridge: zeroAddress,
+	// 	usdt: zeroAddress,
+	// 	equity: zeroAddress,
+	// 	mintingHub: zeroAddress,
+	// 	// wFPS: zeroAddress,
+	// },
+	// [optimism.id]: {
+	// 	oracleFreeDollar: "0x4F8a84C442F9675610c680990EdDb2CCDDB8aB6f",
+	// 	bridge: zeroAddress,
+	// 	usdt: zeroAddress,
+	// 	equity: zeroAddress,
+	// 	mintingHub: zeroAddress,
+	// 	// wFPS: zeroAddress,
+	// },
 };
 
 export const TokenAddresses = {
