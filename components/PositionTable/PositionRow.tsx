@@ -14,11 +14,19 @@ interface Props {
 }
 
 export default function PositionRow({ position }: Props) {
+	console.log({ position });
 	const { address } = useAccount();
 	const chainId = useChainId();
+	// const chainId = 56;
+	console.log("ChainID:", { chainId });
 	const prices = useSelector((state: RootState) => state.prices.coingecko);
-	const collTokenPrice = prices[position.collateral.toLowerCase() as Address]?.price?.usd;
-	const ofdPrice = position.ofd && prices[position.ofd.toLowerCase() as Address]?.price?.usd;
+	// this price is actually the price of the Frankencoin
+	console.log("Price:", prices);
+	const collTokenPrice = prices[position.collateral as Address]?.price?.usd;
+	// console.log("COLPrice:", collTokenPrice);
+	const ofdPrice = position.ofd && prices[position.ofd as Address]?.price?.usd;
+
+	console.log({ collTokenPrice, ofdPrice });
 	if (!collTokenPrice || !ofdPrice) return null;
 
 	const account = address || zeroAddress;

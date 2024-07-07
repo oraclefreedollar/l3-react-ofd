@@ -1,7 +1,7 @@
 "use client";
 
 import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { mainnet } from "wagmi";
+import { bsc } from "viem/chains";
 import { envConfig } from "./app.env.config";
 
 // URIs
@@ -27,7 +27,7 @@ export const COINGECKO_API_KEY = envConfig.COINGECKO_API_KEY; // demo key @samcl
 // WAGMI CONFIG
 // FIXME: move to env or white list domain
 export const WAGMI_PROJECT_ID = envConfig.WAGMI_PROJECT_ID;
-export const WAGMI_CHAINS = [mainnet];
+export const WAGMI_CHAINS = [bsc];
 export const WAGMI_METADATA = {
 	name: "Frankencoin",
 	description: "Frankencoin Frontend Application",
@@ -37,7 +37,7 @@ export const WAGMI_METADATA = {
 
 // PONDER CLIENT
 export const clientPonder = new ApolloClient({
-	uri: URI_PONDER_SELECTED,
+	uri: "https://ofd-ponder-production-8631.up.railway.app/",
 	cache: new InMemoryCache(),
 });
 

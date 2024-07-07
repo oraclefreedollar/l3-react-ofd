@@ -1,15 +1,14 @@
 import { Hash } from "viem";
-import { mainnet, useNetwork } from "wagmi";
+import { bsc } from "viem/chains";
+import { useNetwork } from "wagmi";
 
-export const useContractUrl = (address: string, chain: any = mainnet) => {
-  const explorerLink =
-    chain.blockExplorers.default.url || "https://etherscan.io";
-  return explorerLink + "/address/" + address;
+export const useContractUrl = (address: string, chain: any = bsc) => {
+	const explorerLink = chain.blockExplorers.default.url || "https://bscscan.io";
+	return explorerLink + "/address/" + address;
 };
 
 export const useTxUrl = (hash: Hash) => {
-  const { chain } = useNetwork();
-  const explorerLink =
-    chain?.blockExplorers?.default.url || "https://etherscan.io";
-  return explorerLink + "/tx/" + hash;
+	const { chain } = useNetwork();
+	const explorerLink = chain?.blockExplorers?.default.url || "https://bscscan.io";
+	return explorerLink + "/tx/" + hash;
 };
