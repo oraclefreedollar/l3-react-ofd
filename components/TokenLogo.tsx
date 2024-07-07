@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function TokenLogo({ currency, size = 8, chain }: Props) {
-	console.log(currency);
+	// console.log(currency);
 	const [imgExist, setImgExist] = useState(true);
 	const [src, setSrc] = useState(`/coin/${currency?.toLowerCase()}.svg`);
 	const onImageError = (e: any) => {

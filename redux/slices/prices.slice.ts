@@ -1,16 +1,9 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
-import {
-	DispatchBoolean,
-	DispatchPriceQueryObjectArray,
-	PriceQueryCurrencies,
-	PriceQueryObjectArray,
-	PriceQuery,
-	PricesState,
-} from "./prices.types";
-import { RootState } from "../redux.store";
-import { ERC20Info } from "./positions.types";
 import { Address } from "viem";
 import { URI_APP_SELECTED } from "../../app.config";
+import { RootState } from "../redux.store";
+import { ERC20Info } from "./positions.types";
+import { DispatchBoolean, DispatchPriceQueryObjectArray, PriceQuery, PriceQueryObjectArray, PricesState } from "./prices.types";
 
 // --------------------------------------------------------------------------------
 
@@ -55,7 +48,7 @@ export const fetchPricesList = (state: RootState) => async (dispatch: Dispatch<D
 	if (infos.length == 0) return;
 
 	// ---------------------------------------------------------------
-	console.log("Loading [REDUX]: PricesList");
+	// console.log("Loading [REDUX]: PricesList");
 
 	// ---------------------------------------------------------------
 	// Query from /api/details
