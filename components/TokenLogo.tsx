@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 interface Props {
 	currency: string;
 	size?: number;
-	chain?: "bsc" | "mainnet" | "polygon" | "arbitrum" | "optimism";
+	chain?: "bsc" | "mainnet" | "polygon" | "arbitrum" | "optimism" | "bscTestnet";
 }
 
 export default function TokenLogo({ currency, size = 8, chain }: Props) {
+	console.log(currency);
 	const [imgExist, setImgExist] = useState(true);
 	const [src, setSrc] = useState(`/coin/${currency?.toLowerCase()}.svg`);
 	const onImageError = (e: any) => {
