@@ -7,7 +7,6 @@ import { useChallengeCount, useContractUrl, useHomeStats, useOfdPrice, usePositi
 import Head from "next/head";
 import Link from "next/link";
 import { parseUnits } from "viem";
-import { arbitrum, optimism, polygon } from "viem/chains";
 import { useChainId } from "wagmi";
 import { envConfig } from "../app.env.config";
 import { SOCIAL, formatBigInt } from "../utils";
@@ -16,10 +15,10 @@ export default function Home() {
 	const chainId = useChainId();
 	const homestats = useHomeStats();
 	const ofdLinkEth = useContractUrl(ADDRESS[chainId].oracleFreeDollar);
-	const frankenLinkPolygon = useContractUrl(ADDRESS[polygon.id].oracleFreeDollar, polygon);
-	const frankenLinkArb = useContractUrl(ADDRESS[arbitrum.id].oracleFreeDollar, arbitrum);
-	const frankenLinkOp = useContractUrl(ADDRESS[optimism.id].oracleFreeDollar, optimism);
-	const frankenPrice = useOfdPrice();
+	// const ofdLinkPolygon = useContractUrl(ADDRESS[polygon.id].oracleFreeDollar, polygon);
+	// const ofdLinkArb = useContractUrl(ADDRESS[arbitrum.id].oracleFreeDollar, arbitrum);
+	// const ofdLinkOp = useContractUrl(ADDRESS[optimism.id].oracleFreeDollar, optimism);
+	const ofdPrice = useOfdPrice();
 
 	const tvlData = useTvl<number>();
 	const positionData = usePositionLists();
@@ -110,11 +109,11 @@ export default function Home() {
 					<AppBox className="col-span-6 sm:col-span-4">
 						<DisplayLabel label="Total Supply">
 							<DisplayAmount
-								amount={homestats.frankenTotalSupply}
-								currency={homestats.frankenSymbol}
+								amount={homestats.ofdTotalSupply}
+								currency={homestats.ofdSymbol}
 								digits={18}
 								className="justify-end text-right"
-								usdPrice={frankenPrice}
+								usdPrice={ofdPrice}
 							/>
 						</DisplayLabel>
 					</AppBox>
@@ -122,21 +121,21 @@ export default function Home() {
 						<DisplayLabel label="OFDPS Market Cap">
 							<DisplayAmount
 								amount={homestats.equityMarketCap}
-								currency={homestats.frankenSymbol}
+								currency={homestats.ofdSymbol}
 								digits={18}
 								className="justify-end text-right"
-								usdPrice={frankenPrice}
+								usdPrice={ofdPrice}
 							/>
 						</DisplayLabel>
 					</AppBox>
 					<AppBox className="col-span-6 sm:col-span-4">
 						<DisplayLabel label="Your Balance">
 							<DisplayAmount
-								amount={homestats.frankenBalance}
-								currency={homestats.frankenSymbol}
+								amount={homestats.ofdBalance}
+								currency={homestats.ofdSymbol}
 								digits={18}
 								className="justify-end text-right"
-								usdPrice={frankenPrice}
+								usdPrice={ofdPrice}
 							/>
 						</DisplayLabel>
 					</AppBox>
@@ -159,7 +158,7 @@ export default function Home() {
 						<div className="flex items-center py-2 justify-end">
 							<TokenLogo currency="OFD" chain="polygon" />
 							<div className="flex flex-col text-right">
-								<Link className="underline" href={frankenLinkPolygon} target="_blank">
+								<Link className="underline" href={ofdLinkPolygon} target="_blank">
 									{envConfig.AppName} (PoS) Contract
 								</Link>
 								<Link href={SOCIAL.Uniswap_Polygon} target="_blank" className="underline text-sm text-slate-500">
@@ -173,7 +172,7 @@ export default function Home() {
 						<div className="flex items-center py-2 justify-end">
 							<TokenLogo currency="OFD" chain="arbitrum" />
 							<div className="flex flex-col text-right">
-								<Link className="underline" href={frankenLinkArb} target="_blank">
+								<Link className="underline" href={ofdLinkArb} target="_blank">
 									{envConfig.AppName} (Arb) Contract
 								</Link>
 								<Link href={SOCIAL.Uniswap_Arbitrum} target="_blank" className="underline text-sm text-slate-500">
@@ -187,7 +186,7 @@ export default function Home() {
 						<div className="flex items-center py-2 justify-end">
 							<TokenLogo currency="OFD" chain="optimism" />
 							<div className="flex flex-col text-right">
-								<Link className="underline" href={frankenLinkOp} target="_blank">
+								<Link className="underline" href={ofdLinkOp} target="_blank">
 									{envConfig.AppName} (Op) Contract
 								</Link>
 								<Link href={SOCIAL.Uniswap_Optimism} target="_blank" className="underline text-sm text-slate-500">
@@ -319,7 +318,7 @@ export default function Home() {
                   <DisplayLabel label="Price">
                     <DisplayAmount
                       amount={homestats.equityPrice}
-                      currency={homestats.frankenSymbol}
+                      currency={homestats.ofdSymbol}
                       big
                     />
                   </DisplayLabel>
@@ -328,7 +327,7 @@ export default function Home() {
                   <DisplayLabel label="Market Cap">
                     <DisplayAmount
                       amount={homestats.equityMarketCap}
-                      currency={homestats.frankenSymbol}
+                      currency={homestats.ofdSymbol}
                       big
                     />
                   </DisplayLabel>
@@ -375,7 +374,7 @@ export default function Home() {
                   <h3 className="font-bold text-center">Inspect contract</h3>
                   <Link
                     className="btn btn-secondary px-3 py-2"
-                    href={frankenLink}
+                    href={ofdLink}
                     target="_blank"
                   >
                     {shortenAddress(ADDRESS[chainId].equity)}
@@ -439,7 +438,7 @@ export default function Home() {
                   <h3 className="font-bold text-center">Inspect contract</h3>
                   <Link
                     className="btn btn-secondary px-3 py-2"
-                    href={frankenLink}
+                    href={ofdLink}
                     target="_blank"
                   >
                     {shortenAddress(ADDRESS[chainId].bridge)}
@@ -481,7 +480,7 @@ export default function Home() {
               <AppPageHeader title="Minting Hub" />
               <Link
                 className="btn btn-secondary px-3 py-2"
-                href={frankenLink}
+                href={ofdLink}
                 target="_blank"
               >
                 {shortenAddress(ADDRESS[chainId].mintingHub)}

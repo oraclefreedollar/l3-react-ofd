@@ -6,7 +6,7 @@ export const useHomeStats = () => {
 	const chainId = useChainId();
 	const { address } = useAccount();
 
-	const frankenContract = {
+	const ofdContract = {
 		address: ADDRESS[chainId].oracleFreeDollar,
 		abi: ABIS.oracleFreeDollarABI,
 	} as const;
@@ -28,24 +28,24 @@ export const useHomeStats = () => {
 		contracts: [
 			// oracleFreeDollar Calls
 			{
-				...frankenContract,
+				...ofdContract,
 				functionName: "totalSupply",
 			},
 			{
-				...frankenContract,
+				...ofdContract,
 				functionName: "symbol",
 			},
 			{
-				...frankenContract,
+				...ofdContract,
 				functionName: "balanceOf",
 				args: [account],
 			},
 			{
-				...frankenContract,
+				...ofdContract,
 				functionName: "equity",
 			},
 			{
-				...frankenContract,
+				...ofdContract,
 				functionName: "minterReserve",
 			},
 			// USDT Calls
@@ -89,11 +89,11 @@ export const useHomeStats = () => {
 		],
 	});
 
-	const frankenTotalSupply: bigint = data ? decodeBigIntCall(data[0]) : BigInt(0);
-	const frankenSymbol: string = data ? String(data[1].result) : "";
-	const frankenBalance: bigint = data ? decodeBigIntCall(data[2]) : BigInt(0);
-	const frankenEquity: bigint = data ? decodeBigIntCall(data[3]) : BigInt(0);
-	const frankenMinterReserve: bigint = data ? decodeBigIntCall(data[4]) : BigInt(0);
+	const ofdTotalSupply: bigint = data ? decodeBigIntCall(data[0]) : BigInt(0);
+	const ofdSymbol: string = data ? String(data[1].result) : "";
+	const ofdBalance: bigint = data ? decodeBigIntCall(data[2]) : BigInt(0);
+	const ofdEquity: bigint = data ? decodeBigIntCall(data[3]) : BigInt(0);
+	const ofdMinterReserve: bigint = data ? decodeBigIntCall(data[4]) : BigInt(0);
 
 	const usdtUserBal: bigint = data ? decodeBigIntCall(data[5]) : BigInt(0);
 	const usdtBridgeBal: bigint = data ? decodeBigIntCall(data[6]) : BigInt(0);
@@ -107,11 +107,11 @@ export const useHomeStats = () => {
 	const equityUserVotes: bigint = data ? decodeBigIntCall(data[12]) : BigInt(0);
 
 	return {
-		frankenTotalSupply,
-		frankenSymbol,
-		frankenBalance,
-		frankenEquity,
-		frankenMinterReserve,
+		ofdTotalSupply,
+		ofdSymbol,
+		ofdBalance,
+		ofdEquity,
+		ofdMinterReserve,
 
 		usdtUserBal,
 		usdtBridgeBal,
