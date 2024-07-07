@@ -38,7 +38,7 @@ export const actions = slice.actions;
 export const fetchPricesList = () => async (dispatch: Dispatch<any>) => {
 	// ---------------------------------------------------------------
 	// Log, set loading to true
-	console.log("Loading [REDUX]: PricesList");
+	// console.log("Loading [REDUX]: PricesList");
 	dispatch(slice.actions.setLoading(true));
 
 	// ---------------------------------------------------------------
