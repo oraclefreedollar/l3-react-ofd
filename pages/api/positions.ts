@@ -12,7 +12,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 					items {
 						position
 						owner
-						zchf
+						ofd
 						collateral
 						price
 
@@ -31,9 +31,9 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 						expiration
 						challengePeriod
 
-						zchfName
-						zchfSymbol
-						zchfDecimals
+						ofdName
+						ofdSymbol
+						ofdDecimals
 
 						collateralName
 						collateralSymbol
@@ -50,7 +50,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 			}
 		`,
 	});
-
+	// console.log(data.positions);
 	if (!data || !data.positions) {
 		return [];
 	}
@@ -98,6 +98,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 		});
 	}
 
+	// console.log("List:", list);
 	return list;
 }
 

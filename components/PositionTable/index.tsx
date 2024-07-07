@@ -1,14 +1,13 @@
-import { useAccount } from "wagmi";
-import PositionRow from "./PositionRow";
-import { zeroAddress } from "viem";
-import TableHeader from "../Table/TableHead";
-import TableBody from "../Table/TableBody";
-import Table from "../Table";
-import TableRowEmpty from "../Table/TableRowEmpty";
-import LoadingSpin from "../LoadingSpin";
 import { useSelector } from "react-redux";
+import { zeroAddress } from "viem";
+import { useAccount } from "wagmi";
 import { RootState } from "../../redux/redux.store";
 import { PositionQuery } from "../../redux/slices/positions.types";
+import Table from "../Table";
+import TableBody from "../Table/TableBody";
+import TableHeader from "../Table/TableHead";
+import TableRowEmpty from "../Table/TableRowEmpty";
+import PositionRow from "./PositionRow";
 
 interface Props {
 	showMyPos?: boolean;
@@ -16,9 +15,12 @@ interface Props {
 
 export default function PositionTable({ showMyPos }: Props) {
 	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions);
+	console.log({ openPositionsByCollateral });
 	const { address } = useAccount();
 	const account = address || zeroAddress;
 	const openPositions: PositionQuery[] = [];
+
+	console.log("Account:", account);
 
 	for (const collateral in openPositionsByCollateral) {
 		openPositions.push(...openPositionsByCollateral[collateral]);
@@ -27,6 +29,8 @@ export default function PositionTable({ showMyPos }: Props) {
 	const matchingPositions = openPositions.filter((position) =>
 		showMyPos ? position.owner == account : position.owner != account && !position.denied && !position.closed
 	);
+
+	console.log({ matchingPositions, showMyPos });
 
 	return (
 		<Table>
