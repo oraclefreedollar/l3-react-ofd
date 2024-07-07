@@ -15,7 +15,7 @@ import { SOCIAL, formatBigInt } from "../utils";
 export default function Home() {
 	const chainId = useChainId();
 	const homestats = useHomeStats();
-	const frankenLinkEth = useContractUrl(ADDRESS[chainId].oracleFreeDollar);
+	const ofdLinkEth = useContractUrl(ADDRESS[chainId].oracleFreeDollar);
 	const frankenLinkPolygon = useContractUrl(ADDRESS[polygon.id].oracleFreeDollar, polygon);
 	const frankenLinkArb = useContractUrl(ADDRESS[arbitrum.id].oracleFreeDollar, arbitrum);
 	const frankenLinkOp = useContractUrl(ADDRESS[optimism.id].oracleFreeDollar, optimism);
@@ -44,7 +44,8 @@ export default function Home() {
 						</p>
 						<p>
 							Unlike other collateralized stablecoins,&nbsp;
-							<a href="https://etherscan.io/address/0xB58E61C3098d85632Df34EecfB899A1Ed80921cB" target="_blank">
+							{/* <a href="https://etherscan.io/address/0xB58E61C3098d85632Df34EecfB899A1Ed80921cB" target="_blank"> */}
+							<a href="https://bscscan.com/address/0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E" target="_blank">
 								{envConfig.AppName}&apos;s
 							</a>{" "}
 							auction-based liquidation mechanism does not depend on external price sources. It is very flexible with regards
@@ -75,7 +76,7 @@ export default function Home() {
 							<a href={SOCIAL.Audit_Chainsecurity} target="_blank">
 								ChainSecurity
 							</a>
-							. Its economic properties have been analyzed as part of a <a href="thesis-oracleFreeDollar.pdf">phd thesis</a>.
+							. Its economic properties have been analyzed as part of a <a href="">phd thesis</a>.
 						</p>
 					</div>
 
@@ -142,9 +143,9 @@ export default function Home() {
 					<AppBox className="col-span-6 sm:col-span-3">
 						<DisplayLabel label="Mainnet Deployment" />
 						<div className="flex items-center py-2 justify-end">
-							<TokenLogo currency="OFD" chain="mainnet" />
+							<TokenLogo currency="OFD" chain="bsc" />
 							<div className="flex flex-col text-right">
-								<Link className="underline" href={frankenLinkEth} target="_blank">
+								<Link className="underline" href={ofdLinkEth} target="_blank">
 									{envConfig.AppName} Contract
 								</Link>
 								<Link href={SOCIAL.Uniswap_Mainnet} target="_blank" className="underline text-sm text-slate-500">
@@ -153,7 +154,7 @@ export default function Home() {
 							</div>
 						</div>
 					</AppBox>
-					<AppBox className="col-span-6 sm:col-span-3">
+					{/* <AppBox className="col-span-6 sm:col-span-3">
 						<DisplayLabel label="Polygon PoS Bridge" />
 						<div className="flex items-center py-2 justify-end">
 							<TokenLogo currency="OFD" chain="polygon" />
@@ -194,7 +195,7 @@ export default function Home() {
 								</Link>
 							</div>
 						</div>
-					</AppBox>
+					</AppBox> */}
 					{/* <AppBox className="col-span-6 sm:col-span-6">
             <DisplayLabel label="Mainnet Deployment" />
             <div className="flex items-center py-2 justify-end">
@@ -233,7 +234,7 @@ export default function Home() {
           </AppBox> */}
 				</div>
 				<hr className="my-12 border-dashed border-slate-800" />
-				<section>
+				{/* <section>
 					<h2 className="text-2xl font-bold text-center">Wallets and Exchanges</h2>
 					<div className="mt-4 grid grid-cols-1 sm:grid-cols-6 gap-4 p-4 items-center">
 						<Link href={SOCIAL.Partner_Arktionariat} target="_blank" className="flex items-center justify-center sm:col-span-2">
@@ -277,7 +278,7 @@ export default function Home() {
 							Create a pull request if you want to be added here
 						</Link>
 					</div>
-				</section>
+				</section> */}
 				{/* 
           <hr className="my-12 border-dashed border-slate-800" />
 

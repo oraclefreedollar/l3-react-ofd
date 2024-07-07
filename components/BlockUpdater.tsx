@@ -35,7 +35,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		initializing = true;
 		initStart = Date.now();
 
-		console.log(`Init [BlockUpdater]: Start loading application data... ${initStart}`);
+		// console.log(`Init [BlockUpdater]: Start loading application data... ${initStart}`);
 		store.dispatch(fetchPositionsList());
 		store.dispatch(fetchPricesList(store.getState()));
 	}, [initialized]);
@@ -45,7 +45,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 	useEffect(() => {
 		if (initialized) return;
 		if (loadedPositions && loadedPrices) {
-			console.log(`Init [BlockUpdater]: Done. ${Date.now() - initStart} ms`);
+			// console.log(`Init [BlockUpdater]: Done. ${Date.now() - initStart} ms`);
 			setInitialized(true);
 		}
 	}, [initialized, loadedPositions, loadedPrices]);
@@ -66,19 +66,19 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		setLatestHeight(fetchedLatestHeight);
 
 		// Block update policy: EACH BLOCK
-		console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
+		// console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
 		store.dispatch(fetchPositionsList());
 		if (latestAddress) store.dispatch(fetchAccount(latestAddress));
 
 		// Block update policy: EACH 10 BLOCKS
 		if (fetchedLatestHeight % 10 === 0) {
-			console.log(`Policy [BlockUpdater]: EACH 10 BLOCKS ${fetchedLatestHeight}`);
+			// console.log(`Policy [BlockUpdater]: EACH 10 BLOCKS ${fetchedLatestHeight}`);
 			store.dispatch(fetchPricesList(store.getState()));
 		}
 
 		// Block update policy: EACH 100 BLOCKS
 		if (fetchedLatestHeight % 100 === 0) {
-			console.log(`Policy [BlockUpdater]: EACH 100 BLOCKS ${fetchedLatestHeight}`);
+			// console.log(`Policy [BlockUpdater]: EACH 100 BLOCKS ${fetchedLatestHeight}`);
 			// store.dispatch(fetchPricesList());
 		}
 
@@ -94,7 +94,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		if (mintERC20Infos.length != latestMintERC20Infos.length) setLatestMintERC20Infos(mintERC20Infos);
 		if (collateralERC20Infos.length != latestCollateralERC20Infos.length) setLatestCollateralERC20Infos(collateralERC20Infos);
 
-		console.log(`Policy [BlockUpdater]: ERC20 Info changed`);
+		// console.log(`Policy [BlockUpdater]: ERC20 Info changed`);
 		store.dispatch(fetchPricesList(store.getState()));
 	}, [mintERC20Infos, collateralERC20Infos, latestMintERC20Infos, latestCollateralERC20Infos]);
 
@@ -104,7 +104,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		if (!address) return;
 		if (!latestAddress) setLatestAddress(address);
 
-		console.log(`Policy [BlockUpdater]: Address changed to: ${address}`);
+		// console.log(`Policy [BlockUpdater]: Address changed to: ${address}`);
 		store.dispatch(fetchAccount(address));
 	}, [address, latestAddress]);
 

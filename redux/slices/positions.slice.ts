@@ -123,7 +123,7 @@ export const fetchPositionsList =
 		>
 	) => {
 		// ---------------------------------------------------------------
-		console.log("Loading [REDUX]: PositionsList");
+		// console.log("Loading [REDUX]: PositionsList");
 
 		// ---------------------------------------------------------------
 		// Query raw data from Ponder Indexer

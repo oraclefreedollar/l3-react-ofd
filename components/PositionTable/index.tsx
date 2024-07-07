@@ -15,12 +15,12 @@ interface Props {
 
 export default function PositionTable({ showMyPos }: Props) {
 	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions);
-	console.log({ openPositionsByCollateral });
+	// console.log({ openPositionsByCollateral });
 	const { address } = useAccount();
 	const account = address || zeroAddress;
 	const openPositions: PositionQuery[] = [];
 
-	console.log("Account:", account);
+	// console.log("Account:", account);
 
 	for (const collateral in openPositionsByCollateral) {
 		openPositions.push(...openPositionsByCollateral[collateral]);
@@ -30,7 +30,7 @@ export default function PositionTable({ showMyPos }: Props) {
 		showMyPos ? position.owner == account : position.owner != account && !position.denied && !position.closed
 	);
 
-	console.log({ matchingPositions, showMyPos });
+	// console.log({ matchingPositions, showMyPos });
 
 	return (
 		<Table>
