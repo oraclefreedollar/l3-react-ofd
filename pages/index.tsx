@@ -32,10 +32,11 @@ export default function Home() {
 			<main className="block">
 				<section className="mt-16 grid items-center gap-20 align-middle lg:grid-cols-5">
 					<div className="lg:col-span-3">
-						<h1 className="mb-12 text-right text-4xl font-bold">
+						<h1 className="mb-12 text-right text-4xl font-bold flex items-center">
 							<picture>
-								<img src="/assets/logo.svg" alt="logo" />
+								<img src="/assets/logo.svg" alt="logo" width={80} />
 							</picture>
+							<div className="ml-3 text-[75px]">OracleFreeDollar</div>
 						</h1>
 						<p className="text-lg font-bold">
 							{envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Swiss franc. Its
