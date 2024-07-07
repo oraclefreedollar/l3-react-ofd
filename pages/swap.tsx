@@ -7,7 +7,7 @@ import { ABIS, ADDRESS } from "@contracts";
 import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSwapStats } from "@hooks";
-import { SOCIAL, formatBigInt, shortenAddress } from "@utils";
+import { formatBigInt, shortenAddress } from "@utils";
 import Head from "next/head";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -228,7 +228,7 @@ export default function Swap() {
 							</GuardToAllowedChainBtn>
 						</div>
 
-						<div className="mx-auto mt-8">
+						{/* <div className="mx-auto mt-8">
 							<a
 								href={SOCIAL.Uniswap_Mainnet}
 								target="_blank"
@@ -241,7 +241,7 @@ export default function Swap() {
 								</picture>
 								Uniswap.
 							</a>
-						</div>
+						</div> */}
 					</div>
 				</section>
 			</div>
