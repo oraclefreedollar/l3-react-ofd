@@ -10,10 +10,9 @@ import { ABIS, ADDRESS } from "@contracts";
 import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContractUrl, useOFDPSQuery, usePoolStats, useTradeQuery } from "@hooks";
-import { SOCIAL, formatBigInt, formatDuration, shortenAddress } from "@utils";
+import { formatBigInt, formatDuration, shortenAddress } from "@utils";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import Link from "next/link";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { formatUnits, zeroAddress } from "viem";
@@ -282,7 +281,7 @@ export default function Pool() {
 								{formatDuration(redeemLeft)}
 							</AppBox>
 						</div>
-						<div>
+						{/* <div>
 							Also available as{" "}
 							<Link
 								href={"https://etherscan.io/address/0x5052d3cc819f53116641e89b96ff4cd1ee80b182"}
@@ -295,7 +294,7 @@ export default function Pool() {
 							<Link href={SOCIAL.Uniswap_WOFDPS_Polygon} target="_blank" className="underline">
 								trading on Polygon
 							</Link>
-						</div>
+						</div> */}
 					</div>
 					<div className="bg-slate-950 rounded-xl p-4 grid grid-cols-1 gap-2">
 						<div id="chart-timeline">
