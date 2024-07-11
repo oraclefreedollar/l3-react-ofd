@@ -116,14 +116,11 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 	// },
 	[bscTestnet.id]: {
 		oracleFreeDollar: "0x09037FAA3b14C5894994471aD65cCd98622DDD0e",
-		bridge: "0xB9d1a628745840618c0580e65c6916aF1aAC84D5",
-		usdt: "0xd4E1684Eb4308dEb68e73e42395377c76d04933d", //need to change
-		equity: "0xd8d015A2121697E8Cd226225369340d133927DB9",
+		bridge: "0xa1Dde8965Ac0A59949ADEfc702A8C22d0fAdb69f",
+		usdt: "0x887C14bc51705Eb11E238631a24B4d6305a7B6BD", //BSC-USD/Collateral/XOFD same
+		equity: "0x47DeAd2B6150eCEbFD0D5fd2F884a02Ee3966886",
 		mintingHub: "0x7830a287878824Fed2De9E35794babd78302B422",
-		// positionFactory: "0x6648684e67B59c7458C8D2eB2a9c00E41A3fDc3F",
-		// wFPS: zeroAddress,
-		mockVol: "0x232B7F7988ABf4085e6093d3C27e9FA869462d1c",
-		mockXofd: "0xd4E1684Eb4308dEb68e73e42395377c76d04933d",
+		// positionFactory: "0xB11c4Bdcc8971A2544938f4f85B931e4ADE9d208",
 	},
 	[bsc.id]: {
 		oracleFreeDollar: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E",
@@ -162,9 +159,5 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 
 export const TokenAddresses = {
 	OFD: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E", //need change to OFD
-	// SHIB: "0xb1547683DA678f2e1F003A780143EC10Af8a832B", //changed
-	// CAKE: "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82", //change to CAKE
-	// WBTC: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", //changed
-	// USDC: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", // change to USDC
 	USDT: "0x55d398326f99059fF775485246999027B3197955", //change to USDT
 };
