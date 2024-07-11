@@ -1,11 +1,12 @@
 import Link from "next/link";
-import WalletConnect from "./WalletConnect";
 import { useNetwork } from "wagmi";
 import NavButton from "./NavButton";
-import { SOCIAL } from "../utils/constant";
+import WalletConnect from "./WalletConnect";
 
 export default function Navbar() {
 	const network = useNetwork();
+	const chainId = network.chain?.id;
+	// console.log(chainId);
 
 	return (
 		<div className="fixed top-0 left-0 right-0 z-10 backdrop-blur border-b border-gray-400">
@@ -35,7 +36,7 @@ export default function Navbar() {
 					<li>
 						<NavButton to="/governance" name="Governance" />
 					</li>
-					{network.chain?.testnet && (
+					{chainId == 97 && (
 						<li>
 							<NavButton to="/faucet" name="Faucet" />
 						</li>
