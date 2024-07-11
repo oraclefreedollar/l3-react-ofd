@@ -13,7 +13,7 @@ let fetchedAddresses: Address[] = [
 	"0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E", //OFD
 	"0x55d398326f99059fF775485246999027B3197955", //BSC-USD
 
-	"0x09037FAA3b14C5894994471aD65cCd98622DDD0e", //test OFD
+	"0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8", //test OFD
 	"0x887C14bc51705Eb11E238631a24B4d6305a7B6BD", //test BSC-USD
 ];
 let fetchedERC20Infos: ERC20Info[] = [
@@ -32,7 +32,7 @@ let fetchedERC20Infos: ERC20Info[] = [
 
 	//Test Tokens
 	{
-		address: "0x09037FAA3b14C5894994471aD65cCd98622DDD0e",
+		address: "0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8",
 		name: "oracleFreeDollar",
 		symbol: "OFD",
 		decimals: 18,
@@ -66,8 +66,8 @@ let fetchedPrices: PriceQueryObjectArray = {
 		},
 	},
 	//Test Token
-	"0x09037FAA3b14C5894994471aD65cCd98622DDD0e": {
-		address: "0x09037FAA3b14C5894994471aD65cCd98622DDD0e",
+	"0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8": {
+		address: "0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8",
 		name: "oracleFreeDollar",
 		symbol: "OFD",
 		decimals: 18,
