@@ -115,7 +115,7 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 	// 	mockDkkb: "0xAA115D40D67883a58A1e05d8FB1153473b9b087d",
 	// },
 	[bscTestnet.id]: {
-		oracleFreeDollar: "0x09037FAA3b14C5894994471aD65cCd98622DDD0e",
+		oracleFreeDollar: "0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8",
 		bridge: "0xa1Dde8965Ac0A59949ADEfc702A8C22d0fAdb69f",
 		usdt: "0x887C14bc51705Eb11E238631a24B4d6305a7B6BD", //BSC-USD/Collateral/XOFD same
 		equity: "0x47DeAd2B6150eCEbFD0D5fd2F884a02Ee3966886",
