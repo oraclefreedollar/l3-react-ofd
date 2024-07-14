@@ -1,21 +1,21 @@
 import { ABIS, ADDRESS } from "@contracts";
-import { bsc } from "viem/chains";
-import { useContractReads } from "wagmi";
+import { useChainId, useContractReads } from "wagmi";
 import { decodeBigIntCall } from "../utils/format";
 import { OFDPSHolder } from "./useOFDPSHolders";
 
 export const useVotingPowers = (holders: OFDPSHolder[]) => {
+	const chainId = useChainId();
 	let contractCalls: any[] = [];
 	holders.forEach((holder) => {
 		contractCalls.push({
-			address: ADDRESS[bsc.id].equity,
+			address: ADDRESS[chainId].equity,
 			abi: ABIS.EquityABI,
 			functionName: "votes",
 			args: [holder.address],
 		});
 	});
 	contractCalls.push({
-		address: ADDRESS[bsc.id].equity,
+		address: ADDRESS[chainId].equity,
 		abi: ABIS.EquityABI,
 		functionName: "totalVotes",
 	});
