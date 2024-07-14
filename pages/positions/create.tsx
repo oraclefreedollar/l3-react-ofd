@@ -275,6 +275,8 @@ export default function PositionCreate({}) {
 		}
 	};
 
+	console.log(userBalance.ofdBalance);
+
 	return (
 		<>
 			<Head>
@@ -298,7 +300,7 @@ export default function PositionCreate({}) {
 								value={BigInt(1000 * 1e18).toString()}
 								onChange={onChangeInitialCollAmount}
 								digit={18}
-								error={userBalance.frankenBalance < BigInt(1000 * 1e18) ? "Not enough OFD" : ""}
+								error={userBalance.ofdBalance < BigInt(1000 * 1e18) ? "Not enough OFD" : ""}
 								disabled
 							/>
 							<NormalInput

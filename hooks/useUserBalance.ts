@@ -4,12 +4,15 @@ import { useAccount, useChainId, useContractReads } from "wagmi";
 
 export const useUserBalance = () => {
 	const chainId = useChainId();
+
 	const { address } = useAccount();
 
-	const frankenContract = {
+	const ofdContract = {
 		address: ADDRESS[chainId].oracleFreeDollar,
 		abi: ABIS.oracleFreeDollarABI,
 	} as const;
+
+	// console.log("ofd:", ofdContract.address);
 
 	const equityContract = {
 		address: ADDRESS[chainId].equity,
@@ -23,7 +26,7 @@ export const useUserBalance = () => {
 		contracts: [
 			// oracleFreeDollar Calls
 			{
-				...frankenContract,
+				...ofdContract,
 				functionName: "balanceOf",
 				args: [account],
 			},
@@ -35,11 +38,11 @@ export const useUserBalance = () => {
 		],
 	});
 
-	const frankenBalance: bigint = data ? decodeBigIntCall(data[0]) : BigInt(0);
+	const ofdBalance: bigint = data ? decodeBigIntCall(data[0]) : BigInt(0);
 	const equityBalance: bigint = data ? decodeBigIntCall(data[1]) : BigInt(0);
 
 	return {
-		frankenBalance,
+		ofdBalance,
 		equityBalance,
 	};
 };
