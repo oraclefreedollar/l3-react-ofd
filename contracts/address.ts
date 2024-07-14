@@ -119,7 +119,7 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 		bridge: "0xa1Dde8965Ac0A59949ADEfc702A8C22d0fAdb69f",
 		usdt: "0x887C14bc51705Eb11E238631a24B4d6305a7B6BD", //BSC-USD/Collateral/XOFD same
 		equity: "0x47DeAd2B6150eCEbFD0D5fd2F884a02Ee3966886",
-		mintingHub: "0x7830a287878824Fed2De9E35794babd78302B422",
+		mintingHub: "0xF92B19b4D4dF3C25F5a238034eF4A0B3c05556a6",
 		// positionFactory: "0xB11c4Bdcc8971A2544938f4f85B931e4ADE9d208",
 	},
 	[bsc.id]: {
