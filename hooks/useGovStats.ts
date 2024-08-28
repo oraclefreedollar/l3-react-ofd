@@ -4,7 +4,6 @@ import { Address, zeroAddress } from "viem";
 import { useAccount, useChainId, useContractReads } from "wagmi";
 
 export const useGovStats = (helpers?: Address[]) => {
-	console.log(helpers);
 	if (typeof helpers === "string") {
 		helpers = [helpers];
 	}

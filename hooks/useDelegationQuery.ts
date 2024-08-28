@@ -4,15 +4,14 @@ import { zeroAddress } from "viem";
 export const useDelegationQuery = (owner: string) => {
 	const { data, loading } = useQuery(
 		gql`query {
-      delegation(id: "${owner}") {
-        id
-        owner
-        delegatedTo
-        pureDelegatedFrom
-      }
-    }`
+      		delegation(id: "${owner}") {
+				id
+				owner
+				delegatedTo
+				pureDelegatedFrom
+      		}
+    	}`
 	);
-	console.log({ data });
 	if (loading || !data || !data.delegation) {
 		return {
 			delegatedTo: zeroAddress,
