@@ -5,6 +5,7 @@ import { RootState } from "../../redux/redux.store";
 import { PositionQuery } from "../../redux/slices/positions.types";
 import { PriceQueryObjectArray } from "../../redux/slices/prices.types";
 import { formatCurrency } from "../../utils/format";
+import { Fragment } from "react";
 
 export type CollateralItem = {
 	collateral: {
@@ -123,10 +124,10 @@ export default function PositionCollateral({ children }: { children?: React.Reac
 			<div className="flex overflow-x-scroll hide-scroll-bar">
 				<div className="flex flex-nowrap">
 					{stats.map((c: CollateralItem, i: number) => (
-						<>
+						<Fragment key={c.collateral.address}>
 							<PositionCollateralItem item={c} key={c.collateral.address} />
 							{i === stats.length - 1 ? null : <PositionCollateralItemSeperator key={c.collateral.address} />}
-						</>
+						</Fragment>
 					))}
 				</div>
 			</div>
