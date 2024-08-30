@@ -27,7 +27,7 @@ export const COINGECKO_API_KEY = envConfig.COINGECKO_API_KEY; // demo key @samcl
 // WAGMI CONFIG
 // FIXME: move to env or white list domain
 export const WAGMI_PROJECT_ID = envConfig.WAGMI_PROJECT_ID;
-export const WAGMI_CHAINS = envConfig.ENV == "dev" || "local" ? [bscTestnet] : [bsc];
+export const WAGMI_CHAINS = envConfig.ENV == "prod" ? [bsc] : [bscTestnet];
 export const WAGMI_METADATA = {
 	name: "OracleFreeDollar",
 	description: "OracleFreeDollar Frontend Application",
