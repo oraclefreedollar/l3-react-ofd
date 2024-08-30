@@ -6,14 +6,14 @@ import { envConfig } from "./app.env.config";
 
 // URIs
 export const URI_APP_LOCALHOST = "http://localhost:3000";
-export const URI_APP_MAINNET = "https://app.frankencoin.com";
-export const URI_APP_MAINDEV = "https://devapp.frankencoin.com";
-export const URI_APP_DEVELOPER = "https://dapp.frankencoin.domain.com";
+export const URI_APP_MAINNET = "https://l3-react-ofd.vercel.app";
+export const URI_APP_MAINDEV = "https://l3-react-ofd-dev.vercel.app";
+export const URI_APP_DEVELOPER = "https://l3-react-ofd-dev.vercel.app";
 
 export const URI_PONDER_LOCALHOST = "http://localhost:42069";
-export const URI_PONDER_MAINNET = "https://mainnetponder.frankencoin.com";
-export const URI_PONDER_MAINDEV = "https://maindevponder.frankencoin.com";
-export const URI_PONDER_DEVELOPER = "https://ponder.frankencoin.3dotshub.com";
+export const URI_PONDER_MAINNET = "http://ofd-ponder-production.up.railway.app";
+export const URI_PONDER_MAINDEV = "https://ofd-ponder-testnet-production.up.railway.app";
+export const URI_PONDER_DEVELOPER = "https://ofd-ponder-testnet-production.up.railway.app";
 
 // >>>>>> SELECTED URI HERE <<<<<<
 export const URI_APP_SELECTED = envConfig.URI_APP_SELECTED;
@@ -31,7 +31,7 @@ export const WAGMI_CHAINS = envConfig.ENV == "dev" || "local" ? [bscTestnet] : [
 export const WAGMI_METADATA = {
 	name: "OracleFreeDollar",
 	description: "OracleFreeDollar Frontend Application",
-	url: "https://l3-react-ofd.vercel.app/",
+	url: "dev" || "local" ? "https://l3-react-ofd-dev.vercel.app/" : "https://l3-react-ofd.vercel.app/",
 	icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
