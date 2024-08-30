@@ -31,7 +31,7 @@ export const WAGMI_CHAINS = envConfig.ENV == "prod" ? [bsc] : [bscTestnet];
 export const WAGMI_METADATA = {
 	name: "OracleFreeDollar",
 	description: "OracleFreeDollar Frontend Application",
-	url: "prod" ? "https://l3-react-ofd.vercel.app/" : "https://l3-react-ofd-dev.vercel.app/",
+	url: "https://l3-react-ofd.vercel.app/",
 	icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
