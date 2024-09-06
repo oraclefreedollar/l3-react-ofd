@@ -5,11 +5,11 @@ export default function NextSeoProvider() {
 	return (
 		<NextSeo
 			title={envConfig.AppName}
-			description={`The ${envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Swiss franc.`}
+			description={`The ${envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Dollar.`}
 			openGraph={{
 				type: "website",
 				locale: "en_US",
-				url: "https://app.oracleFreeDollar.com/",
+				url: "https://app.oracleFreeDollar.org/",
 				// images: [
 				//   {
 				//     url: "https://oracleFreeDollar.com//splash.png",
