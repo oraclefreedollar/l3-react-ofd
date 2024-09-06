@@ -6,7 +6,7 @@ import { envConfig } from "./app.env.config";
 
 // URIs
 export const URI_APP_LOCALHOST = "http://localhost:3000";
-export const URI_APP_MAINNET = "https://l3-react-ofd.vercel.app";
+export const URI_APP_MAINNET = "https://app.oraclefreedollar.org";
 export const URI_APP_MAINDEV = "https://l3-react-ofd-dev.vercel.app";
 export const URI_APP_DEVELOPER = "https://l3-react-ofd-dev.vercel.app";
 
@@ -27,11 +27,11 @@ export const COINGECKO_API_KEY = envConfig.COINGECKO_API_KEY; // demo key @samcl
 // WAGMI CONFIG
 // FIXME: move to env or white list domain
 export const WAGMI_PROJECT_ID = envConfig.WAGMI_PROJECT_ID;
-export const WAGMI_CHAINS = envConfig.ENV == "prod" ? [bsc] : [bscTestnet];
+export const WAGMI_CHAINS = envConfig.ENV == "dev" || "local" ? [bscTestnet] : [bsc];
 export const WAGMI_METADATA = {
 	name: "OracleFreeDollar",
 	description: "OracleFreeDollar Frontend Application",
-	url: "https://l3-react-ofd.vercel.app/",
+	url: "https://app.oraclefreedollar.org/",
 	icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
