@@ -1,14 +1,7 @@
-## FCIP-202405-CorrectChain.md
-
-### Github refs
-
-https://github.com/Frankencoin-ZCHF/frankencoin-dapp/issues/25
-https://github.com/Frankencoin-ZCHF/frankencoin-dapp/pull/35
-
 ### Changes requested
 
--   app.frankencoin.com always connects to mainnet, github main branch
--   devapp.frankencoin.com that can connect to Sepolia or Mainnet, github dev branch
+-   app.oraclefreedollar.org always connects to mainnet, github main branch
+-   devapp.oraclefreedollar.org that can connect to Sepolia or Mainnet, github dev branch
 
 ### Changes in codebase requested (if possible)
 

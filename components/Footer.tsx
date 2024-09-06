@@ -46,12 +46,12 @@ export default function Footer() {
       <li>
         <FooterButton link={SOCIAL.Docs} text="Doc" icon={faBook} />
       </li>
-      <li>
-        <FooterButton link={SOCIAL.SubStack} text="Blog" icon={faBookmark} />
-      </li>
-      <li>
-        <FooterButton link={SOCIAL.Forum} text="Forum" icon={faComments} />
-      </li>
+      {/*<li>*/}
+      {/*  <FooterButton link={SOCIAL.SubStack} text="Blog" icon={faBookmark} />*/}
+      {/*</li>*/}
+      {/*<li>*/}
+      {/*  <FooterButton link={SOCIAL.Forum} text="Forum" icon={faComments} />*/}
+      {/*</li>*/}
       <li>
         <FooterButton link={SOCIAL.Twitter} text="Twitter" icon={faXTwitter} />
       </li>
