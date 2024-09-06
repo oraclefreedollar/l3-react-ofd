@@ -3,8 +3,8 @@
 ### Edit app.config
 
 ```
-export const URI_APP_MAINNET = "https://frankencoin.com";
-export const URI_PONDER_MAINNET = "https://mainnetponder.frankencoin.com/";
+export const URI_APP_MAINNET = "https://app.oraclefreedollar.org";
+export const URI_PONDER_MAINNET = "https://mainnetponder.oraclefreedollar.org/";
 
 // >>>>>> SELECTED URI HERE <<<<<<
 export const URI_APP_SELECTED = URI_APP_MAINNET;
@@ -53,5 +53,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Automatic deployment
 
-1. The main branch should deploy to app.frankencoin.com
-2. The dev Branch should deploy to dev.app.frankencoin.com
+1. The main branch should deploy to app.oraclefreedollar.org
+2. The dev Branch should deploy to dev.app.oraclefreedollar.org
