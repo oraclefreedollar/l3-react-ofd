@@ -40,8 +40,13 @@ export default function Home() {
 							<div className="ml-3 text-[75px] hidden lg:block max-w-md">OracleFreeDollar</div>
 						</h1>
 						<p className="text-lg font-bold">
-							{envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Swiss franc. Its
+							{envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Dollar. Its
 							strengths are its decentralization and its versatility.
+						</p>
+						<p>
+							A community of DLT afficionados - the friends of OFD - discovered Oracle Free Code Repository which is a
+							fork of <a href={"https://www.frankencoin.com/"} target="_blank">frankencoin.com</a> - but instead of the Swiss Franc it maps the USD and instead on beeing deploy on
+							Ethereum it is deployed on Binance Smart Chain.
 						</p>
 						<p>
 							Unlike other collateralized stablecoins,&nbsp;
@@ -77,7 +82,7 @@ export default function Home() {
 							<a href={SOCIAL.Audit_Chainsecurity} target="_blank">
 								ChainSecurity
 							</a>
-							. Its economic properties have been analyzed as part of a <a href="">phd thesis</a>.
+							{/*. Its economic properties have been analyzed as part of a <a href="">phd thesis</a>.*/}
 						</p>
 					</div>
 
@@ -284,7 +289,7 @@ export default function Home() {
 						</Link>
 					</div>
 				</section> */}
-				{/* 
+				{/*
           <hr className="my-12 border-dashed border-slate-800" />
 
           <h2 className="text-2xl font-bold text-center">
@@ -401,18 +406,18 @@ export default function Home() {
           <div className="bg-slate-900 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
             <AppBox>
               <p>
-                Bridge contracts allow to convert other Swiss Franc stablecoins
-                1:1 into oracleFreeDollars and also back again as long as there are
+                Bridge contracts allow to convert other Dollar stablecoins
+                1:1 into OracleFreeDollars and also back again as long as there are
                 some left. The deposited stablecoins are kept in the bridge
                 until another user wants to convert OFD back into the
                 resprective stablecoin. <br />
                 For now, the only bridge is the one to the&nbsp;
                 <a
-                  href="https://www.bitcoinsuisse.com/cryptofranc"
+                  href="https://tether.to/en/"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Crypto Franc (USDT)
+                  Dollar (USDT)
                 </a>
                 .
               </p>
