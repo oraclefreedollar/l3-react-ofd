@@ -1,7 +1,7 @@
 "use client";
 
 import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { bscTestnet } from "viem/chains";
+import { bsc, bscTestnet } from "viem/chains";
 import { envConfig } from "./app.env.config";
 
 // URIs
@@ -27,7 +27,7 @@ export const COINGECKO_API_KEY = envConfig.COINGECKO_API_KEY; // demo key @samcl
 // WAGMI CONFIG
 // FIXME: move to env or white list domain
 export const WAGMI_PROJECT_ID = envConfig.WAGMI_PROJECT_ID;
-export const WAGMI_CHAINS = envConfig.ENV == ("dev" || "local") ? [bscTestnet] : [null];
+export const WAGMI_CHAINS = envConfig.ENV == "dev" || "local" ? [bscTestnet] : [bsc];
 export const WAGMI_METADATA = {
 	name: "OracleFreeDollar",
 	description: "OracleFreeDollar Frontend Application",
