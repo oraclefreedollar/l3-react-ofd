@@ -34,7 +34,7 @@ export default function Home() {
 					<div className="lg:col-span-3">
 						<h1 className="mb-12 text-right text-4xl font-bold flex items-center">
 							<picture>
-								<img src="/assets/logo.svg" alt="logo" width={80} className="min-w-[80px]" />
+								<img src="/assets/oracle-free-dollar-logo.svg" alt="logo" width={80} className="min-w-[80px]" />
 							</picture>
 							<div className="ml-3 text-[75px] block lg:hidden max-w-sm">OFD</div>
 							<div className="ml-3 text-[75px] hidden lg:block max-w-md">OracleFreeDollar</div>
@@ -90,7 +90,7 @@ export default function Home() {
 						<picture>
 							<img
 								className="m-auto max-w-lg w-[50%] sm:w-[50%] md:w-[80%] lg:w-[100%]"
-								src="/assets/logoSquare.svg"
+								src="/assets/oracle-free-dollar-logo-square.svg"
 								alt="logo"
 							/>
 						</picture>
