@@ -4,17 +4,18 @@
   "private": false,
   "license": "MIT",
   "scripts": {
-    "dev": "yarn install && next dev",
     "build": "next build",
-    "export": "next export",
-    "start": "next start",
-    "test": "react-scripts test",
+    "deploy": "gh-pages -d build",
+    "dev": "yarn install && next dev",
     "eject": "react-scripts eject",
+    "export": "next export",
     "lint": "next lint",
     "lint:check": "prettier --check .",
     "lint:fix": "prettier --write .",
+    "postbuild": "next-sitemap",
     "prettier-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}",
-    "deploy": "gh-pages -d build"
+    "start": "next start",
+    "test": "react-scripts test"
   },
   "dependencies": {
     "@apollo/client": "^3.8.0",
@@ -40,6 +41,7 @@
     "graphql": "^16.8.1",
     "next": "^14.1.4",
     "next-seo": "^5.15.0",
+    "next-sitemap": "^4.2.3",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-datepicker": "^6.1.0",
