@@ -13,6 +13,8 @@ import { Web3Modal } from "@components/Web3Modal";
 import { store } from "../redux/redux.store";
 import { clientPonder } from "../app.config";
 import BlockUpdater from "@components/BlockUpdater";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
@@ -25,6 +27,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
 						<Layout>
 							<Component {...pageProps} />
+							<Analytics />
+							<SpeedInsights />
 						</Layout>
 					</BlockUpdater>
 				</ApolloProvider>
