@@ -24,10 +24,6 @@ export default function NextSeoProvider() {
 				{
 					name: "keywords",
 					content: "Oracle Free Dollar, OFD protocol, Decentralized finance (DeFi), Binance Smart Chain (BSC), On-chain governance, Tokenized real-world assets (RWA), Collateralized lending, Borrowing protocol, Stablecoins, Blockchain loans, Liquidity unlocking, Decentralized loans, DeFi governance, Oracle-free lending, Smart contracts, OFD staking"
-				},
-				{
-					name: "viewport",
-					content: "initial-scale=1.0, width=device-width",
 				}
 			]}
 			twitter={{
@@ -35,14 +31,6 @@ export default function NextSeoProvider() {
 				site: "@OFD_BNB",
 				cardType: "summary_large_image",
 			}}
-			themeColor="#111827"
-			additionalLinkTags={[
-				{
-					rel: "icon",
-					href: "/favicon.ico",
-					type: "image/png",
-				},
-			]}
 		/>
 	);
 }
