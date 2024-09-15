@@ -15,6 +15,11 @@ export const slice = createSlice({
 	name: "account",
 	initialState,
 	reducers: {
+		// RESET
+		resetAccountState(state) {
+			state = initialState;
+		},
+
 		// HAS ERROR
 		hasError(state, action: { payload: string }) {
 			state.error = action.payload;
