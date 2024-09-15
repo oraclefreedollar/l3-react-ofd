@@ -3,6 +3,8 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { bsc, bscTestnet } from "viem/chains";
 import { envConfig } from "./app.env.config";
+import { cookieStorage, createConfig, createStorage, http } from "wagmi";
+import { coinbaseWallet, injected, walletConnect } from "@wagmi/connectors";
 
 // URIs
 export const URI_APP_LOCALHOST = "http://localhost:3000";
@@ -27,13 +29,32 @@ export const COINGECKO_API_KEY = envConfig.COINGECKO_API_KEY; // demo key @samcl
 // WAGMI CONFIG
 // FIXME: move to env or white list domain
 export const WAGMI_PROJECT_ID = envConfig.WAGMI_PROJECT_ID;
-export const WAGMI_CHAINS = envConfig.ENV == "dev" || "local" ? [bscTestnet] : [bsc];
+export const WAGMI_CHAIN = envConfig.ENV == "dev" || "local" ? bscTestnet : bsc;
 export const WAGMI_METADATA = {
 	name: "OracleFreeDollar",
 	description: "OracleFreeDollar Frontend Application",
 	url: "https://app.oraclefreedollar.org/",
 	icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
+
+export const WAGMI_CONFIG = createConfig({
+	chains: [WAGMI_CHAIN],
+	transports: {
+		[WAGMI_CHAIN.id]: http(envConfig.WAGMI_PROJECT_ID),
+	},
+	connectors: [
+		walletConnect({ projectId: WAGMI_PROJECT_ID, metadata: WAGMI_METADATA, showQrModal: false }),
+		injected({ shimDisconnect: true }),
+		coinbaseWallet({
+			appName: WAGMI_METADATA.name,
+			appLogoUrl: WAGMI_METADATA.icons[0],
+		}),
+	],
+	ssr: true,
+	storage: createStorage({
+		storage: cookieStorage,
+	}),
+});
 
 // PONDER CLIENT
 export const clientPonder = new ApolloClient({
