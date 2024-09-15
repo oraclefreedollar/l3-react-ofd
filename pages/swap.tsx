@@ -11,131 +11,151 @@ import { formatBigInt, shortenAddress } from "@utils";
 import Head from "next/head";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { formatUnits, maxUint256 } from "viem";
-import { erc20ABI, useChainId, useContractWrite } from "wagmi";
-import { waitForTransaction } from "wagmi/actions";
+import { erc20Abi, formatUnits, maxUint256 } from "viem";
+import { useChainId, useContractWrite } from "wagmi";
+import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { envConfig } from "../app.env.config";
+import { WAGMI_CONFIG } from "../app.config";
 
 export default function Swap() {
 	const [amount, setAmount] = useState(0n);
 	const [error, setError] = useState("");
 	const [direction, setDirection] = useState(true);
-	const [isConfirming, setIsConfirming] = useState(false);
+	const [isApproving, setApproving] = useState(false);
+	const [isMinting, setMinting] = useState(false);
+	const [isBurning, setBurning] = useState(false);
 
 	const chainId = useChainId();
 	const swapStats = useSwapStats();
-	const approveWrite = useContractWrite({
-		address: ADDRESS[chainId].usdt,
-		abi: erc20ABI,
-		functionName: "approve",
-	});
-	const mintWrite = useContractWrite({
-		address: ADDRESS[chainId].bridge,
-		abi: ABIS.StablecoinBridgeABI,
-		functionName: "mint",
-	});
-	const burnWrite = useContractWrite({
-		address: ADDRESS[chainId].bridge,
-		abi: ABIS.StablecoinBridgeABI,
-		functionName: "burn",
-	});
+
+
 	const handleApprove = async () => {
-		const tx = await approveWrite.writeAsync({
-			args: [ADDRESS[chainId].bridge, maxUint256],
-		});
+		try {
+			setApproving(true);
+			const approveWriteHash = await writeContract(WAGMI_CONFIG,{
+				address: ADDRESS[chainId].usdt,
+				abi: erc20Abi,
+				functionName: "approve",
+				args: [ADDRESS[chainId].bridge, maxUint256],
+			});
 
-		const toastContent = [
-			{
-				title: "Amount:",
-				value: "infinite",
-			},
-			{
-				title: "Spender: ",
-				value: shortenAddress(ADDRESS[chainId].bridge),
-			},
-			{
-				title: "Transaction:",
-				hash: tx.hash,
-			},
-		];
-
-		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
-			pending: {
-				render: <TxToast title="Approving USDT" rows={toastContent} />,
-			},
-			success: {
-				render: <TxToast title="Successfully Approved USDT" rows={toastContent} />,
-			},
-			error: {
-				render(error: any) {
-					return renderErrorToast(error);
+			const toastContent = [
+				{
+					title: "Amount:",
+					value: "infinite",
 				},
-			},
-		});
+				{
+					title: "Spender: ",
+					value: shortenAddress(ADDRESS[chainId].bridge),
+				},
+				{
+					title: "Transaction:",
+					hash: approveWriteHash,
+				},
+			];
+
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: approveWriteHash, confirmations: 1 }), {
+				pending: {
+					render: <TxToast title="Approving USDT" rows={toastContent} />,
+				},
+				success: {
+					render: <TxToast title="Successfully Approved USDT" rows={toastContent} />,
+				},
+				error: {
+					render(error: any) {
+						return renderErrorToast(error);
+					},
+				},
+			});
+		} finally {
+			setApproving(false);
+		}
 	};
+
 	const handleMint = async () => {
-		const tx = await mintWrite.writeAsync({ args: [amount] });
+		try {
+			setMinting(true);
+			const mintWriteHash = await writeContract(WAGMI_CONFIG,{
+				address: ADDRESS[chainId].bridge,
+				abi: ABIS.StablecoinBridgeABI,
+				functionName: "mint",
+				args: [amount]
+			});
 
-		const toastContent = [
-			{
-				title: `${fromSymbol} Amount: `,
-				value: formatBigInt(amount) + " " + fromSymbol,
-			},
-			{
-				title: `${toSymbol} Amount: `,
-				value: formatBigInt(amount) + " " + toSymbol,
-			},
-			{
-				title: "Transaction:",
-				hash: tx.hash,
-			},
-		];
-
-		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
-			pending: {
-				render: <TxToast title={`Swapping ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
-			},
-			success: {
-				render: <TxToast title={`Successfully Swapped ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
-			},
-			error: {
-				render(error: any) {
-					return renderErrorToast(error);
+			const toastContent = [
+				{
+					title: `${fromSymbol} Amount: `,
+					value: formatBigInt(amount) + " " + fromSymbol,
 				},
-			},
-		});
+				{
+					title: `${toSymbol} Amount: `,
+					value: formatBigInt(amount) + " " + toSymbol,
+				},
+				{
+					title: "Transaction:",
+					hash: mintWriteHash,
+				},
+			];
+
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: mintWriteHash, confirmations: 1 }), {
+				pending: {
+					render: <TxToast title={`Swapping ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
+				},
+				success: {
+					render: <TxToast title={`Successfully Swapped ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
+				},
+				error: {
+					render(error: any) {
+						return renderErrorToast(error);
+					},
+				},
+			});
+		} finally {
+			setMinting(false);
+		}
 	};
+
 	const handleBurn = async () => {
-		const tx = await burnWrite.writeAsync({ args: [amount] });
+		try {
+			setBurning(true)
+			const burnWriteHash = await writeContract(WAGMI_CONFIG,{
+				address: ADDRESS[chainId].bridge,
+				abi: ABIS.StablecoinBridgeABI,
+				functionName: "burn",
+				args: [amount]
+			});
 
-		const toastContent = [
-			{
-				title: `${fromSymbol} Amount: `,
-				value: formatBigInt(amount) + " " + fromSymbol,
-			},
-			{
-				title: `${toSymbol} Amount: `,
-				value: formatBigInt(amount) + " " + toSymbol,
-			},
-			{
-				title: "Transaction:",
-				hash: tx.hash,
-			},
-		];
-
-		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
-			pending: {
-				render: <TxToast title={`Swapping ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
-			},
-			success: {
-				render: <TxToast title={`Successfully Swapped ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
-			},
-			error: {
-				render(error: any) {
-					return renderErrorToast(error);
+			const toastContent = [
+				{
+					title: `${fromSymbol} Amount: `,
+					value: formatBigInt(amount) + " " + fromSymbol,
 				},
-			},
-		});
+				{
+					title: `${toSymbol} Amount: `,
+					value: formatBigInt(amount) + " " + toSymbol,
+				},
+				{
+					title: "Transaction:",
+					hash: burnWriteHash,
+				},
+			];
+
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: burnWriteHash, confirmations: 1 }), {
+				pending: {
+					render: <TxToast title={`Swapping ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
+				},
+				success: {
+					render: <TxToast title={`Successfully Swapped ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
+				},
+				error: {
+					render(error: any) {
+						return renderErrorToast(error);
+					},
+				},
+			});
+		} finally {
+			setBurning(false);
+		}
 	};
 
 	const fromBalance = direction ? swapStats.usdtUserBal : swapStats.ofdUserBal;
@@ -204,13 +224,13 @@ export default function Swap() {
 							<GuardToAllowedChainBtn>
 								{direction ? (
 									amount > swapStats.usdtUserAllowance ? (
-										<Button isLoading={approveWrite.isLoading || isConfirming} onClick={() => handleApprove()}>
+										<Button isLoading={isApproving} onClick={() => handleApprove()}>
 											Approve
 										</Button>
 									) : (
 										<Button
 											disabled={amount == 0n || !!error}
-											isLoading={mintWrite.isLoading || isConfirming}
+											isLoading={isMinting}
 											onClick={() => handleMint()}
 										>
 											Swap
@@ -218,7 +238,7 @@ export default function Swap() {
 									)
 								) : (
 									<Button
-										isLoading={burnWrite.isLoading || isConfirming}
+										isLoading={isBurning}
 										disabled={amount == 0n || !!error}
 										onClick={() => handleBurn()}
 									>

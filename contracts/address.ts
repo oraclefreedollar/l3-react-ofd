@@ -1,4 +1,4 @@
-import { Address } from "wagmi";
+import { Address } from "viem";
 import { bsc, bscTestnet } from "wagmi/chains";
 
 export interface ProtocolAddress {
