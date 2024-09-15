@@ -5,11 +5,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Address } from "viem";
-import { useChainId, useContractWrite } from "wagmi";
-import { waitForTransaction } from "wagmi/actions";
+import { useChainId } from "wagmi";
+import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import AppBox from "./AppBox";
 import Button from "./Button";
 import { TxToast, renderErrorToast } from "./TxToast";
+import { WAGMI_CONFIG } from "../app.config";
 
 interface Props {
 	minter: Minter;
@@ -37,40 +38,45 @@ export default function MinterProposal({ minter, helpers }: Props) {
 	const status = !minter.vetor ? (isVotingFinished ? "Passed" : "Active") : "Vetoed";
 
 	const chainId = useChainId();
-	const { isLoading, writeAsync: veto } = useContractWrite({
-		address: ADDRESS[chainId].oracleFreeDollar,
-		abi: ABIS.oracleFreeDollarABI,
-		functionName: "denyMinter",
-		args: [minter.minter, helpers, "No"],
-	});
 
 	const handleVeto = async () => {
-		const tx = await veto();
+		try {
+			setIsConfirming(true);
 
-		const toastContent = [
-			{
-				title: "Reason:",
-				value: "No",
-			},
-			{
-				title: "Transaction:",
-				hash: tx.hash,
-			},
-		];
+			const vetoHash = await writeContract(WAGMI_CONFIG, {
+				address: ADDRESS[chainId].oracleFreeDollar,
+				abi: ABIS.oracleFreeDollarABI,
+				functionName: "denyMinter",
+				args: [minter.minter, helpers, "No"],
+			});
 
-		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
-			pending: {
-				render: <TxToast title={`Vetoing Proposal`} rows={toastContent} />,
-			},
-			success: {
-				render: <TxToast title="Successfully Vetoed" rows={toastContent} />,
-			},
-			error: {
-				render(error: any) {
-					return renderErrorToast(error);
+			const toastContent = [
+				{
+					title: "Reason:",
+					value: "No",
 				},
-			},
-		});
+				{
+					title: "Transaction:",
+					hash: vetoHash,
+				},
+			];
+
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: vetoHash, confirmations: 1 }), {
+				pending: {
+					render: <TxToast title={`Vetoing Proposal`} rows={toastContent} />,
+				},
+				success: {
+					render: <TxToast title="Successfully Vetoed" rows={toastContent} />,
+				},
+				error: {
+					render(error: any) {
+						return renderErrorToast(error);
+					},
+				},
+			});
+		} finally {
+			setIsConfirming(false);
+		}
 	};
 
 	return (
@@ -108,7 +114,7 @@ export default function MinterProposal({ minter, helpers }: Props) {
 					{status}
 				</div>
 				{status == "Active" && (
-					<Button onClick={() => handleVeto()} className="mt-auto" isLoading={isLoading || isConfirming}>
+					<Button onClick={() => handleVeto()} className="mt-auto" isLoading={isConfirming}>
 						Veto
 					</Button>
 				)}

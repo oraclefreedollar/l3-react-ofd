@@ -1,6 +1,6 @@
 import TokenLogo from "@components/TokenLogo";
 import { useSelector } from "react-redux";
-import { Address } from "wagmi";
+import { Address } from "viem";
 import { RootState } from "../../redux/redux.store";
 import { PositionQuery } from "../../redux/slices/positions.types";
 import { PriceQueryObjectArray } from "../../redux/slices/prices.types";

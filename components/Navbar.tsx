@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import NavButton from "./NavButton";
 import WalletConnect from "./WalletConnect";
 
 export default function Navbar() {
-	const network = useNetwork();
+	const network = useAccount();
 	const chainId = network.chain?.id;
 	// console.log(chainId);
 
