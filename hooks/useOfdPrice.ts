@@ -1,10 +1,10 @@
 import { ABIS } from "@contracts";
-import { useContractRead } from "wagmi";
+import { useReadContract } from "wagmi";
 
 export const useOfdPrice = () => {
-	const { data } = useContractRead({
+	const { data } = useReadContract({
 		abi: ABIS.UniswapV3PoolABI,
-		address: "0x8E4318E2cb1ae291254B187001a59a1f8ac78cEF",
+		address: "0xdB1d10011AD0Ff90774D0C6Bb92e5C5c8b4461F7",
 		functionName: "slot0",
 	});
 

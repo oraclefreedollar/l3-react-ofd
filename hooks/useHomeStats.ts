@@ -1,6 +1,7 @@
 import { ABIS, ADDRESS } from "@contracts";
 import { decodeBigIntCall } from "@utils";
-import { erc20ABI, useAccount, useChainId, useContractReads } from "wagmi";
+import { useAccount, useChainId, useReadContracts } from "wagmi";
+import { erc20Abi } from "viem";
 
 export const useHomeStats = () => {
 	const chainId = useChainId();
@@ -13,7 +14,7 @@ export const useHomeStats = () => {
 
 	const usdtContract = {
 		address: ADDRESS[chainId].usdt,
-		abi: erc20ABI,
+		abi: erc20Abi,
 	};
 
 	const equityContract = {
@@ -24,7 +25,7 @@ export const useHomeStats = () => {
 	const account = address || "0x0";
 
 	// Fetch all blockchain stats in one web3 call using multicall
-	const { data, isError, isLoading } = useContractReads({
+	const { data, isError, isLoading } = useReadContracts({
 		contracts: [
 			// oracleFreeDollar Calls
 			{

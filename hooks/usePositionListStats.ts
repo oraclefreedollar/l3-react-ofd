@@ -1,4 +1,5 @@
-import { Address, useContractReads } from "wagmi";
+import { useReadContracts } from "wagmi";
+import { Address } from "viem";
 import { ABIS, ADDRESS } from "@contracts";
 
 export const usePositionListStats = (positions: Address[]) => {
@@ -24,7 +25,7 @@ export const usePositionListStats = (positions: Address[]) => {
     ]);
   });
 
-  const { data } = useContractReads({
+  const { data } = useReadContracts({
     contracts: contractCalls,
     watch: true,
   });

@@ -1,6 +1,6 @@
 import { ABIS, ADDRESS } from "@contracts";
 import { decodeBigIntCall } from "@utils";
-import { useAccount, useChainId, useContractReads } from "wagmi";
+import { useAccount, useChainId, useReadContracts } from "wagmi";
 
 export const useUserBalance = () => {
 	const chainId = useChainId();
@@ -22,7 +22,7 @@ export const useUserBalance = () => {
 	const account = address || "0x0";
 
 	// Fetch all blockchain stats in one web3 call using multicall
-	const { data, isError, isLoading } = useContractReads({
+	const { data, isError, isLoading } = useReadContracts({
 		contracts: [
 			// oracleFreeDollar Calls
 			{

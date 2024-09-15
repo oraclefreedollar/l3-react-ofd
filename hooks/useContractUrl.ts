@@ -1,6 +1,6 @@
 import { Hash } from "viem";
 import { bsc } from "viem/chains";
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 
 export const useContractUrl = (address: string, chain: any = bsc) => {
 	const explorerLink = chain.blockExplorers.default.url || "https://bscscan.io";
@@ -8,7 +8,7 @@ export const useContractUrl = (address: string, chain: any = bsc) => {
 };
 
 export const useTxUrl = (hash: Hash) => {
-	const { chain } = useNetwork();
+	const { chain } = useAccount();
 	const explorerLink = chain?.blockExplorers?.default.url || "https://bscscan.io";
 	return explorerLink + "/tx/" + hash;
 };
