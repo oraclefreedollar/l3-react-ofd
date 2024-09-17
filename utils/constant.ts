@@ -7,7 +7,7 @@ export const SOCIAL = {
 	SubStack: "",
 	Forum: "",
 	Docs: "https://oracle-free-dollar.gitbook.io/ofd",
-	DefiLlama: "",
+	DefiLlama: "https://defillama.com/protocol/oraclefreedollar#information",
 	Uniswap_Mainnet: "",
 	Uniswap_Polygon: "",
 	Uniswap_Arbitrum: "",
