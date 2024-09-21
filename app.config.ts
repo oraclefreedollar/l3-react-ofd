@@ -6,20 +6,11 @@ import { envConfig } from "./app.env.config";
 import { cookieStorage, createConfig, createStorage, http } from "wagmi";
 import { coinbaseWallet, injected, walletConnect } from "@wagmi/connectors";
 
-// URIs
-export const URI_APP_LOCALHOST = "http://localhost:3000";
-export const URI_APP_MAINNET = "https://app.oraclefreedollar.org";
-export const URI_APP_MAINDEV = "https://l3-react-ofd-dev.vercel.app";
-export const URI_APP_DEVELOPER = "https://l3-react-ofd-dev.vercel.app";
-
-export const URI_PONDER_LOCALHOST = "http://localhost:42069";
-export const URI_PONDER_MAINNET = "http://ofd-ponder-production.up.railway.app";
-export const URI_PONDER_MAINDEV = "https://ofd-ponder-testnet-production.up.railway.app";
-export const URI_PONDER_DEVELOPER = "https://ofd-ponder-testnet-production.up.railway.app";
-
 // >>>>>> SELECTED URI HERE <<<<<<
 export const URI_APP_SELECTED = envConfig.URI_APP_SELECTED;
 export const URI_PONDER_SELECTED = envConfig.URI_PONDER_DEVELOPER;
+export const RPC_URL_MAINNET = envConfig.RPC_URL_MAINNET;
+export const RPC_URL_TESTNET = envConfig.RPC_URL_TESTNET;
 // >>>>>> SELECTED URI HERE <<<<<<
 
 // API KEYS
@@ -40,7 +31,13 @@ export const WAGMI_METADATA = {
 export const WAGMI_CONFIG = createConfig({
 	chains: [WAGMI_CHAIN],
 	transports: {
-		[WAGMI_CHAIN.id]: http(envConfig.WAGMI_PROJECT_ID),
+		[bsc.id]: http(RPC_URL_MAINNET),
+		[bscTestnet.id]: http(RPC_URL_TESTNET),
+	},
+	batch: {
+		multicall: {
+			wait: 200,
+		},
 	},
 	connectors: [
 		walletConnect({ projectId: WAGMI_PROJECT_ID, metadata: WAGMI_METADATA, showQrModal: false }),
