@@ -1,12 +1,9 @@
 import { ABIS, ADDRESS } from "@contracts";
 import { decodeBigIntCall } from "@utils";
 import { Address, zeroAddress } from "viem";
-import { useAccount, useChainId, useContractReads } from "wagmi";
+import { useAccount, useChainId, useReadContracts } from "wagmi";
 
 export const useGovStats = (helpers?: Address[]) => {
-	if (typeof helpers === "string") {
-		helpers = [helpers];
-	}
 	const chainId = useChainId();
 	const { address } = useAccount();
 
@@ -37,9 +34,8 @@ export const useGovStats = (helpers?: Address[]) => {
 	});
 
 	// Fetch all blockchain stats in one web3 call using multicall
-	const { data, isError, isLoading } = useContractReads({
+	const { data, isError, isLoading, refetch } = useReadContracts({
 		contracts: contractCalls,
-		watch: true,
 	});
 
 	const totalVotes: bigint = data ? decodeBigIntCall(data[0]) : BigInt(0);
@@ -60,5 +56,6 @@ export const useGovStats = (helpers?: Address[]) => {
 		userVotes,
 		userTotalVotes,
 		delegatedFrom,
+		refetch,
 	};
 };

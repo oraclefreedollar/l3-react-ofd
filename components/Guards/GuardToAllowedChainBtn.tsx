@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNetwork, useAccount, useChainId } from "wagmi";
+import { useAccount, useChains } from "wagmi";
 import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
 import Button from "@components/Button";
 
@@ -10,14 +10,13 @@ interface Props {
 export default function GuardToAllowedChainBtn(props: Props) {
 	const [requestedChange, setRequestedChange] = useState(false);
 
-	const Account = useAccount();
-	const Network = useNetwork();
+	const Account= useAccount();
+	const chains = useChains()
 	const Web3Modal = useWeb3Modal();
 	const Web3ModalState = useWeb3ModalState();
 
-	const walletChain = Network.chain;
-	const availableChains = Network.chains;
-	const availableChainIds = availableChains.map((c) => c.id);
+	const walletChain = Account.chain;
+	const availableChainIds = chains.map((c) => c.id);
 	const isCorrectChain = walletChain ? availableChainIds.includes(walletChain?.id) : false;
 
 	// to close modal after successful connection or change of chain

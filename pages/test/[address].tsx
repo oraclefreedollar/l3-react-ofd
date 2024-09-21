@@ -10,7 +10,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { getAddress, zeroAddress } from "viem";
-import { useAccount, useChainId, useContractRead } from "wagmi";
+import { useAccount, useChainId, useReadContract } from "wagmi";
 import { envConfig } from "../../app.env.config";
 
 export default function PositionDetail() {
@@ -26,12 +26,11 @@ export default function PositionDetail() {
 	const { challenges, loading: queryLoading } = useChallengeLists({ position });
 	const { challengsData, loading } = useChallengeListStats(challenges);
 
-	const { data: positionAssignedReserve } = useContractRead({
+	const { data: positionAssignedReserve } = useReadContract({
 		address: ADDRESS[chainId].oracleFreeDollar,
 		abi: ABIS.oracleFreeDollarABI,
 		functionName: "calculateAssignedReserve",
 		args: [positionStats.minted, Number(positionStats.reserveContribution)],
-		enabled: positionStats.isSuccess,
 	});
 
 	return (

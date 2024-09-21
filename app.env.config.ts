@@ -3,6 +3,8 @@ export const envConfig = {
 	URI_PONDER_DEVELOPER: process.env.NEXT_PUBLIC_URI_PONDER_DEVELOPER || "",
 	COINGECKO_API_KEY: process.env.NEXT_PUBLIC_COINGECKO_API_KEY || "",
 	WAGMI_PROJECT_ID: process.env.NEXT_PUBLIC_WAGMI_PROJECT_ID || "",
+	RPC_URL_TESTNET: process.env.NEXT_PUBLIC_RPC_URL_TESTNET || "",
+	RPC_URL_MAINNET: process.env.NEXT_PUBLIC_RPC_URL_MAINNET || "",
 	ENV: process.env.NEXT_PUBLIC_ENV || "",
 	AppName: "Oracle Free Dollar",
 };
