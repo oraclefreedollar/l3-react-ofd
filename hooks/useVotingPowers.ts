@@ -1,5 +1,5 @@
 import { ABIS, ADDRESS } from "@contracts";
-import { useChainId, useContractReads } from "wagmi";
+import { useChainId, useReadContracts } from "wagmi";
 import { decodeBigIntCall } from "../utils/format";
 import { OFDPSHolder } from "./useOFDPSHolders";
 
@@ -20,9 +20,8 @@ export const useVotingPowers = (holders: OFDPSHolder[]) => {
 		functionName: "totalVotes",
 	});
 
-	const { data } = useContractReads({
+	const { data } = useReadContracts({
 		contracts: contractCalls,
-		watch: true,
 	});
 
 	const votesData: any[] = [];

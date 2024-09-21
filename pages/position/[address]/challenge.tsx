@@ -13,17 +13,20 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { getAddress, zeroAddress } from "viem";
-import { erc20ABI, useAccount, useChainId, useContractWrite } from "wagmi";
-import { waitForTransaction } from "wagmi/actions";
+import { erc20Abi, getAddress, zeroAddress } from "viem";
+import { useAccount, useChainId, useContractWrite } from "wagmi";
+import { waitForTransaction, waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { envConfig } from "../../../app.env.config";
+import { WAGMI_CONFIG } from "../../../app.config";
 
 export default function PositionChallenge() {
 	const router = useRouter();
+	const { address: positionAddr } = router.query;
+
 	const [amount, setAmount] = useState(0n);
 	const [error, setError] = useState("");
-	const [isConfirming, setIsConfirming] = useState(false);
-	const { address: positionAddr } = router.query;
+	const [isApproving, setApproving] = useState(false);
+	const [isChallenging, setChallenging] = useState(false);
 
 	const chainId = useChainId();
 	const { address } = useAccount();
@@ -47,84 +50,95 @@ export default function PositionChallenge() {
 		}
 	};
 
-	const approveWrite = useContractWrite({
-		address: positionStats.collateral,
-		abi: erc20ABI,
-		functionName: "approve",
-		args: [ADDRESS[chainId].mintingHub, amount],
-	});
-	const challengeWrite = useContractWrite({
-		address: ADDRESS[chainId].mintingHub,
-		abi: ABIS.MintingHubABI,
-		functionName: "challenge",
-	});
-
 	const handleApprove = async () => {
-		const tx = await approveWrite.writeAsync();
+		try {
+			setApproving(true);
+			const approveWriteHash = await writeContract(WAGMI_CONFIG, {
+				address: positionStats.collateral!,
+				abi: erc20Abi,
+				functionName: "approve",
+				args: [ADDRESS[chainId].mintingHub, amount],
+			});
 
-		const toastContent = [
-			{
-				title: "Amount:",
-				value: formatBigInt(amount, positionStats.collateralDecimal) + " " + positionStats.collateralSymbol,
-			},
-			{
-				title: "Spender: ",
-				value: shortenAddress(ADDRESS[chainId].mintingHub),
-			},
-			{
-				title: "Transaction:",
-				hash: tx.hash,
-			},
-		];
-
-		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
-			pending: {
-				render: <TxToast title={`Approving ${positionStats.collateralSymbol}`} rows={toastContent} />,
-			},
-			success: {
-				render: <TxToast title={`Successfully Approved ${positionStats.collateralSymbol}`} rows={toastContent} />,
-			},
-			error: {
-				render(error: any) {
-					return renderErrorToast(error);
+			const toastContent = [
+				{
+					title: "Amount:",
+					value: formatBigInt(amount, positionStats.collateralDecimal) + " " + positionStats.collateralSymbol,
 				},
-			},
-		});
+				{
+					title: "Spender: ",
+					value: shortenAddress(ADDRESS[chainId].mintingHub),
+				},
+				{
+					title: "Transaction:",
+					hash: approveWriteHash,
+				},
+			];
+
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
+				pending: {
+					render: <TxToast title={`Approving ${positionStats.collateralSymbol}`} rows={toastContent} />,
+				},
+				success: {
+					render: <TxToast title={`Successfully Approved ${positionStats.collateralSymbol}`} rows={toastContent} />,
+				},
+				error: {
+					render(error: any) {
+						return renderErrorToast(error);
+					},
+				},
+			});
+		} catch (e) {
+			console.log(e);
+		} finally {
+			setApproving(false);
+		}
 	};
 
 	const handleChallenge = async () => {
-		const tx = await challengeWrite.writeAsync({
-			args: [position, amount, positionStats.liqPrice],
-		});
+		try {
+			setChallenging(true);
 
-		const toastContent = [
-			{
-				title: "Size:",
-				value: formatBigInt(amount, positionStats.collateralDecimal) + " " + positionStats.collateralSymbol,
-			},
-			{
-				title: "Price: ",
-				value: formatBigInt(positionStats.liqPrice, 36 - positionStats.collateralDecimal),
-			},
-			{
-				title: "Transaction:",
-				hash: tx.hash,
-			},
-		];
+			const challengeWriteHash = await writeContract(WAGMI_CONFIG, {
+				address: ADDRESS[chainId].mintingHub,
+				abi: ABIS.MintingHubABI,
+				functionName: "challenge",
+				args: [position, amount, positionStats.liqPrice],
+			});
 
-		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
-			pending: {
-				render: <TxToast title={`Launching a challenge`} rows={toastContent} />,
-			},
-			success: {
-				render: <TxToast title={`Successfully Launched challenge`} rows={toastContent} />,
-			},
-			error: {
-				render(error: any) {
-					return renderErrorToast(error);
+			const toastContent = [
+				{
+					title: "Size:",
+					value: formatBigInt(amount, positionStats.collateralDecimal) + " " + positionStats.collateralSymbol,
 				},
-			},
-		});
+				{
+					title: "Price: ",
+					value: formatBigInt(positionStats.liqPrice, 36 - positionStats.collateralDecimal),
+				},
+				{
+					title: "Transaction:",
+					hash: challengeWriteHash,
+				},
+			];
+
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: challengeWriteHash, confirmations: 1 }), {
+				pending: {
+					render: <TxToast title={`Launching a challenge`} rows={toastContent} />,
+				},
+				success: {
+					render: <TxToast title={`Successfully Launched challenge`} rows={toastContent} />,
+				},
+				error: {
+					render(error: any) {
+						return renderErrorToast(error);
+					},
+				},
+			});
+		} catch (e) {
+			console.log(e);
+		} finally {
+			setChallenging(false);
+		}
 	};
 
 	return (
@@ -201,7 +215,7 @@ export default function PositionChallenge() {
 							<GuardToAllowedChainBtn>
 								{amount > positionStats.collateralAllowance ? (
 									<Button
-										isLoading={approveWrite.isLoading || isConfirming}
+										isLoading={isApproving}
 										disabled={!!error || account == positionStats.owner}
 										onClick={() => handleApprove()}
 									>
@@ -210,7 +224,7 @@ export default function PositionChallenge() {
 								) : (
 									<Button
 										variant="primary"
-										isLoading={challengeWrite.isLoading || isConfirming}
+										isLoading={isChallenging}
 										disabled={!!error || account == positionStats.owner}
 										onClick={() => handleChallenge()}
 									>

@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { useChainId, useContractReads } from "wagmi";
+import { useChainId, useReadContracts } from "wagmi";
 import { ABIS, ADDRESS } from "@contracts";
 import { ChallengeQuery } from "./useChallengeList";
 import { decodeBigIntCall } from "@utils";
@@ -42,10 +42,8 @@ export const useChallengeListStats = (
       args: [challenge.number],
     });
   });
-  const { data, isLoading } = useContractReads({
+  const { data, isLoading } = useReadContracts({
     contracts: contractCalls,
-    enabled: challenges.length > 0,
-    watch: true,
   });
 
   const challengsData: Challenge[] = [];

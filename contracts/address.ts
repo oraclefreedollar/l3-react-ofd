@@ -1,10 +1,10 @@
-import { Address } from "wagmi";
+import { Address } from "viem";
 import { bsc, bscTestnet } from "wagmi/chains";
 
 export interface ProtocolAddress {
 	oracleFreeDollar: Address;
 	bridge: Address;
-	usdt?: Address;
+	usdt: Address;
 	equity: Address;
 	mintingHub: Address;
 	// wFPS: Address;
