@@ -22,7 +22,6 @@ export const useVotingPowers = (holders: OFDPSHolder[]) => {
 
 	const { data } = useReadContracts({
 		contracts: contractCalls,
-		watch: true,
 	});
 
 	const votesData: any[] = [];
