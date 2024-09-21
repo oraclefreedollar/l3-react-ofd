@@ -13,14 +13,14 @@ export const usePositionStats = (position: Address, collateral?: Address) => {
 	const { data: collateralData } = useReadContract({
 		address: position,
 		abi: ABIS.PositionABI,
-		functionName: "collateral"
+		functionName: "collateral",
 	});
 
 	if (!collateral && collateralData) {
 		collateral = collateralData;
 	}
 
-	const { data, isSuccess } = useReadContracts({
+	const { data, isSuccess, refetch } = useReadContracts({
 		contracts: [
 			// Collateral Calls
 			{
@@ -132,7 +132,6 @@ export const usePositionStats = (position: Address, collateral?: Address) => {
 				args: [account],
 			},
 		],
-		watch: true,
 	});
 
 	const collateralBal = data ? decodeBigIntCall(data[0]) : BigInt(0);
@@ -191,5 +190,7 @@ export const usePositionStats = (position: Address, collateral?: Address) => {
 
 		closed,
 		denied,
+
+		refetch,
 	};
 };

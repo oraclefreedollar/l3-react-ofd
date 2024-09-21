@@ -15,7 +15,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { erc20Abi, isAddress, maxUint256 } from "viem";
-import { useChainId, useContractWrite } from "wagmi";
+import { useChainId } from "wagmi";
 import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { envConfig } from "../../app.env.config";
 import { WAGMI_CONFIG } from "../../app.config";
@@ -196,7 +196,7 @@ export default function PositionCreate({}) {
 				},
 			];
 
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: approveWriteHash, confirmations: 1 }), {
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
 				pending: {
 					render: <TxToast title={`Approving ${collTokenData.symbol}`} rows={toastContent} />,
 				},
@@ -209,6 +209,8 @@ export default function PositionCreate({}) {
 					},
 				},
 			});
+		} catch (e) {
+			console.log(e);
 		} finally {
 			setIsConfirming("");
 		}
@@ -254,7 +256,7 @@ export default function PositionCreate({}) {
 				},
 			];
 
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: openWriteHash, confirmations: 1 }), {
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: openWriteHash, confirmations: 1 }), {
 				pending: {
 					render: <TxToast title={`Creating a new position`} rows={toastContent} />,
 				},
@@ -267,12 +269,14 @@ export default function PositionCreate({}) {
 					},
 				},
 			});
+		} catch (e) {
+			console.log(e);
 		} finally {
+			collTokenData.refetch();
+			userBalance.refetch();
 			setIsConfirming("");
 		}
 	};
-
-	console.log(userBalance.ofdBalance);
 
 	return (
 		<>

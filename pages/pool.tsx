@@ -63,7 +63,7 @@ export default function Pool() {
 				},
 			];
 
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: approveWriteHash, confirmations: 1 }), {
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
 				pending: {
 					render: <TxToast title={`Approving OFD`} rows={toastContent} />,
 				},
@@ -76,8 +76,8 @@ export default function Pool() {
 					},
 				},
 			});
-		}
-		finally {
+		} finally {
+			poolStats.refetch();
 			setApproving(false);
 		}
 	};
@@ -108,7 +108,7 @@ export default function Pool() {
 				},
 			];
 
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: investWriteHash, confirmations: 1 }), {
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: investWriteHash, confirmations: 1 }), {
 				pending: {
 					render: <TxToast title={`Investing OFD`} rows={toastContent} />,
 				},
@@ -122,6 +122,7 @@ export default function Pool() {
 				},
 			});
 		} finally {
+			poolStats.refetch();
 			setInvesting(false);
 		}
 	};
@@ -150,7 +151,7 @@ export default function Pool() {
 				},
 			];
 
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: redeemWriteHash, confirmations: 1 }), {
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: redeemWriteHash, confirmations: 1 }), {
 				pending: {
 					render: <TxToast title={`Redeeming OFDPS`} rows={toastContent} />,
 				},
@@ -164,6 +165,7 @@ export default function Pool() {
 				},
 			});
 		} finally {
+			poolStats.refetch();
 			setRedeeming(false);
 		}
 	};
@@ -172,14 +174,14 @@ export default function Pool() {
 		address: ADDRESS[chainId].equity,
 		abi: ABIS.EquityABI,
 		functionName: "calculateShares",
-		args: [amount]
+		args: [amount],
 	});
 
 	const { data: frankenResult, isLoading: proceedLoading } = useReadContract({
 		address: ADDRESS[chainId].equity,
 		abi: ABIS.EquityABI,
 		functionName: "calculateProceeds",
-		args: [amount]
+		args: [amount],
 	});
 
 	const fromBalance = direction ? poolStats.ofdBalance : poolStats.equityBalance;
@@ -411,11 +413,7 @@ export default function Pool() {
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Equity Capital" />
-								<DisplayAmount
-									amount={poolStats.ofdEquity}
-									currency="OFD"
-									address={ADDRESS[chainId].oracleFreeDollar}
-								/>
+								<DisplayAmount amount={poolStats.ofdEquity} currency="OFD" address={ADDRESS[chainId].oracleFreeDollar} />
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Minter Reserve" />

@@ -9,7 +9,7 @@ import { usePositionStats } from "@hooks";
 import { abs, formatBigInt, shortenAddress } from "@utils";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import { Address, erc20Abi, formatUnits, getAddress, maxUint256, zeroAddress } from "viem";
 import { useAccount, useChainId } from "wagmi";
@@ -52,13 +52,13 @@ export default function PositionAdjust() {
 	const collateralNote =
 		collateralAmount < positionStats.collateralBal
 			? `${formatUnits(abs(collateralAmount - positionStats.collateralBal), positionStats.collateralDecimal)} ${
-				positionStats.collateralSymbol
-			} sent back to your wallet`
-			: collateralAmount > positionStats.collateralBal
-				? `${formatUnits(abs(collateralAmount - positionStats.collateralBal), positionStats.collateralDecimal)} ${
 					positionStats.collateralSymbol
-				} taken from your wallet`
-				: "";
+			  } sent back to your wallet`
+			: collateralAmount > positionStats.collateralBal
+			? `${formatUnits(abs(collateralAmount - positionStats.collateralBal), positionStats.collateralDecimal)} ${
+					positionStats.collateralSymbol
+			  } taken from your wallet`
+			: "";
 
 	const onChangeAmount = (value: string) => {
 		setAmount(BigInt(value));
@@ -126,7 +126,7 @@ export default function PositionAdjust() {
 				},
 			];
 
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: approveWriteHash, confirmations: 1 }), {
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
 				pending: {
 					render: <TxToast title={`Approving ${positionStats.collateralSymbol}`} rows={toastContent} />,
 				},
@@ -139,15 +139,17 @@ export default function PositionAdjust() {
 					},
 				},
 			});
+		} catch (e) {
+			console.log(e);
 		} finally {
 			setApproving(false);
 		}
 	};
 
-	const handleAdjust = async () => {
+	const handleAdjust = useCallback(async () => {
 		try {
 			setAdjusting(true);
-			const adjustWriteHash = await writeContract(WAGMI_CONFIG,{
+			const adjustWriteHash = await writeContract(WAGMI_CONFIG, {
 				address: position,
 				abi: ABIS.PositionABI,
 				functionName: "adjust",
@@ -186,10 +188,13 @@ export default function PositionAdjust() {
 					},
 				},
 			});
+		} catch (e) {
+			console.log(e);
 		} finally {
+			positionStats.refetch();
 			setAdjusting(false);
 		}
-	};
+	}, [amount, collateralAmount, liqPrice, position, positionStats]);
 
 	return (
 		<>

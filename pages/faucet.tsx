@@ -13,11 +13,10 @@ import Head from "next/head";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Address, parseUnits, zeroAddress } from "viem";
-import { useAccount, useChainId } from "wagmi";
-import { writeContract } from "wagmi/actions";
+import { useAccount } from "wagmi";
 import { WAGMI_CHAIN, WAGMI_CONFIG } from "../app.config";
-import { waitForTransactionReceipt } from "viem/actions";
-import { bscTestnet } from "viem/chains";
+import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
+import { bsc } from "viem/chains";
 
 interface RowProps {
 	addr: Address;
@@ -33,7 +32,7 @@ export function FaucetRow({ name, symbol, balance, decimal, addr }: RowProps) {
 	const [isConfirming, setIsConfirming] = useState(false);
 
 	const handleFaucet = async () => {
-		const mintWriteHash = await writeContract(WAGMI_CONFIG,{
+		const mintWriteHash = await writeContract(WAGMI_CONFIG, {
 			address: addr,
 			abi: ABIS.MockVolABI,
 			functionName: "mint",
@@ -64,8 +63,7 @@ export function FaucetRow({ name, symbol, balance, decimal, addr }: RowProps) {
 				},
 			},
 		});
-
-	}
+	};
 
 	return (
 		<TableRow
@@ -100,8 +98,7 @@ export function FaucetRow({ name, symbol, balance, decimal, addr }: RowProps) {
 
 export default function Faucet() {
 	const faucetStats = useFaucetStats();
-
-	if ((WAGMI_CHAIN.id as number) == (bscTestnet.id as number)) return <></>;
+	if ((WAGMI_CHAIN.id as number) === (bsc.id as number)) return <></>;
 
 	return (
 		<>

@@ -1,34 +1,39 @@
 import { ABIS, ADDRESS } from "@contracts";
 import { decodeBigIntCall } from "@utils";
-import { useAccount, useChainId, useReadContracts } from "wagmi";
+import { useAccount, useReadContracts } from "wagmi";
 import { erc20Abi } from "viem";
+import { WAGMI_CHAIN } from "../app.config";
 
 export const useSwapStats = () => {
-	const chainId = useChainId();
+	const chainId = WAGMI_CHAIN.id as number;
 	const { address } = useAccount();
 	const account = address || "0x0";
 
-	const { data, isError, isLoading } = useReadContracts({
+	const { data, isError, isLoading, refetch } = useReadContracts({
 		contracts: [
 			// USDT Calls
 			{
+				chainId,
 				address: ADDRESS[chainId].usdt,
 				abi: erc20Abi,
 				functionName: "balanceOf",
 				args: [account],
 			},
 			{
+				chainId,
 				address: ADDRESS[chainId].usdt,
 				abi: erc20Abi,
 				functionName: "symbol",
 			},
 			{
+				chainId,
 				address: ADDRESS[chainId].usdt,
 				abi: erc20Abi,
 				functionName: "allowance",
 				args: [account, ADDRESS[chainId].bridge],
 			},
 			{
+				chainId,
 				address: ADDRESS[chainId].usdt,
 				abi: erc20Abi,
 				functionName: "balanceOf",
@@ -36,30 +41,33 @@ export const useSwapStats = () => {
 			},
 			// oracleFreeDollar Calls
 			{
+				chainId,
 				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: erc20Abi,
+				abi: ABIS.oracleFreeDollarABI,
 				functionName: "balanceOf",
 				args: [account],
 			},
 			{
+				chainId,
 				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: erc20Abi,
+				abi: ABIS.oracleFreeDollarABI,
 				functionName: "symbol",
 			},
 			{
+				chainId,
 				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: erc20Abi,
+				abi: ABIS.oracleFreeDollarABI,
 				functionName: "allowance",
 				args: [account, ADDRESS[chainId].bridge],
 			},
 			// Bridge Calls
 			{
+				chainId,
 				address: ADDRESS[chainId].bridge,
 				abi: ABIS.StablecoinBridgeABI,
 				functionName: "limit",
 			},
 		],
-		watch: true,
 	});
 
 	const usdtUserBal: bigint = data ? decodeBigIntCall(data[0]) : BigInt(0);
@@ -84,5 +92,6 @@ export const useSwapStats = () => {
 		ofdUserAllowance,
 
 		bridgeLimit,
+		refetch,
 	};
 };

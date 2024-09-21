@@ -54,7 +54,7 @@ export default function PositionChallenge() {
 		try {
 			setApproving(true);
 			const approveWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: positionStats.collateral,
+				address: positionStats.collateral!,
 				abi: erc20Abi,
 				functionName: "approve",
 				args: [ADDRESS[chainId].mintingHub, amount],
@@ -88,6 +88,8 @@ export default function PositionChallenge() {
 					},
 				},
 			});
+		} catch (e) {
+			console.log(e);
 		} finally {
 			setApproving(false);
 		}
@@ -119,7 +121,7 @@ export default function PositionChallenge() {
 				},
 			];
 
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: challengeWriteHash, confirmations: 1 }), {
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: challengeWriteHash, confirmations: 1 }), {
 				pending: {
 					render: <TxToast title={`Launching a challenge`} rows={toastContent} />,
 				},
@@ -132,6 +134,8 @@ export default function PositionChallenge() {
 					},
 				},
 			});
+		} catch (e) {
+			console.log(e);
 		} finally {
 			setChallenging(false);
 		}

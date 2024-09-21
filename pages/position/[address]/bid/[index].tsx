@@ -9,16 +9,15 @@ import { TxToast, renderErrorToast } from "@components/TxToast";
 import { ABIS, ADDRESS } from "@contracts";
 import { useChallengeListStats, useChallengeLists, useContractUrl, usePositionStats } from "@hooks";
 import { erc20Abi, formatUnits, getAddress, zeroAddress } from "viem";
-import { abs, formatBigInt, formatDate, formatDuration, min, shortenAddress } from "@utils";
+import { formatBigInt, formatDate, formatDuration, min, shortenAddress } from "@utils";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { WagmiConfig, useChainId } from "wagmi";
+import { useChainId } from "wagmi";
 import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { envConfig } from "../../../../app.env.config";
-import { WAGMI_CONFIG } from "../../../../app.config";
 import { WAGMI_CONFIG } from "../../../../app.config";
 
 export default function ChallengePlaceBid({}) {
@@ -100,47 +99,56 @@ export default function ChallengePlaceBid({}) {
 					},
 				},
 			});
+		} catch (e) {
+			console.log(e);
 		} finally {
 			setApproving(false);
 		}
 	};
 
 	const handleBid = async () => {
-		const bidWriteHash = await writeContract(WAGMI_CONFIG, {
-			address: ADDRESS[chainId].mintingHub,
-			abi: ABIS.MintingHubABI,
-			functionName: "bid",
-			args: [Number(challenge?.index || 0n), amount, true],
-		});
+		try {
+			setBidding(true);
+			const bidWriteHash = await writeContract(WAGMI_CONFIG, {
+				address: ADDRESS[chainId].mintingHub,
+				abi: ABIS.MintingHubABI,
+				functionName: "bid",
+				args: [Number(challenge?.index || 0n), amount, true],
+			});
 
-		const toastContent = [
-			{
-				title: `Bid Amount: `,
-				value: formatBigInt(amount, positionStats.collateralDecimal) + " " + positionStats.collateralSymbol,
-			},
-			{
-				title: `Expected OFD: `,
-				value: formatBigInt(expectedOFD()) + " OFD",
-			},
-			{
-				title: "Transaction:",
-				hash: bidWriteHash,
-			},
-		];
-
-		await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: bidWriteHash, confirmations: 1 }), {
-			pending: {
-				render: <TxToast title={`Placing a bid`} rows={toastContent} />,
-			},
-			success: {
-				render: <TxToast title="Successfully Placed Bid" rows={toastContent} />,
-			},
-			error: {
-				render(error: any) {
-					return renderErrorToast(error);
+			const toastContent = [
+				{
+					title: `Bid Amount: `,
+					value: formatBigInt(amount, positionStats.collateralDecimal) + " " + positionStats.collateralSymbol,
 				},
-			},
-		});
+				{
+					title: `Expected OFD: `,
+					value: formatBigInt(expectedOFD()) + " OFD",
+				},
+				{
+					title: "Transaction:",
+					hash: bidWriteHash,
+				},
+			];
+
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: bidWriteHash, confirmations: 1 }), {
+				pending: {
+					render: <TxToast title={`Placing a bid`} rows={toastContent} />,
+				},
+				success: {
+					render: <TxToast title="Successfully Placed Bid" rows={toastContent} />,
+				},
+				error: {
+					render(error: any) {
+						return renderErrorToast(error);
+					},
+				},
+			});
+		} catch (e) {
+			console.log(e);
+		} finally {
+			setBidding(false);
+		}
 	};
 
 	return (
@@ -218,12 +226,7 @@ export default function ChallengePlaceBid({}) {
 										Approve
 									</Button>
 								) : (
-									<Button
-										variant="primary"
-										disabled={amount == 0n}
-										isLoading={isBidding}
-										onClick={() => handleBid()}
-									>
+									<Button variant="primary" disabled={amount == 0n} isLoading={isBidding} onClick={() => handleBid()}>
 										Place Bid
 									</Button>
 								)}
