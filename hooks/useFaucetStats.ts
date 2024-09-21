@@ -1,7 +1,8 @@
 import { ADDRESS } from "@contracts";
 import { decodeBigIntCall } from "@utils";
 import { zeroAddress } from "viem";
-import { Address, erc20ABI, useAccount, useChainId, useContractReads } from "wagmi";
+import { useAccount, useChainId, useReadContracts } from "wagmi";
+import { Address, erc20Abi } from "viem";
 
 export const useFaucetStats = () => {
 	const chainId = useChainId();
@@ -58,7 +59,7 @@ export const useFaucetStats = () => {
 	mockTokens.forEach((token) => {
 		const contract = {
 			address: token,
-			abi: erc20ABI,
+			abi: erc20Abi,
 		};
 		calls.push(
 			...[
@@ -84,9 +85,8 @@ export const useFaucetStats = () => {
 	});
 
 	// Fetch all blockchain stats in one web3 call using multicall
-	const { data, isError, isLoading } = useContractReads({
-		contracts: [...calls],
-		watch: true,
+	const { data, isError, isLoading } = useReadContracts({
+		contracts: [...calls]
 	});
 
 	const tokenInfo: Record<

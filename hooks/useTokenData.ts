@@ -1,7 +1,8 @@
 import { getAddress, isAddress, zeroAddress } from "viem";
-import { erc20ABI, useAccount, useChainId, useContractReads } from "wagmi";
+import { useAccount, useChainId, useReadContracts } from "wagmi";
 import { ADDRESS } from "../contracts/address";
 import { decodeBigIntCall } from "../utils/format";
+import { erc20Abi } from "viem";
 
 export const useTokenData = (addr: string) => {
 	if (!isAddress(addr)) addr = zeroAddress;
@@ -12,37 +13,41 @@ export const useTokenData = (addr: string) => {
 	const chainId = useChainId();
 	// console.log("Got chain?", { chainId });
 	const mintingHub = ADDRESS[chainId].mintingHub;
-	const { data } = useContractReads({
+	const { data, refetch } = useReadContracts({
 		contracts: [
 			{
+				chainId,
 				address: tokenAddress,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "name",
 			},
 			{
+				chainId,
 				address: tokenAddress,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "symbol",
 			},
 			{
+				chainId,
 				address: tokenAddress,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "decimals",
 			},
 			{
+				chainId,
 				address: tokenAddress,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "balanceOf",
 				args: [account],
 			},
 			{
+				chainId,
 				address: tokenAddress,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "allowance",
 				args: [account, mintingHub],
 			},
 		],
-		watch: true,
 	});
 
 	const name = data && !data[0].error ? String(data[0].result) : "NaN";
@@ -53,10 +58,11 @@ export const useTokenData = (addr: string) => {
 
 	return {
 		address: tokenAddress,
-		name,
-		symbol,
-		decimals,
-		balance,
 		allowance,
+		balance,
+		decimals,
+		name,
+		refetch,
+		symbol,
 	};
 };

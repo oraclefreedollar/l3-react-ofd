@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { shortenHash, transactionLink } from "@utils";
 import { Hash } from "viem";
 
@@ -24,7 +24,7 @@ export const TxToast = (props: {
   success?: boolean;
 }) => {
   const { title, rows, success = true } = props;
-  const { chain } = useNetwork();
+  const { chain } = useAccount();
   let reasonLine: number;
 
   return (

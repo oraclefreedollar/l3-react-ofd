@@ -3,21 +3,14 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { bsc, bscTestnet } from "viem/chains";
 import { envConfig } from "./app.env.config";
-
-// URIs
-export const URI_APP_LOCALHOST = "http://localhost:3000";
-export const URI_APP_MAINNET = "https://app.oraclefreedollar.org";
-export const URI_APP_MAINDEV = "https://l3-react-ofd-dev.vercel.app";
-export const URI_APP_DEVELOPER = "https://l3-react-ofd-dev.vercel.app";
-
-export const URI_PONDER_LOCALHOST = "http://localhost:42069";
-export const URI_PONDER_MAINNET = "http://ofd-ponder-production.up.railway.app";
-export const URI_PONDER_MAINDEV = "https://ofd-ponder-testnet-production.up.railway.app";
-export const URI_PONDER_DEVELOPER = "https://ofd-ponder-testnet-production.up.railway.app";
+import { cookieStorage, createConfig, createStorage, http } from "wagmi";
+import { coinbaseWallet, injected, walletConnect } from "@wagmi/connectors";
 
 // >>>>>> SELECTED URI HERE <<<<<<
 export const URI_APP_SELECTED = envConfig.URI_APP_SELECTED;
 export const URI_PONDER_SELECTED = envConfig.URI_PONDER_DEVELOPER;
+export const RPC_URL_MAINNET = envConfig.RPC_URL_MAINNET;
+export const RPC_URL_TESTNET = envConfig.RPC_URL_TESTNET;
 // >>>>>> SELECTED URI HERE <<<<<<
 
 // API KEYS
@@ -27,13 +20,40 @@ export const COINGECKO_API_KEY = envConfig.COINGECKO_API_KEY; // demo key @samcl
 // WAGMI CONFIG
 // FIXME: move to env or white list domain
 export const WAGMI_PROJECT_ID = envConfig.WAGMI_PROJECT_ID;
-export const WAGMI_CHAINS = envConfig.ENV == "prod" ? [bsc] : [bscTestnet];
+
+export const WAGMI_CHAIN = envConfig.ENV == "dev" || "local" ? bscTestnet : bsc;
+
 export const WAGMI_METADATA = {
 	name: "OracleFreeDollar",
 	description: "OracleFreeDollar Frontend Application",
 	url: "https://app.oraclefreedollar.org/",
 	icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
+
+export const WAGMI_CONFIG = createConfig({
+	chains: [WAGMI_CHAIN],
+	transports: {
+		[bsc.id]: http(RPC_URL_MAINNET),
+		[bscTestnet.id]: http(RPC_URL_TESTNET),
+	},
+	batch: {
+		multicall: {
+			wait: 200,
+		},
+	},
+	connectors: [
+		walletConnect({ projectId: WAGMI_PROJECT_ID, metadata: WAGMI_METADATA, showQrModal: false }),
+		injected({ shimDisconnect: true }),
+		coinbaseWallet({
+			appName: WAGMI_METADATA.name,
+			appLogoUrl: WAGMI_METADATA.icons[0],
+		}),
+	],
+	ssr: true,
+	storage: createStorage({
+		storage: cookieStorage,
+	}),
+});
 
 // PONDER CLIENT
 export const clientPonder = new ApolloClient({

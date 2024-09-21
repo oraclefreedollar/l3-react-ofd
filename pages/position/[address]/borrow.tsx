@@ -11,20 +11,23 @@ import { usePositionStats } from "@hooks";
 import { formatBigInt, min, shortenAddress, toTimestamp } from "@utils";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { formatUnits, getAddress, maxUint256, zeroAddress } from "viem";
-import { erc20ABI, useChainId, useContractWrite } from "wagmi";
-import { waitForTransaction } from "wagmi/actions";
+import { erc20Abi, formatUnits, getAddress, maxUint256, zeroAddress } from "viem";
+import { useChainId } from "wagmi";
+import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { envConfig } from "../../../app.env.config";
+import { WAGMI_CONFIG } from "../../../app.config";
 
 export default function PositionBorrow({}) {
 	const router = useRouter();
+	const { address: positionAddr } = router.query;
+
 	const [amount, setAmount] = useState(0n);
 	const [error, setError] = useState("");
 	const [errorDate, setErrorDate] = useState("");
-	const [isConfirming, setIsConfirming] = useState(false);
-	const { address: positionAddr } = router.query;
+	const [isApproving, setApproving] = useState(false);
+	const [isCloning, setCloning] = useState(false);
 
 	const chainId = useChainId();
 	const position = getAddress(String(positionAddr || zeroAddress));
@@ -100,87 +103,98 @@ export default function PositionBorrow({}) {
 		setExpirationDate(toDate(positionStats.expiration));
 	};
 
-	const approveWrite = useContractWrite({
-		address: positionStats.collateral,
-		abi: erc20ABI,
-		functionName: "approve",
-	});
-	const cloneWrite = useContractWrite({
-		address: ADDRESS[chainId].mintingHub,
-		abi: ABIS.MintingHubABI,
-		functionName: "clone",
-	});
-
 	const handleApprove = async () => {
-		const tx = await approveWrite.writeAsync({
-			args: [ADDRESS[chainId].mintingHub, maxUint256],
-		});
+		try {
+			setApproving(true);
+			const approveWriteHash = await writeContract(WAGMI_CONFIG, {
+				address: positionStats.collateral!,
+				abi: erc20Abi,
+				functionName: "approve",
+				args: [ADDRESS[chainId].mintingHub, maxUint256],
+			});
 
-		const toastContent = [
-			{
-				title: "Amount:",
-				value: "infinite " + positionStats.collateralSymbol,
-			},
-			{
-				title: "Spender: ",
-				value: shortenAddress(ADDRESS[chainId].mintingHub),
-			},
-			{
-				title: "Transaction:",
-				hash: tx.hash,
-			},
-		];
-
-		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
-			pending: {
-				render: <TxToast title={`Approving ${positionStats.collateralSymbol}`} rows={toastContent} />,
-			},
-			success: {
-				render: <TxToast title={`Successfully Approved ${positionStats.collateralSymbol}`} rows={toastContent} />,
-			},
-			error: {
-				render(error: any) {
-					return renderErrorToast(error);
+			const toastContent = [
+				{
+					title: "Amount:",
+					value: "infinite " + positionStats.collateralSymbol,
 				},
-			},
-		});
+				{
+					title: "Spender: ",
+					value: shortenAddress(ADDRESS[chainId].mintingHub),
+				},
+				{
+					title: "Transaction:",
+					hash: approveWriteHash,
+				},
+			];
+
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
+				pending: {
+					render: <TxToast title={`Approving ${positionStats.collateralSymbol}`} rows={toastContent} />,
+				},
+				success: {
+					render: <TxToast title={`Successfully Approved ${positionStats.collateralSymbol}`} rows={toastContent} />,
+				},
+				error: {
+					render(error: any) {
+						return renderErrorToast(error);
+					},
+				},
+			});
+		} catch (e) {
+			console.log(e);
+		} finally {
+			setApproving(false);
+		}
 	};
 
-	const handleClone = async () => {
-		const expirationTime = toTimestamp(expirationDate);
-		const tx = await cloneWrite.writeAsync({
-			args: [position, requiredColl, amount, BigInt(expirationTime)],
-		});
+	const handleClone = useCallback(async () => {
+		try {
+			setCloning(true);
+			const expirationTime = toTimestamp(expirationDate);
 
-		const toastContent = [
-			{
-				title: `Amount: `,
-				value: formatBigInt(amount) + " OFD",
-			},
-			{
-				title: `Collateral: `,
-				value: formatBigInt(requiredColl, positionStats.collateralDecimal) + " " + positionStats.collateralSymbol,
-			},
-			{
-				title: "Transaction:",
-				hash: tx.hash,
-			},
-		];
+			const cloneWriteHash = await writeContract(WAGMI_CONFIG, {
+				address: ADDRESS[chainId].mintingHub,
+				abi: ABIS.MintingHubABI,
+				functionName: "clone",
+				args: [position, requiredColl, amount, BigInt(expirationTime)],
+			});
 
-		await toast.promise(waitForTransaction({ hash: tx.hash, confirmations: 1 }), {
-			pending: {
-				render: <TxToast title={`Minting OFD`} rows={toastContent} />,
-			},
-			success: {
-				render: <TxToast title="Successfully Minted OFD" rows={toastContent} />,
-			},
-			error: {
-				render(error: any) {
-					return renderErrorToast(error);
+			const toastContent = [
+				{
+					title: `Amount: `,
+					value: formatBigInt(amount) + " OFD",
 				},
-			},
-		});
-	};
+				{
+					title: `Collateral: `,
+					value: formatBigInt(requiredColl, positionStats.collateralDecimal) + " " + positionStats.collateralSymbol,
+				},
+				{
+					title: "Transaction:",
+					hash: cloneWriteHash,
+				},
+			];
+
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: cloneWriteHash, confirmations: 1 }), {
+				pending: {
+					render: <TxToast title={`Minting OFD`} rows={toastContent} />,
+				},
+				success: {
+					render: <TxToast title="Successfully Minted OFD" rows={toastContent} />,
+				},
+				error: {
+					render(error: any) {
+						return renderErrorToast(error);
+					},
+				},
+			});
+		} catch (e) {
+			console.log(e);
+		} finally {
+			positionStats.refetch();
+			setCloning(false);
+		}
+	}, [amount, chainId, expirationDate, position, positionStats, requiredColl]);
 
 	return (
 		<>
@@ -188,7 +202,7 @@ export default function PositionBorrow({}) {
 				<title>{envConfig.AppName} - Mint</title>
 			</Head>
 			<div>
-				<AppPageHeader title="Mint oracleFreeDollars for Yourself" backText="Back to position" backTo={`/position/${position}`} />
+				<AppPageHeader title="Mint OracleFreeDollars for Yourself" backText="Back to position" backTo={`/position/${position}`} />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div className="bg-slate-950 rounded-xl p-4 flex flex-col gap-y-4">
 						<div className="text-lg font-bold text-center mt-3">Minting Amount and Collateral</div>
@@ -232,18 +246,14 @@ export default function PositionBorrow({}) {
 						<div className="mx-auto mt-8 w-72 max-w-full flex-col">
 							<GuardToAllowedChainBtn>
 								{requiredColl > positionStats.collateralAllowance ? (
-									<Button
-										disabled={amount == 0n || !!error}
-										isLoading={approveWrite.isLoading || isConfirming}
-										onClick={() => handleApprove()}
-									>
+									<Button disabled={amount == 0n || !!error} isLoading={isApproving} onClick={() => handleApprove()}>
 										Approve
 									</Button>
 								) : (
 									<Button
 										variant="primary"
 										disabled={amount == 0n || !!error}
-										isLoading={cloneWrite.isLoading || isConfirming}
+										isLoading={isCloning}
 										onClick={() => handleClone()}
 										error={
 											requiredColl < positionStats.minimumCollateral

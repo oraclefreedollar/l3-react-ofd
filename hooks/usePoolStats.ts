@@ -1,7 +1,7 @@
 import { ABIS, ADDRESS } from "@contracts";
 import { decodeBigIntCall } from "@utils";
 import { zeroAddress } from "viem";
-import { useAccount, useChainId, useContractReads } from "wagmi";
+import { useAccount, useChainId, useReadContracts } from "wagmi";
 
 export const usePoolStats = () => {
 	const chainId = useChainId();
@@ -13,12 +13,12 @@ export const usePoolStats = () => {
 		abi: ABIS.EquityABI,
 	};
 
-	const frankenContract = {
+	const ofdContract = {
 		address: ADDRESS[chainId].oracleFreeDollar,
 		abi: ABIS.oracleFreeDollarABI,
 	};
 
-	const { data } = useContractReads({
+	const { data, refetch } = useReadContracts({
 		contracts: [
 			// Equity Calls
 			{
@@ -55,25 +55,24 @@ export const usePoolStats = () => {
 			},
 			// oracleFreeDollar Calls
 			{
-				...frankenContract,
+				...ofdContract,
 				functionName: "minterReserve",
 			},
 			{
-				...frankenContract,
+				...ofdContract,
 				functionName: "equity",
 			},
 			{
-				...frankenContract,
+				...ofdContract,
 				functionName: "balanceOf",
 				args: [account],
 			},
 			{
-				...frankenContract,
+				...ofdContract,
 				functionName: "allowance",
 				args: [account, ADDRESS[chainId].equity],
 			},
 		],
-		watch: true,
 	});
 
 	const equitySupply: bigint = data ? decodeBigIntCall(data[0]) : 0n;
@@ -84,11 +83,11 @@ export const usePoolStats = () => {
 	const equityCanRedeem: boolean = data ? Boolean(data[5].result) : false;
 	const equityHoldingDuration: bigint = data ? decodeBigIntCall(data[6]) : 0n;
 
-	const frankenMinterReserve: bigint = data ? decodeBigIntCall(data[7]) : 0n;
-	const frankenEquity: bigint = data ? decodeBigIntCall(data[8]) : 0n;
-	const frankenTotalReserve = frankenMinterReserve + frankenEquity;
-	const frankenBalance: bigint = data ? decodeBigIntCall(data[9]) : 0n;
-	const frankenAllowance: bigint = data ? decodeBigIntCall(data[10]) : 0n;
+	const ofdMinterReserve: bigint = data ? decodeBigIntCall(data[7]) : 0n;
+	const ofdEquity: bigint = data ? decodeBigIntCall(data[8]) : 0n;
+	const ofdTotalReserve = ofdMinterReserve + ofdEquity;
+	const ofdBalance: bigint = data ? decodeBigIntCall(data[9]) : 0n;
+	const ofdAllowance: bigint = data ? decodeBigIntCall(data[10]) : 0n;
 
 	return {
 		equitySupply,
@@ -99,10 +98,12 @@ export const usePoolStats = () => {
 		equityCanRedeem,
 		equityHoldingDuration,
 
-		frankenTotalReserve,
-		frankenMinterReserve,
-		frankenEquity,
-		frankenBalance,
-		frankenAllowance,
+		ofdTotalReserve,
+		ofdMinterReserve,
+		ofdEquity,
+		ofdBalance,
+		ofdAllowance,
+
+		refetch,
 	};
 };

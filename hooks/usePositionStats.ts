@@ -1,7 +1,8 @@
 import { ABIS, ADDRESS } from "@contracts";
 import { decodeBigIntCall } from "@utils";
 import { getAddress, maxUint256, zeroAddress } from "viem";
-import { Address, erc20ABI, useAccount, useChainId, useContractRead, useContractReads } from "wagmi";
+import { useAccount, useChainId, useReadContract, useReadContracts } from "wagmi";
+import { Address, erc20Abi } from "viem";
 
 export const usePositionStats = (position: Address, collateral?: Address) => {
 	const { address } = useAccount();
@@ -9,51 +10,50 @@ export const usePositionStats = (position: Address, collateral?: Address) => {
 
 	const account = address || zeroAddress;
 
-	const { data: collateralData } = useContractRead({
+	const { data: collateralData } = useReadContract({
 		address: position,
 		abi: ABIS.PositionABI,
 		functionName: "collateral",
-		enabled: !collateral && position != zeroAddress,
 	});
 
 	if (!collateral && collateralData) {
 		collateral = collateralData;
 	}
 
-	const { data, isSuccess } = useContractReads({
+	const { data, isSuccess, refetch } = useReadContracts({
 		contracts: [
 			// Collateral Calls
 			{
 				address: collateral,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "balanceOf",
 				args: [position],
 			},
 			{
 				address: collateral,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "decimals",
 			},
 			{
 				address: collateral,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "symbol",
 			},
 			{
 				address: collateral,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "balanceOf",
 				args: [account],
 			},
 			{
 				address: collateral,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "allowance",
 				args: [account, ADDRESS[chainId].mintingHub],
 			},
 			{
 				address: collateral,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "allowance",
 				args: [account, position],
 			},
@@ -121,18 +121,17 @@ export const usePositionStats = (position: Address, collateral?: Address) => {
 			// oracleFreeDollar Calls
 			{
 				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "allowance",
 				args: [account, ADDRESS[chainId].mintingHub],
 			},
 			{
 				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: erc20ABI,
+				abi: erc20Abi,
 				functionName: "balanceOf",
 				args: [account],
 			},
 		],
-		watch: true,
 	});
 
 	const collateralBal = data ? decodeBigIntCall(data[0]) : BigInt(0);
@@ -156,8 +155,8 @@ export const usePositionStats = (position: Address, collateral?: Address) => {
 	const limitForClones = data ? decodeBigIntCall(data[16]) : BigInt(0);
 	const cooldown = data ? decodeBigIntCall(data[17]) : BigInt(0);
 
-	const frankenAllowance = data ? decodeBigIntCall(data[18]) : BigInt(0);
-	const frankenBalance = data ? decodeBigIntCall(data[19]) : BigInt(0);
+	const ofdAllowance = data ? decodeBigIntCall(data[18]) : BigInt(0);
+	const ofdBalance = data ? decodeBigIntCall(data[19]) : BigInt(0);
 	const closed = collateralBal == BigInt(0);
 	const denied = cooldown == maxUint256;
 
@@ -186,10 +185,12 @@ export const usePositionStats = (position: Address, collateral?: Address) => {
 		limitForClones,
 		cooldown,
 
-		frankenAllowance,
-		frankenBalance,
+		ofdAllowance,
+		ofdBalance,
 
 		closed,
 		denied,
+
+		refetch,
 	};
 };
