@@ -34,9 +34,8 @@ export const useGovStats = (helpers?: Address[]) => {
 	});
 
 	// Fetch all blockchain stats in one web3 call using multicall
-	const { data, isError, isLoading } = useReadContracts({
+	const { data, isError, isLoading, refetch } = useReadContracts({
 		contracts: contractCalls,
-		watch: true,
 	});
 
 	const totalVotes: bigint = data ? decodeBigIntCall(data[0]) : BigInt(0);
@@ -57,5 +56,6 @@ export const useGovStats = (helpers?: Address[]) => {
 		userVotes,
 		userTotalVotes,
 		delegatedFrom,
+		refetch,
 	};
 };

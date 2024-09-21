@@ -45,9 +45,12 @@ export default function Home() {
 							strengths are its decentralization and its versatility.
 						</p>
 						<p>
-							A community of DLT afficionados - the friends of OFD - discovered Oracle Free Code Repository which is a
-							fork of <a href={"https://www.frankencoin.com/"} target="_blank">frankencoin.com</a> - but instead of the Swiss Franc it maps the USD and instead on beeing deploy on
-							Ethereum it is deployed on Binance Smart Chain.
+							A community of DLT afficionados - the friends of OFD - discovered Oracle Free Code Repository which is a fork of
+							<a href={"https://www.frankencoin.com/"} target="_blank">
+								frankencoin.com
+							</a>
+							- but instead of the Swiss Franc it maps the USD and instead on beeing deploy on Ethereum it is deployed on
+							Binance Smart Chain.
 						</p>
 						<p>
 							Unlike other collateralized stablecoins,&nbsp;

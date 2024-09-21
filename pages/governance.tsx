@@ -90,6 +90,7 @@ export default function Governance() {
 				},
 			});
 		} finally {
+			delegationStats.refetch();
 			setIsConfirming(false);
 		}
 	};

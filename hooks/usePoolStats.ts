@@ -18,7 +18,7 @@ export const usePoolStats = () => {
 		abi: ABIS.oracleFreeDollarABI,
 	};
 
-	const { data } = useReadContracts({
+	const { data, refetch } = useReadContracts({
 		contracts: [
 			// Equity Calls
 			{
@@ -73,7 +73,6 @@ export const usePoolStats = () => {
 				args: [account, ADDRESS[chainId].equity],
 			},
 		],
-		watch: true,
 	});
 
 	const equitySupply: bigint = data ? decodeBigIntCall(data[0]) : 0n;
@@ -104,5 +103,7 @@ export const usePoolStats = () => {
 		ofdEquity,
 		ofdBalance,
 		ofdAllowance,
+
+		refetch,
 	};
 };

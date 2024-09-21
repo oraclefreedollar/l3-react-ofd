@@ -9,10 +9,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSwapStats } from "@hooks";
 import { formatBigInt, shortenAddress } from "@utils";
 import Head from "next/head";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { erc20Abi, formatUnits, maxUint256 } from "viem";
-import { useChainId, useContractWrite } from "wagmi";
+import { useChainId } from "wagmi";
 import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { envConfig } from "../app.env.config";
 import { WAGMI_CONFIG } from "../app.config";
@@ -28,12 +28,20 @@ export default function Swap() {
 	const chainId = useChainId();
 	const swapStats = useSwapStats();
 
+	const fromBalance = useMemo(() => (direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats]);
+	const toBalance = useMemo(() => (!direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats]);
+	const fromSymbol = useMemo(() => (direction ? "USDT" : "OFD"), [direction]);
+	const toSymbol = useMemo(() => (!direction ? "USDT" : "OFD"), [direction]);
+	const swapLimit = useMemo(
+		() => (direction ? swapStats.bridgeLimit - swapStats.usdtBridgeBal : swapStats.usdtBridgeBal),
+		[direction, swapStats]
+	);
 
-	const handleApprove = async () => {
+	const handleApprove = useCallback(async () => {
 		try {
 			setApproving(true);
-			const approveWriteHash = await writeContract(WAGMI_CONFIG,{
-				address: ADDRESS[chainId].usdt,
+			const approveWriteHash = await writeContract(WAGMI_CONFIG, {
+				address: ADDRESS[chainId].usdt!,
 				abi: erc20Abi,
 				functionName: "approve",
 				args: [ADDRESS[chainId].bridge, maxUint256],
@@ -54,7 +62,7 @@ export default function Swap() {
 				},
 			];
 
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: approveWriteHash, confirmations: 1 }), {
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
 				pending: {
 					render: <TxToast title="Approving USDT" rows={toastContent} />,
 				},
@@ -67,19 +75,23 @@ export default function Swap() {
 					},
 				},
 			});
+		} catch (e) {
+			console.log(e);
 		} finally {
+			swapStats.refetch();
 			setApproving(false);
 		}
-	};
+	}, [chainId, swapStats]);
 
-	const handleMint = async () => {
+	const handleMint = useCallback(async () => {
 		try {
 			setMinting(true);
-			const mintWriteHash = await writeContract(WAGMI_CONFIG,{
+
+			const mintWriteHash = await writeContract(WAGMI_CONFIG, {
 				address: ADDRESS[chainId].bridge,
 				abi: ABIS.StablecoinBridgeABI,
 				functionName: "mint",
-				args: [amount]
+				args: [amount],
 			});
 
 			const toastContent = [
@@ -97,7 +109,7 @@ export default function Swap() {
 				},
 			];
 
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: mintWriteHash, confirmations: 1 }), {
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: mintWriteHash, confirmations: 1 }), {
 				pending: {
 					render: <TxToast title={`Swapping ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
 				},
@@ -110,19 +122,22 @@ export default function Swap() {
 					},
 				},
 			});
+		} catch (e) {
+			console.log(e);
 		} finally {
+			swapStats.refetch();
 			setMinting(false);
 		}
-	};
+	}, [amount, chainId, fromSymbol, swapStats, toSymbol]);
 
-	const handleBurn = async () => {
+	const handleBurn = useCallback(async () => {
 		try {
-			setBurning(true)
-			const burnWriteHash = await writeContract(WAGMI_CONFIG,{
+			setBurning(true);
+			const burnWriteHash = await writeContract(WAGMI_CONFIG, {
 				address: ADDRESS[chainId].bridge,
 				abi: ABIS.StablecoinBridgeABI,
 				functionName: "burn",
-				args: [amount]
+				args: [amount],
 			});
 
 			const toastContent = [
@@ -140,7 +155,7 @@ export default function Swap() {
 				},
 			];
 
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG,{ hash: burnWriteHash, confirmations: 1 }), {
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: burnWriteHash, confirmations: 1 }), {
 				pending: {
 					render: <TxToast title={`Swapping ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
 				},
@@ -153,33 +168,33 @@ export default function Swap() {
 					},
 				},
 			});
+		} catch (e) {
+			console.log(e);
 		} finally {
+			swapStats.refetch();
 			setBurning(false);
 		}
-	};
+	}, [amount, chainId, fromSymbol, swapStats, toSymbol]);
 
-	const fromBalance = direction ? swapStats.usdtUserBal : swapStats.ofdUserBal;
-	const toBalance = !direction ? swapStats.usdtUserBal : swapStats.ofdUserBal;
-	const fromSymbol = direction ? "USDT" : "OFD";
-	const toSymbol = !direction ? "USDT" : "OFD";
-	const swapLimit = direction ? swapStats.bridgeLimit - swapStats.usdtBridgeBal : swapStats.usdtBridgeBal;
-
-	const onChangeDirection = () => {
+	const onChangeDirection = useCallback(() => {
 		setDirection(!direction);
-	};
+	}, [direction]);
 
-	const onChangeAmount = (value: string) => {
-		const valueBigInt = BigInt(value);
-		setAmount(valueBigInt);
+	const onChangeAmount = useCallback(
+		(value: string) => {
+			const valueBigInt = BigInt(value);
+			setAmount(valueBigInt);
 
-		if (valueBigInt > fromBalance) {
-			setError(`Not enough ${fromSymbol} in your wallet.`);
-		} else if (valueBigInt > swapLimit) {
-			setError(`Not enough ${toSymbol} available to swap.`);
-		} else {
-			setError("");
-		}
-	};
+			if (valueBigInt > fromBalance) {
+				setError(`Not enough ${fromSymbol} in your wallet.`);
+			} else if (valueBigInt > swapLimit) {
+				setError(`Not enough ${toSymbol} available to swap.`);
+			} else {
+				setError("");
+			}
+		},
+		[fromBalance, fromSymbol, swapLimit, toSymbol]
+	);
 
 	return (
 		<>
@@ -228,20 +243,12 @@ export default function Swap() {
 											Approve
 										</Button>
 									) : (
-										<Button
-											disabled={amount == 0n || !!error}
-											isLoading={isMinting}
-											onClick={() => handleMint()}
-										>
+										<Button disabled={amount == 0n || !!error} isLoading={isMinting} onClick={() => handleMint()}>
 											Swap
 										</Button>
 									)
 								) : (
-									<Button
-										isLoading={isBurning}
-										disabled={amount == 0n || !!error}
-										onClick={() => handleBurn()}
-									>
+									<Button isLoading={isBurning} disabled={amount == 0n || !!error} onClick={() => handleBurn()}>
 										Swap
 									</Button>
 								)}

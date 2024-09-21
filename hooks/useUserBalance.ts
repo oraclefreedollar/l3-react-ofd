@@ -22,15 +22,17 @@ export const useUserBalance = () => {
 	const account = address || "0x0";
 
 	// Fetch all blockchain stats in one web3 call using multicall
-	const { data, isError, isLoading } = useReadContracts({
+	const { data, isError, isLoading, refetch } = useReadContracts({
 		contracts: [
 			// oracleFreeDollar Calls
 			{
+				chainId,
 				...ofdContract,
 				functionName: "balanceOf",
 				args: [account],
 			},
 			{
+				chainId,
 				...equityContract,
 				functionName: "balanceOf",
 				args: [account],
@@ -42,7 +44,8 @@ export const useUserBalance = () => {
 	const equityBalance: bigint = data ? decodeBigIntCall(data[1]) : BigInt(0);
 
 	return {
-		ofdBalance,
 		equityBalance,
+		ofdBalance,
+		refetch,
 	};
 };
