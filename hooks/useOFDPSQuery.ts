@@ -4,7 +4,7 @@ export const useOFDPSQuery = (id: string) => {
 	const { data, loading } = useQuery(
 		gql`
       query {
-        ofdPS(id: "${id}") {
+        oFDPS(id: "${id}") {
           id
           profits
           loss
@@ -14,7 +14,7 @@ export const useOFDPSQuery = (id: string) => {
     `
 	);
 
-	if (!data || !data.ofdPS) {
+	if (!data || !data.oFDPS) {
 		return {
 			profit: 0n,
 			loss: 0n,
@@ -22,7 +22,7 @@ export const useOFDPSQuery = (id: string) => {
 	}
 
 	return {
-		profit: BigInt(data.ofdPS.profits),
-		loss: BigInt(data.ofdPS.loss),
+		profit: BigInt(data.oFDPS.profits),
+		loss: BigInt(data.oFDPS.loss),
 	};
 };
