@@ -57,7 +57,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 
 	const list: PositionQuery[] = [];
 	if (data && data.positions) {
-		data.positions.items.forEach(async (p: PositionQuery) => {
+		for (const p of data.positions.items) {
 			list.push({
 				position: getAddress(p.position),
 				owner: getAddress(p.owner),
@@ -95,7 +95,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 				availableForClones: p.availableForClones,
 				minted: p.minted,
 			});
-		});
+		}
 	}
 
 	// console.log("List:", list);
