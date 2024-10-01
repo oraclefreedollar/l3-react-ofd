@@ -22,7 +22,7 @@ export const initialState: PositionsState = {
 
 	openPositions: [],
 	closedPositions: [],
-	deniedPositioins: [],
+	deniedPositions: [],
 	originalPositions: [],
 	openPositionsByOriginal: [],
 	openPositionsByCollateral: [],
@@ -68,8 +68,8 @@ export const slice = createSlice({
 
 		// SET DENIED POSITIONS
 		setDeniedPositions: (state, action: { payload: PositionQuery[] }) => {
-			if (state.deniedPositioins.length >= action.payload.length) return;
-			state.deniedPositioins = action.payload;
+			if (state.deniedPositions.length >= action.payload.length) return;
+			state.deniedPositions = action.payload;
 		},
 
 		// SET ORIGINAL POSITIONS
@@ -128,6 +128,7 @@ export const fetchPositionsList =
 		// ---------------------------------------------------------------
 		// Query raw data from Ponder Indexer
 		const list = await fetchPositions();
+		// console.log(list);
 		dispatch(slice.actions.setList(list));
 
 		// ---------------------------------------------------------------
@@ -135,15 +136,15 @@ export const fetchPositionsList =
 		const openPositions = list.filter((position) => !position.denied && !position.closed);
 		const collateralAddresses = openPositions.map((position) => position.collateral).filter(uniqueValues);
 
-		const closedPositioins = list.filter((position) => position.closed);
-		const deniedPositioins = list.filter((position) => position.denied);
+		const closedPositions = list.filter((position) => position.closed);
+		const deniedPositions = list.filter((position) => position.denied);
 		const originalPositions = openPositions.filter((position) => position.isOriginal);
 		const openPositionsByOriginal = originalPositions.map((o) => openPositions.filter((p) => p.original == o.original));
 		const openPositionsByCollateral = collateralAddresses.map((con) => openPositions.filter((position) => position.collateral == con));
 
 		dispatch(slice.actions.setOpenPositions(openPositions));
-		dispatch(slice.actions.setClosedPositions(closedPositioins));
-		dispatch(slice.actions.setDeniedPositions(deniedPositioins));
+		dispatch(slice.actions.setClosedPositions(closedPositions));
+		dispatch(slice.actions.setDeniedPositions(deniedPositions));
 		dispatch(slice.actions.setOriginalPositions(originalPositions));
 		dispatch(slice.actions.setOpenPositionsByOriginal(openPositionsByOriginal));
 		dispatch(slice.actions.setOpenPositionsByCollateral(openPositionsByCollateral));

@@ -13,7 +13,7 @@ import { SOCIAL, formatBigInt } from "../utils";
 
 export default function Home() {
 	const chainId = useChainId();
-	console.log({ chainId });
+	// console.log({ chainId });
 	const homestats = useHomeStats();
 	const ofdLinkEth = useContractUrl(ADDRESS[chainId].oracleFreeDollar);
 	// const ofdLinkPolygon = useContractUrl(ADDRESS[polygon.id].oracleFreeDollar, polygon);

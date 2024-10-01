@@ -8,7 +8,7 @@ export type PositionsState = {
 
 	openPositions: PositionQuery[];
 	closedPositions: PositionQuery[];
-	deniedPositioins: PositionQuery[];
+	deniedPositions: PositionQuery[];
 	originalPositions: PositionQuery[];
 	openPositionsByOriginal: PositionQuery[][];
 	openPositionsByCollateral: PositionQuery[][];

@@ -55,6 +55,16 @@ let fetchedPrices: PriceQueryObjectArray = {
 			usd: 1.0,
 		},
 	},
+	"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c": {
+		address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+		name: "Wrapped BNB",
+		symbol: "WBNB",
+		decimals: 18,
+		timestamp: 1716389270047,
+		price: {
+			usd: 560,
+		},
+	},
 	"0x55d398326f99059fF775485246999027B3197955": {
 		address: "0x55d398326f99059fF775485246999027B3197955",
 		name: "Binance-Peg BSC-USD",
@@ -88,14 +98,7 @@ let fetchedPrices: PriceQueryObjectArray = {
 	},
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<updateDetailsResponse>) {
-	if (fetchedPositions.length == 0) await updateDetails();
-	res.status(200).json({
-		prices: fetchedPrices,
-		addresses: fetchedAddresses,
-		infos: fetchedERC20Infos,
-	});
-}
+
 
 type updateDetailsResponse = {
 	prices: PriceQueryObjectArray;
@@ -105,6 +108,7 @@ type updateDetailsResponse = {
 
 export async function updateDetails(): Promise<updateDetailsResponse> {
 	const tmp = await fetchPositions();
+
 	if (tmp.length == 0)
 		return {
 			prices: fetchedPrices,
@@ -148,25 +152,22 @@ export async function updateDetails(): Promise<updateDetailsResponse> {
 	const prices: { [key: Address]: PriceQuery } = {};
 
 	for (let p of data) {
-		if (p.status == "rejected") continue;
-		if (p.value.status != 200) continue;
+		if (p.status == "rejected" || p.value.status != 200) continue;
 
 		const response = await p.value.json();
 
 		const contract: Address = Object.keys(response).at(0) as Address;
-		if (!contract) continue;
+		const price: PriceQueryCurrencies = response[contract];
 
-		const price: PriceQueryCurrencies = contract ? response[contract] : null;
-		if (!price) continue;
+		if (!contract || !price) continue;
 
-		const erc = erc20infos.find((i) => i.address && i.address.toLowerCase() == contract);
+		const erc = erc20infos.find((i) => i.address?.toLowerCase() == contract);
+
 		if (!erc) continue;
-
-		const timestamp = Date.now();
 
 		prices[contract] = {
 			...erc,
-			timestamp,
+			timestamp: Date.now(),
 			price,
 		};
 	}
@@ -180,5 +181,15 @@ export async function updateDetails(): Promise<updateDetailsResponse> {
 	};
 }
 
+export default async function handler(req: NextApiRequest, res: NextApiResponse<updateDetailsResponse>) {
+	if (fetchedPositions.length == 0) await updateDetails();
+	res.status(200).json({
+		prices: fetchedPrices,
+		addresses: fetchedAddresses,
+		infos: fetchedERC20Infos,
+	});
+}
+
 updateDetails();
 setInterval(updateDetails, 5 * 60 * 1000);
+
