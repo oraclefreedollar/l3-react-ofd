@@ -6,6 +6,7 @@ import { PositionQuery } from "../../redux/slices/positions.types";
 import { PriceQueryObjectArray } from "../../redux/slices/prices.types";
 import { formatCurrency } from "../../utils/format";
 import { Fragment } from "react";
+import { useTokenPriceNew } from "@hooks";
 
 export type CollateralItem = {
 	collateral: {
@@ -121,7 +122,7 @@ export default function PositionCollateral({ children }: { children?: React.Reac
 
 	return (
 		<div className="flex bg-card-header rounded-2xl px-5 py-3 my-10 space-x-8 hide-scroll-bar">
-			<div className="flex overflow-x-scroll hide-scroll-bar">
+			<div className="flex overflow-x-auto hide-scroll-bar no-scrollbar">
 				<div className="flex flex-nowrap">
 					{stats.map((c: CollateralItem, i: number) => (
 						<Fragment key={c.collateral.address}>
@@ -136,6 +137,7 @@ export default function PositionCollateral({ children }: { children?: React.Reac
 }
 
 export function PositionCollateralItem({ item }: { item: CollateralItem }): React.ReactElement {
+	const value = useTokenPriceNew(item.collateral.address);
 	return (
 		<div className="inline-block">
 			<div className="w-[20rem] h-[6rem] overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out">
@@ -148,7 +150,7 @@ export function PositionCollateralItem({ item }: { item: CollateralItem }): Reac
 							<div className="col-span-2 text-lg font-bold text-text-header">{item.collateral.symbol}</div>
 							<div className="col-span-2 text-md font-bold text-text-subheader">{item.position.totalNum} Positions</div>
 							<div className="col-span-2 text-md font-bold text-text-subheader">
-								${formatCurrency(item.collateral.valueUsd.toString(), 2)}
+								${value && formatCurrency(value.toString(), 2)}
 							</div>
 						</div>
 					</div>

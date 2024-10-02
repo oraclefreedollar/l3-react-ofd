@@ -25,7 +25,6 @@ export default function PositionTable({ showMyPos }: Props) {
 	for (const collateral in openPositionsByCollateral) {
 		openPositions.push(...openPositionsByCollateral[collateral]);
 	}
-
 	const matchingPositions = openPositions.filter((position) =>
 		showMyPos ? position.owner == account : position.owner != account && !position.denied && !position.closed
 	);
@@ -39,7 +38,7 @@ export default function PositionTable({ showMyPos }: Props) {
 				{matchingPositions.length == 0 ? (
 					<TableRowEmpty>{showMyPos ? "You don't have any positions." : "There are no other positions yet."}</TableRowEmpty>
 				) : (
-					matchingPositions.map((pos) => <PositionRow position={pos} key={pos.position} />)
+					matchingPositions.map((pos, index) => <PositionRow position={pos} key={index} />)
 				)}
 			</TableBody>
 		</Table>
