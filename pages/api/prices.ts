@@ -75,6 +75,16 @@ let fetchedPrices: PriceQueryObjectArray = {
 			usd: 2457,
 		},
 	},
+	"0x3aFc7c9a7d1aC2e78907dffB840B5a879BA17af7": {
+		address: "0x3aFc7c9a7d1aC2e78907dffB840B5a879BA17af7",
+		name: "Operal",
+		symbol: "OPRS",
+		decimals: 18,
+		timestamp: 1716389270047,
+		price: {
+			usd: 19,
+		},
+	},
 	"0x55d398326f99059fF775485246999027B3197955": {
 		address: "0x55d398326f99059fF775485246999027B3197955",
 		name: "Binance-Peg BSC-USD",

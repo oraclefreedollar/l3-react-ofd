@@ -6,7 +6,7 @@ import DisplayLabel from "@components/DisplayLabel";
 import { ABIS, ADDRESS } from "@contracts";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useChallengeListStats, useChallengeLists, useContractUrl, useOfdPrice, usePositionStats, useTokenPrice } from "@hooks";
+import { useChallengeListStats, useChallengeLists, useContractUrl, useOfdPrice, usePositionStats, useTokenPriceNew } from "@hooks";
 import { formatDate, shortenAddress } from "@utils";
 import Head from "next/head";
 import Link from "next/link";
@@ -28,7 +28,7 @@ export default function PositionDetail() {
 	const ownerLink = useContractUrl(positionStats.owner);
 	const { challenges, loading: queryLoading } = useChallengeLists({ position });
 	const { challengsData, loading } = useChallengeListStats(challenges);
-	const collateralPrice = useTokenPrice(positionStats.collateral);
+	const collateralPrice = useTokenPriceNew(positionStats.collateral);
 	const ofdPrice = useOfdPrice();
 
 	const { data: positionAssignedReserve } = useReadContract({
