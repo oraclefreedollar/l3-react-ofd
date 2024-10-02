@@ -65,6 +65,16 @@ let fetchedPrices: PriceQueryObjectArray = {
 			usd: 560,
 		},
 	},
+	"0x2170Ed0880ac9A755fd29B2688956BD959F933F8": {
+		address: "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
+		name: "Ethereum",
+		symbol: "ETH",
+		decimals: 18,
+		timestamp: 1716389270047,
+		price: {
+			usd: 2457,
+		},
+	},
 	"0x55d398326f99059fF775485246999027B3197955": {
 		address: "0x55d398326f99059fF775485246999027B3197955",
 		name: "Binance-Peg BSC-USD",

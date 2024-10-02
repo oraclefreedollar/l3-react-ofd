@@ -37,7 +37,7 @@ export default function DisplayAmount({
   };
 
   return (
-    <div className={`flex items-center ${className}`}>
+    <div className={`flex items-center gap-2 ${className}`}>
       {!hideLogo && currency && <TokenLogo currency={currency} />}
       <div>
         <div>
