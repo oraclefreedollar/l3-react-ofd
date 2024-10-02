@@ -8,6 +8,7 @@ import { RootState } from "../../redux/redux.store";
 import { PositionQuery } from "../../redux/slices/positions.types";
 import DisplayAmount from "../DisplayAmount";
 import TableRow from "../Table/TableRow";
+import { useTokenPriceNew } from "@hooks";
 
 interface Props {
 	position: PositionQuery;
@@ -19,7 +20,8 @@ export default function PositionRow({ position }: Props) {
 	const chainId = useChainId();
 	const prices = useSelector((state: RootState) => state.prices.coingecko);
 	// this price is actually the price of the OracleFreeDollar
-	const collTokenPrice = prices[position.collateral as Address]?.price?.usd;
+
+	const collTokenPrice = useTokenPriceNew(position.collateral);
 	const ofdPrice = position.ofd && prices[position.ofd as Address]?.price?.usd;
 
 	// console.log({ collTokenPrice, ofdPrice });

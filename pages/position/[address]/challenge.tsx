@@ -7,15 +7,15 @@ import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
 import TokenInput from "@components/Input/TokenInput";
 import { TxToast, renderErrorToast } from "@components/TxToast";
 import { ABIS, ADDRESS } from "@contracts";
-import { useOfdPrice, usePositionStats, useTokenPrice } from "@hooks";
+import { useOfdPrice, usePositionStats, useTokenPriceNew } from "@hooks";
 import { formatBigInt, formatDuration, shortenAddress } from "@utils";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { erc20Abi, getAddress, zeroAddress } from "viem";
-import { useAccount, useChainId, useContractWrite } from "wagmi";
-import { waitForTransaction, waitForTransactionReceipt, writeContract } from "wagmi/actions";
+import { useAccount, useChainId } from "wagmi";
+import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { envConfig } from "../../../app.env.config";
 import { WAGMI_CONFIG } from "../../../app.config";
 
@@ -33,7 +33,7 @@ export default function PositionChallenge() {
 	const account = address || zeroAddress;
 	const position = getAddress(String(positionAddr || zeroAddress));
 	const positionStats = usePositionStats(position);
-	const collateralPrice = useTokenPrice(positionStats.collateral);
+	const collateralPrice = useTokenPriceNew(positionStats.collateral);
 	const ofdPrice = useOfdPrice();
 
 	const onChangeAmount = (value: string) => {
