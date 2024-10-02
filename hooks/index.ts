@@ -1,3 +1,5 @@
+import { useTokenPriceNew } from "hooks/useTokenPriceNew";
+
 export * from "./useActiveUsersQuery";
 export * from "./useChallengeCount";
 export * from "./useChallengeList";
@@ -26,3 +28,4 @@ export * from "./useTradeQuery";
 export * from "./useTvl";
 export * from "./useUserBalance";
 export * from "./useWalletConnectStats";
+export * from "./useTokenPriceNew";

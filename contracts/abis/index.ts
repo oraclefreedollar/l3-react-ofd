@@ -5,13 +5,15 @@ import { PositionABI } from "./Position";
 import { StablecoinBridgeABI } from "./StablecoinBridge";
 import { UniswapV3PoolABI } from "./UniswapV3Pool";
 import { oracleFreeDollarABI } from "./oracleFreeDollar";
+import { ChainLinkABI } from "./ChainLink";
 
 export const ABIS = {
-	oracleFreeDollarABI,
+	ChainLinkABI,
 	EquityABI,
-	StablecoinBridgeABI,
 	MintingHubABI,
-	PositionABI,
 	MockVolABI,
+	PositionABI,
+	StablecoinBridgeABI,
 	UniswapV3PoolABI,
+	oracleFreeDollarABI,
 };
