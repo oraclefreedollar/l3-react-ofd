@@ -1,5 +1,3 @@
-import { useTokenPriceNew } from "hooks/useTokenPriceNew";
-
 export * from "./useActiveUsersQuery";
 export * from "./useChallengeCount";
 export * from "./useChallengeList";
