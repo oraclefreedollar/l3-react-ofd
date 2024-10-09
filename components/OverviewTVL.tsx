@@ -10,7 +10,7 @@ export function calcOverviewStats(listByCollateral: PositionQuery[][], prices: P
 	const stats = [];
 	for (let positions of listByCollateral) {
 		const original = positions.at(0) as PositionQuery;
-		const collateral = prices[original!.collateral as Address];
+		const collateral = prices[original!.collateral.toLowerCase()];
 		const mint = original.ofd && prices[original!.ofd as Address];
 
 		if (!collateral || !mint) continue;

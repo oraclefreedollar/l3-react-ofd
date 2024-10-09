@@ -78,7 +78,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		// Block update policy: EACH 10 BLOCKS
 		if (fetchedLatestHeight % 10 === 0) {
 			// console.log(`Policy [BlockUpdater]: EACH 10 BLOCKS ${fetchedLatestHeight}`);
-			store.dispatch(fetchPricesList(store.getState()));
+			// store.dispatch(fetchPricesList(store.getState()));
 		}
 
 		// Block update policy: EACH 100 BLOCKS

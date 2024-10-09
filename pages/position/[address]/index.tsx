@@ -6,15 +6,17 @@ import DisplayLabel from "@components/DisplayLabel";
 import { ABIS, ADDRESS } from "@contracts";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useChallengeListStats, useChallengeLists, useContractUrl, useOfdPrice, usePositionStats, useTokenPriceNew } from "@hooks";
+import { useChallengeListStats, useChallengeLists, useContractUrl, useOfdPrice, usePositionStats } from "@hooks";
 import { formatDate, shortenAddress } from "@utils";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { getAddress, zeroAddress } from "viem";
+import { Address, getAddress, zeroAddress } from "viem";
 import { useAccount, useChainId, useReadContract } from "wagmi";
 import { envConfig } from "../../../app.env.config";
 import { useCallback } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/redux.store";
 
 export default function PositionDetail() {
 	const router = useRouter();
@@ -28,7 +30,10 @@ export default function PositionDetail() {
 	const ownerLink = useContractUrl(positionStats.owner);
 	const { challenges, loading: queryLoading } = useChallengeLists({ position });
 	const { challengsData, loading } = useChallengeListStats(challenges);
-	const collateralPrice = useTokenPriceNew(positionStats.collateral);
+
+	const prices = useSelector((state: RootState) => state.prices.coingecko);
+	const collateralPrice = prices[positionStats.collateral?.toLowerCase() || zeroAddress]?.price?.usd;
+
 	const ofdPrice = useOfdPrice();
 
 	const { data: positionAssignedReserve } = useReadContract({
