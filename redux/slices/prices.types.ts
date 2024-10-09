@@ -22,9 +22,7 @@ export type PriceQuery = ERC20Info & {
 	price: PriceQueryCurrencies;
 };
 
-export type PriceQueryObjectArray = {
-	[key: Address]: PriceQuery;
-};
+export type PriceQueryObjectArray = Record<string, PriceQuery>;
 
 // --------------------------------------------------------------------------------
 export type DispatchBoolean = {
