@@ -7,7 +7,7 @@ import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
 import TokenInput from "@components/Input/TokenInput";
 import { TxToast, renderErrorToast } from "@components/TxToast";
 import { ABIS, ADDRESS } from "@contracts";
-import { useOfdPrice, usePositionStats, useTokenPriceNew } from "@hooks";
+import { useOfdPrice, usePositionStats } from "@hooks";
 import { formatBigInt, formatDuration, shortenAddress } from "@utils";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -18,6 +18,8 @@ import { useAccount, useChainId } from "wagmi";
 import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { envConfig } from "../../../app.env.config";
 import { WAGMI_CONFIG } from "../../../app.config";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/redux.store";
 
 export default function PositionChallenge() {
 	const router = useRouter();
@@ -33,7 +35,8 @@ export default function PositionChallenge() {
 	const account = address || zeroAddress;
 	const position = getAddress(String(positionAddr || zeroAddress));
 	const positionStats = usePositionStats(position);
-	const collateralPrice = useTokenPriceNew(positionStats.collateral);
+	const prices = useSelector((state: RootState) => state.prices.coingecko);
+	const collateralPrice = prices[positionStats.collateral?.toLowerCase() ?? zeroAddress]?.price?.usd;
 	const ofdPrice = useOfdPrice();
 
 	const onChangeAmount = (value: string) => {

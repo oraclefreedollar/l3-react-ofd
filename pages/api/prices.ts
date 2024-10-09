@@ -2,48 +2,16 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Address } from "viem";
 import { clientCoingecko } from "../../app.config";
 import { ERC20Info, PositionQuery } from "../../redux/slices/positions.types";
-import { PriceQuery, PriceQueryCurrencies, PriceQueryObjectArray } from "../../redux/slices/prices.types";
+import { PriceQueryCurrencies, PriceQueryObjectArray } from "../../redux/slices/prices.types";
 import { uniqueValues } from "../../utils/format-array";
 import { fetchPositions } from "./positions";
+import { Contracts } from "@utils";
 
 // forced init caching of ERC20Infos
 // solves development mode caching issue with coingecko free plan
 let fetchedPositions: PositionQuery[] = [];
-let fetchedAddresses: Address[] = [
-	"0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E", //OFD
-	"0x55d398326f99059fF775485246999027B3197955", //BSC-USD
-
-	"0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8", //test OFD
-	"0x887C14bc51705Eb11E238631a24B4d6305a7B6BD", //test BSC-USD
-];
-let fetchedERC20Infos: ERC20Info[] = [
-	{
-		address: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E",
-		name: "oracleFreeDollar",
-		symbol: "OFD",
-		decimals: 18,
-	},
-	{
-		address: "0x55d398326f99059fF775485246999027B3197955",
-		name: "Binance-Peg BSC-USD",
-		symbol: "BSC-USD",
-		decimals: 18,
-	},
-
-	//Test Tokens
-	{
-		address: "0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8",
-		name: "oracleFreeDollar",
-		symbol: "OFD",
-		decimals: 18,
-	},
-	{
-		address: "0x887C14bc51705Eb11E238631a24B4d6305a7B6BD",
-		name: "Binance-Peg BSC-USD",
-		symbol: "BSC-USD",
-		decimals: 18,
-	},
-];
+let fetchedAddresses: Address[] = [];
+let fetchedERC20Infos: ERC20Info[] = [];
 let fetchedPrices: PriceQueryObjectArray = {
 	"0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E": {
 		address: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E",
@@ -55,70 +23,7 @@ let fetchedPrices: PriceQueryObjectArray = {
 			usd: 1.0,
 		},
 	},
-	"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c": {
-		address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
-		name: "Wrapped BNB",
-		symbol: "WBNB",
-		decimals: 18,
-		timestamp: 1716389270047,
-		price: {
-			usd: 560,
-		},
-	},
-	"0x2170Ed0880ac9A755fd29B2688956BD959F933F8": {
-		address: "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
-		name: "Ethereum",
-		symbol: "ETH",
-		decimals: 18,
-		timestamp: 1716389270047,
-		price: {
-			usd: 2457,
-		},
-	},
-	"0x3aFc7c9a7d1aC2e78907dffB840B5a879BA17af7": {
-		address: "0x3aFc7c9a7d1aC2e78907dffB840B5a879BA17af7",
-		name: "Operal",
-		symbol: "OPRS",
-		decimals: 18,
-		timestamp: 1716389270047,
-		price: {
-			usd: 19,
-		},
-	},
-	"0x55d398326f99059fF775485246999027B3197955": {
-		address: "0x55d398326f99059fF775485246999027B3197955",
-		name: "Binance-Peg BSC-USD",
-		symbol: "BSC-USD",
-		decimals: 18,
-		timestamp: 1716389270047,
-		price: {
-			usd: 1.0,
-		},
-	},
-	//Test Token
-	"0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8": {
-		address: "0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8",
-		name: "oracleFreeDollar",
-		symbol: "OFD",
-		decimals: 18,
-		timestamp: 1716389270047,
-		price: {
-			usd: 1.0,
-		},
-	},
-	"0x887C14bc51705Eb11E238631a24B4d6305a7B6BD": {
-		address: "0x887C14bc51705Eb11E238631a24B4d6305a7B6BD",
-		name: "Binance-Peg BSC-USD",
-		symbol: "BSC-USD",
-		decimals: 18,
-		timestamp: 1716389270047,
-		price: {
-			usd: 1.0,
-		},
-	},
 };
-
-
 
 type updateDetailsResponse = {
 	prices: PriceQueryObjectArray;
@@ -126,10 +31,17 @@ type updateDetailsResponse = {
 	infos: ERC20Info[];
 };
 
+type FetchFunction = () => Promise<void>;
+
+export const fetchExternalPrices: Record<Address, FetchFunction>= {
+	"0x3aFc7c9a7d1aC2e78907dffB840B5a879BA17af7": () => Contracts.Prices.oprs(fetchedERC20Infos, fetchedPrices),
+	"0x09A1aD50Ac7B8ddD40bAfa819847Ab1Ea6974a4f": () =>  Contracts.Prices.swissDLT(fetchedERC20Infos, fetchedPrices)
+}
+
 export async function updateDetails(): Promise<updateDetailsResponse> {
 	const tmp = await fetchPositions();
 
-	if (tmp.length == 0)
+	if (tmp.length === 0)
 		return {
 			prices: fetchedPrices,
 			addresses: fetchedAddresses,
@@ -141,7 +53,7 @@ export async function updateDetails(): Promise<updateDetailsResponse> {
 	const mintAddress = fetchedPositions.at(-1)!.ofd;
 	fetchedAddresses = [mintAddress, ...collateralAddresses];
 
-	const erc20infos = [
+	fetchedERC20Infos = [
 		{
 			address: fetchedPositions.at(-1)!.ofd,
 			name: fetchedPositions.at(-1)!.ofdName,
@@ -153,46 +65,42 @@ export async function updateDetails(): Promise<updateDetailsResponse> {
 	for (let addr of fetchedAddresses) {
 		const data = fetchedPositions.find((p) => p.collateral == addr);
 		if (data)
-			erc20infos.push({
+			fetchedERC20Infos.push({
 				address: addr,
 				name: data.collateralName,
 				symbol: data.collateralSymbol,
 				decimals: data.collateralDecimals,
 			});
 	}
-	fetchedERC20Infos = erc20infos;
 
-	const fetchSourcesCoingecko = async function (contracts: Address[]) {
-		const url = (addr: Address) => `/api/v3/simple/token_price/ethereum?contract_addresses=${addr}&vs_currencies=usd`;
-		return contracts.map(async (c) => await clientCoingecko(url(c)));
-	};
 
-	// fetch from coingecko
-	const data = await Promise.allSettled(await fetchSourcesCoingecko(fetchedAddresses));
-	const prices: { [key: Address]: PriceQuery } = {};
+	const fetchCoinGecko = async function (originalContract: Address): Promise<void> {
+		const contract = Contracts.Constants.toBridgedContract[originalContract] ?? originalContract;
+		const platform = Contracts.Constants.coingeckoPlatforms[contract] ?? "binance-smart-chain";
 
-	for (let p of data) {
-		if (p.status == "rejected" || p.value.status != 200) continue;
+		const url = (addr: Address) => `/api/v3/simple/token_price/${platform}?contract_addresses=${addr}&vs_currencies=usd`;
+		const data = await clientCoingecko(url(contract))
 
-		const response = await p.value.json();
+		if (data.status !== 200) return;
 
-		const contract: Address = Object.keys(response).at(0) as Address;
-		const price: PriceQueryCurrencies = response[contract];
+		const response = await data.json();
+		const price: PriceQueryCurrencies = response[contract.toLowerCase()];
 
-		if (!contract || !price) continue;
+		if (!contract || !price) return;
 
-		const erc = erc20infos.find((i) => i.address?.toLowerCase() == contract);
+		const erc = fetchedERC20Infos.find((i) => i.address?.toLowerCase() == contract.toLowerCase());
+		if (!erc) return;
 
-		if (!erc) continue;
-
-		prices[contract] = {
+		fetchedPrices[contract.toLowerCase()] = {
 			...erc,
 			timestamp: Date.now(),
 			price,
 		};
+		return Promise.resolve()
 	}
 
-	fetchedPrices = { ...fetchedPrices, ...prices };
+	// fetch prices from external resources
+	await Promise.allSettled(fetchedAddresses.map(async (c) => fetchExternalPrices[c]?.() ?? await fetchCoinGecko(c)));
 
 	return {
 		prices: fetchedPrices,
@@ -210,6 +118,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 	});
 }
 
-updateDetails();
-setInterval(updateDetails, 5 * 60 * 1000);
+//updateDetails();
+//setInterval(updateDetails, 5 * 60 * 1000);
 
