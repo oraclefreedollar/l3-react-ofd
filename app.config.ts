@@ -15,7 +15,9 @@ export const RPC_URL_TESTNET = envConfig.RPC_URL_TESTNET;
 
 // API KEYS
 // FIXME: move to env or white list domain
-export const COINGECKO_API_KEY = envConfig.COINGECKO_API_KEY; // demo key @samclassix
+export const COINGECKO_API_KEY = envConfig.COINGECKO_API_KEY;
+
+export const THE_GRAPH_KEY = envConfig.THE_GRAPH_KEY;
 
 // WAGMI CONFIG
 // FIXME: move to env or white list domain
@@ -63,7 +65,10 @@ export const clientPonder = new ApolloClient({
 
 // COINGECKO CLIENT
 export const clientCoingecko = (query: string) => {
-	const hasParams = query.includes("?");
 	const uri: string = `https://api.coingecko.com${query}`;
-	return fetch(hasParams ? `${uri}&${COINGECKO_API_KEY}` : `${uri}?${COINGECKO_API_KEY}`);
+	const options = {
+		method: 'GET',
+		headers: {accept: 'application/json', 'x-cg-demo-api-key': COINGECKO_API_KEY}
+	}
+	return fetch(uri, options);
 };

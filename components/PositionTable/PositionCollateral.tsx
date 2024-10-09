@@ -3,10 +3,9 @@ import { useSelector } from "react-redux";
 import { Address } from "viem";
 import { RootState } from "../../redux/redux.store";
 import { PositionQuery } from "../../redux/slices/positions.types";
-import { PriceQueryObjectArray } from "../../redux/slices/prices.types";
 import { formatCurrency } from "../../utils/format";
 import { Fragment } from "react";
-import { useTokenPriceNew } from "@hooks";
+import { getAddress } from "viem";
 
 export type CollateralItem = {
 	collateral: {
@@ -40,12 +39,16 @@ export type CollateralItem = {
 	};
 };
 
-export function PositionCollateralCalculate(listByCollateral: PositionQuery[][], prices: PriceQueryObjectArray): CollateralItem[] {
+export function PositionCollateralCalculate(): CollateralItem[] {
+	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions);
+	const { coingecko } = useSelector((state: RootState) => state.prices);
+
 	const stats: CollateralItem[] = [];
-	for (let positions of listByCollateral) {
+
+	for (let positions of openPositionsByCollateral) {
 		const original = positions.at(0) as PositionQuery;
-		const collateral = prices[original!.collateral as Address];
-		const mint = original.ofd && prices[original!.ofd as Address];
+		const collateral = coingecko[original!.collateral.toLowerCase()];
+		const mint = original.ofd && coingecko[original!.ofd];
 
 		if (!collateral || !mint) continue;
 
@@ -116,9 +119,9 @@ export function PositionCollateralCalculate(listByCollateral: PositionQuery[][],
 }
 
 export default function PositionCollateral({ children }: { children?: React.ReactElement | React.ReactElement[] }) {
-	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions);
-	const { coingecko } = useSelector((state: RootState) => state.prices);
-	const stats = PositionCollateralCalculate(openPositionsByCollateral, coingecko);
+	const stats = PositionCollateralCalculate();
+
+	if (!stats.length) return null;
 
 	return (
 		<div className="flex bg-card-header rounded-2xl px-5 py-3 my-10 space-x-8 hide-scroll-bar">
@@ -126,8 +129,8 @@ export default function PositionCollateral({ children }: { children?: React.Reac
 				<div className="flex flex-nowrap">
 					{stats.map((c: CollateralItem, i: number) => (
 						<Fragment key={c.collateral.address}>
-							<PositionCollateralItem item={c} key={c.collateral.address} />
-							{i === stats.length - 1 ? null : <PositionCollateralItemSeperator key={c.collateral.address} />}
+							<PositionCollateralItem item={c} />
+							{i === stats.length - 1 ? null : <PositionCollateralItemSeparator />}
 						</Fragment>
 					))}
 				</div>
@@ -137,7 +140,6 @@ export default function PositionCollateral({ children }: { children?: React.Reac
 }
 
 export function PositionCollateralItem({ item }: { item: CollateralItem }): React.ReactElement {
-	const value = useTokenPriceNew(item.collateral.address);
 	return (
 		<div className="inline-block">
 			<div className="w-[20rem] h-[6rem] overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out">
@@ -150,7 +152,7 @@ export function PositionCollateralItem({ item }: { item: CollateralItem }): Reac
 							<div className="col-span-2 text-lg font-bold text-text-header">{item.collateral.symbol}</div>
 							<div className="col-span-2 text-md font-bold text-text-subheader">{item.position.totalNum} Positions</div>
 							<div className="col-span-2 text-md font-bold text-text-subheader">
-								${value && formatCurrency(value.toString(), 2)}
+								${formatCurrency(item.collateral.valueUsd.toString(), 2)}
 							</div>
 						</div>
 					</div>
@@ -172,6 +174,6 @@ export function PositionCollateralItem({ item }: { item: CollateralItem }): Reac
 	);
 }
 
-export function PositionCollateralItemSeperator(): React.ReactElement {
+export function PositionCollateralItemSeparator(): React.ReactElement {
 	return <div className="bg-card-secondary w-[2px] h-[90%] mx-5 my-auto"></div>;
 }
