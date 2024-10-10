@@ -1,28 +1,21 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/redux.store";
+import { PositionQuery } from "../redux/slices/positions.types";
+import { useMemo } from "react";
 
-export const useTvl = <T>(options?: AxiosRequestConfig) => {
-	const url = "https://api.llama.fi/tvl/oracleFreeDollar";
-	const [data, setData] = useState<T | null>(null);
-	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState<any>(null);
+export const useTvl = (): number => {
+	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions);
+	const prices = useSelector((state: RootState) => state.prices.coingecko);
 
-	const fetchData = async () => {
-		setIsLoading(true);
+	const openPositions = useMemo<Array<PositionQuery>>(() => {
+		return openPositionsByCollateral.reduce((acc, positions) => {
+			return [...acc, ...positions];
+		});
+	}, [openPositionsByCollateral]);
 
-		try {
-			const response: AxiosResponse<T> = await axios(url, options);
-			setData(response.data);
-		} catch (error) {
-			setError(error);
-		}
-
-		setIsLoading(false);
-	};
-
-	useEffect(() => {
-		fetchData();
-	}, []);
-
-	return { data, isLoading, error };
+	return useMemo<number>(() =>  openPositions.reduce((sum, position) => {
+		const collateralUSDPrice = prices[position.collateral.toLowerCase()]?.price?.usd;
+		const collateralBalance = parseInt(position.collateralBalance) / 10 ** position.collateralDecimals;
+		return sum + (Math.round(collateralBalance) * collateralUSDPrice || 0);
+	}, 0), [openPositions, prices]);
 };

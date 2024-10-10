@@ -21,7 +21,7 @@ export default function Home() {
 	// const ofdLinkOp = useContractUrl(ADDRESS[optimism.id].oracleFreeDollar, optimism);
 	const ofdPrice = useOfdPrice();
 
-	const tvlData = useTvl<number>();
+	const tvlData = useTvl();
 	const positionData = usePositionLists();
 	const challengeCount = useChallengeCount();
 
@@ -105,7 +105,7 @@ export default function Home() {
 						<a href={SOCIAL.DefiLlama} target="_blank">
 							<DisplayLabel label="Total Value Locked" className="underline" />
 						</a>
-						<div className="mt-2 text-right">{formatBigInt(parseUnits(tvlData.data?.toString() || "0", 18), 18, 0)} USD</div>
+						<div className="mt-2 text-right">{formatBigInt(parseUnits(tvlData?.toString() || "0", 18), 18, 0)} USD</div>
 					</AppBox>
 					<AppBox className="col-span-6 sm:col-span-4">
 						<Link href={"/positions"}>
