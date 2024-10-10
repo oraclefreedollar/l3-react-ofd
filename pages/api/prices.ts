@@ -10,8 +10,24 @@ import { Contracts } from "@utils";
 // forced init caching of ERC20Infos
 // solves development mode caching issue with coingecko free plan
 let fetchedPositions: PositionQuery[] = [];
-let fetchedAddresses: Address[] = [];
-let fetchedERC20Infos: ERC20Info[] = [];
+let fetchedAddresses: Address[] = [
+	"0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8", //test OFD
+	"0x887C14bc51705Eb11E238631a24B4d6305a7B6BD", //test BSC-USD
+];
+let fetchedERC20Infos: ERC20Info[] = [
+	{
+		address: "0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8",
+		name: "oracleFreeDollar",
+		symbol: "OFD",
+		decimals: 18,
+	},
+	{
+		address: "0x887C14bc51705Eb11E238631a24B4d6305a7B6BD",
+		name: "Binance-Peg BSC-USD",
+		symbol: "BSC-USD",
+		decimals: 18,
+	},
+];
 let fetchedPrices: PriceQueryObjectArray = {
 	"0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E": {
 		address: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E",
@@ -23,6 +39,27 @@ let fetchedPrices: PriceQueryObjectArray = {
 			usd: 1.0,
 		},
 	},
+	//Test Token
+	"0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8": {
+		address: "0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8",
+		name: "oracleFreeDollar",
+		symbol: "OFD",
+		decimals: 18,
+		timestamp: 1716389270047,
+		price: {
+			usd: 1.0,
+		},
+	},
+	"0x887C14bc51705Eb11E238631a24B4d6305a7B6BD": {
+		address: "0x887C14bc51705Eb11E238631a24B4d6305a7B6BD",
+		name: "Binance-Peg BSC-USD",
+		symbol: "BSC-USD",
+		decimals: 18,
+		timestamp: 1716389270047,
+		price: {
+			usd: 1.0,
+		},
+	}
 };
 
 type updateDetailsResponse = {
@@ -87,11 +124,11 @@ export async function updateDetails(): Promise<updateDetailsResponse> {
 		const price: PriceQueryCurrencies = response[contract.toLowerCase()];
 
 		if (!contract || !price) return;
+		const erc = fetchedERC20Infos.find((i) => i.address?.toLowerCase() == originalContract.toLowerCase());
 
-		const erc = fetchedERC20Infos.find((i) => i.address?.toLowerCase() == contract.toLowerCase());
 		if (!erc) return;
 
-		fetchedPrices[contract.toLowerCase()] = {
+		fetchedPrices[originalContract.toLowerCase()] = {
 			...erc,
 			timestamp: Date.now(),
 			price,
