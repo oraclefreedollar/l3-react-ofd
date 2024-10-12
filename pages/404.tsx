@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { SOCIAL } from '@utils'
+import { SOCIAL } from 'utils'
 import { envConfig } from 'app.env.config'
 
 export default function Custom404() {

@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import OverviewTVL from '@components/OverviewTVL'
-import AppPageHeader from '@components/AppPageHeader'
+import OverviewTVL from 'components/OverviewTVL'
+import AppPageHeader from 'components/AppPageHeader'
 import { envConfig } from 'app.env.config'
 
 export default function Overview() {
