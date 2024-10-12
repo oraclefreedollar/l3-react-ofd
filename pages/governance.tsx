@@ -193,7 +193,6 @@ export default function Governance() {
 							{votingPowers.votesData.map((power) => (
 								<OFDPSHolder
 									holder={power.holder}
-									id={power.holder}
 									key={power.holder}
 									ofdps={power.ofdps}
 									totalVotingPower={votingPowers.totalVotes}

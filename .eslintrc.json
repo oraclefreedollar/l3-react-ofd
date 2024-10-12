@@ -13,6 +13,7 @@
   },
   "plugins": ["simple-import-sort", "unused-imports"],
   "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": [2, { "argsIgnorePattern": "^_" }],
     "no-unused-vars": "off",
     "prettier/prettier": 1,
@@ -27,6 +28,7 @@
         "shorthandLast": false
       }
     ],
+    "unused-imports/no-unused-imports": "error",
     "react/react-in-jsx-scope": "off"
   }
 }
