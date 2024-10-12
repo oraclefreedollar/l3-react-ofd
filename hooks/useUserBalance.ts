@@ -2,7 +2,7 @@ import { ABIS, ADDRESS } from 'contracts'
 import { decodeBigIntCall } from 'utils'
 import { useAccount, useChainId, useReadContracts } from 'wagmi'
 
-export const useUserBalance: () => { equityBalance: bigint; refetch: unknown; ofdBalance: bigint } = () => {
+export const useUserBalance: () => { equityBalance: bigint; refetch: any; ofdBalance: bigint } = () => {
 	const chainId = useChainId()
 
 	const { address } = useAccount()

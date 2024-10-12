@@ -9,7 +9,7 @@ export const useSwapStats: () => {
 	ofdSymbol: string
 	ofdUserAllowance: bigint
 	ofdUserBal: bigint
-	refetch: unknown
+	refetch: any
 	usdtBridgeBal: bigint
 	usdtSymbol: string
 	usdtUserAllowance: bigint

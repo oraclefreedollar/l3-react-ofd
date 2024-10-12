@@ -12,7 +12,7 @@ export const usePositionStats: (
 	liqPrice: bigint
 	available: bigint
 	annualInterestPPM: bigint
-	refetch: unknown
+	refetch: any
 	collateralUserBal: bigint
 	collateralBal: bigint
 	ofdAllowance: bigint

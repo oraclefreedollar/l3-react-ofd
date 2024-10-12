@@ -10,7 +10,7 @@ export const useTokenData: (addr: string) => {
 	balance: bigint
 	decimals: bigint
 	name: string
-	refetch: unknown
+	refetch: any
 	symbol: string
 } = (addr: string) => {
 	if (!isAddress(addr)) addr = zeroAddress
