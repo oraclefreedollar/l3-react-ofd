@@ -4,28 +4,18 @@ import Link from 'next/link'
 import { Address } from 'viem'
 
 interface Props {
-	position: Address
-	challenger: Address
+	// challenger: Address
+	// duration: bigint
+	auctionEnd: bigint
 	challengeSize: bigint
 	filledSize: bigint
 	fixedEnd: bigint
-	auctionEnd: bigint
-	duration: bigint
-	price: bigint
 	index: bigint
+	position: Address
+	price: bigint
 }
 
-export default function ChallengeRow({
-	position,
-	challenger,
-	challengeSize,
-	filledSize,
-	fixedEnd,
-	auctionEnd,
-	duration,
-	price,
-	index,
-}: Props) {
+export default function ChallengeRow({ auctionEnd, challengeSize, filledSize, fixedEnd, index, position, price }: Props) {
 	const positionStats = usePositionStats(position)
 	const isFixedEnd = isDateExpired(fixedEnd)
 	const isAuctionExpired = isDateExpired(auctionEnd)

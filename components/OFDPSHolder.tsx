@@ -4,14 +4,13 @@ import AddressLabel from './AddressLabel'
 import AppBox from './AppBox'
 
 interface Props {
-	id: string
 	holder: Address
 	ofdps: bigint
 	votingPower: bigint
 	totalVotingPower: bigint
 }
 
-export default function OFDPSHolder({ id, holder, ofdps, votingPower, totalVotingPower }: Props) {
+export default function OFDPSHolder({ holder, ofdps, votingPower, totalVotingPower }: Props) {
 	return (
 		<AppBox className="hover:bg-slate-700 duration-300 flex grid grid-cols-1 sm:grid-cols-3">
 			<div className="col-span-1">

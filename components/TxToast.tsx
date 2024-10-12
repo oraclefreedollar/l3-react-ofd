@@ -18,12 +18,8 @@ export const renderErrorToast = (error: any) => {
 	)
 }
 
-export const TxToast = (props: {
-	title: string
-	rows: { title: string; value?: string | JSX.Element; hash?: Hash }[]
-	success?: boolean
-}) => {
-	const { title, rows, success = true } = props
+export const TxToast = (props: { title: string; rows: { title: string; value?: string | JSX.Element; hash?: Hash }[] }) => {
+	const { title, rows } = props
 	const { chain } = useAccount()
 	let reasonLine: number
 

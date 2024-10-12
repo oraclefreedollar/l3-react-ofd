@@ -27,9 +27,9 @@ export default function ChallengeTable({ challenges, noContentText, loading }: P
 					challenges.map((challenge) => (
 						<ChallengeRow
 							auctionEnd={challenge.auctionEnd}
-							challenger={challenge.challenger}
+							// challenger={challenge.challenger}
 							challengeSize={challenge.size}
-							duration={challenge.duration}
+							// duration={challenge.duration}
 							filledSize={challenge.filledSize}
 							fixedEnd={challenge.fixedEnd}
 							index={challenge.index}

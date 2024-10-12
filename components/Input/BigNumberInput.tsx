@@ -55,7 +55,7 @@ export function BigNumberInput({
 			const node = inputRef.current as HTMLInputElement
 			node.focus()
 		}
-	}, [autofocus, inputRef])
+	}, [autofocus, inputRef, renderInput])
 
 	const updateValue = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.currentTarget

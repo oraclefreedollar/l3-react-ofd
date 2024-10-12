@@ -38,7 +38,7 @@ export default function PositionTable({ showMyPos }: Props) {
 				{matchingPositions.length == 0 ? (
 					<TableRowEmpty>{showMyPos ? "You don't have any positions." : 'There are no other positions yet.'}</TableRowEmpty>
 				) : (
-					matchingPositions.map((pos, index) => <PositionRow key={pos.position} position={pos} />)
+					matchingPositions.map((pos) => <PositionRow key={pos.position} position={pos} />)
 				)}
 			</TableBody>
 		</Table>

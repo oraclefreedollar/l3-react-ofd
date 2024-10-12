@@ -12,21 +12,21 @@ import Button from './Button'
 import { TxToast, renderErrorToast } from './TxToast'
 import { WAGMI_CONFIG } from 'app.config'
 
-interface Props {
+type Props = {
 	minter: Minter
 	helpers: Address[]
 }
 
-interface Minter {
+type Minter = {
+	applicationFee: bigint
+	applicationPeriod: bigint
+	applyDate: bigint
+	applyMessage: string
+	denyDate: string
+	denyMessage: string
 	id: string
 	minter: Address
-	applicationPeriod: bigint
-	applicationFee: bigint
-	applyMessage: string
-	applyDate: bigint
 	suggestor: string
-	denyMessage: string
-	denyDate: string
 	vetor: string
 }
 

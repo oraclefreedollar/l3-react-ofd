@@ -73,7 +73,8 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		// Block update policy: EACH BLOCK
 		// console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
 		store.dispatch(fetchPositionsList())
-		if (latestAddress) store.dispatch(fetchAccount(latestAddress))
+		// TODO: check if needed
+		if (latestAddress) store.dispatch(fetchAccount())
 
 		// Block update policy: EACH 10 BLOCKS
 		if (fetchedLatestHeight % 10 === 0) {
@@ -121,7 +122,8 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		} else if (address && !latestAddress) {
 			setLatestAddress(address)
 			console.log(`Policy [BlockUpdater]: Address changed to: ${address}`)
-			store.dispatch(fetchAccount(address))
+			// TODO: check if needed
+			store.dispatch(fetchAccount())
 		}
 	}, [address, latestAddress])
 

@@ -1,30 +1,26 @@
 import { BigNumberInput } from './BigNumberInput'
 
 interface Props {
-	label?: string
-	symbol: string
-	placeholder?: string
 	balanceLabel?: string
-	max?: bigint
 	digit?: bigint | number
+	error?: string
 	hideMaxLabel?: boolean
+	label?: string
 	limit?: bigint
 	limitLabel?: string
-	output?: string
-	note?: string
-	value?: string
 	onChange?: (value: string) => void
-	error?: string
+	output?: string
+	placeholder?: string
+	symbol: string
+	value?: string
 }
 
 export default function NormalInput({
 	label = 'Send',
 	placeholder = 'Input Amount',
 	symbol,
-	max = 0n,
 	digit = 18n,
 	output,
-	note,
 	value,
 	onChange,
 	error,
