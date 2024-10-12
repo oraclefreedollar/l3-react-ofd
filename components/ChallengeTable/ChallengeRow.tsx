@@ -1,43 +1,33 @@
-import { usePositionStats } from "@hooks";
-import { formatBigInt, formatDate, formatDuration, isDateExpired } from "@utils";
-import Link from "next/link";
-import { Address } from "viem";
+import { usePositionStats } from 'hooks'
+import { formatBigInt, formatDate, formatDuration, isDateExpired } from 'utils'
+import Link from 'next/link'
+import { Address } from 'viem'
 
 interface Props {
-	position: Address;
-	challenger: Address;
-	challengeSize: bigint;
-	filledSize: bigint;
-	fixedEnd: bigint;
-	auctionEnd: bigint;
-	duration: bigint;
-	price: bigint;
-	index: bigint;
+	// challenger: Address
+	// duration: bigint
+	auctionEnd: bigint
+	challengeSize: bigint
+	filledSize: bigint
+	fixedEnd: bigint
+	index: bigint
+	position: Address
+	price: bigint
 }
 
-export default function ChallengeRow({
-	position,
-	challenger,
-	challengeSize,
-	filledSize,
-	fixedEnd,
-	auctionEnd,
-	duration,
-	price,
-	index,
-}: Props) {
-	const positionStats = usePositionStats(position);
-	const isFixedEnd = isDateExpired(fixedEnd);
-	const isAuctionExpired = isDateExpired(auctionEnd);
+export default function ChallengeRow({ auctionEnd, challengeSize, filledSize, fixedEnd, index, position, price }: Props) {
+	const positionStats = usePositionStats(position)
+	const isFixedEnd = isDateExpired(fixedEnd)
+	const isAuctionExpired = isDateExpired(auctionEnd)
 
-	const filledRate = challengeSize ? (filledSize * 10000n) / challengeSize : 0n;
+	const filledRate = challengeSize ? (filledSize * 10000n) / challengeSize : 0n
 
-	const stateText = !isFixedEnd ? "Fixed Price Phase" : !isAuctionExpired ? "Declining Price Phase" : "Zero Price Phase";
+	const stateText = !isFixedEnd ? 'Fixed Price Phase' : !isAuctionExpired ? 'Declining Price Phase' : 'Zero Price Phase'
 	const priceText = !isFixedEnd
-		? "Price starts falling in " + formatDuration(fixedEnd - BigInt(Math.floor(Date.now() / 1000)))
+		? 'Price starts falling in ' + formatDuration(fixedEnd - BigInt(Math.floor(Date.now() / 1000)))
 		: !isAuctionExpired
-		? "Zero is reached in " + formatDuration(auctionEnd - BigInt(Math.floor(Date.now() / 1000)))
-		: "Reached zero at " + formatDate(auctionEnd);
+			? 'Zero is reached in ' + formatDuration(auctionEnd - BigInt(Math.floor(Date.now() / 1000)))
+			: 'Reached zero at ' + formatDate(auctionEnd)
 
 	return (
 		<Link
@@ -57,7 +47,7 @@ export default function ChallengeRow({
 				</div>
 				<div className="text-right">
 					<div className="text-sm">State</div>
-					<div className={`font-bold ${isAuctionExpired ? "text-gray-300" : "text-green-300"}`}>{stateText}</div>
+					<div className={`font-bold ${isAuctionExpired ? 'text-gray-300' : 'text-green-300'}`}>{stateText}</div>
 				</div>
 			</div>
 			<div className="text-sm text-gray text-right">{priceText}</div>
@@ -70,10 +60,9 @@ export default function ChallengeRow({
 			<div className="flex">
 				<span>{formatBigInt(filledRate, 2)} %</span>
 				<span className="ml-auto">
-					{formatBigInt(filledSize, positionStats.collateralDecimal)} /{" "}
-					{formatBigInt(challengeSize, positionStats.collateralDecimal)}
+					{formatBigInt(filledSize, positionStats.collateralDecimal)} / {formatBigInt(challengeSize, positionStats.collateralDecimal)}
 				</span>
 			</div>
 		</Link>
-	);
+	)
 }

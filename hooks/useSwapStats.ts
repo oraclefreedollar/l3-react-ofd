@@ -1,42 +1,52 @@
-import { ABIS, ADDRESS } from "@contracts";
-import { decodeBigIntCall } from "@utils";
-import { useAccount, useReadContracts } from "wagmi";
-import { erc20Abi } from "viem";
-import { WAGMI_CHAIN } from "../app.config";
+import { ABIS, ADDRESS } from 'contracts'
+import { decodeBigIntCall } from 'utils'
+import { useAccount, useReadContracts } from 'wagmi'
+import { erc20Abi } from 'viem'
+import { WAGMI_CHAIN } from 'app.config'
 
-export const useSwapStats = () => {
-	const chainId = WAGMI_CHAIN.id as number;
-	const { address } = useAccount();
-	const account = address || "0x0";
+export const useSwapStats: () => {
+	bridgeLimit: bigint
+	ofdSymbol: string
+	ofdUserAllowance: bigint
+	ofdUserBal: bigint
+	refetch: any
+	usdtBridgeBal: bigint
+	usdtSymbol: string
+	usdtUserAllowance: bigint
+	usdtUserBal: bigint
+} = () => {
+	const chainId = WAGMI_CHAIN.id as number
+	const { address } = useAccount()
+	const account = address || '0x0'
 
-	const { data, isError, isLoading, refetch } = useReadContracts({
+	const { data, refetch } = useReadContracts({
 		contracts: [
 			// USDT Calls
 			{
 				chainId,
 				address: ADDRESS[chainId].usdt,
 				abi: erc20Abi,
-				functionName: "balanceOf",
+				functionName: 'balanceOf',
 				args: [account],
 			},
 			{
 				chainId,
 				address: ADDRESS[chainId].usdt,
 				abi: erc20Abi,
-				functionName: "symbol",
+				functionName: 'symbol',
 			},
 			{
 				chainId,
 				address: ADDRESS[chainId].usdt,
 				abi: erc20Abi,
-				functionName: "allowance",
+				functionName: 'allowance',
 				args: [account, ADDRESS[chainId].bridge],
 			},
 			{
 				chainId,
 				address: ADDRESS[chainId].usdt,
 				abi: erc20Abi,
-				functionName: "balanceOf",
+				functionName: 'balanceOf',
 				args: [ADDRESS[chainId].bridge],
 			},
 			// oracleFreeDollar Calls
@@ -44,20 +54,20 @@ export const useSwapStats = () => {
 				chainId,
 				address: ADDRESS[chainId].oracleFreeDollar,
 				abi: ABIS.oracleFreeDollarABI,
-				functionName: "balanceOf",
+				functionName: 'balanceOf',
 				args: [account],
 			},
 			{
 				chainId,
 				address: ADDRESS[chainId].oracleFreeDollar,
 				abi: ABIS.oracleFreeDollarABI,
-				functionName: "symbol",
+				functionName: 'symbol',
 			},
 			{
 				chainId,
 				address: ADDRESS[chainId].oracleFreeDollar,
 				abi: ABIS.oracleFreeDollarABI,
-				functionName: "allowance",
+				functionName: 'allowance',
 				args: [account, ADDRESS[chainId].bridge],
 			},
 			// Bridge Calls
@@ -65,33 +75,31 @@ export const useSwapStats = () => {
 				chainId,
 				address: ADDRESS[chainId].bridge,
 				abi: ABIS.StablecoinBridgeABI,
-				functionName: "limit",
+				functionName: 'limit',
 			},
 		],
-	});
+	})
 
-	const usdtUserBal: bigint = data ? decodeBigIntCall(data[0]) : BigInt(0);
-	const usdtSymbol: string = data ? String(data[1].result) : "";
-	const usdtUserAllowance: bigint = data ? decodeBigIntCall(data[2]) : BigInt(0);
-	const usdtBridgeBal: bigint = data ? decodeBigIntCall(data[3]) : BigInt(0);
+	const usdtUserBal: bigint = data ? decodeBigIntCall(data[0]) : BigInt(0)
+	const usdtSymbol: string = data ? String(data[1].result) : ''
+	const usdtUserAllowance: bigint = data ? decodeBigIntCall(data[2]) : BigInt(0)
+	const usdtBridgeBal: bigint = data ? decodeBigIntCall(data[3]) : BigInt(0)
 
-	const ofdUserBal: bigint = data ? decodeBigIntCall(data[4]) : BigInt(0);
-	const ofdSymbol: string = data ? String(data[5].result) : "";
-	const ofdUserAllowance: bigint = data ? decodeBigIntCall(data[6]) : BigInt(0);
+	const ofdUserBal: bigint = data ? decodeBigIntCall(data[4]) : BigInt(0)
+	const ofdSymbol: string = data ? String(data[5].result) : ''
+	const ofdUserAllowance: bigint = data ? decodeBigIntCall(data[6]) : BigInt(0)
 
-	const bridgeLimit: bigint = data ? decodeBigIntCall(data[7]) : BigInt(0);
+	const bridgeLimit: bigint = data ? decodeBigIntCall(data[7]) : BigInt(0)
 
 	return {
-		usdtUserBal,
-		usdtSymbol,
-		usdtUserAllowance,
-		usdtBridgeBal,
-
-		ofdUserBal,
+		bridgeLimit,
 		ofdSymbol,
 		ofdUserAllowance,
-
-		bridgeLimit,
+		ofdUserBal,
 		refetch,
-	};
-};
+		usdtBridgeBal,
+		usdtSymbol,
+		usdtUserAllowance,
+		usdtUserBal,
+	}
+}

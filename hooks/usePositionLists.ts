@@ -1,15 +1,15 @@
-import { gql, useQuery } from "@apollo/client";
-import { Address, getAddress } from "viem";
+import { gql, useQuery } from '@apollo/client'
+import { Address, getAddress } from 'viem'
 
 export interface PositionQuery {
-	position: Address;
-	owner: Address;
-	ofd: Address;
-	collateral: Address;
-	price: bigint;
-	created: number;
-	denied: boolean;
-	closed: boolean;
+	position: Address
+	owner: Address
+	ofd: Address
+	collateral: Address
+	price: bigint
+	created: number
+	denied: boolean
+	closed: boolean
 }
 
 export const usePositionLists = () => {
@@ -33,11 +33,11 @@ export const usePositionLists = () => {
 			}
 		`,
 		{
-			fetchPolicy: "no-cache",
+			fetchPolicy: 'no-cache',
 		}
-	);
+	)
 
-	const positions: PositionQuery[] = [];
+	const positions: PositionQuery[] = []
 	if (data && data.positions) {
 		data.positions.items.forEach((position: any) => {
 			positions.push({
@@ -49,12 +49,12 @@ export const usePositionLists = () => {
 				created: position.created,
 				denied: position.denied,
 				closed: position.closed,
-			});
-		});
+			})
+		})
 	}
 
 	return {
 		loading,
 		positions,
-	};
-};
+	}
+}

@@ -1,29 +1,29 @@
-import AppBox from "@components/AppBox";
-import DisplayAmount from "@components/DisplayAmount";
-import DisplayLabel from "@components/DisplayLabel";
-import TokenLogo from "@components/TokenLogo";
-import { ADDRESS } from "@contracts";
-import { useChallengeCount, useContractUrl, useHomeStats, useOfdPrice, usePositionLists, useTvl } from "@hooks";
-import Head from "next/head";
-import Link from "next/link";
-import { parseUnits } from "viem";
-import { useChainId } from "wagmi";
-import { envConfig } from "../app.env.config";
-import { SOCIAL, formatBigInt } from "../utils";
+import AppBox from 'components/AppBox'
+import DisplayAmount from 'components/DisplayAmount'
+import DisplayLabel from 'components/DisplayLabel'
+import TokenLogo from 'components/TokenLogo'
+import { ADDRESS } from 'contracts'
+import { useChallengeCount, useContractUrl, useHomeStats, useOfdPrice, usePositionLists, useTvl } from 'hooks'
+import Head from 'next/head'
+import Link from 'next/link'
+import { parseUnits } from 'viem'
+import { useChainId } from 'wagmi'
+import { envConfig } from 'app.env.config'
+import { SOCIAL, formatBigInt } from 'utils'
 
 export default function Home() {
-	const chainId = useChainId();
+	const chainId = useChainId()
 	// console.log({ chainId });
-	const homestats = useHomeStats();
-	const ofdLinkEth = useContractUrl(ADDRESS[chainId].oracleFreeDollar);
+	const homestats = useHomeStats()
+	const ofdLinkEth = useContractUrl(ADDRESS[chainId].oracleFreeDollar)
 	// const ofdLinkPolygon = useContractUrl(ADDRESS[polygon.id].oracleFreeDollar, polygon);
 	// const ofdLinkArb = useContractUrl(ADDRESS[arbitrum.id].oracleFreeDollar, arbitrum);
 	// const ofdLinkOp = useContractUrl(ADDRESS[optimism.id].oracleFreeDollar, optimism);
-	const ofdPrice = useOfdPrice();
+	const ofdPrice = useOfdPrice()
 
-	const tvlData = useTvl();
-	const positionData = usePositionLists();
-	const challengeCount = useChallengeCount();
+	const tvlData = useTvl()
+	const positionData = usePositionLists()
+	const challengeCount = useChallengeCount()
 
 	return (
 		<>
@@ -35,55 +35,54 @@ export default function Home() {
 					<div className="lg:col-span-3">
 						<h1 className="mb-12 text-right text-4xl font-bold flex items-center">
 							<picture>
-								<img src="/assets/oracle-free-dollar-logo.svg" alt="logo" width={80} className="min-w-[80px]" />
+								<img alt="logo" className="min-w-[80px]" src="/assets/oracle-free-dollar-logo.svg" width={80} />
 							</picture>
 							<div className="ml-3 text-[75px] block lg:hidden max-w-sm">OFD</div>
 							<div className="ml-3 text-[75px] hidden lg:block max-w-md">OracleFreeDollar</div>
 						</h1>
 						<p className="text-lg font-bold">
-							{envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Dollar. Its
-							strengths are its decentralization and its versatility.
+							{envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Dollar. Its strengths are its
+							decentralization and its versatility.
 						</p>
 						<p>
-							A community of DLT afficionados - the friends of OFD - discovered Oracle Free Code Repository which is a fork of{" "}
-							<a href={"https://www.frankencoin.com/"} target="_blank">
+							A community of DLT afficionados - the friends of OFD - discovered Oracle Free Code Repository which is a fork of{' '}
+							<a href={'https://www.frankencoin.com/'} rel="noreferrer" target="_blank">
 								frankencoin.com
-							</a>{" "}
-							- but instead of the Swiss Franc it maps the USD and instead on beeing deploy on Ethereum it is deployed on
-							Binance Smart Chain.
+							</a>{' '}
+							- but instead of the Swiss Franc it maps the USD and instead on beeing deploy on Ethereum it is deployed on Binance Smart
+							Chain.
 						</p>
 						<p>
 							Unlike other collateralized stablecoins,&nbsp;
 							{/* <a href="https://etherscan.io/address/0xB58E61C3098d85632Df34EecfB899A1Ed80921cB" target="_blank"> */}
-							<a href="https://bscscan.com/address/0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E" target="_blank">
+							<a href="https://bscscan.com/address/0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E" rel="noreferrer" target="_blank">
 								{envConfig.AppName}&apos;s
-							</a>{" "}
-							auction-based liquidation mechanism does not depend on external price sources. It is very flexible with regards
-							to the used collateral. In principle, it supports any collateral with sufficient availability on the market.
-							However, its liquidation mechanism is slower than that of other collateralized stablecoins, making it less
-							suitable for highly volatile types of collateral.
+							</a>{' '}
+							auction-based liquidation mechanism does not depend on external price sources. It is very flexible with regards to the used
+							collateral. In principle, it supports any collateral with sufficient availability on the market. However, its liquidation
+							mechanism is slower than that of other collateralized stablecoins, making it less suitable for highly volatile types of
+							collateral.
 						</p>
 						<p>
-							The frontend you are looking at provides access to five basic functions of the {envConfig.AppName} system.
-							Advanced functions, such as proposing new types of collateral or vetoing proposals must at this point in time be
-							performed manually. The{" "}
-							<a href={SOCIAL.Github_dapp} target="_blank">
+							The frontend you are looking at provides access to five basic functions of the {envConfig.AppName} system. Advanced functions,
+							such as proposing new types of collateral or vetoing proposals must at this point in time be performed manually. The{' '}
+							<a href={SOCIAL.Github_dapp} rel="noreferrer" target="_blank">
 								source code of this website
-							</a>{" "}
-							is openly available and can be freely copied and modified, just like the underlying{" "}
-							<a href={SOCIAL.Github_contract} target="_blank">
+							</a>{' '}
+							is openly available and can be freely copied and modified, just like the underlying{' '}
+							<a href={SOCIAL.Github_contract} rel="noreferrer" target="_blank">
 								smart contracts
 							</a>
 							. The smart contracts have been audited by&nbsp;
-							<a href={SOCIAL.Audit_Blockbite} target="_blank">
+							<a href={SOCIAL.Audit_Blockbite} rel="noreferrer" target="_blank">
 								Blockbite
 							</a>
 							,&nbsp;
-							<a href={SOCIAL.Audit_Code4rena} target="_blank">
+							<a href={SOCIAL.Audit_Code4rena} rel="noreferrer" target="_blank">
 								Code4rena
 							</a>
 							, and&nbsp;
-							<a href={SOCIAL.Audit_Chainsecurity} target="_blank">
+							<a href={SOCIAL.Audit_Chainsecurity} rel="noreferrer" target="_blank">
 								ChainSecurity
 							</a>
 							{/*. Its economic properties have been analyzed as part of a <a href="">phd thesis</a>.*/}
@@ -93,31 +92,31 @@ export default function Home() {
 					<div className="lg:col-span-2">
 						<picture>
 							<img
+								alt="logo"
 								className="m-auto max-w-lg w-[50%] sm:w-[50%] md:w-[80%] lg:w-[100%]"
 								src="/assets/oracle-free-dollar-logo-square.svg"
-								alt="logo"
 							/>
 						</picture>
 					</div>
 				</section>
 				<div className="mt-16 bg-slate-950 rounded-xl grid grid-cols-1 sm:grid-cols-12 gap-4 p-4">
 					<AppBox className="col-span-6 sm:col-span-4">
-						<a href={SOCIAL.DefiLlama} target="_blank">
-							<DisplayLabel label="Total Value Locked" className="underline" />
+						<a href={SOCIAL.DefiLlama} rel="noreferrer" target="_blank">
+							<DisplayLabel className="underline" label="Total Value Locked" />
 						</a>
-						<div className="mt-2 text-right">{formatBigInt(parseUnits(tvlData?.toString() || "0", 18), 18, 0)} USD</div>
+						<div className="mt-2 text-right">{formatBigInt(parseUnits(tvlData?.toString() || '0', 18), 18, 0)} USD</div>
 					</AppBox>
 					<AppBox className="col-span-6 sm:col-span-4">
-						<Link href={"/positions"}>
-							<DisplayLabel label="Active Positions" className="underline" />
+						<Link href={'/positions'}>
+							<DisplayLabel className="underline" label="Active Positions" />
 						</Link>
 						<div className="mt-2 text-right">
 							{positionData.positions.filter((position) => !position.denied && !position.closed).length}
 						</div>
 					</AppBox>
 					<AppBox className="col-span-6 sm:col-span-4">
-						<Link href={"/auctions"}>
-							<DisplayLabel label="Active Challenges" className="underline" />
+						<Link href={'/auctions'}>
+							<DisplayLabel className="underline" label="Active Challenges" />
 						</Link>
 						<div className="mt-2 text-right">{challengeCount}</div>
 					</AppBox>
@@ -125,9 +124,9 @@ export default function Home() {
 						<DisplayLabel label="Total Supply">
 							<DisplayAmount
 								amount={homestats.ofdTotalSupply}
+								className="justify-end text-right"
 								currency={homestats.ofdSymbol}
 								digits={18}
-								className="justify-end text-right"
 								usdPrice={ofdPrice}
 							/>
 						</DisplayLabel>
@@ -136,9 +135,9 @@ export default function Home() {
 						<DisplayLabel label="OFDPS Market Cap">
 							<DisplayAmount
 								amount={homestats.equityMarketCap}
+								className="justify-end text-right"
 								currency={homestats.ofdSymbol}
 								digits={18}
-								className="justify-end text-right"
 								usdPrice={ofdPrice}
 							/>
 						</DisplayLabel>
@@ -147,9 +146,9 @@ export default function Home() {
 						<DisplayLabel label="Your Balance">
 							<DisplayAmount
 								amount={homestats.ofdBalance}
+								className="justify-end text-right"
 								currency={homestats.ofdSymbol}
 								digits={18}
-								className="justify-end text-right"
 								usdPrice={ofdPrice}
 							/>
 						</DisplayLabel>
@@ -157,12 +156,12 @@ export default function Home() {
 					<AppBox className="col-span-6 sm:col-span-3">
 						<DisplayLabel label="Mainnet Deployment" />
 						<div className="flex items-center py-2 justify-end">
-							<TokenLogo currency="OFD" chain="bsc" />
+							<TokenLogo chain="bsc" currency="OFD" />
 							<div className="flex flex-col text-right">
 								<Link className="underline" href={ofdLinkEth} target="_blank">
 									{envConfig.AppName} Contract
 								</Link>
-								<Link href={SOCIAL.Uniswap_Mainnet} target="_blank" className="underline text-sm text-slate-500">
+								<Link className="underline text-sm text-slate-500" href={SOCIAL.Uniswap_Mainnet} target="_blank">
 									Trade
 								</Link>
 							</div>
@@ -509,5 +508,5 @@ export default function Home() {
         </section> */}
 			</main>
 		</>
-	);
+	)
 }

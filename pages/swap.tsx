@@ -1,200 +1,200 @@
-import AppPageHeader from "@components/AppPageHeader";
-import Button from "@components/Button";
-import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
-import TokenInput from "@components/Input/TokenInput";
-import { TxToast, renderErrorToast } from "@components/TxToast";
-import { ABIS, ADDRESS } from "@contracts";
-import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSwapStats } from "@hooks";
-import { formatBigInt, shortenAddress } from "@utils";
-import Head from "next/head";
-import { useCallback, useMemo, useState } from "react";
-import { toast } from "react-toastify";
-import { erc20Abi, formatUnits, maxUint256 } from "viem";
-import { useChainId } from "wagmi";
-import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
-import { envConfig } from "../app.env.config";
-import { WAGMI_CONFIG } from "../app.config";
+import AppPageHeader from 'components/AppPageHeader'
+import Button from 'components/Button'
+import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
+import TokenInput from 'components/Input/TokenInput'
+import { TxToast, renderErrorToast } from 'components/TxToast'
+import { ABIS, ADDRESS } from 'contracts'
+import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useSwapStats } from 'hooks'
+import { formatBigInt, shortenAddress } from 'utils'
+import Head from 'next/head'
+import { useCallback, useMemo, useState } from 'react'
+import { toast } from 'react-toastify'
+import { erc20Abi, formatUnits, maxUint256 } from 'viem'
+import { useChainId } from 'wagmi'
+import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
+import { envConfig } from 'app.env.config'
+import { WAGMI_CONFIG } from 'app.config'
 
 export default function Swap() {
-	const [amount, setAmount] = useState(0n);
-	const [error, setError] = useState("");
-	const [direction, setDirection] = useState(true);
-	const [isApproving, setApproving] = useState(false);
-	const [isMinting, setMinting] = useState(false);
-	const [isBurning, setBurning] = useState(false);
+	const [amount, setAmount] = useState(0n)
+	const [error, setError] = useState('')
+	const [direction, setDirection] = useState(true)
+	const [isApproving, setApproving] = useState(false)
+	const [isMinting, setMinting] = useState(false)
+	const [isBurning, setBurning] = useState(false)
 
-	const chainId = useChainId();
-	const swapStats = useSwapStats();
+	const chainId = useChainId()
+	const swapStats = useSwapStats()
 
-	const fromBalance = useMemo(() => (direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats]);
-	const toBalance = useMemo(() => (!direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats]);
-	const fromSymbol = useMemo(() => (direction ? "USDT" : "OFD"), [direction]);
-	const toSymbol = useMemo(() => (!direction ? "USDT" : "OFD"), [direction]);
+	const fromBalance = useMemo(() => (direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats])
+	const toBalance = useMemo(() => (!direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats])
+	const fromSymbol = useMemo(() => (direction ? 'USDT' : 'OFD'), [direction])
+	const toSymbol = useMemo(() => (!direction ? 'USDT' : 'OFD'), [direction])
 	const swapLimit = useMemo(
 		() => (direction ? swapStats.bridgeLimit - swapStats.usdtBridgeBal : swapStats.usdtBridgeBal),
 		[direction, swapStats]
-	);
+	)
 
 	const handleApprove = useCallback(async () => {
 		try {
-			setApproving(true);
+			setApproving(true)
 			const approveWriteHash = await writeContract(WAGMI_CONFIG, {
 				address: ADDRESS[chainId].usdt!,
 				abi: erc20Abi,
-				functionName: "approve",
+				functionName: 'approve',
 				args: [ADDRESS[chainId].bridge, maxUint256],
-			});
+			})
 
 			const toastContent = [
 				{
-					title: "Amount:",
-					value: "infinite",
+					title: 'Amount:',
+					value: 'infinite',
 				},
 				{
-					title: "Spender: ",
+					title: 'Spender: ',
 					value: shortenAddress(ADDRESS[chainId].bridge),
 				},
 				{
-					title: "Transaction:",
+					title: 'Transaction:',
 					hash: approveWriteHash,
 				},
-			];
+			]
 
 			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
 				pending: {
-					render: <TxToast title="Approving USDT" rows={toastContent} />,
+					render: <TxToast rows={toastContent} title="Approving USDT" />,
 				},
 				success: {
-					render: <TxToast title="Successfully Approved USDT" rows={toastContent} />,
+					render: <TxToast rows={toastContent} title="Successfully Approved USDT" />,
 				},
 				error: {
 					render(error: any) {
-						return renderErrorToast(error);
+						return renderErrorToast(error)
 					},
 				},
-			});
+			})
 		} catch (e) {
-			console.log(e);
+			console.log(e)
 		} finally {
-			swapStats.refetch();
-			setApproving(false);
+			swapStats.refetch()
+			setApproving(false)
 		}
-	}, [chainId, swapStats]);
+	}, [chainId, swapStats])
 
 	const handleMint = useCallback(async () => {
 		try {
-			setMinting(true);
+			setMinting(true)
 
 			const mintWriteHash = await writeContract(WAGMI_CONFIG, {
 				address: ADDRESS[chainId].bridge,
 				abi: ABIS.StablecoinBridgeABI,
-				functionName: "mint",
+				functionName: 'mint',
 				args: [amount],
-			});
+			})
 
 			const toastContent = [
 				{
 					title: `${fromSymbol} Amount: `,
-					value: formatBigInt(amount) + " " + fromSymbol,
+					value: formatBigInt(amount) + ' ' + fromSymbol,
 				},
 				{
 					title: `${toSymbol} Amount: `,
-					value: formatBigInt(amount) + " " + toSymbol,
+					value: formatBigInt(amount) + ' ' + toSymbol,
 				},
 				{
-					title: "Transaction:",
+					title: 'Transaction:',
 					hash: mintWriteHash,
 				},
-			];
+			]
 
 			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: mintWriteHash, confirmations: 1 }), {
 				pending: {
-					render: <TxToast title={`Swapping ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
+					render: <TxToast rows={toastContent} title={`Swapping ${fromSymbol} to ${toSymbol}`} />,
 				},
 				success: {
-					render: <TxToast title={`Successfully Swapped ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
+					render: <TxToast rows={toastContent} title={`Successfully Swapped ${fromSymbol} to ${toSymbol}`} />,
 				},
 				error: {
 					render(error: any) {
-						return renderErrorToast(error);
+						return renderErrorToast(error)
 					},
 				},
-			});
+			})
 		} catch (e) {
-			console.log(e);
+			console.log(e)
 		} finally {
-			swapStats.refetch();
-			setMinting(false);
+			swapStats.refetch()
+			setMinting(false)
 		}
-	}, [amount, chainId, fromSymbol, swapStats, toSymbol]);
+	}, [amount, chainId, fromSymbol, swapStats, toSymbol])
 
 	const handleBurn = useCallback(async () => {
 		try {
-			setBurning(true);
+			setBurning(true)
 			const burnWriteHash = await writeContract(WAGMI_CONFIG, {
 				address: ADDRESS[chainId].bridge,
 				abi: ABIS.StablecoinBridgeABI,
-				functionName: "burn",
+				functionName: 'burn',
 				args: [amount],
-			});
+			})
 
 			const toastContent = [
 				{
 					title: `${fromSymbol} Amount: `,
-					value: formatBigInt(amount) + " " + fromSymbol,
+					value: formatBigInt(amount) + ' ' + fromSymbol,
 				},
 				{
 					title: `${toSymbol} Amount: `,
-					value: formatBigInt(amount) + " " + toSymbol,
+					value: formatBigInt(amount) + ' ' + toSymbol,
 				},
 				{
-					title: "Transaction:",
+					title: 'Transaction:',
 					hash: burnWriteHash,
 				},
-			];
+			]
 
 			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: burnWriteHash, confirmations: 1 }), {
 				pending: {
-					render: <TxToast title={`Swapping ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
+					render: <TxToast rows={toastContent} title={`Swapping ${fromSymbol} to ${toSymbol}`} />,
 				},
 				success: {
-					render: <TxToast title={`Successfully Swapped ${fromSymbol} to ${toSymbol}`} rows={toastContent} />,
+					render: <TxToast rows={toastContent} title={`Successfully Swapped ${fromSymbol} to ${toSymbol}`} />,
 				},
 				error: {
 					render(error: any) {
-						return renderErrorToast(error);
+						return renderErrorToast(error)
 					},
 				},
-			});
+			})
 		} catch (e) {
-			console.log(e);
+			console.log(e)
 		} finally {
-			swapStats.refetch();
-			setBurning(false);
+			swapStats.refetch()
+			setBurning(false)
 		}
-	}, [amount, chainId, fromSymbol, swapStats, toSymbol]);
+	}, [amount, chainId, fromSymbol, swapStats, toSymbol])
 
 	const onChangeDirection = useCallback(() => {
-		setDirection(!direction);
-	}, [direction]);
+		setDirection(!direction)
+	}, [direction])
 
 	const onChangeAmount = useCallback(
 		(value: string) => {
-			const valueBigInt = BigInt(value);
-			setAmount(valueBigInt);
+			const valueBigInt = BigInt(value)
+			setAmount(valueBigInt)
 
 			if (valueBigInt > fromBalance) {
-				setError(`Not enough ${fromSymbol} in your wallet.`);
+				setError(`Not enough ${fromSymbol} in your wallet.`)
 			} else if (valueBigInt > swapLimit) {
-				setError(`Not enough ${toSymbol} available to swap.`);
+				setError(`Not enough ${toSymbol} available to swap.`)
 			} else {
-				setError("");
+				setError('')
 			}
 		},
 		[fromBalance, fromSymbol, swapLimit, toSymbol]
-	);
+	)
 
 	return (
 		<>
@@ -206,33 +206,31 @@ export default function Swap() {
 				<section className="mx-auto flex max-w-2xl flex-col gap-y-4 px-4 sm:px-8">
 					<div className="bg-slate-950 rounded-xl p-8">
 						<TokenInput
-							max={fromBalance}
-							symbol={fromSymbol}
+							error={error}
 							limit={swapLimit}
 							limitLabel="Swap limit"
-							placeholder={"Swap Amount"}
+							max={fromBalance}
 							onChange={onChangeAmount}
+							placeholder={'Swap Amount'}
+							symbol={fromSymbol}
 							value={amount.toString()}
-							error={error}
 						/>
 
 						<div className="py-4 text-center">
 							<button
-								className={`btn btn-secondary text-slate-800 w-14 h-14 rounded-full transition ${
-									direction && "rotate-180"
-								}`}
+								className={`btn btn-secondary text-slate-800 w-14 h-14 rounded-full transition ${direction && 'rotate-180'}`}
 								onClick={onChangeDirection}
 							>
-								<FontAwesomeIcon icon={faArrowRightArrowLeft} className="rotate-90 w-6 h-6" />
+								<FontAwesomeIcon className="rotate-90 w-6 h-6" icon={faArrowRightArrowLeft} />
 							</button>
 						</div>
 
 						<TokenInput
-							symbol={toSymbol}
-							max={toBalance}
-							output={formatUnits(amount, 18)}
-							note={`1 ${fromSymbol} = 1 ${toSymbol}`}
 							label="Receive"
+							max={toBalance}
+							note={`1 ${fromSymbol} = 1 ${toSymbol}`}
+							output={formatUnits(amount, 18)}
+							symbol={toSymbol}
 						/>
 
 						<div className="mx-auto mt-8 w-72 max-w-full flex-col">
@@ -248,7 +246,7 @@ export default function Swap() {
 										</Button>
 									)
 								) : (
-									<Button isLoading={isBurning} disabled={amount == 0n || !!error} onClick={() => handleBurn()}>
+									<Button disabled={amount == 0n || !!error} isLoading={isBurning} onClick={() => handleBurn()}>
 										Swap
 									</Button>
 								)}
@@ -273,5 +271,5 @@ export default function Swap() {
 				</section>
 			</div>
 		</>
-	);
+	)
 }
