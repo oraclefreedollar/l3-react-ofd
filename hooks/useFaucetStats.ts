@@ -1,16 +1,16 @@
-import { ADDRESS } from "@contracts";
-import { decodeBigIntCall } from "@utils";
-import { zeroAddress } from "viem";
-import { useAccount, useChainId, useReadContracts } from "wagmi";
-import { Address, erc20Abi } from "viem";
+import { ADDRESS } from 'contracts'
+import { decodeBigIntCall } from 'utils'
+import { zeroAddress } from 'viem'
+import { useAccount, useChainId, useReadContracts } from 'wagmi'
+import { Address, erc20Abi } from 'viem'
 
 export const useFaucetStats = () => {
-	const chainId = useChainId();
-	const { address } = useAccount();
+	const chainId = useChainId()
+	const { address } = useAccount()
 
-	const account = address || "0x0";
+	const account = address || '0x0'
 
-	const calls: any[] = [];
+	const calls: any[] = []
 	const mockTokens = [
 		ADDRESS[chainId].usdt,
 		// ADDRESS[chainId].mockVids,
@@ -54,57 +54,57 @@ export const useFaucetStats = () => {
 		// ADDRESS[chainId].mockDdcs,
 		// ADDRESS[chainId].mockLines,
 		// ADDRESS[chainId].mockDkkb,
-	];
+	]
 
 	mockTokens.forEach((token) => {
 		const contract = {
 			address: token,
 			abi: erc20Abi,
-		};
+		}
 		calls.push(
 			...[
 				{
 					...contract,
-					functionName: "name",
+					functionName: 'name',
 				},
 				{
 					...contract,
-					functionName: "symbol",
+					functionName: 'symbol',
 				},
 				{
 					...contract,
-					functionName: "balanceOf",
+					functionName: 'balanceOf',
 					args: [account],
 				},
 				{
 					...contract,
-					functionName: "decimals",
+					functionName: 'decimals',
 				},
 			]
-		);
-	});
+		)
+	})
 
 	// Fetch all blockchain stats in one web3 call using multicall
-	const { data, isError, isLoading } = useReadContracts({
-		contracts: [...calls]
-	});
+	const { data } = useReadContracts({
+		contracts: [...calls],
+	})
 
 	const tokenInfo: Record<
 		string,
 		{
-			address: Address;
-			name: string;
-			symbol: string;
-			balance: bigint;
-			decimals: bigint;
+			address: Address
+			name: string
+			symbol: string
+			balance: bigint
+			decimals: bigint
 		}
-	> = {};
+	> = {}
 	data &&
 		mockTokens.forEach((mockToken, i) => {
-			const name: string = data ? String(data[i * 4].result) : "";
-			const symbol: string = data ? String(data[i * 4 + 1].result) : "";
-			const balance: bigint = data ? decodeBigIntCall(data[i * 4 + 2]) : BigInt(0);
-			const decimals: bigint = data ? decodeBigIntCall(data[i * 4 + 3]) : BigInt(0);
+			const name: string = data ? String(data[i * 4].result) : ''
+			const symbol: string = data ? String(data[i * 4 + 1].result) : ''
+			const balance: bigint = data ? decodeBigIntCall(data[i * 4 + 2]) : BigInt(0)
+			const decimals: bigint = data ? decodeBigIntCall(data[i * 4 + 3]) : BigInt(0)
 
 			tokenInfo[symbol] = {
 				address: mockToken || zeroAddress,
@@ -112,8 +112,8 @@ export const useFaucetStats = () => {
 				symbol,
 				balance,
 				decimals,
-			};
-		});
+			}
+		})
 
-	return tokenInfo;
-};
+	return tokenInfo
+}
