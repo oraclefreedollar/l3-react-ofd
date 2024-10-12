@@ -5,5 +5,5 @@ export default function WalletConnect() {
 				<w3m-button />
 			</div>
 		</div>
-	);
+	)
 }

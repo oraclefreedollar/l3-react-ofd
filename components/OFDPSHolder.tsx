@@ -1,14 +1,14 @@
-import { Address } from "viem";
-import { formatBigInt } from "../utils/format";
-import AddressLabel from "./AddressLabel";
-import AppBox from "./AppBox";
+import { Address } from 'viem'
+import { formatBigInt } from 'utils/format'
+import AddressLabel from './AddressLabel'
+import AppBox from './AppBox'
 
 interface Props {
-	id: string;
-	holder: Address;
-	ofdps: bigint;
-	votingPower: bigint;
-	totalVotingPower: bigint;
+	id: string
+	holder: Address
+	ofdps: bigint
+	votingPower: bigint
+	totalVotingPower: bigint
 }
 
 export default function OFDPSHolder({ id, holder, ofdps, votingPower, totalVotingPower }: Props) {
@@ -20,5 +20,5 @@ export default function OFDPSHolder({ id, holder, ofdps, votingPower, totalVotin
 			<div className="col-span-1 sm:text-center">{formatBigInt(ofdps)} OFDPS</div>
 			<div className="col-span-1 sm:text-right">{formatBigInt((votingPower * 10000n) / totalVotingPower, 2)} % Votes</div>
 		</AppBox>
-	);
+	)
 }
