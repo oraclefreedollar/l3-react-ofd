@@ -12,5 +12,7 @@ export const useOfdPrice = () => {
 
 	const ofdPrice = ((sqrtPriceX96 * sqrtPriceX96) / 2 ** 192) * 10 ** 12
 
-	return parseFloat(ofdPrice.toFixed(4))
+	// return parseFloat(ofdPrice.toFixed(4))
+	// momentary fix
+	return 1
 }
