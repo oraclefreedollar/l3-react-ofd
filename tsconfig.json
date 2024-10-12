@@ -1,27 +1,52 @@
 {
+  "allowSyntheticDefaults": true,
+  "include": [
+    "./"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "composite": true,
+    "baseUrl": "./",
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "@components/*": ["./components/*"],
-      "@hooks": ["./hooks"],
-      "@utils": ["./utils"],
-      "@contracts": ["./contracts"],
-      "@redux/*": ["./redux/*"]
+      "components/*": [
+        "./components/*"
+      ],
+      "hooks": [
+        "./hooks"
+      ],
+      "utils": [
+        "./utils"
+      ],
+      "contracts": [
+        "./contracts"
+      ],
+      "redux/*": [
+        "./redux/*"
+      ]
     },
+    "allowJs": true,
+    "esModuleInterop": true,
+    "incremental": true,
+    "noEmit": true,
+    "outDir": "./dist/",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ESNext"
-  },
-  "include": ["./"],
-  "exclude": ["node_modules"]
+    "target": "ESNext",
+  }
 }
