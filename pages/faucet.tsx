@@ -1,78 +1,85 @@
-import AppPageHeader from "@components/AppPageHeader";
-import Button from "@components/Button";
-import DisplayAmount from "@components/DisplayAmount";
-import Table from "@components/Table";
-import TableBody from "@components/Table/TableBody";
-import TableHeader from "@components/Table/TableHead";
-import TableRow from "@components/Table/TableRow";
-import TokenLogo from "@components/TokenLogo";
-import { TxToast, renderErrorToast } from "@components/TxToast";
-import { ABIS } from "@contracts";
-import { useFaucetStats } from "@hooks";
-import Head from "next/head";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { Address, parseUnits, zeroAddress } from "viem";
-import { useAccount } from "wagmi";
-import { WAGMI_CHAIN, WAGMI_CONFIG } from "../app.config";
-import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
-import { bsc } from "viem/chains";
+import AppPageHeader from 'components/AppPageHeader'
+import Button from 'components/Button'
+import DisplayAmount from 'components/DisplayAmount'
+import Table from 'components/Table'
+import TableBody from 'components/Table/TableBody'
+import TableHeader from 'components/Table/TableHead'
+import TableRow from 'components/Table/TableRow'
+import TokenLogo from 'components/TokenLogo'
+import { TxToast, renderErrorToast } from 'components/TxToast'
+import { ABIS } from 'contracts'
+import { useFaucetStats } from 'hooks'
+import Head from 'next/head'
+import { useState } from 'react'
+import { toast } from 'react-toastify'
+import { Address, parseUnits, zeroAddress } from 'viem'
+import { useAccount } from 'wagmi'
+import { WAGMI_CHAIN, WAGMI_CONFIG } from 'app.config'
+import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
+import { bsc } from 'viem/chains'
 
 interface RowProps {
-	addr: Address;
-	name: string;
-	symbol: string;
-	balance: bigint;
-	decimal: bigint;
+	addr: Address
+	name: string
+	symbol: string
+	balance: bigint
+	decimal: bigint
 }
 
 export function FaucetRow({ name, symbol, balance, decimal, addr }: RowProps) {
-	const { address } = useAccount();
-	const account = address || zeroAddress;
-	const [isConfirming, setIsConfirming] = useState(false);
+	const { address } = useAccount()
+	const account = address || zeroAddress
+	const [isConfirming, setIsConfirming] = useState(false)
 
 	const handleFaucet = async () => {
-		const mintWriteHash = await writeContract(WAGMI_CONFIG, {
-			address: addr,
-			abi: ABIS.MockVolABI,
-			functionName: "mint",
-			args: [account, parseUnits("1000", Number(decimal))],
-		});
+		try {
+			setIsConfirming(true)
 
-		const toastContent = [
-			{
-				title: "Amount:",
-				value: "1000 " + symbol,
-			},
-			{
-				title: "Transaction:",
-				hash: mintWriteHash,
-			},
-		];
+			const mintWriteHash = await writeContract(WAGMI_CONFIG, {
+				address: addr,
+				abi: ABIS.MockVolABI,
+				functionName: 'mint',
+				args: [account, parseUnits('1000', Number(decimal))],
+			})
 
-		await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: mintWriteHash, confirmations: 1 }), {
-			pending: {
-				render: <TxToast title={`Fauceting ${symbol}`} rows={toastContent} />,
-			},
-			success: {
-				render: <TxToast title={`Successfully Fauceted ${symbol}`} rows={toastContent} />,
-			},
-			error: {
-				render(error: any) {
-					return renderErrorToast(error);
+			const toastContent = [
+				{
+					title: 'Amount:',
+					value: '1000 ' + symbol,
 				},
-			},
-		});
-	};
+				{
+					title: 'Transaction:',
+					hash: mintWriteHash,
+				},
+			]
+
+			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: mintWriteHash, confirmations: 1 }), {
+				pending: {
+					render: <TxToast rows={toastContent} title={`Fauceting ${symbol}`} />,
+				},
+				success: {
+					render: <TxToast rows={toastContent} title={`Successfully Fauceted ${symbol}`} />,
+				},
+				error: {
+					render(error: unknown) {
+						return renderErrorToast(error)
+					},
+				},
+			})
+		} catch (e) {
+			console.log(e)
+			setIsConfirming(false)
+		}
+	}
 
 	return (
 		<TableRow
-			colSpan={6}
 			actionCol={
-				<Button variant="primary" isLoading={isConfirming} onClick={() => handleFaucet()}>
+				<Button isLoading={isConfirming} onClick={() => handleFaucet()} variant="primary">
 					+1000 {symbol}
 				</Button>
 			}
+			colSpan={6}
 		>
 			<div className="col-span-3">
 				<div className="text-gray-400 md:hidden">Token</div>
@@ -90,15 +97,15 @@ export function FaucetRow({ name, symbol, balance, decimal, addr }: RowProps) {
 			</div>
 			<div>
 				<div className="text-gray-400 md:hidden">Your Balance</div>
-				<DisplayAmount amount={balance} digits={decimal} currency={symbol} hideLogo address={addr} />
+				<DisplayAmount address={addr} amount={balance} currency={symbol} digits={decimal} hideLogo />
 			</div>
 		</TableRow>
-	);
+	)
 }
 
 export default function Faucet() {
-	const faucetStats = useFaucetStats();
-	if ((WAGMI_CHAIN.id as number) === (bsc.id as number)) return <></>;
+	const faucetStats = useFaucetStats()
+	if ((WAGMI_CHAIN.id as number) === (bsc.id as number)) return <></>
 
 	return (
 		<>
@@ -108,21 +115,21 @@ export default function Faucet() {
 			<div>
 				<AppPageHeader title="Faucets" />
 				<Table>
-					<TableHeader headers={["Token", "", "", "Decimals", "Your Balance"]} actionCol colSpan={6} />
+					<TableHeader actionCol colSpan={6} headers={['Token', '', '', 'Decimals', 'Your Balance']} />
 					<TableBody>
 						{Object.keys(faucetStats).map((key) => (
 							<FaucetRow
-								key={key}
 								addr={faucetStats[key].address}
+								balance={faucetStats[key].balance}
+								decimal={faucetStats[key].decimals}
+								key={key}
 								name={faucetStats[key].name}
 								symbol={faucetStats[key].symbol}
-								decimal={faucetStats[key].decimals}
-								balance={faucetStats[key].balance}
 							/>
 						))}
 					</TableBody>
 				</Table>
 			</div>
 		</>
-	);
+	)
 }

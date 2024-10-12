@@ -1,34 +1,34 @@
-import { Badge } from "flowbite-react";
-import Link from "next/link";
-import { useSelector } from "react-redux";
-import { Address, zeroAddress } from "viem";
-import { useAccount, useChainId } from "wagmi";
-import { ADDRESS } from "../../contracts/address";
-import { RootState } from "../../redux/redux.store";
-import { PositionQuery } from "../../redux/slices/positions.types";
-import DisplayAmount from "../DisplayAmount";
-import TableRow from "../Table/TableRow";
+import { Badge } from 'flowbite-react'
+import Link from 'next/link'
+import { useSelector } from 'react-redux'
+import { zeroAddress } from 'viem'
+import { useAccount, useChainId } from 'wagmi'
+import { ADDRESS } from 'contracts/address'
+import { RootState } from 'redux/redux.store'
+import { PositionQuery } from 'redux/slices/positions.types'
+import DisplayAmount from '../DisplayAmount'
+import TableRow from '../Table/TableRow'
 
 interface Props {
-	position: PositionQuery;
+	position: PositionQuery
 }
 
 export default function PositionRow({ position }: Props) {
-	const { address } = useAccount();
-	const chainId = useChainId();
-	const prices = useSelector((state: RootState) => state.prices.coingecko);
+	const { address } = useAccount()
+	const chainId = useChainId()
+	const prices = useSelector((state: RootState) => state.prices.coingecko)
 	// this price is actually the price of the OracleFreeDollar
 
-	const collTokenPrice = prices[position.collateral.toLowerCase()]?.price?.usd;
-	const ofdPrice = position.ofd && prices[position.ofd]?.price?.usd;
+	const collTokenPrice = prices[position.collateral.toLowerCase()]?.price?.usd
+	const ofdPrice = position.ofd && prices[position.ofd]?.price?.usd
 
-	if (!collTokenPrice || !ofdPrice) return null;
+	if (!collTokenPrice || !ofdPrice) return null
 
-	const account = address || zeroAddress;
-	const isMine = position.owner == account;
+	const account = address || zeroAddress
+	const isMine = position.owner == account
 
-	const mintedPct = Math.floor((parseInt(position.minted) / parseInt(position.limitForPosition)) * 1000) / 10;
-	const mintedConesPct = Math.floor((1 - parseInt(position.availableForClones) / parseInt(position.limitForClones)) * 1000) / 10;
+	// const mintedPct = Math.floor((parseInt(position.minted) / parseInt(position.limitForPosition)) * 1000) / 10
+	// const mintedConesPct = Math.floor((1 - parseInt(position.availableForClones) / parseInt(position.limitForClones)) * 1000) / 10
 	// const cooldownWait: number = Math.round((position.cooldown - Date.now()) / 1000 / 60);
 
 	// TODO: For testing purposes only
@@ -36,38 +36,38 @@ export default function PositionRow({ position }: Props) {
 
 	return (
 		<TableRow
-			link={`/position/${position.position}`}
 			actionCol={
 				isMine ? (
-					<Link href={`/position/${position.position}/adjust`} className="btn btn-primary w-full">
+					<Link className="btn btn-primary w-full" href={`/position/${position.position}/adjust`}>
 						Adjust
 					</Link>
 				) : BigInt(position.availableForClones) > 0n && !position.closed ? (
-					<Link href={`/position/${position.position}/borrow`} className="btn btn-primary w-full">
+					<Link className="btn btn-primary w-full" href={`/position/${position.position}/borrow`}>
 						Clone & Mint
 					</Link>
 				) : (
 					<></>
 				)
 			}
+			link={`/position/${position.position}`}
 		>
 			<div>
 				<DisplayAmount
+					address={position.collateral}
 					amount={BigInt(position.collateralBalance)}
 					currency={position.collateralSymbol}
 					digits={position.collateralDecimals}
-					address={position.collateral}
 					usdPrice={collTokenPrice}
 				/>
 			</div>
 			<div>
 				<DisplayAmount
-					amount={BigInt(position.price)}
-					currency={"OFD"}
-					hideLogo
 					// bold={positionStats.cooldown * 1000n > Date.now()}
-					digits={36 - position.collateralDecimals}
 					address={ADDRESS[chainId].oracleFreeDollar}
+					amount={BigInt(position.price)}
+					currency={'OFD'}
+					digits={36 - position.collateralDecimals}
+					hideLogo
 					usdPrice={ofdPrice}
 				/>
 			</div>
@@ -83,14 +83,14 @@ export default function PositionRow({ position }: Props) {
 					<Badge color="dark">Closed</Badge>
 				) : (
 					<DisplayAmount
-						amount={BigInt(position.availableForClones)}
-						currency={"OFD"}
-						hideLogo
 						address={ADDRESS[chainId].oracleFreeDollar}
+						amount={BigInt(position.availableForClones)}
+						currency={'OFD'}
+						hideLogo
 						usdPrice={ofdPrice}
 					/>
 				)}
 			</div>
 		</TableRow>
-	);
+	)
 }

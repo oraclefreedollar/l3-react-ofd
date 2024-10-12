@@ -1,6 +1,6 @@
-import { ABIS } from "@contracts";
-import { useReadContract } from "wagmi";
-import { Address, formatUnits, zeroAddress } from "viem";
+import { ABIS } from 'contracts'
+import { useReadContract } from 'wagmi'
+import { Address, formatUnits, zeroAddress } from 'viem'
 
 const addressPriceFeeds: Record<Address, Address> = {
 	'0x55d398326f99059fF775485246999027B3197955': '0xB97Ad0E74fa7d920791E90258A6E2085088b4320', // USDT
@@ -9,14 +9,14 @@ const addressPriceFeeds: Record<Address, Address> = {
 	'0x0555E30da8f98308EdB960aa94C0Db47230d2B9c': '0x264990fbd0A4796A3E3d8E37C4d5F87a3aCa5Ebf', // WBTC
 }
 
-type Returned = number | undefined;
+type Returned = number | undefined
 
 export const useTokenPriceNew = (tokenAddress: Address | undefined): Returned => {
 	const { data, isError, error, isLoading } = useReadContract({
 		address: addressPriceFeeds[tokenAddress || zeroAddress],
 		abi: ABIS.ChainLinkABI,
-		functionName: 'latestRoundData'
-	});
+		functionName: 'latestRoundData',
+	})
 
 	// TODO: refactor using API
 	// if(tokenAddress == '0x3aFc7c9a7d1aC2e78907dffB840B5a879BA17af7') {
@@ -29,14 +29,14 @@ export const useTokenPriceNew = (tokenAddress: Address | undefined): Returned =>
 	// }
 
 	// hardcoded price for Operal
-	if(tokenAddress === "0x3aFc7c9a7d1aC2e78907dffB840B5a879BA17af7") {
+	if (tokenAddress === '0x3aFc7c9a7d1aC2e78907dffB840B5a879BA17af7') {
 		return 16.75
 	}
 
-	if(isLoading || !data) return
-	if(isError) {
+	if (isLoading || !data) return
+	if (isError) {
 		console.error('Error fetching token price:', error)
-		return;
+		return
 	}
 
 	return Number(formatUnits(data[1], 8))
