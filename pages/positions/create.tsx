@@ -6,44 +6,39 @@ import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 import AddressInput from 'components/Input/AddressInput'
 import NormalInput from 'components/Input/NormalInput'
 import TokenInput from 'components/Input/TokenInput'
-import { TxToast, renderErrorToast } from 'components/TxToast'
 import { ABIS, ADDRESS } from 'contracts'
-import { useTokenData, useUserBalance } from 'hooks'
+import { useTokenData, useUserBalance, useWriteContractCustom } from 'hooks'
 import { formatBigInt, shortenAddress } from 'utils'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { erc20Abi, isAddress, maxUint256 } from 'viem'
 import { useChainId } from 'wagmi'
-import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
 import { envConfig } from 'app.env.config'
-import { WAGMI_CONFIG } from 'app.config'
 
 export default function PositionCreate({}) {
-	const [minCollAmount, setMinCollAmount] = useState(0n)
-	const [initialCollAmount, setInitialCollAmount] = useState(0n)
-	const [limitAmount, setLimitAmount] = useState(1_000_000n * BigInt(1e18))
-	const [initPeriod, setInitPeriod] = useState(5n)
-	const [liqPrice, setLiqPrice] = useState(0n)
-	const [interest, setInterest] = useState(30000n)
-	const [maturity, setMaturity] = useState(12n)
-	const [buffer, setBuffer] = useState(200000n)
 	const [auctionDuration, setAuctionDuration] = useState(24n)
-	const [collateralAddress, setCollateralAddress] = useState('')
-	const [minCollAmountError, setMinCollAmountError] = useState('')
-	const [initialCollAmountError, setInitialCollAmountError] = useState('')
-	const [collTokenAddrError, setCollTokenAddrError] = useState('')
-	const [limitAmountError, setLimitAmountError] = useState('')
-	const [interestError, setInterestError] = useState('')
-	const [initError, setInitError] = useState('')
-	const [liqPriceError, setLiqPriceError] = useState('')
-	const [bufferError, setBufferError] = useState('')
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-expect-error
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [auctionError, setAuctionError] = useState('')
-	const [isConfirming, setIsConfirming] = useState('')
+	const [buffer, setBuffer] = useState(200000n)
+	const [bufferError, setBufferError] = useState('')
+	const [collTokenAddrError, setCollTokenAddrError] = useState('')
+	const [collateralAddress, setCollateralAddress] = useState('')
+	const [initError, setInitError] = useState('')
+	const [initPeriod, setInitPeriod] = useState(5n)
+	const [initialCollAmount, setInitialCollAmount] = useState(0n)
+	const [initialCollAmountError, setInitialCollAmountError] = useState('')
+	const [interest, setInterest] = useState(30000n)
+	const [interestError, setInterestError] = useState('')
+	const [limitAmount, setLimitAmount] = useState(1_000_000n * BigInt(1e18))
+	const [limitAmountError, setLimitAmountError] = useState('')
+	const [liqPrice, setLiqPrice] = useState(0n)
+	const [liqPriceError, setLiqPriceError] = useState('')
+	const [maturity, setMaturity] = useState(12n)
+	const [minCollAmount, setMinCollAmount] = useState(0n)
+	const [minCollAmountError, setMinCollAmountError] = useState('')
 
 	const chainId = useChainId()
 	const collTokenData = useTokenData(collateralAddress)
@@ -67,41 +62,57 @@ export default function PositionCreate({}) {
 		}
 	}, [collateralAddress, collTokenData])
 
-	const onChangeMinCollAmount = (value: string) => {
-		const valueBigInt = BigInt(value)
-		setMinCollAmount(valueBigInt)
-		if (valueBigInt > initialCollAmount) {
-			setInitialCollAmount(valueBigInt)
-			onChangeInitialCollAmount(valueBigInt.toString())
-		}
-		checkCollateralAmount(valueBigInt, liqPrice)
-	}
-
-	const onChangeInitialCollAmount = (value: string) => {
-		const valueBigInt = BigInt(value)
-		setInitialCollAmount(valueBigInt)
-		if (valueBigInt < minCollAmount) {
-			setInitialCollAmountError('Must be at least the minimum amount.')
-		} else if (valueBigInt > collTokenData.balance) {
-			setInitialCollAmountError(`Not enough ${collTokenData.symbol} in your wallet.`)
+	const checkCollateralAmount = useCallback((coll: bigint, price: bigint) => {
+		if (coll * price < 5000n * 10n ** 36n) {
+			setLiqPriceError('The liquidation value of the collateral must be at least 5000 OFD')
+			setMinCollAmountError('The collateral must be worth at least 5000 OFD')
 		} else {
-			setInitialCollAmountError('')
+			setLiqPriceError('')
+			setMinCollAmountError('')
 		}
-	}
+	}, [])
 
-	const onChangeLimitAmount = (value: string) => {
+	const onChangeInitialCollAmount = useCallback(
+		(value: string) => {
+			const valueBigInt = BigInt(value)
+			setInitialCollAmount(valueBigInt)
+			if (valueBigInt < minCollAmount) {
+				setInitialCollAmountError('Must be at least the minimum amount.')
+			} else if (valueBigInt > collTokenData.balance) {
+				setInitialCollAmountError(`Not enough ${collTokenData.symbol} in your wallet.`)
+			} else {
+				setInitialCollAmountError('')
+			}
+		},
+		[collTokenData.balance, collTokenData.symbol, minCollAmount]
+	)
+
+	const onChangeMinCollAmount = useCallback(
+		(value: string) => {
+			const valueBigInt = BigInt(value)
+			setMinCollAmount(valueBigInt)
+			if (valueBigInt > initialCollAmount) {
+				setInitialCollAmount(valueBigInt)
+				onChangeInitialCollAmount(valueBigInt.toString())
+			}
+			checkCollateralAmount(valueBigInt, liqPrice)
+		},
+		[checkCollateralAmount, initialCollAmount, liqPrice, onChangeInitialCollAmount]
+	)
+
+	const onChangeLimitAmount = useCallback((value: string) => {
 		const valueBigInt = BigInt(value)
 		setLimitAmount(valueBigInt)
-	}
+	}, [])
 
-	const onChangeCollateralAddress = (addr: string) => {
+	const onChangeCollateralAddress = useCallback((addr: string) => {
 		setCollateralAddress(addr)
 		setMinCollAmount(0n)
 		setInitialCollAmount(0n)
 		setLiqPrice(0n)
-	}
+	}, [])
 
-	const onChangeInterest = (value: string) => {
+	const onChangeInterest = useCallback((value: string) => {
 		const valueBigInt = BigInt(value)
 		setInterest(valueBigInt)
 
@@ -110,14 +121,14 @@ export default function PositionCreate({}) {
 		} else {
 			setInterestError('')
 		}
-	}
+	}, [])
 
-	const onChangeMaturity = (value: string) => {
+	const onChangeMaturity = useCallback((value: string) => {
 		const valueBigInt = BigInt(value)
 		setMaturity(valueBigInt)
-	}
+	}, [])
 
-	const onChangeInitPeriod = (value: string) => {
+	const onChangeInitPeriod = useCallback((value: string) => {
 		const valueBigInt = BigInt(value)
 		setInitPeriod(valueBigInt)
 		if (valueBigInt < 3n) {
@@ -125,25 +136,18 @@ export default function PositionCreate({}) {
 		} else {
 			setInitError('')
 		}
-	}
+	}, [])
 
-	const onChangeLiqPrice = (value: string) => {
-		const valueBigInt = BigInt(value)
-		setLiqPrice(valueBigInt)
-		checkCollateralAmount(minCollAmount, valueBigInt)
-	}
+	const onChangeLiqPrice = useCallback(
+		(value: string) => {
+			const valueBigInt = BigInt(value)
+			setLiqPrice(valueBigInt)
+			checkCollateralAmount(minCollAmount, valueBigInt)
+		},
+		[checkCollateralAmount, minCollAmount]
+	)
 
-	function checkCollateralAmount(coll: bigint, price: bigint) {
-		if (coll * price < 5000n * 10n ** 36n) {
-			setLiqPriceError('The liquidation value of the collateral must be at least 5000 OFD')
-			setMinCollAmountError('The collateral must be worth at least 5000 OFD')
-		} else {
-			setLiqPriceError('')
-			setMinCollAmountError('')
-		}
-	}
-
-	const onChangeBuffer = (value: string) => {
+	const onChangeBuffer = useCallback((value: string) => {
 		const valueBigInt = BigInt(value)
 		setBuffer(valueBigInt)
 		if (valueBigInt > 1000_000n) {
@@ -153,14 +157,14 @@ export default function PositionCreate({}) {
 		} else {
 			setBufferError('')
 		}
-	}
+	}, [])
 
-	const onChangeAuctionDuration = (value: string) => {
+	const onChangeAuctionDuration = useCallback((value: string) => {
 		const valueBigInt = BigInt(value)
 		setAuctionDuration(valueBigInt)
-	}
+	}, [])
 
-	const hasFormError = () => {
+	const hasFormError = useMemo(() => {
 		return (
 			!!minCollAmountError ||
 			!!initialCollAmountError ||
@@ -172,114 +176,89 @@ export default function PositionCreate({}) {
 			!!auctionError ||
 			!!initError
 		)
-	}
+	}, [
+		auctionError,
+		bufferError,
+		collTokenAddrError,
+		initError,
+		initialCollAmountError,
+		interestError,
+		limitAmountError,
+		liqPriceError,
+		minCollAmountError,
+	])
 
-	const handleApprove = async () => {
-		try {
-			setIsConfirming('approve')
-			const approveWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: collTokenData.address,
-				abi: erc20Abi,
-				functionName: 'approve',
-				args: [ADDRESS[chainId].mintingHub, maxUint256],
-			})
+	const toastRowsApprove = useMemo(() => {
+		return [
+			{
+				title: 'Amount:',
+				value: 'infinite ' + collTokenData.symbol,
+			},
+			{
+				title: 'Spender: ',
+				value: shortenAddress(ADDRESS[chainId].mintingHub),
+			},
+		]
+	}, [chainId, collTokenData.symbol])
 
-			const toastContent = [
-				{
-					title: 'Amount:',
-					value: 'infinite ' + collTokenData.symbol,
-				},
-				{
-					title: 'Spender: ',
-					value: shortenAddress(ADDRESS[chainId].mintingHub),
-				},
-				{
-					title: 'Transaction:',
-					hash: approveWriteHash,
-				},
-			]
+	const { loading: approving, writeFunction: approve } = useWriteContractCustom({
+		contractParams: {
+			address: collTokenData.address,
+			abi: erc20Abi,
+			functionName: 'approve',
+			args: [ADDRESS[chainId].mintingHub, maxUint256],
+		},
+		refetchFunctions: [collTokenData.refetch, userBalance.refetch],
+		toastPending: { title: `Approving ${collTokenData.symbol}`, rows: toastRowsApprove },
+		toastSuccess: { title: `Successfully Approved ${collTokenData.symbol}`, rows: toastRowsApprove },
+	})
 
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Approving ${collTokenData.symbol}`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title={`Successfully Approved ${collTokenData.symbol}`} />,
-				},
-				error: {
-					render(error: unknown) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} catch (e) {
-			console.log(e)
-		} finally {
-			setIsConfirming('')
-		}
-	}
+	const toastRowsOpenPosition = useMemo(() => {
+		return [
+			{
+				title: 'Collateral',
+				value: shortenAddress(collTokenData.address),
+			},
+			{
+				title: 'Collateral Amount:',
+				value: formatBigInt(initialCollAmount) + collTokenData.symbol,
+			},
+			{
+				title: 'LiqPrice: ',
+				value: formatBigInt(liqPrice),
+			},
+		]
+	}, [collTokenData.address, collTokenData.symbol, initialCollAmount, liqPrice])
 
-	const handleOpenPosition = async () => {
-		try {
-			setIsConfirming('open')
-			const openWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].mintingHub,
-				abi: ABIS.MintingHubABI,
-				functionName: 'openPosition',
-				args: [
-					collTokenData.address,
-					minCollAmount,
-					initialCollAmount,
-					limitAmount,
-					initPeriod * 86400n,
-					maturity * 86400n * 30n,
-					auctionDuration * 3600n,
-					Number(interest),
-					liqPrice,
-					Number(buffer),
-				],
-			})
+	const { loading: openingPosition, writeFunction: openPosition } = useWriteContractCustom({
+		contractParams: {
+			address: ADDRESS[chainId].mintingHub,
+			abi: ABIS.MintingHubABI,
+			functionName: 'openPosition',
+			args: [
+				collTokenData.address,
+				minCollAmount,
+				initialCollAmount,
+				limitAmount,
+				initPeriod * 86400n,
+				maturity * 86400n * 30n,
+				auctionDuration * 3600n,
+				Number(interest),
+				liqPrice,
+				Number(buffer),
+			],
+		},
+		refetchFunctions: [collTokenData.refetch],
+		toastPending: { title: `Creating a new position`, rows: toastRowsOpenPosition },
+		toastSuccess: { title: `Successfully created a position`, rows: toastRowsOpenPosition },
+	})
 
-			const toastContent = [
-				{
-					title: 'Collateral',
-					value: shortenAddress(collTokenData.address),
-				},
-				{
-					title: 'Collateral Amount:',
-					value: formatBigInt(initialCollAmount) + collTokenData.symbol,
-				},
-				{
-					title: 'LiqPrice: ',
-					value: formatBigInt(liqPrice),
-				},
-				{
-					title: 'Transaction:',
-					hash: openWriteHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: openWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Creating a new position`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title={`Successfully created a position`} />,
-				},
-				error: {
-					render(error: unknown) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} catch (e) {
-			console.log(e)
-		} finally {
-			collTokenData.refetch()
-			userBalance.refetch()
-			setIsConfirming('')
-		}
-	}
+	const showApproveButton = useMemo(
+		() =>
+			collTokenData.symbol != 'NaN' &&
+			(collTokenData.allowance == 0n || collTokenData.allowance < minCollAmount || collTokenData.allowance < initialCollAmount),
+		[collTokenData.allowance, collTokenData.symbol, initialCollAmount, minCollAmount]
+	)
 
 	return (
 		<>
@@ -337,19 +316,16 @@ export default function PositionCreate({}) {
 							placeholder="Token contract address"
 							value={collateralAddress}
 						/>
-						{collTokenData.symbol != 'NaN' &&
-						(collTokenData.allowance == 0n || collTokenData.allowance < minCollAmount || collTokenData.allowance < initialCollAmount) ? (
+						{showApproveButton && (
 							<Button
 								disabled={
 									collTokenData.symbol == 'NaN' || (collTokenData.allowance > minCollAmount && collTokenData.allowance > initialCollAmount)
 								}
-								isLoading={isConfirming == 'approve'}
-								onClick={() => handleApprove()}
+								isLoading={approving}
+								onClick={approve}
 							>
 								Approve {collTokenData.symbol == 'NaN' ? '' : 'Handling of ' + collTokenData.symbol}
 							</Button>
-						) : (
-							''
 						)}
 						<TokenInput
 							digit={collTokenData.decimals}
@@ -446,9 +422,9 @@ export default function PositionCreate({}) {
 				<div className="mx-auto mt-8 w-72 max-w-full flex-col">
 					<GuardToAllowedChainBtn>
 						<Button
-							disabled={minCollAmount == 0n || collTokenData.allowance < initialCollAmount || initialCollAmount == 0n || hasFormError()}
-							isLoading={isConfirming == 'open'}
-							onClick={() => handleOpenPosition()}
+							disabled={minCollAmount == 0n || collTokenData.allowance < initialCollAmount || initialCollAmount == 0n || hasFormError}
+							isLoading={openingPosition}
+							onClick={openPosition}
 							variant="primary"
 						>
 							Propose Position
