@@ -1,8 +1,8 @@
-import { gql } from "@apollo/client";
-import { NextApiRequest, NextApiResponse } from "next";
-import { getAddress } from "viem";
-import { clientPonder } from "../../app.config";
-import { PositionQuery } from "../../redux/slices/positions.types";
+import { gql } from '@apollo/client'
+import { NextApiResponse } from 'next'
+import { getAddress } from 'viem'
+import { clientPonder } from 'app.config'
+import { PositionQuery } from 'redux/slices/positions.types'
 
 export async function fetchPositions(): Promise<PositionQuery[]> {
 	const { data } = await clientPonder.query({
@@ -49,19 +49,19 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 				}
 			}
 		`,
-	});
+	})
 	// console.log(data.positions);
 	if (!data || !data.positions) {
-		return [];
+		return []
 	}
 
-	const list: PositionQuery[] = [];
+	const list: PositionQuery[] = []
 	if (data && data.positions) {
-		data.positions.items.forEach(async (p: PositionQuery) => {
+		for (const p of data.positions.items) {
 			list.push({
 				position: getAddress(p.position),
 				owner: getAddress(p.owner),
-				ofd: p.ofd && getAddress(p?.ofd),
+				ofd: p.ofd && getAddress(p?.ofd).toLowerCase(),
 				collateral: getAddress(p.collateral),
 				price: p.price,
 
@@ -94,14 +94,14 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 				availableForPosition: p.availableForPosition,
 				availableForClones: p.availableForClones,
 				minted: p.minted,
-			});
-		});
+			})
+		}
 	}
 
 	// console.log("List:", list);
-	return list;
+	return list
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
-	res.status(200).json(await fetchPositions());
+export default async function handler(_: never, res: NextApiResponse<Array<PositionQuery>>) {
+	res.status(200).json(await fetchPositions())
 }

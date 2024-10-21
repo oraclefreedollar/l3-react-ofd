@@ -1,16 +1,16 @@
-import { Address } from "viem";
-import { bsc, bscTestnet } from "wagmi/chains";
+import { Address } from 'viem'
+import { bsc, bscTestnet } from 'wagmi/chains'
 
 export interface ProtocolAddress {
-	oracleFreeDollar: Address;
-	bridge: Address;
-	usdt: Address;
-	equity: Address;
-	mintingHub: Address;
+	oracleFreeDollar: Address
+	bridge: Address
+	usdt: Address
+	equity: Address
+	mintingHub: Address
 	// wFPS: Address;
 	// positionFactory?: Address;
-	mockVol?: Address;
-	mockXofd?: Address;
+	mockVol?: Address
+	mockXofd?: Address
 	// mockVids?: Address;
 	// mockBoss?: Address;
 	// mockRealu?: Address;
@@ -115,19 +115,19 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 	// 	mockDkkb: "0xAA115D40D67883a58A1e05d8FB1153473b9b087d",
 	// },
 	[bscTestnet.id]: {
-		oracleFreeDollar: "0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8",
-		bridge: "0xa1Dde8965Ac0A59949ADEfc702A8C22d0fAdb69f",
-		usdt: "0x887C14bc51705Eb11E238631a24B4d6305a7B6BD", //BSC-USD/Collateral/XOFD same
-		equity: "0x47DeAd2B6150eCEbFD0D5fd2F884a02Ee3966886",
-		mintingHub: "0xF92B19b4D4dF3C25F5a238034eF4A0B3c05556a6",
+		oracleFreeDollar: '0x9c06B95640455ae3DEc830A0a05370d4Cd6fFef8',
+		bridge: '0xa1Dde8965Ac0A59949ADEfc702A8C22d0fAdb69f',
+		usdt: '0x887C14bc51705Eb11E238631a24B4d6305a7B6BD', //BSC-USD/Collateral/XOFD same
+		equity: '0x47DeAd2B6150eCEbFD0D5fd2F884a02Ee3966886',
+		mintingHub: '0xF92B19b4D4dF3C25F5a238034eF4A0B3c05556a6',
 		// positionFactory: "0xB11c4Bdcc8971A2544938f4f85B931e4ADE9d208",
 	},
 	[bsc.id]: {
-		oracleFreeDollar: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E",
-		bridge: "0x5330B9275C9094555286998D20c96bc63a9A575f",
-		usdt: "0x55d398326f99059fF775485246999027B3197955",
-		equity: "0xeA38b0cD48fA781181FDAa37291e8d6668462261",
-		mintingHub: "0xFe00054AF44E24f0B4bd49b1A2d2984C4264aabE",
+		oracleFreeDollar: '0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E',
+		bridge: '0x5330B9275C9094555286998D20c96bc63a9A575f',
+		usdt: '0x55d398326f99059fF775485246999027B3197955',
+		equity: '0xeA38b0cD48fA781181FDAa37291e8d6668462261',
+		mintingHub: '0xFe00054AF44E24f0B4bd49b1A2d2984C4264aabE',
 		// positionFactory: 0x4096831dC711C1A20aC011FBf0AA90A6c56dcF55
 		// wFPS: "null", //need to change the address
 	},
@@ -155,9 +155,9 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 	// 	mintingHub: zeroAddress,
 	// 	// wFPS: zeroAddress,
 	// },
-};
+}
 
 export const TokenAddresses = {
-	OFD: "0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E", //need change to OFD
-	USDT: "0x55d398326f99059fF775485246999027B3197955", //change to USDT
-};
+	OFD: '0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E',
+	USDT: '0x55d398326f99059fF775485246999027B3197955',
+}

@@ -1,10 +1,10 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery } from '@apollo/client'
 
 export const useOFDPSQuery = (id: string) => {
-	const { data, loading } = useQuery(
+	const { data } = useQuery(
 		gql`
       query {
-        ofdPS(id: "${id}") {
+        oFDPS(id: "${id}") {
           id
           profits
           loss
@@ -12,17 +12,17 @@ export const useOFDPSQuery = (id: string) => {
         }
       }
     `
-	);
+	)
 
-	if (!data || !data.ofdPS) {
+	if (!data || !data.oFDPS) {
 		return {
 			profit: 0n,
 			loss: 0n,
-		};
+		}
 	}
 
 	return {
-		profit: BigInt(data.ofdPS.profits),
-		loss: BigInt(data.ofdPS.loss),
-	};
-};
+		profit: BigInt(data.oFDPS.profits),
+		loss: BigInt(data.oFDPS.loss),
+	}
+}

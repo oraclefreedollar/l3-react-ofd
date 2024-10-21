@@ -1,7 +1,7 @@
-import Head from "next/head";
-import OverviewTVL from "@components/OverviewTVL";
-import AppPageHeader from "@components/AppPageHeader";
-import { envConfig } from "../app.env.config";
+import Head from 'next/head'
+import OverviewTVL from 'components/OverviewTVL'
+import AppPageHeader from 'components/AppPageHeader'
+import { envConfig } from 'app.env.config'
 
 export default function Overview() {
 	return (
@@ -13,5 +13,5 @@ export default function Overview() {
 			<AppPageHeader title="Positions By Collateral" />
 			<OverviewTVL />
 		</div>
-	);
+	)
 }

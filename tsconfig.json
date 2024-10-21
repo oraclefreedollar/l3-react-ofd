@@ -1,26 +1,52 @@
 {
+  "allowSyntheticDefaults": true,
+  "include": [
+    "./"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "compilerOptions": {
-    "target": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "baseUrl": "./",
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "paths": {
-      "@components/*": ["./components/*"],
-      "@hooks": ["./hooks"],
-      "@utils": ["./utils"],
-      "@contracts": ["./contracts"]
-    }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+      "components/*": [
+        "./components/*"
+      ],
+      "hooks": [
+        "./hooks"
+      ],
+      "utils": [
+        "./utils"
+      ],
+      "contracts": [
+        "./contracts"
+      ],
+      "redux/*": [
+        "./redux/*"
+      ]
+    },
+    "allowJs": true,
+    "esModuleInterop": true,
+    "incremental": true,
+    "noEmit": true,
+    "outDir": "./dist/",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ESNext",
+  }
 }

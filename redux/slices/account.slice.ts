@@ -1,49 +1,49 @@
-import { createSlice, Dispatch } from "@reduxjs/toolkit";
-import { Address } from "viem";
-import { AccountState, DispatchBoolean } from "./account.types";
+import { createSlice, Dispatch } from '@reduxjs/toolkit'
+import { AccountState, DispatchBoolean } from './account.types'
 
 // --------------------------------------------------------------------------------
 
 export const initialState: AccountState = {
 	error: null,
 	loading: false,
-};
+}
 
 // --------------------------------------------------------------------------------
 
 export const slice = createSlice({
-	name: "account",
+	name: 'account',
 	initialState,
 	reducers: {
 		// RESET
 		resetAccountState(state) {
-			state = initialState;
+			state.error = initialState.error
+			state.loading = initialState.loading
 		},
 
 		// HAS ERROR
 		hasError(state, action: { payload: string }) {
-			state.error = action.payload;
+			state.error = action.payload
 		},
 
 		// SET LOADING
 		setLoading: (state, action: { payload: boolean }) => {
-			state.loading = action.payload;
+			state.loading = action.payload
 		},
 
 		// -------------------------------------
 		// SET
 	},
-});
+})
 
-export const reducer = slice.reducer;
-export const actions = slice.actions;
+export const reducer = slice.reducer
+export const actions = slice.actions
 
 // --------------------------------------------------------------------------------
-export const fetchAccount = (address: Address) => async (dispatch: Dispatch<DispatchBoolean>) => {
+export const fetchAccount = () => async (dispatch: Dispatch<DispatchBoolean>) => {
 	// ---------------------------------------------------------------
 	// Log, set loading to true
 	// console.log('Loading [REDUX]: Account');
-	dispatch(slice.actions.setLoading(true));
+	dispatch(slice.actions.setLoading(true))
 
 	// ---------------------------------------------------------------
 	// Fetch account data and dispatch
@@ -56,5 +56,5 @@ export const fetchAccount = (address: Address) => async (dispatch: Dispatch<Disp
 
 	// ---------------------------------------------------------------
 	// Finalizing, loading set to false
-	dispatch(slice.actions.setLoading(false));
-};
+	dispatch(slice.actions.setLoading(false))
+}
