@@ -7,7 +7,7 @@ const coingeckoPlatforms: Record<Address, string> = {
 }
 
 const toBridgedContract: Record<Address, Address> = {
-	'0x2a004afbAeD2FfeD463B4E149A78becAA441895F': '0x90685e300a4c4532efcefe91202dfe1dfd572f47', // CTA
+	'0x2a004afbaed2ffed463b4e149a78becaa441895f': '0x90685e300a4c4532efcefe91202dfe1dfd572f47', // CTA
 }
 
 const Constants = {
