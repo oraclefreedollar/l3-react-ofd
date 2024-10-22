@@ -3,18 +3,16 @@
 import AppPageHeader from 'components/AppPageHeader'
 import Button from 'components/Button'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
-import AddressInput from 'components/Input/AddressInput'
-import NormalInput from 'components/Input/NormalInput'
-import TokenInput from 'components/Input/TokenInput'
-import { ABIS, ADDRESS } from 'contracts'
-import { useTokenData, useUserBalance, useWriteContractCustom } from 'hooks'
-import { formatBigInt, shortenAddress } from 'utils'
+import { useTokenData, useUserBalance } from 'hooks'
 import Head from 'next/head'
-import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { erc20Abi, isAddress, maxUint256 } from 'viem'
-import { useChainId } from 'wagmi'
+import { isAddress } from 'viem'
 import { envConfig } from 'app.env.config'
+import { useOpenPosition } from 'hooks/positions'
+import PositionInitialization from 'components/Position/PositionInitialization'
+import PositionProposeCollateral from 'components/Position/PositionProposeCollateral'
+import PositionFinancialTerms from 'components/Position/PositionFinancialTerms'
+import PositionLiquidation from 'components/Position/PositionLiquidation'
 
 export default function PositionCreate({}) {
 	const [auctionDuration, setAuctionDuration] = useState(24n)
@@ -40,7 +38,6 @@ export default function PositionCreate({}) {
 	const [minCollAmount, setMinCollAmount] = useState(0n)
 	const [minCollAmountError, setMinCollAmountError] = useState('')
 
-	const chainId = useChainId()
 	const collTokenData = useTokenData(collateralAddress)
 	const userBalance = useUserBalance()
 
@@ -188,69 +185,17 @@ export default function PositionCreate({}) {
 		minCollAmountError,
 	])
 
-	const toastRowsApprove = useMemo(() => {
-		return [
-			{
-				title: 'Amount:',
-				value: 'infinite ' + collTokenData.symbol,
-			},
-			{
-				title: 'Spender: ',
-				value: shortenAddress(ADDRESS[chainId].mintingHub),
-			},
-		]
-	}, [chainId, collTokenData.symbol])
-
-	const { loading: approving, writeFunction: approve } = useWriteContractCustom({
-		contractParams: {
-			address: collTokenData.address,
-			abi: erc20Abi,
-			functionName: 'approve',
-			args: [ADDRESS[chainId].mintingHub, maxUint256],
-		},
-		refetchFunctions: [collTokenData.refetch, userBalance.refetch],
-		toastPending: { title: `Approving ${collTokenData.symbol}`, rows: toastRowsApprove },
-		toastSuccess: { title: `Successfully Approved ${collTokenData.symbol}`, rows: toastRowsApprove },
-	})
-
-	const toastRowsOpenPosition = useMemo(() => {
-		return [
-			{
-				title: 'Collateral',
-				value: shortenAddress(collTokenData.address),
-			},
-			{
-				title: 'Collateral Amount:',
-				value: formatBigInt(initialCollAmount) + collTokenData.symbol,
-			},
-			{
-				title: 'LiqPrice: ',
-				value: formatBigInt(liqPrice),
-			},
-		]
-	}, [collTokenData.address, collTokenData.symbol, initialCollAmount, liqPrice])
-
-	const { loading: openingPosition, writeFunction: openPosition } = useWriteContractCustom({
-		contractParams: {
-			address: ADDRESS[chainId].mintingHub,
-			abi: ABIS.MintingHubABI,
-			functionName: 'openPosition',
-			args: [
-				collTokenData.address,
-				minCollAmount,
-				initialCollAmount,
-				limitAmount,
-				initPeriod * 86400n,
-				maturity * 86400n * 30n,
-				auctionDuration * 3600n,
-				Number(interest),
-				liqPrice,
-				Number(buffer),
-			],
-		},
-		refetchFunctions: [collTokenData.refetch],
-		toastPending: { title: `Creating a new position`, rows: toastRowsOpenPosition },
-		toastSuccess: { title: `Successfully created a position`, rows: toastRowsOpenPosition },
+	const { openPosition, openingPosition } = useOpenPosition({
+		auctionDuration,
+		buffer,
+		collTokenData,
+		initPeriod,
+		initialCollAmount,
+		interest,
+		limitAmount,
+		liqPrice,
+		maturity,
+		minCollAmount,
 	})
 
 	const showApproveButton = useMemo(
@@ -273,151 +218,50 @@ export default function PositionCreate({}) {
 					tooltip="Propose a completely new position with a collateral of your choice."
 				/>
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<div className="bg-slate-950 rounded-xl p-4 flex flex-col gap-y-4">
-						<div className="text-lg font-bold justify-center mt-3 flex">Initialization</div>
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-							<TokenInput
-								digit={18}
-								disabled
-								error={userBalance.ofdBalance < BigInt(1000 * 1e18) ? 'Not enough OFD' : ''}
-								hideMaxLabel
-								label="Proposal Fee"
-								onChange={onChangeInitialCollAmount}
-								symbol="OFD"
-								value={BigInt(1000 * 1e18).toString()}
-							/>
-							<NormalInput
-								digit={0}
-								error={initError}
-								hideMaxLabel
-								label="Initialization Period"
-								onChange={onChangeInitPeriod}
-								placeholder="Initialization Period"
-								symbol="days"
-								value={initPeriod.toString()}
-							/>
-						</div>
-						<div>
-							It is recommended to{' '}
-							<Link href="https://github.com/oracleFreeDollar-OFD/oracleFreeDollar/discussions" target="_blank">
-								{' '}
-								discuss{' '}
-							</Link>{' '}
-							new positions before initiating them to increase the probability of passing the decentralized governance process.
-						</div>
-					</div>
-					<div className="bg-slate-950 rounded-xl p-4 flex flex-col gap-y-4">
-						<div className="text-lg font-bold justify-center mt-3 flex">Collateral</div>
-
-						<AddressInput
-							error={collTokenAddrError}
-							label="Collateral Token"
-							onChange={onChangeCollateralAddress}
-							placeholder="Token contract address"
-							value={collateralAddress}
-						/>
-						{showApproveButton && (
-							<Button
-								disabled={
-									collTokenData.symbol == 'NaN' || (collTokenData.allowance > minCollAmount && collTokenData.allowance > initialCollAmount)
-								}
-								isLoading={approving}
-								onClick={approve}
-							>
-								Approve {collTokenData.symbol == 'NaN' ? '' : 'Handling of ' + collTokenData.symbol}
-							</Button>
-						)}
-						<TokenInput
-							digit={collTokenData.decimals}
-							error={minCollAmountError}
-							hideMaxLabel
-							label="Minimum Collateral"
-							onChange={onChangeMinCollAmount}
-							placeholder="Minimum Collateral Amount"
-							symbol={collTokenData.symbol}
-							value={minCollAmount.toString()}
-						/>
-						<TokenInput
-							digit={collTokenData.decimals}
-							error={initialCollAmountError}
-							label="Initial Collateral"
-							max={collTokenData.balance}
-							onChange={onChangeInitialCollAmount}
-							placeholder="Initial Collateral Amount"
-							symbol={collTokenData.symbol}
-							value={initialCollAmount.toString()}
-						/>
-					</div>
-					<div className="bg-slate-950 rounded-xl p-4 flex flex-col gap-y-4">
-						<div className="text-lg font-bold text-center mt-3">Financial Terms</div>
-						<TokenInput
-							error={limitAmountError}
-							hideMaxLabel
-							label="Minting Limit"
-							onChange={onChangeLimitAmount}
-							placeholder="Limit Amount"
-							symbol="OFD"
-							value={limitAmount.toString()}
-						/>
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-							<NormalInput
-								digit={4}
-								error={interestError}
-								hideMaxLabel
-								label="Annual Interest"
-								onChange={onChangeInterest}
-								placeholder="Annual Interest Percent"
-								symbol="%"
-								value={interest.toString()}
-							/>
-							<NormalInput
-								digit={0}
-								hideMaxLabel
-								label="Maturity"
-								onChange={onChangeMaturity}
-								placeholder="Maturity"
-								symbol="months"
-								value={maturity.toString()}
-							/>
-						</div>
-					</div>
-					<div className="bg-slate-950 rounded-xl p-4 flex flex-col gap-y-4">
-						<div className="text-lg font-bold text-center mt-3">Liquidation</div>
-						<TokenInput
-							balanceLabel="Pick"
-							digit={36n - collTokenData.decimals}
-							error={liqPriceError}
-							hideMaxLabel={minCollAmount == 0n}
-							label="Liquidation Price"
-							max={minCollAmount == 0n ? 0n : (5000n * 10n ** 36n + minCollAmount - 1n) / minCollAmount}
-							onChange={onChangeLiqPrice}
-							placeholder="Price"
-							symbol="OFD"
-							value={liqPrice.toString()}
-						/>
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-							<NormalInput
-								digit={4}
-								error={bufferError}
-								hideMaxLabel
-								label="Retained Reserve"
-								onChange={onChangeBuffer}
-								placeholder="Percent"
-								symbol="%"
-								value={buffer.toString()}
-							/>
-							<NormalInput
-								digit={0}
-								error={auctionError}
-								hideMaxLabel
-								label="Auction Duration"
-								onChange={onChangeAuctionDuration}
-								placeholder="Auction Duration"
-								symbol="hours"
-								value={auctionDuration.toString()}
-							/>
-						</div>
-					</div>
+					<PositionInitialization
+						initError={initError}
+						initPeriod={initPeriod}
+						onChangeInitialCollAmount={onChangeInitialCollAmount}
+						onChangeInitPeriod={onChangeInitPeriod}
+						userOFDBalance={userBalance.ofdBalance}
+					/>
+					<PositionProposeCollateral
+						collateralAddress={collateralAddress}
+						collTokenAddrError={collTokenAddrError}
+						collTokenData={collTokenData}
+						initialCollAmount={initialCollAmount}
+						initialCollAmountError={initialCollAmountError}
+						minCollAmount={minCollAmount}
+						minCollAmountError={minCollAmountError}
+						onChangeCollateralAddress={onChangeCollateralAddress}
+						onChangeInitialCollAmount={onChangeInitialCollAmount}
+						onChangeMinCollAmount={onChangeMinCollAmount}
+						showApproveButton={showApproveButton}
+						userBalanceRefetch={userBalance.refetch}
+					/>
+					<PositionFinancialTerms
+						interest={interest}
+						interestError={interestError}
+						limitAmount={limitAmount}
+						limitAmountError={limitAmountError}
+						maturity={maturity}
+						onChangeInterest={onChangeInterest}
+						onChangeLimitAmount={onChangeLimitAmount}
+						onChangeMaturity={onChangeMaturity}
+					/>
+					<PositionLiquidation
+						auctionDuration={auctionDuration}
+						auctionError={auctionError}
+						buffer={buffer}
+						bufferError={bufferError}
+						collateralDecimals={collTokenData.decimals}
+						liqPrice={liqPrice}
+						liqPriceError={liqPriceError}
+						minCollAmount={minCollAmount}
+						onChangeAuctionDuration={onChangeAuctionDuration}
+						onChangeBuffer={onChangeBuffer}
+						onChangeLiqPrice={onChangeLiqPrice}
+					/>
 				</section>
 				<div className="mx-auto mt-8 w-72 max-w-full flex-col">
 					<GuardToAllowedChainBtn>

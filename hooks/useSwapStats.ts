@@ -15,7 +15,7 @@ export const useSwapStats: () => {
 	usdtUserAllowance: bigint
 	usdtUserBal: bigint
 } = () => {
-	const chainId = WAGMI_CHAIN.id as number
+	const chainId = WAGMI_CHAIN.id
 	const { address } = useAccount()
 	const account = address || '0x0'
 
