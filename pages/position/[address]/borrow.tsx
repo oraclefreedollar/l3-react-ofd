@@ -204,7 +204,7 @@ export default function PositionBorrow({}) {
 			<div>
 				<AppPageHeader backText="Back to position" backTo={`/position/${position}`} title="Mint OracleFreeDollars for Yourself" />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<div className="bg-slate-950 rounded-xl p-4 flex flex-col gap-y-4">
+					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
 						<div className="text-lg font-bold text-center mt-3">Minting Amount and Collateral</div>
 						<div className="space-y-8">
 							<TokenInput
@@ -268,7 +268,7 @@ export default function PositionBorrow({}) {
 						</div>
 					</div>
 					<div>
-						<div className="bg-slate-950 rounded-xl p-4 flex flex-col">
+						<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
 							<div className="text-lg font-bold text-center mt-3">Outcome</div>
 							<div className="bg-slate-900 rounded-xl p-4 flex flex-col gap-2">
 								<div className="flex">
@@ -295,7 +295,7 @@ export default function PositionBorrow({}) {
 								</div>
 							</div>
 						</div>
-						<div className="bg-slate-950 rounded-xl p-4 flex flex-col mt-4">
+						<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4 mt-4">
 							<div className="text-lg font-bold text-center mt-3">Notes</div>
 							<AppBox className="flex-1 mt-4">
 								<ol className="flex flex-col gap-y-2 pl-6 [&>li]:list-decimal">
