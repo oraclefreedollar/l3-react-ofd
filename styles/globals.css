@@ -2,21 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .bg-gradient {
+    background: linear-gradient(to right, #2F0743, #5a3481) fixed;
+  }
+  .bg-synthwave {
+    @apply bg-cover bg-center bg-no-repeat bg-fixed;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Neon text effects */
+  .text-neon-pink {
+    color: #fff;
+    text-shadow: 0 0 5px #fff,
+    0 0 20px #ff00ff,
+    0 0 40px #ff00ff;
+  }
+
+  .text-neon-blue {
+    color: #fff;
+    text-shadow: 0 0 5px #fff,
+    0 0 20px #0fa,
+    0 0 40px #0fa;
+  }
+
+  .text-neon-purple {
+    color: #fff;
+    text-shadow: 0 0 5px #fff,
+    0 0 20px #8a2be2,
+    0 0 40px #8a2be2;
+  }
+
+  .text-neon-cyan {
+    color: #fff;
+    text-shadow: 0 0 5px #fff,
+    0 0 20px #00ffff,
+    0 0 40px #00ffff;
+  }
+
+  /* Subtle version for smaller text */
+  .text-neon-pink-subtle {
+    color: #fff;
+    text-shadow: 0 0 2px #fff,
+    0 0 8px #ff00ff;
+  }
+
+  .text-neon-blue-subtle {
+    color: #fff;
+    text-shadow: 0 0 2px #fff,
+    0 0 8px #0fa;
+  }
+
+  .text-neon-purple-subtle {
+    color: #fff;
+    text-shadow: 0 0 2px #fff,
+    0 0 8px #8a2be2;
+  }
+
+  .text-neon-cyan-subtle {
+    color: #fff;
+    text-shadow: 0 0 2px #fff,
+    0 0 8px #00ffff;
+  }
+}
+
+@layer base {
+  html, body {
+    min-height: 100vh;
+  }
+
+  body {
+    position: relative;
+    overflow-x: hidden;
+    @apply text-gray-100;
+  }
+}
+
 @layer components {
   .btn {
     @apply inline-flex whitespace-nowrap justify-center items-center gap-3 cursor-pointer rounded-lg select-none ease-in duration-200 border border-transparent px-3 py-2 md:px-3 md:py-3;
   }
 
   .btn-nav {
-    @apply hover:text-rose-400 px-5 py-5 md:px-3 md:py-3;
+    @apply text-white hover:text-neon-blue px-5 py-5 md:px-3 md:py-3;
   }
 
   .btn-primary {
-    @apply text-white hover:opacity-60 bg-rose-400;
+    @apply text-white hover:opacity-60 bg-pink-600;
   }
 
   .btn-secondary {
-    @apply text-black border-black hover:bg-neutral-200 bg-rose-400 border-0 text-white;
+    @apply text-white border-teal-400 hover:bg-teal-200 bg-teal-400 border-0;
   }
 
   .btn-small {
@@ -24,12 +100,16 @@
   }
 
   .btn-disabled {
-    @apply cursor-not-allowed bg-neutral-700 text-slate-800 pointer-events-none;
+    @apply cursor-not-allowed bg-gray-300 text-gray-500 pointer-events-none;
+  }
+
+  .blur-overlay {
+    @apply fixed inset-0 z-[-1] backdrop-blur-md bg-black bg-opacity-20;
   }
 }
 
 body {
-  @apply antialiased;
+  @apply antialiased bg-blue-50;
 }
 
 .text-link,
@@ -37,11 +117,11 @@ p > a {
   text-decoration: underline;
 
   @apply transition-opacity duration-200 ease-out;
-  @apply hover:opacity-70;
+  @apply hover:opacity-70 text-pink-500;
 }
 
 * {
-  @apply outline-neutral-200;
+  @apply outline-teal-200;
 }
 
 p + * {
@@ -49,7 +129,7 @@ p + * {
 }
 
 ::selection {
-  @apply bg-neutral-200;
+  @apply bg-pink-200;
 }
 
 svg#preloader {
@@ -59,12 +139,12 @@ svg#preloader {
 
 svg #plug,
 svg #socket {
-  fill: #4f46e5;
+  fill: #264d50;
 }
 
 svg #loop-normal {
   fill: none;
-  stroke: #4f46e5;
+  stroke: #264d50;
   stroke-width: 12;
 }
 
@@ -132,13 +212,20 @@ button[data-testid="component-big-button"] {
 
 /* Toast Styles */
 .Toastify__toast {
-  border: 1px rgb(51 65 85) solid;
-  background-color: transparent !important;
+  border: 1px rgb(0 169 181) solid;
+  background-color: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(10px);
 }
 .Toastify__toast .Toastify__toast-body {
   align-items: flex-start;
+  color: #264d50;
 }
 .Toastify__toast-body .Toastify__toast-icon {
   margin-top: 2px;
+}
+
+
+/* Optional: Adjust hover state */
+w3m-button:hover {
+  opacity: 0.8;
 }

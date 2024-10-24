@@ -8,9 +8,14 @@ export default function Document() {
 				<meta content="#111827" name="theme-color" />
 				<link href="/favicon.ico" rel="icon" type="image/png" />
 			</Head>
-			<body className="font-sans px-0 md:px-8 max-w-screen-2xl container-xl mx-auto bg-gray-900 text-slate-400">
-				<Main />
-				<NextScript />
+			<body className="font-sans bg-synthwave bg-cover bg-center bg-no-repeat bg-fixed backdrop-blur-md min-h-screen">
+			<div className="fixed inset-0 bg-black/10 -z-10"></div>
+			<div className="relative w-full">
+				<div className="mx-auto px-0 md:px-8 max-w-screen-2xl">
+					<Main />
+					<NextScript />
+				</div>
+			</div>
 			</body>
 		</Html>
 	)

@@ -32,13 +32,13 @@ export default function Home() {
 			</Head>
 			<main className="block">
 				<section className="mt-16 grid items-center gap-20 align-middle lg:grid-cols-5">
-					<div className="lg:col-span-3">
+					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 lg:col-span-3">
 						<h1 className="mb-12 text-right text-4xl font-bold flex items-center">
 							<picture>
 								<img alt="logo" className="min-w-[80px]" src="/assets/oracle-free-dollar-logo.svg" width={80} />
 							</picture>
 							<div className="ml-3 text-[75px] block lg:hidden max-w-sm">OFD</div>
-							<div className="ml-3 text-[75px] hidden lg:block max-w-md">OracleFreeDollar</div>
+							<div className="ml-3 text-[70px] hidden lg:block max-w-md">OracleFreeDollar</div>
 						</h1>
 						<p className="text-lg font-bold">
 							{envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Dollar. Its strengths are its
@@ -99,7 +99,7 @@ export default function Home() {
 						</picture>
 					</div>
 				</section>
-				<div className="mt-16 bg-slate-950 rounded-xl grid grid-cols-1 sm:grid-cols-12 gap-4 p-4">
+				<div className="mt-16 bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl grid grid-cols-1 sm:grid-cols-12 gap-4 p-4">
 					<AppBox className="col-span-6 sm:col-span-4">
 						<a href={SOCIAL.DefiLlama} rel="noreferrer" target="_blank">
 							<DisplayLabel className="underline" label="Total Value Locked" />
