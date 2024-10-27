@@ -20,7 +20,10 @@ const Prices = {
 	swissDLT,
 }
 
+const Blacklist = ['0xfD5840Cd36d94D7229439859C0112a4185BC0255']
+
 export const Contracts = {
+	Blacklist,
 	Constants,
 	Prices,
 }

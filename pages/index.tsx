@@ -9,7 +9,7 @@ import Link from 'next/link'
 import { parseUnits } from 'viem'
 import { useChainId } from 'wagmi'
 import { envConfig } from 'app.env.config'
-import { SOCIAL, formatBigInt } from 'utils'
+import { SOCIAL, formatBigInt, Contracts } from 'utils'
 
 export default function Home() {
 	const chainId = useChainId()
@@ -111,7 +111,11 @@ export default function Home() {
 							<DisplayLabel className="underline" label="Active Positions" />
 						</Link>
 						<div className="mt-2 text-right">
-							{positionData.positions.filter((position) => !position.denied && !position.closed).length}
+							{
+								positionData.positions.filter(
+									(position) => !position.denied && !position.closed && !Contracts.Blacklist.includes(position.collateral)
+								).length
+							}
 						</div>
 					</AppBox>
 					<AppBox className="col-span-6 sm:col-span-4">
