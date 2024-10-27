@@ -3,12 +3,17 @@ import { NextApiResponse } from 'next'
 import { getAddress } from 'viem'
 import { clientPonder } from 'app.config'
 import { PositionQuery } from 'redux/slices/positions.types'
+import { Contracts } from 'utils'
 
 export async function fetchPositions(): Promise<PositionQuery[]> {
 	const { data } = await clientPonder.query({
 		query: gql`
 			query {
-				positions(orderBy: "availableForClones", orderDirection: "desc") {
+				positions(
+					orderBy: "availableForClones"
+					orderDirection: "desc"
+					where: { collateral_not: "${Contracts.Blacklist[0]}" }
+				) {
 					items {
 						position
 						owner
