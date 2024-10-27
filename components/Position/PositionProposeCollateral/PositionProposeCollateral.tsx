@@ -1,52 +1,49 @@
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import AddressInput from 'components/Input/AddressInput'
 import Button from 'components/Button'
 import TokenInput from 'components/Input/TokenInput'
-import { PositionCollateralTokenData } from 'meta/positions'
 import { RefetchType } from 'utils'
 import { useApproveCollateral } from './hooks/useApproveCollateral'
+import { usePositionCreate } from 'contexts/position'
+import { useTokenData } from 'hooks'
+import { PositionCreateFormState } from 'contexts/position/types'
 
 type Props = {
-	collTokenAddrError: string
-	collateralAddress: string
-	collTokenData: PositionCollateralTokenData
-	initialCollAmount: bigint
-	initialCollAmountError: string
-	onChangeInitialCollAmount: (value: string) => void
-	minCollAmount: bigint
-	minCollAmountError: string
-	onChangeCollateralAddress: (addr: string) => void
-	onChangeMinCollAmount: (value: string) => void
-	showApproveButton: boolean
 	userBalanceRefetch: RefetchType
 }
 
 const PositionProposeCollateral: React.FC<Props> = (props) => {
-	const {
-		collTokenAddrError,
-		collateralAddress,
-		collTokenData,
-		initialCollAmount,
-		initialCollAmountError,
-		onChangeInitialCollAmount,
-		minCollAmount,
-		minCollAmountError,
-		onChangeCollateralAddress,
-		onChangeMinCollAmount,
-		showApproveButton,
-		userBalanceRefetch,
-	} = props
+	const { userBalanceRefetch } = props
 
+	const { form, errors, handleChange } = usePositionCreate()
+	const { collateralAddress, initialCollAmount, minCollAmount } = form
+
+	const collTokenData = useTokenData(form.collateralAddress)
 	const { approve, approving } = useApproveCollateral({ collTokenData, userBalanceRefetch })
+
+	const showApproveButton = useMemo(
+		() =>
+			collTokenData.symbol != 'NaN' &&
+			(collTokenData.allowance == 0n || collTokenData.allowance < minCollAmount || collTokenData.allowance < initialCollAmount),
+		[collTokenData.allowance, collTokenData.symbol, initialCollAmount, minCollAmount]
+	)
+
+	const onChangeValue = useCallback(
+		(field: keyof PositionCreateFormState, value: string) => {
+			const valueBigInt = BigInt(value)
+			handleChange(field, valueBigInt)
+		},
+		[handleChange]
+	)
 
 	return (
 		<div className="bg-slate-950 rounded-xl p-4 flex flex-col gap-y-4">
 			<div className="text-lg font-bold justify-center mt-3 flex">Collateral</div>
 
 			<AddressInput
-				error={collTokenAddrError}
+				error={errors['collateralAddress']}
 				label="Collateral Token"
-				onChange={onChangeCollateralAddress}
+				onChange={(value) => handleChange('collateralAddress', value)}
 				placeholder="Token contract address"
 				value={collateralAddress}
 			/>
@@ -63,20 +60,20 @@ const PositionProposeCollateral: React.FC<Props> = (props) => {
 			)}
 			<TokenInput
 				digit={collTokenData.decimals}
-				error={minCollAmountError}
+				error={errors['minCollAmount']}
 				hideMaxLabel
 				label="Minimum Collateral"
-				onChange={onChangeMinCollAmount}
+				onChange={(value) => onChangeValue('minCollAmount', value)}
 				placeholder="Minimum Collateral Amount"
 				symbol={collTokenData.symbol}
 				value={minCollAmount.toString()}
 			/>
 			<TokenInput
 				digit={collTokenData.decimals}
-				error={initialCollAmountError}
+				error={errors['initialCollAmount']}
 				label="Initial Collateral"
 				max={collTokenData.balance}
-				onChange={onChangeInitialCollAmount}
+				onChange={(value) => onChangeValue('initialCollAmount', value)}
 				placeholder="Initial Collateral Amount"
 				symbol={collTokenData.symbol}
 				value={initialCollAmount.toString()}

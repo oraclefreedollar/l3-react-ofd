@@ -1,18 +1,32 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import TokenInput from 'components/Input/TokenInput'
 import NormalInput from 'components/Input/NormalInput'
 import Link from 'next/link'
+import { usePositionCreate } from 'contexts/position'
 
 type Props = {
-	initError: string
-	initPeriod: bigint
-	onChangeInitPeriod: (value: string) => void
-	onChangeInitialCollAmount: (value: string) => void
-	userOFDBalance: bigint
+	userBalanceOFD: bigint
 }
 
-const PositionInitialization: React.FC<Props> = (props) => {
-	const { initError, initPeriod, onChangeInitPeriod, onChangeInitialCollAmount, userOFDBalance } = props
+const PositionInitialization: React.FC<Props> = (props: Props) => {
+	const { userBalanceOFD } = props
+	const { form, errors, handleChange } = usePositionCreate()
+
+	const onChangeInitialCollAmount = useCallback(
+		(value: string) => {
+			const valueBigInt = BigInt(value)
+			handleChange('initialCollAmount', valueBigInt)
+		},
+		[handleChange]
+	)
+
+	const onChangeInitPeriod = useCallback(
+		(value: string) => {
+			const valueBigInt = BigInt(value)
+			handleChange('initPeriod', valueBigInt)
+		},
+		[handleChange]
+	)
 
 	return (
 		<div className="bg-slate-950 rounded-xl p-4 flex flex-col gap-y-4">
@@ -21,7 +35,7 @@ const PositionInitialization: React.FC<Props> = (props) => {
 				<TokenInput
 					digit={18}
 					disabled
-					error={userOFDBalance < BigInt(1000 * 1e18) ? 'Not enough OFD' : ''}
+					error={userBalanceOFD < BigInt(1000 * 1e18) ? 'Not enough OFD' : ''}
 					hideMaxLabel
 					label="Proposal Fee"
 					onChange={onChangeInitialCollAmount}
@@ -30,13 +44,13 @@ const PositionInitialization: React.FC<Props> = (props) => {
 				/>
 				<NormalInput
 					digit={0}
-					error={initError}
+					error={errors['initPeriod']}
 					hideMaxLabel
 					label="Initialization Period"
 					onChange={onChangeInitPeriod}
 					placeholder="Initialization Period"
 					symbol="days"
-					value={initPeriod.toString()}
+					value={form.initPeriod.toString()}
 				/>
 			</div>
 			<div>
