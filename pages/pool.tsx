@@ -217,8 +217,8 @@ export default function Pool() {
 			<div>
 				<AppPageHeader link={equityUrl} title={`${envConfig.AppName} Pool Shares (OFDPS)`} />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4 container mx-auto">
-					<div className="bg-slate-950 rounded-xl p-4 flex flex-col">
-						<div className="text-lg font-bold text-center">Pool Details</div>
+					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50">
+						<div className="text-xl font-bold text-center text-white">Pool Details</div>
 						<div className="p-4 mt-5">
 							<TokenInput
 								error={error}
@@ -305,7 +305,8 @@ export default function Pool() {
 							</Link>
 						</div> */}
 					</div>
-					<div className="bg-slate-950 rounded-xl p-4 grid grid-cols-1 gap-2">
+					<div
+						className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50">
 						<div id="chart-timeline">
 							<div className="flex justify-between">
 								<div>
@@ -328,6 +329,7 @@ export default function Pool() {
 										height: 300,
 										dropShadow: {
 											enabled: false,
+											color: '#d89eef',
 										},
 										toolbar: {
 											show: false,
@@ -338,7 +340,9 @@ export default function Pool() {
 										background: 'transparent',
 									},
 									stroke: {
-										width: 3,
+										width: 2,
+										curve: 'smooth',
+										colors: ['#d89eef'],
 									},
 									dataLabels: {
 										enabled: false,
@@ -364,16 +368,38 @@ export default function Pool() {
 									fill: {
 										type: 'gradient',
 										gradient: {
-											shadeIntensity: 0,
-											opacityTo: 0,
-											shade: '#1C64F2',
-											gradientToColors: ['#1C64F2'],
-										},
+											shadeIntensity: 1,
+											opacityFrom: 0.7,
+											opacityTo: 0.1,
+											stops: [0, 90, 100],
+											colorStops: [
+												{
+													offset: 0,
+													color: '#d89eef', // Start with full purple
+													opacity: 0.4
+												},
+												{
+													offset: 100,
+													color: '#d89eef', // End with transparent purple
+													opacity: 0.1
+												}
+											]
+										}
 									},
 									tooltip: {
+										theme: 'dark',
 										x: {
 											format: 'dd MMM yyyy',
 										},
+										style: {
+											fontSize: '12px',
+											fontFamily: undefined
+										},
+										fillSeriesColor: false,
+										marker: {
+											show: true,
+											fillColors: ['#b51cf2']
+										}
 									},
 								}}
 								series={[
@@ -387,30 +413,37 @@ export default function Pool() {
 								type="area"
 							/>
 						</div>
-						<div className="bg-slate-900 rounded-xl p-4 grid grid-cols-1 md:grid-cols-2 gap-2">
+						<div
+							className="bg-black/40 backdrop-blur-sm rounded-xl p-4 grid grid-cols-1 md:grid-cols-2 gap-2 border border-cyan-500/30">
 							<AppBox>
 								<DisplayLabel label="Market Cap" />
-								<DisplayAmount amount={(poolStats.equitySupply * poolStats.equityPrice) / BigInt(1e18)} currency="OFD" />
+								<DisplayAmount amount={(poolStats.equitySupply * poolStats.equityPrice) / BigInt(1e18)}
+															 currency="OFD" />
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Total Reserve" />
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={poolStats.ofdTotalReserve} currency="OFD" />
+								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={poolStats.ofdTotalReserve}
+															 currency="OFD" />
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Equity Capital" />
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={poolStats.ofdEquity} currency="OFD" />
+								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={poolStats.ofdEquity}
+															 currency="OFD" />
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Minter Reserve" />
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={poolStats.ofdMinterReserve} currency="OFD" />
+								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={poolStats.ofdMinterReserve}
+															 currency="OFD" />
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Total Income" />
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={profit} className="text-green-300" currency="OFD" />
+								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={profit} className="text-green-300"
+															 currency="OFD" />
 							</AppBox>
 							<AppBox>
 								<DisplayLabel label="Total Losses" />
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={loss} className="text-rose-400" currency="OFD" />
+								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={loss} className="text-rose-400"
+															 currency="OFD" />
 							</AppBox>
 						</div>
 					</div>

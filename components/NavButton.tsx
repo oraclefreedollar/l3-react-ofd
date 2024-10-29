@@ -11,7 +11,7 @@ export default function NavButton({ to, name, external }: Props) {
 	const router = useRouter()
 	const active = router.pathname.includes(to)
 	return (
-		<Link className={`btn btn-nav ${active && 'text-rose-500'}`} href={to} target={external ? '_blank' : '_self'}>
+		<Link className={`btn btn-nav font-bold ${active && 'text-neon-blue'}`} href={to} target={external ? '_blank' : '_self'}>
 			{name}
 		</Link>
 	)

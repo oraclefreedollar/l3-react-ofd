@@ -35,6 +35,7 @@ export default function GuardToAllowedChainBtn(props: Props) {
 					Web3Modal.open()
 					setRequestedChange(true)
 				}}
+				variant="primary"
 			>
 				Connect Wallet
 			</Button>
@@ -48,6 +49,7 @@ export default function GuardToAllowedChainBtn(props: Props) {
 					Web3Modal.open({ view: 'Networks' })
 					setRequestedChange(true)
 				}}
+				variant="primary"
 			>
 				Change Chain
 			</Button>

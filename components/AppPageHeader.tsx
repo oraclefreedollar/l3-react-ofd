@@ -13,11 +13,15 @@ interface Props {
 export default function AppPageHeader({ title, className, link, backTo, backText, tooltip }: Props) {
 	const content = () => {
 		return link ? (
-			<Link className="text-link" href={link} target="_blank">
+			<Link
+				className="text-neon-purple hover:text-neon-pink transition-all duration-300 ease-in-out"
+				href={link}
+				target="_blank"
+			>
 				{title}
 			</Link>
 		) : (
-			title
+			<span className="text-neon-purple">{title}</span>
 		)
 	}
 
@@ -25,7 +29,10 @@ export default function AppPageHeader({ title, className, link, backTo, backText
 		<section className={`my-5 flex grid-cols-8 flex-col gap-2 py-4 sm:flex-row lg:grid ${className}`}>
 			<div>
 				{backTo && (
-					<Link className="text-link" href={backTo}>
+					<Link
+						className="text-neon-purple-subtle hover:text-neon-pink-subtle transition-all duration-300 ease-in-out"
+						href={backTo}
+					>
 						{backText}
 					</Link>
 				)}

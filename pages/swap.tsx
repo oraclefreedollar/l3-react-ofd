@@ -204,7 +204,8 @@ export default function Swap() {
 			<div>
 				<AppPageHeader title="Swap USDT and OFD" />
 				<section className="mx-auto flex max-w-2xl flex-col gap-y-4 px-4 sm:px-8">
-					<div className="bg-slate-950 rounded-xl p-8">
+					<div
+						className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50">
 						<TokenInput
 							error={error}
 							limit={swapLimit}

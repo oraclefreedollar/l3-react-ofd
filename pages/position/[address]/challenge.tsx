@@ -152,7 +152,7 @@ export default function PositionChallenge() {
 			<div>
 				<AppPageHeader backText="Back to position" backTo={`/position/${position}`} title="Launch Challenge" />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<div className="bg-slate-950 rounded-xl p-4 flex flex-col gap-y-4">
+					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
 						<div className="text-lg font-bold text-center mt-3">Challenge Details</div>
 						<TokenInput
 							digit={positionStats.collateralDecimal}
@@ -164,7 +164,7 @@ export default function PositionChallenge() {
 							symbol={positionStats.collateralSymbol}
 							value={amount.toString()}
 						/>
-						<div className="bg-slate-900 rounded-xl p-4 grid grid-cols-6 gap-2 lg:col-span-2">
+						<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50 gap-2 lg:col-span-2">
 							<AppBox className="col-span-6 sm:col-span-3">
 								<DisplayLabel label="Starting Price" />
 								<DisplayAmount
@@ -233,7 +233,7 @@ export default function PositionChallenge() {
 							</GuardToAllowedChainBtn>
 						</div>
 					</div>
-					<div className="bg-slate-950 rounded-xl p-4 flex flex-col">
+					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
 						<div className="text-lg font-bold text-center mt-3">How does it work?</div>
 						<AppBox className="flex-1 mt-4">
 							<p>
