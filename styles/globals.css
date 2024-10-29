@@ -88,7 +88,7 @@
   }
 
   .btn-primary {
-    @apply text-white hover:opacity-60 bg-pink-600;
+    @apply text-white hover:opacity-60 bg-purple-700;
   }
 
   .btn-secondary {
