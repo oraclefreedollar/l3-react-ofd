@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { SOCIAL } from 'utils'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { faBook } from '@fortawesome/free-solid-svg-icons'
+import { faBook, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faTelegram, faXTwitter } from '@fortawesome/free-brands-svg-icons'
 
 interface ButtonProps {
@@ -14,7 +14,7 @@ interface ButtonProps {
 const FooterButton = ({ link, text, icon }: ButtonProps) => {
 	return (
 		<Link className="flex gap-1 hover:opacity-70" href={link} rel="noreferrer" target="_blank">
-			<FontAwesomeIcon className="w-6 h-6" icon={icon} />
+			<FontAwesomeIcon className="w-5 h-5" icon={icon} />
 			<div className="hidden sm:block">{text}</div>
 		</Link>
 	)
@@ -22,25 +22,45 @@ const FooterButton = ({ link, text, icon }: ButtonProps) => {
 
 export default function Footer() {
 	return (
-		<ul className="mt-12 mb-4 flex items-center justify-center gap-8">
-			<li>
-				<FooterButton icon={faGithub} link={SOCIAL.Github_contract} text="Github" />
-			</li>
-			<li>
-				<FooterButton icon={faBook} link={SOCIAL.Docs} text="Doc" />
-			</li>
-			{/*<li>*/}
-			{/*  <FooterButton link={SOCIAL.SubStack} text="Blog" icon={faBookmark} />*/}
-			{/*</li>*/}
-			{/*<li>*/}
-			{/*  <FooterButton link={SOCIAL.Forum} text="Forum" icon={faComments} />*/}
-			{/*</li>*/}
-			<li>
-				<FooterButton icon={faXTwitter} link={SOCIAL.Twitter} text="Twitter" />
-			</li>
-			<li>
-				<FooterButton icon={faTelegram} link={SOCIAL.Telegram} text="Telegram" />
-			</li>
-		</ul>
+		<footer className="container mx-auto px-4 py-6">
+			<div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+				{/* Left side - Social links */}
+				<div className="flex items-center gap-6">
+					<FooterButton icon={faGithub} link={SOCIAL.Github_contract} text="Github" />
+					<FooterButton icon={faBook} link={SOCIAL.Docs} text="Doc" />
+					<FooterButton icon={faXTwitter} link={SOCIAL.Twitter} text="Twitter" />
+					<FooterButton icon={faTelegram} link={SOCIAL.Telegram} text="Telegram" />
+				</div>
+
+				{/* Divider for larger screens */}
+				<div className="hidden sm:block text-slate-100">|</div>
+
+				{/* Right side - Frankencoin reference */}
+				<div className="flex items-center gap-2 text-sm">
+					<span className="text-slate-100">Fork of</span>
+					<a
+						className="text-slate-100 hover:text-purple-300 transition-colors"
+						href="https://www.frankencoin.com"
+						rel="noreferrer"
+						target="_blank"
+					>
+						Frankencoin
+					</a>
+					<div className="relative group">
+						<FontAwesomeIcon
+							className="w-4 h-4 text-slate-100 hover:text-purple-400 cursor-help"
+							icon={faCircleInfo}
+						/>
+						<div className="absolute bottom-full mb-2 w-64 p-2 bg-slate-800 rounded-lg text-sm text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 left-1/2 transform -translate-x-1/2">
+							<div className="relative">
+								Like Frankencoin, OFD uses an auction-based liquidation mechanism that operates without external price feeds,
+								but tracks the US Dollar instead of the Swiss Franc.
+								<div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
 	)
 }
