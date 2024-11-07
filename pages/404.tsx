@@ -20,7 +20,7 @@ export default function Custom404() {
 				</h1>
 				<h1 className="text-4xl font-bold mt-10">You seem to be in the wrong place</h1>
 				<p className="text-2xl font-bold mt-4">
-					<Link className="mr-4 hover:underline md:mr-6 text-rose-500" href={SOCIAL.Telegram} rel="noopener noreferrer" target="_blank">
+					<Link className="mr-4 hover:underline md:mr-6 text-purple-900" href={SOCIAL.Telegram} rel="noopener noreferrer" target="_blank">
 						Ping us on Telegram if you think this is a bug
 					</Link>
 				</p>

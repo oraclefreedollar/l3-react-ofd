@@ -2,14 +2,15 @@ import { gql, useQuery } from '@apollo/client'
 import { Address, getAddress } from 'viem'
 
 export interface PositionQuery {
-	position: Address
-	owner: Address
-	ofd: Address
+	closed: boolean
 	collateral: Address
-	price: bigint
+	collateralBalance: bigint
 	created: number
 	denied: boolean
-	closed: boolean
+	ofd: Address
+	owner: Address
+	position: Address
+	price: bigint
 }
 
 export const usePositionLists = () => {
@@ -26,6 +27,7 @@ export const usePositionLists = () => {
 						price
 						created
 						limitForClones
+						collateralBalance
 						denied
 						closed
 					}
@@ -41,14 +43,15 @@ export const usePositionLists = () => {
 	if (data && data.positions) {
 		data.positions.items.forEach((position: any) => {
 			positions.push({
-				position: getAddress(position.position),
-				owner: getAddress(position.owner),
-				ofd: getAddress(position.ofd),
+				closed: position.closed,
 				collateral: getAddress(position.collateral),
-				price: BigInt(position.price),
+				collateralBalance: BigInt(position?.collateralBalance),
 				created: position.created,
 				denied: position.denied,
-				closed: position.closed,
+				ofd: getAddress(position.ofd),
+				owner: getAddress(position.owner),
+				position: getAddress(position.position),
+				price: BigInt(position.price),
 			})
 		})
 	}

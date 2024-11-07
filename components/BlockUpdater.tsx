@@ -134,7 +134,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 	} else {
 		return (
 			// TODO: remake loading component
-			<div className="flex items-center justify-center gap-4 h-screen">
+			<div className="flex items-center justify-center gap-4 h-screen text-neon-purple">
 				<picture>
 					<img alt="Logo" className="h-10" src="/assets/oracle-free-dollar-logo-square.svg" />
 				</picture>

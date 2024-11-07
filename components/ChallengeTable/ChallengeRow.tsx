@@ -31,7 +31,7 @@ export default function ChallengeRow({ auctionEnd, challengeSize, filledSize, fi
 
 	return (
 		<Link
-			className="bg-slate-800 hover:bg-slate-700 cursor-pointer p-5 rounded-xl duration-300"
+			className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50 gap-y-4 duration-300 "
 			href={`/position/${position}/bid/${index}`}
 		>
 			<div className="grid grid-cols-3">
