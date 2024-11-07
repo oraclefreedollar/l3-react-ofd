@@ -29,7 +29,7 @@ const PositionInitialization: React.FC<Props> = (props: Props) => {
 	)
 
 	return (
-		<div className="bg-slate-950 rounded-xl p-4 flex flex-col gap-y-4">
+		<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
 			<div className="text-lg font-bold justify-center mt-3 flex">Initialization</div>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 				<TokenInput
