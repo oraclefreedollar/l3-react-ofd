@@ -2,6 +2,9 @@ import React from 'react'
 import { TbPigMoney } from 'react-icons/tb'
 import { BiCoinStack } from 'react-icons/bi'
 import { FaChartLine, FaDollarSign, FaTwitter, FaGithub, FaTelegram } from 'react-icons/fa'
+import { GrMoney } from 'react-icons/gr'
+import { LiaExchangeAltSolid } from 'react-icons/lia'
+import { MdOutlinePool } from 'react-icons/md'
 import { parseUnits } from 'viem'
 import { formatBigInt } from 'utils'
 import { SOCIAL } from 'utils'
@@ -39,6 +42,27 @@ export default function Home() {
 			icon: FaChartLine,
 			title: 'Total Supply',
 			value: `${formatBigInt(homestats.ofdTotalSupply || 0n, 18, 0)} OFD`,
+		},
+	]
+
+	const navigationLinks = [
+		{
+			title: 'Swap OFD',
+			description: 'Invest in Oracle Free Dollar by swapping USDT',
+			href: '/swap',
+			icon: LiaExchangeAltSolid,
+		},
+		{
+			title: 'Create Position',
+			description: 'Open a new collateral position and mint OFD',
+			href: '/positions/create',
+			icon: GrMoney,
+		},
+		{
+			title: 'OFDPs / Equity',
+			description: 'Explore OFD pool shares representing equity',
+			href: '/pool',
+			icon: MdOutlinePool,
 		},
 	]
 
@@ -124,6 +148,35 @@ export default function Home() {
 					>
 						<img alt="Oracle Free Dollar Logo" className="w-3/5 max-w-md" src="/assets/oracle-free-dollar-logo-square.svg" />
 					</motion.div>
+				</div>
+
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+					{navigationLinks.map((link, index) => (
+						<motion.div
+							initial="hidden"
+							key={index}
+							variants={{
+								hidden: { opacity: 0, y: 20 },
+								visible: {
+									opacity: 1,
+									y: 0,
+									transition: { delay: index * 0.2 },
+								},
+							}}
+							viewport={{ once: true }}
+							whileInView="visible"
+						>
+							<Link href={link.href}>
+								<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-6 flex flex-col border border-purple-500/50 hover:border-purple-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer h-full group">
+									<div className="flex items-center gap-3 mb-3">
+										<link.icon className="text-purple-400 group-hover:text-purple-300 transition-colors" size={32} />
+										<h3 className="text-xl font-bold text-white group-hover:text-purple-100 transition-colors">{link.title}</h3>
+									</div>
+									<p className="text-slate-300 group-hover:text-slate-200 transition-colors">{link.description}</p>
+								</div>
+							</Link>
+						</motion.div>
+					))}
 				</div>
 			</motion.section>
 
