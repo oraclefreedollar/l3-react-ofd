@@ -1,5 +1,5 @@
 import React, { Context, createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { useTokenData } from 'hooks'
+import { useOnUpdate, useTokenData } from 'hooks'
 import { initialFormState, PositionCreateFormState } from './types'
 import { validationRules } from './validations'
 import { PositionCollateralTokenData } from 'meta/positions'
@@ -42,6 +42,12 @@ export const PositionCreateProvider: React.FC<PropsWithChildren> = ({ children }
 			}))
 		})
 	}, [collTokenData, form])
+
+	useOnUpdate(() => {
+		if (form.collateralAddress) {
+			collTokenData.refetch()
+		}
+	}, [form.collateralAddress])
 
 	// Check if any form errors exist
 	const hasFormError = useMemo(() => {

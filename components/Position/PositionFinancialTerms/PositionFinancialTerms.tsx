@@ -41,6 +41,7 @@ const PositionFinancialTerms: React.FC = () => {
 				/>
 				<NormalInput
 					digit={0}
+					error={errors['maturity']}
 					hideMaxLabel
 					label="Maturity"
 					onChange={(value) => onChangeValue('maturity', value)}
