@@ -75,7 +75,10 @@ export default function OverviewTVL() {
 	return (
 		<section className="mx-auto flex flex-col gap-y-4 px-4 sm:px-8">
 			{stats.map((stat) => (
-				<div className="bg-slate-950 rounded-2xl p-8" key={stat.original.position}>
+				<div
+					className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50"
+					key={stat.original.position}
+				>
 					<div className="grid grid-cols-3 gap-4">
 						<TokenLogo currency={stat.collateral.symbol.toLowerCase()} />
 						<div className="col-span-2 text-2xl font-bold mb-10">

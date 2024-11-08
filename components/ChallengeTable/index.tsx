@@ -11,7 +11,8 @@ interface Props {
 
 export default function ChallengeTable({ challenges, noContentText, loading }: Props) {
 	return (
-		<div className="bg-slate-950 rounded-xl p-4">
+		<div
+			className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50 gap-y-4">
 			<div className="text-lg font-bold text-center mb-4">Open Challenges</div>
 			<div className="bg-slate-900 rounded-xl p-2 flex flex-col gap-2">
 				{loading ? (

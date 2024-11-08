@@ -1,6 +1,6 @@
 {
   "name": "oraclefreedollar-dapp",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": false,
   "license": "MIT",
   "scripts": {
@@ -38,6 +38,7 @@
     "coingecko-api-v3": "^0.0.29",
     "dayjs": "^1.11.9",
     "ethers": "^6.13.3",
+    "framer-motion": "^11.11.11",
     "graphql": "^16.8.1",
     "next": "^14.1.4",
     "next-seo": "^5.15.0",

@@ -159,7 +159,7 @@ export default function ChallengePlaceBid({}) {
 			<div>
 				<AppPageHeader backText="Back to position" backTo={`/position/${address}`} title="Place your bid" />
 				<section className="mx-auto max-w-2xl sm:px-8">
-					<div className="bg-slate-950 rounded-xl p-4 flex flex-col gap-y-4">
+					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50 gap-y-4">
 						<div className="text-lg font-bold text-center mt-3">Bid Details</div>
 						<div className="space-y-12">
 							<div className="space-y-4">

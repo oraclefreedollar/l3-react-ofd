@@ -1,516 +1,192 @@
-import AppBox from 'components/AppBox'
-import DisplayAmount from 'components/DisplayAmount'
-import DisplayLabel from 'components/DisplayLabel'
-import TokenLogo from 'components/TokenLogo'
-import { ADDRESS } from 'contracts'
-import { useChallengeCount, useContractUrl, useHomeStats, useOfdPrice, usePositionLists, useTvl } from 'hooks'
-import Head from 'next/head'
-import Link from 'next/link'
+import React from 'react'
+import { TbPigMoney } from 'react-icons/tb'
+import { BiCoinStack } from 'react-icons/bi'
+import { FaChartLine, FaDollarSign, FaTwitter, FaGithub, FaTelegram } from 'react-icons/fa'
+import { GrMoney } from 'react-icons/gr'
+import { LiaExchangeAltSolid } from 'react-icons/lia'
+import { MdOutlinePool } from 'react-icons/md'
 import { parseUnits } from 'viem'
-import { useChainId } from 'wagmi'
-import { envConfig } from 'app.env.config'
-import { SOCIAL, formatBigInt, Contracts } from 'utils'
+import { formatBigInt } from 'utils'
+import { SOCIAL } from 'utils'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { useHomeStats, useOfdPrice, useTvl } from 'hooks'
+
+const fadeInUp = {
+	hidden: { opacity: 0, y: 20 },
+	visible: { opacity: 1, y: 0 },
+}
 
 export default function Home() {
-	const chainId = useChainId()
-	// console.log({ chainId });
+	const tvlData = useTvl()
 	const homestats = useHomeStats()
-	const ofdLinkEth = useContractUrl(ADDRESS[chainId].oracleFreeDollar)
-	// const ofdLinkPolygon = useContractUrl(ADDRESS[polygon.id].oracleFreeDollar, polygon);
-	// const ofdLinkArb = useContractUrl(ADDRESS[arbitrum.id].oracleFreeDollar, arbitrum);
-	// const ofdLinkOp = useContractUrl(ADDRESS[optimism.id].oracleFreeDollar, optimism);
 	const ofdPrice = useOfdPrice()
 
-	const tvlData = useTvl()
-	const positionData = usePositionLists()
-	const challengeCount = useChallengeCount()
+	const stats = [
+		{
+			icon: FaDollarSign,
+			title: 'Price',
+			value: `$${ofdPrice ? formatBigInt(parseUnits(ofdPrice.toString(), 18), 18, 2) : '0.00'}`,
+		},
+		{
+			icon: TbPigMoney,
+			title: 'Total Value Locked',
+			value: `$${formatBigInt(parseUnits(tvlData?.toString() || '0', 18), 18, 0)}`,
+		},
+		{
+			icon: BiCoinStack,
+			title: 'Market Cap',
+			value: `$${formatBigInt(homestats.equityMarketCap || 0n, 18, 0)}`,
+		},
+		{
+			icon: FaChartLine,
+			title: 'Total Supply',
+			value: `${formatBigInt(homestats.ofdTotalSupply || 0n, 18, 0)} OFD`,
+		},
+	]
+
+	const navigationLinks = [
+		{
+			title: 'Swap OFD',
+			description: 'Invest in Oracle Free Dollar by swapping USDT',
+			href: '/swap',
+			icon: LiaExchangeAltSolid,
+		},
+		{
+			title: 'Create Position',
+			description: 'Open a new collateral position and mint OFD',
+			href: '/positions/create',
+			icon: GrMoney,
+		},
+		{
+			title: 'OFDPs / Equity',
+			description: 'Explore OFD pool shares representing equity',
+			href: '/pool',
+			icon: MdOutlinePool,
+		},
+	]
 
 	return (
-		<>
-			<Head>
-				<title>{envConfig.AppName}</title>
-			</Head>
-			<main className="block">
-				<section className="mt-16 grid items-center gap-20 align-middle lg:grid-cols-5">
-					<div className="lg:col-span-3">
-						<h1 className="mb-12 text-right text-4xl font-bold flex items-center">
-							<picture>
-								<img alt="logo" className="min-w-[80px]" src="/assets/oracle-free-dollar-logo.svg" width={80} />
-							</picture>
-							<div className="ml-3 text-[75px] block lg:hidden max-w-sm">OFD</div>
-							<div className="ml-3 text-[75px] hidden lg:block max-w-md">OracleFreeDollar</div>
-						</h1>
-						<p className="text-lg font-bold">
-							{envConfig.AppName} is a collateralized, oracle-free stablecoin that tracks the value of the Dollar. Its strengths are its
-							decentralization and its versatility.
-						</p>
-						<p>
-							A community of DLT afficionados - the friends of OFD - discovered Oracle Free Code Repository which is a fork of{' '}
-							<a href={'https://www.frankencoin.com/'} rel="noreferrer" target="_blank">
-								frankencoin.com
-							</a>{' '}
-							- but instead of the Swiss Franc it maps the USD and instead on beeing deploy on Ethereum it is deployed on Binance Smart
-							Chain.
-						</p>
-						<p>
-							Unlike other collateralized stablecoins,&nbsp;
-							{/* <a href="https://etherscan.io/address/0xB58E61C3098d85632Df34EecfB899A1Ed80921cB" target="_blank"> */}
-							<a href="https://bscscan.com/address/0x55899A4Cd6D255DCcAA84d67E3A08043F2123d7E" rel="noreferrer" target="_blank">
-								{envConfig.AppName}&apos;s
-							</a>{' '}
-							auction-based liquidation mechanism does not depend on external price sources. It is very flexible with regards to the used
-							collateral. In principle, it supports any collateral with sufficient availability on the market. However, its liquidation
-							mechanism is slower than that of other collateralized stablecoins, making it less suitable for highly volatile types of
-							collateral.
-						</p>
-						<p>
-							The frontend you are looking at provides access to five basic functions of the {envConfig.AppName} system. Advanced functions,
-							such as proposing new types of collateral or vetoing proposals must at this point in time be performed manually. The{' '}
-							<a href={SOCIAL.Github_dapp} rel="noreferrer" target="_blank">
-								source code of this website
-							</a>{' '}
-							is openly available and can be freely copied and modified, just like the underlying{' '}
-							<a href={SOCIAL.Github_contract} rel="noreferrer" target="_blank">
-								smart contracts
-							</a>
-							. The smart contracts have been audited by&nbsp;
-							<a href={SOCIAL.Audit_Blockbite} rel="noreferrer" target="_blank">
-								Blockbite
-							</a>
-							,&nbsp;
-							<a href={SOCIAL.Audit_Code4rena} rel="noreferrer" target="_blank">
-								Code4rena
-							</a>
-							, and&nbsp;
-							<a href={SOCIAL.Audit_Chainsecurity} rel="noreferrer" target="_blank">
-								ChainSecurity
-							</a>
-							{/*. Its economic properties have been analyzed as part of a <a href="">phd thesis</a>.*/}
-						</p>
-					</div>
+		<main className="min-h-screen">
+			<motion.section animate="visible" className="container mx-auto px-4 pt-16 pb-8 text-center" initial="hidden" variants={fadeInUp}>
+				<h1 className="text-6xl md:text-7xl font-bold text-neon-purple-subtle hover:text-neon-pink-subtle transition-all duration-300 ease-in-out mb-4">
+					Oracle Free Dollar
+				</h1>
+				<p className="text-slate-100 text-lg leading-relaxed max-w-3xl mx-auto">
+					A decentralized, collateralized stablecoin that tracks the US Dollar without relying on oracles
+				</p>
+			</motion.section>
 
-					<div className="lg:col-span-2">
-						<picture>
-							<img
-								alt="logo"
-								className="m-auto max-w-lg w-[50%] sm:w-[50%] md:w-[80%] lg:w-[100%]"
-								src="/assets/oracle-free-dollar-logo-square.svg"
-							/>
-						</picture>
-					</div>
-				</section>
-				<div className="mt-16 bg-slate-950 rounded-xl grid grid-cols-1 sm:grid-cols-12 gap-4 p-4">
-					<AppBox className="col-span-6 sm:col-span-4">
-						<a href={SOCIAL.DefiLlama} rel="noreferrer" target="_blank">
-							<DisplayLabel className="underline" label="Total Value Locked" />
-						</a>
-						<div className="mt-2 text-right">{formatBigInt(parseUnits(tvlData?.toString() || '0', 18), 18, 0)} USD</div>
-					</AppBox>
-					<AppBox className="col-span-6 sm:col-span-4">
-						<Link href={'/positions'}>
-							<DisplayLabel className="underline" label="Active Positions" />
-						</Link>
-						<div className="mt-2 text-right">
-							{
-								positionData.positions.filter(
-									(position) => !position.denied && !position.closed && !Contracts.Blacklist.includes(position.collateral)
-								).length
-							}
-						</div>
-					</AppBox>
-					<AppBox className="col-span-6 sm:col-span-4">
-						<Link href={'/auctions'}>
-							<DisplayLabel className="underline" label="Active Challenges" />
-						</Link>
-						<div className="mt-2 text-right">{challengeCount}</div>
-					</AppBox>
-					<AppBox className="col-span-6 sm:col-span-4">
-						<DisplayLabel label="Total Supply">
-							<DisplayAmount
-								amount={homestats.ofdTotalSupply}
-								className="justify-end text-right"
-								currency={homestats.ofdSymbol}
-								digits={18}
-								usdPrice={ofdPrice}
-							/>
-						</DisplayLabel>
-					</AppBox>
-					<AppBox className="col-span-6 sm:col-span-4">
-						<DisplayLabel label="OFDPS Market Cap">
-							<DisplayAmount
-								amount={homestats.equityMarketCap}
-								className="justify-end text-right"
-								currency={homestats.ofdSymbol}
-								digits={18}
-								usdPrice={ofdPrice}
-							/>
-						</DisplayLabel>
-					</AppBox>
-					<AppBox className="col-span-6 sm:col-span-4">
-						<DisplayLabel label="Your Balance">
-							<DisplayAmount
-								amount={homestats.ofdBalance}
-								className="justify-end text-right"
-								currency={homestats.ofdSymbol}
-								digits={18}
-								usdPrice={ofdPrice}
-							/>
-						</DisplayLabel>
-					</AppBox>
-					<AppBox className="col-span-6 sm:col-span-3">
-						<DisplayLabel label="Mainnet Deployment" />
-						<div className="flex items-center py-2 justify-end">
-							<TokenLogo chain="bsc" currency="OFD" />
-							<div className="flex flex-col text-right">
-								<Link className="underline" href={ofdLinkEth} target="_blank">
-									{envConfig.AppName} Contract
-								</Link>
-								<Link className="underline text-sm text-slate-500" href={SOCIAL.Uniswap_Mainnet} target="_blank">
-									Trade
-								</Link>
-							</div>
-						</div>
-					</AppBox>
-					{/* <AppBox className="col-span-6 sm:col-span-3">
-						<DisplayLabel label="Polygon PoS Bridge" />
-						<div className="flex items-center py-2 justify-end">
-							<TokenLogo currency="OFD" chain="polygon" />
-							<div className="flex flex-col text-right">
-								<Link className="underline" href={ofdLinkPolygon} target="_blank">
-									{envConfig.AppName} (PoS) Contract
-								</Link>
-								<Link href={SOCIAL.Uniswap_Polygon} target="_blank" className="underline text-sm text-slate-500">
-									Trade
-								</Link>
-							</div>
-						</div>
-					</AppBox>
-					<AppBox className="col-span-6 sm:col-span-3">
-						<DisplayLabel label="Arbitrum Bridge" />
-						<div className="flex items-center py-2 justify-end">
-							<TokenLogo currency="OFD" chain="arbitrum" />
-							<div className="flex flex-col text-right">
-								<Link className="underline" href={ofdLinkArb} target="_blank">
-									{envConfig.AppName} (Arb) Contract
-								</Link>
-								<Link href={SOCIAL.Uniswap_Arbitrum} target="_blank" className="underline text-sm text-slate-500">
-									Trade
-								</Link>
-							</div>
-						</div>
-					</AppBox>
-					<AppBox className="col-span-6 sm:col-span-3">
-						<DisplayLabel label="Optimism Bridge" />
-						<div className="flex items-center py-2 justify-end">
-							<TokenLogo currency="OFD" chain="optimism" />
-							<div className="flex flex-col text-right">
-								<Link className="underline" href={ofdLinkOp} target="_blank">
-									{envConfig.AppName} (Op) Contract
-								</Link>
-								<Link href={SOCIAL.Uniswap_Optimism} target="_blank" className="underline text-sm text-slate-500">
-									Trade
-								</Link>
-							</div>
-						</div>
-					</AppBox> */}
-					{/* <AppBox className="col-span-6 sm:col-span-6">
-            <DisplayLabel label="Mainnet Deployment" />
-            <div className="flex items-center py-2 justify-end">
-              <TokenLogo currency="OFDPS" chain="mainnet" />
-              <div className="flex flex-col text-right">
-                <Link className="underline" href={ofdpsLinkEth} target="_blank">
-                  Wrapped OFDPS Contract
-                </Link>
-                <Link href={""} className="underline text-sm text-slate-500">
-                  Coming Soon
-                </Link>
-              </div>
-            </div>
-          </AppBox>
-          <AppBox className="col-span-6 sm:col-span-6">
-            <DisplayLabel label="Polygon PoS Bridge" />
-            <div className="flex items-center py-2 justify-end">
-              <TokenLogo currency="OFDPS" chain="polygon" />
-              <div className="flex flex-col text-right">
-                <Link
-                  className="underline"
-                  href={ofdpsLinkPolygon}
-                  target="_blank"
-                >
-                  Wrapped OFDPS (Pos) Contract
-                </Link>
-                <Link
-                  href={SOCIAL.Uniswap_WOFDPS_Polygon}
-                  target="_blank"
-                  className="underline text-sm text-slate-500"
-                >
-                  Uniswap Pool
-                </Link>
-              </div>
-            </div>
-          </AppBox> */}
-				</div>
-				<hr className="my-12 border-dashed border-slate-800" />
-				{/* <section>
-					<h2 className="text-2xl font-bold text-center">Wallets and Exchanges</h2>
-					<div className="mt-4 grid grid-cols-1 sm:grid-cols-6 gap-4 p-4 items-center">
-						<Link href={SOCIAL.Partner_Arktionariat} target="_blank" className="flex items-center justify-center sm:col-span-2">
-							<picture>
-								<img src="/coin/aktionariat.png" alt="aktionariat logo" className="h-12" />
-							</picture>
-							<picture>
-								<img src="/coin/aktionariat2.svg" className="h-6 ml-2" alt="aktionariat name" />
-							</picture>
-						</Link>
-						<Link href={SOCIAL.Partner_DfxSwiss} target="_blank" className="flex items-center justify-center sm:col-span-2">
-							<picture>
-								<img src="/coin/dfx.svg" alt="dfx logo" className="h-8" />
-							</picture>
-							<span className="font-bold text-4xl text-white ml-2">Swiss</span>
-						</Link>
-						<Link href={SOCIAL.Uniswap_Mainnet} target="_blank" className="flex items-center justify-center sm:col-span-2">
-							<picture>
-								<img src="/assets/uniswap.svg" alt="dfx logo" className="h-14 mb-3" />
-							</picture>
-							<span className="font-bold text-4xl text-white ml-2">Uniswap</span>
-						</Link>
-						<Link
-							href={SOCIAL.Partner_Ammer}
-							target="_blank"
-							className="flex items-center justify-center sm:col-span-2 sm:col-start-2"
+			<motion.div
+				className="container mx-auto px-4 py-6 flex justify-center gap-8"
+				initial="hidden"
+				variants={fadeInUp}
+				viewport={{ once: true }}
+				whileInView="visible"
+			>
+				{[
+					{ icon: FaTwitter, link: SOCIAL.Twitter },
+					{ icon: FaGithub, link: SOCIAL.Github_contract },
+					{ icon: FaTelegram, link: SOCIAL.Telegram },
+				].map((social, index) => (
+					<Link className="text-slate-100 hover:text-purple-400 transition-colors" href={social.link} key={index} target="_blank">
+						<social.icon size={32} />
+					</Link>
+				))}
+			</motion.div>
+
+			<section className="container mx-auto px-4 py-8">
+				<div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+					{stats.map((stat, index) => (
+						<motion.div
+							className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50"
+							initial="hidden"
+							key={index}
+							variants={{
+								hidden: { opacity: 0, y: 20 },
+								visible: {
+									opacity: 1,
+									y: 0,
+									transition: { delay: index * 0.2 },
+								},
+							}}
+							viewport={{ once: true }}
+							whileInView="visible"
 						>
-							<picture>
-								<img src="/partner/ammer.svg" alt="ammer logo" className="h-14" />
-							</picture>
-							<span className="font-bold text-4xl text-white ml-2">Ammer Cash</span>
-						</Link>
-						<Link href={SOCIAL.Partner_Zipper} target="_blank" className="flex items-center justify-center sm:col-span-2">
-							<picture>
-								<img src="/partner/zippy.svg" alt="zippy logo" className="h-14" />
-							</picture>
-						</Link>
+							<div className="flex items-center justify-center mb-3">
+								<stat.icon className="text-purple-400" size={40} />
+							</div>
+							<h3 className="text-lg font-medium text-slate-300 text-center mb-1">{stat.title}</h3>
+							<p className="text-2xl font-bold text-white text-center">{stat.value}</p>
+						</motion.div>
+					))}
+				</div>
+			</section>
+
+			<motion.section
+				className="container mx-auto px-4 py-8"
+				initial="hidden"
+				variants={fadeInUp}
+				viewport={{ once: true }}
+				whileInView="visible"
+			>
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50">
+						<h2 className="text-3xl font-bold mb-4 text-white">Decentralized Stability</h2>
+						<p className="text-slate-300 text-lg leading-relaxed">
+							Oracle Free Dollar (OFD) is a revolutionary stablecoin that maintains its peg to the US Dollar through a unique, decentralized
+							mechanism. Our auction-based liquidation system ensures stability without relying on external price feeds, making OFD one of
+							the most robust and trustless stablecoins in the market.
+						</p>
 					</div>
-					<div className="flex">
-						<Link href={SOCIAL.Github_dapp} className="text-link text-center w-full" target="_blank">
-							Create a pull request if you want to be added here
-						</Link>
-					</div>
-				</section> */}
-				{/*
-          <hr className="my-12 border-dashed border-slate-800" />
+					<motion.div
+						className="flex justify-center"
+						initial={{ opacity: 0, scale: 0.8 }}
+						transition={{ duration: 0.5 }}
+						viewport={{ once: true }}
+						whileInView={{ opacity: 1, scale: 1 }}
+					>
+						<img alt="Oracle Free Dollar Logo" className="w-3/5 max-w-md" src="/assets/oracle-free-dollar-logo-square.svg" />
+					</motion.div>
+				</div>
 
-          <h2 className="text-2xl font-bold text-center">
-            oracleFreeDollar Pool Shares (OFDPS)
-          </h2>
-          <div className="bg-slate-900 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-            <AppBox>
-              <p>
-                The oracleFreeDollar system receives income in the form of fees, and
-                it can incur losses in case a collateral proved to be
-                insufficient. These go into a reserve pool. If the oracleFreeDollar
-                system was a company, this reserve pool would be called
-                <em>equity</em>. It accumulates profits and absorbs losses.
-                Anyone can contribute to the reserve pool, thereby getting
-                freshly minted oracleFreeDollar Pool Share (OFDPS) tokens. Anyone who
-                held onto their OFDPS tokens for long enough, namely at least 90
-                days, can also redeem them again against oracleFreeDollars from the
-                reserve pool at any time. If the oracleFreeDollar&apos;s equity has
-                grown in the meantime, you will make a profit (and a loss if it
-                declined). Essentially, this is a system of continuous issuance
-                and redemption inspired by the idea of the&nbsp;
-                <a
-                  href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4189472"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Continuous Capital Corporation
-                </a>
-                . Holders of reserve pool shares enjoy veto power for new
-                minting mechanisms as long as they have at least 2% of the
-                time-weighted outstanding shares.
-              </p>
-            </AppBox>
-            <div>
-              <div className="grid gap-1 sm:grid-cols-2 lg:col-span-2">
-                <AppBox>
-                  <DisplayLabel label="Price">
-                    <DisplayAmount
-                      amount={homestats.equityPrice}
-                      currency={homestats.ofdSymbol}
-                      big
-                    />
-                  </DisplayLabel>
-                </AppBox>
-                <AppBox>
-                  <DisplayLabel label="Market Cap">
-                    <DisplayAmount
-                      amount={homestats.equityMarketCap}
-                      currency={homestats.ofdSymbol}
-                      big
-                    />
-                  </DisplayLabel>
-                </AppBox>
-                <AppBox>
-                  <DisplayLabel label="Total Supply">
-                    <DisplayAmount
-                      amount={homestats.equityTotalSupply}
-                      currency="OFDPS"
-                      big
-                    />
-                  </DisplayLabel>
-                </AppBox>
-                <AppBox>
-                  <DisplayLabel label="Your Balance">
-                    <DisplayAmount
-                      amount={homestats.equityBalance}
-                      currency="OFDPS"
-                      big
-                    />
-                  </DisplayLabel>
-                </AppBox>
-                <AppBox>
-                  <DisplayLabel label="Total Votes">
-                    <DisplayAmount
-                      amount={homestats.equityTotalVotes}
-                      digits={24}
-                      big
-                    />
-                  </DisplayLabel>
-                </AppBox>
-                <AppBox>
-                  <DisplayLabel label="Your Votes">
-                    <DisplayAmount
-                      amount={homestats.equityUserVotes}
-                      digits={24}
-                      big
-                    />
-                  </DisplayLabel>
-                </AppBox>
-              </div>
-              <div className="flex flex-col items-center justify-center py-8">
-                <div className="flex flex-col gap-2">
-                  <h3 className="font-bold text-center">Inspect contract</h3>
-                  <Link
-                    className="btn btn-secondary px-3 py-2"
-                    href={ofdLink}
-                    target="_blank"
-                  >
-                    {shortenAddress(ADDRESS[chainId].equity)}
-                    <FontAwesomeIcon
-                      icon={faUpRightFromSquare}
-                      className="w-3 h-3"
-                    />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+					{navigationLinks.map((link, index) => (
+						<motion.div
+							initial="hidden"
+							key={index}
+							variants={{
+								hidden: { opacity: 0, y: 20 },
+								visible: {
+									opacity: 1,
+									y: 0,
+									transition: { delay: index * 0.2 },
+								},
+							}}
+							viewport={{ once: true }}
+							whileInView="visible"
+						>
+							<Link href={link.href}>
+								<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-6 flex flex-col border border-purple-500/50 hover:border-purple-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer h-full group">
+									<div className="flex items-center gap-3 mb-3">
+										<link.icon className="text-purple-400 group-hover:text-purple-300 transition-colors" size={32} />
+										<h3 className="text-xl font-bold text-white group-hover:text-purple-100 transition-colors">{link.title}</h3>
+									</div>
+									<p className="text-slate-300 group-hover:text-slate-200 transition-colors">{link.description}</p>
+								</div>
+							</Link>
+						</motion.div>
+					))}
+				</div>
+			</motion.section>
 
-          <hr className="my-12 border-dashed border-slate-800" />
-          <h2 className="text-2xl font-bold text-center">
-            Stablecoin Conversion
-          </h2>
-          <div className="bg-slate-900 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-            <AppBox>
-              <p>
-                Bridge contracts allow to convert other Dollar stablecoins
-                1:1 into OracleFreeDollars and also back again as long as there are
-                some left. The deposited stablecoins are kept in the bridge
-                until another user wants to convert OFD back into the
-                resprective stablecoin. <br />
-                For now, the only bridge is the one to the&nbsp;
-                <a
-                  href="https://tether.to/en/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Dollar (USDT)
-                </a>
-                .
-              </p>
-            </AppBox>
-            <div>
-              <div className="grid gap-1 sm:grid-cols-2 lg:col-span-2">
-                <AppBox>
-                  <DisplayLabel label="Bridge Balance">
-                    <DisplayAmount
-                      amount={homestats.usdtBridgeBal}
-                      currency={homestats.usdtSymbol}
-                      big
-                    />
-                  </DisplayLabel>
-                </AppBox>
-
-                <AppBox>
-                  <DisplayLabel label="Your Balance">
-                    <DisplayAmount
-                      amount={homestats.usdtUserBal}
-                      currency={homestats.usdtSymbol}
-                      big
-                    />
-                  </DisplayLabel>
-                </AppBox>
-              </div>
-              <div className="flex flex-col items-center justify-center py-8">
-                <div className="flex flex-col gap-2">
-                  <h3 className="font-bold text-center">Inspect contract</h3>
-                  <Link
-                    className="btn btn-secondary px-3 py-2"
-                    href={ofdLink}
-                    target="_blank"
-                  >
-                    {shortenAddress(ADDRESS[chainId].bridge)}
-                    <FontAwesomeIcon
-                      icon={faUpRightFromSquare}
-                      className="w-3 h-3"
-                    />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <hr className="my-12 border-dashed border-slate-800" />
-
-          <h2 className="text-2xl font-bold text-center">
-            Collateralized Positions
-          </h2>
-          <div className="bg-slate-900 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-            <AppBox>
-              <p>
-                Collateralized minting positions allow their owner to mint OFD
-                against a collateral. Anyone can open new collateral positions
-                and start minting OFD once the initialization period has
-                passed. Positions that are not sufficiently collateralized can
-                be challenged by anyone through an auction mechanism. When
-                challenging a position, the challenger must provide some of the
-                collateral to be auctioned off. If the highest bid in the
-                subsequent auction is high enough to show that the position is
-                sufficiently collateralized, the challenge is averted and the
-                bidder gets the challengers collateral in exchange for the
-                highest bid. If the highest bid is lower, the challenge is
-                considered successful, the bidder gets the collateral from the
-                position and the position is closed, distributing excess
-                proceeds to the reserve and paying a reward to the challenger.
-              </p>
-            </AppBox>
-            <div className="mx-auto my-8 flex w-auto flex-col items-center justify-center">
-              <AppPageHeader title="Minting Hub" />
-              <Link
-                className="btn btn-secondary px-3 py-2"
-                href={ofdLink}
-                target="_blank"
-              >
-                {shortenAddress(ADDRESS[chainId].mintingHub)}
-                <FontAwesomeIcon
-                  icon={faUpRightFromSquare}
-                  className="w-3 h-3"
-                />
-              </Link>
-            </div>
-          </div>
-        </section> */}
-			</main>
-		</>
+			<motion.footer
+				className="container mx-auto px-4"
+				initial="hidden"
+				variants={fadeInUp}
+				viewport={{ once: true }}
+				whileInView="visible"
+			/>
+		</main>
 	)
 }
