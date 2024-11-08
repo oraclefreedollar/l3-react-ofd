@@ -22,7 +22,7 @@ const FooterButton = ({ link, text, icon }: ButtonProps) => {
 
 export default function Footer() {
 	return (
-		<footer className="container mx-auto px-4 py-6">
+		<footer className="container mx-auto px-4 py-6 relative min-h-[100px]">
 			<div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
 				{/* Left side - Social links */}
 				<div className="flex items-center gap-6">
@@ -51,11 +51,13 @@ export default function Footer() {
 							className="w-4 h-4 text-slate-100 hover:text-purple-400 cursor-help"
 							icon={faCircleInfo}
 						/>
-						<div className="absolute bottom-full mb-2 w-64 p-2 bg-slate-800 rounded-lg text-sm text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 left-1/2 transform -translate-x-1/2">
-							<div className="relative">
-								Like Frankencoin, OFD uses an auction-based liquidation mechanism that operates without external price feeds,
-								but tracks the US Dollar instead of the Swiss Franc.
-								<div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
+						<div className="opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+							<div className="fixed left-4 right-4 bottom-[100px] sm:absolute sm:bottom-full sm:left-1/2 sm:right-auto sm:w-64 sm:-translate-x-1/2 sm:mb-2 p-2 bg-slate-800 rounded-lg text-sm text-slate-300">
+								<div className="relative">
+									Like Frankencoin, OFD uses an auction-based liquidation mechanism that operates without external price feeds,
+									but tracks the US Dollar instead of the Swiss Franc.
+									<div className="hidden sm:block absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
+								</div>
 							</div>
 						</div>
 					</div>
