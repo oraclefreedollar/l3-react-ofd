@@ -21,3 +21,5 @@ export const SOCIAL = {
 	Partner_Ammer: '',
 	Partner_Zipper: '',
 }
+
+export const OPEN_POSITION_FEE: bigint = 3500n * 10n ** 36n

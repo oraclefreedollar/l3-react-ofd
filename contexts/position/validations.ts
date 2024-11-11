@@ -1,6 +1,7 @@
 import { PositionCollateralTokenData } from 'meta/positions'
 import { isAddress } from 'viem'
 import { PositionCreateFormState } from 'contexts/position/types'
+import { OPEN_POSITION_FEE } from 'utils'
 
 export type ValidationProps = {
 	form: PositionCreateFormState
@@ -40,8 +41,8 @@ export const validationRules: { [key in keyof PositionCreateFormState]?: (props:
 		return ''
 	},
 	liqPrice: ({ form }) => {
-		if (form.minCollAmount * form.liqPrice < 5000n * 10n ** 36n) {
-			return 'Liquidation value of the collateral must be at least 5000 OFD.'
+		if (form.minCollAmount * form.liqPrice < OPEN_POSITION_FEE) {
+			return 'Liquidation value of the collateral must be at least 3500 OFD.'
 		}
 		return ''
 	},
@@ -50,8 +51,8 @@ export const validationRules: { [key in keyof PositionCreateFormState]?: (props:
 		return ''
 	},
 	minCollAmount: ({ form }) => {
-		if (form.minCollAmount * form.liqPrice < 5000n * 10n ** 36n) {
-			return 'The collateral must be worth at least 5000 OFD.\n Check either the current value and the liquidation price.'
+		if (form.minCollAmount * form.liqPrice < OPEN_POSITION_FEE) {
+			return 'The collateral must be worth at least 3500 OFD.\n Check either the current value and the liquidation price.'
 		}
 		return ''
 	},
