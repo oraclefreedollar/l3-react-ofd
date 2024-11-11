@@ -4,7 +4,7 @@ import { initialFormState, PositionCreateFormState } from './types'
 import { validationRules } from './validations'
 import { PositionCollateralTokenData } from 'meta/positions'
 
-type PositionCreateContext = {
+type PositionFormContextType = {
 	collTokenData: PositionCollateralTokenData
 	errors: Record<string, string>
 	form: PositionCreateFormState
@@ -12,9 +12,9 @@ type PositionCreateContext = {
 	hasFormError: boolean
 }
 
-const PositionContext = createContext<PositionCreateContext | null>(null)
+const PositionFormContext = createContext<PositionFormContextType | null>(null)
 
-export const usePositionCreate = () => useContext<PositionCreateContext>(PositionContext as Context<PositionCreateContext>)
+export const usePositionFormContext = () => useContext<PositionFormContextType>(PositionFormContext as Context<PositionFormContextType>)
 
 export const PositionCreateProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const [form, setForm] = useState<PositionCreateFormState>(initialFormState)
@@ -54,7 +54,7 @@ export const PositionCreateProvider: React.FC<PropsWithChildren> = ({ children }
 		return Object.values(errors).some((error) => error)
 	}, [errors])
 
-	const value: PositionCreateContext = {
+	const value: PositionFormContextType = {
 		collTokenData,
 		errors,
 		form,
@@ -62,5 +62,5 @@ export const PositionCreateProvider: React.FC<PropsWithChildren> = ({ children }
 		hasFormError,
 	}
 
-	return <PositionContext.Provider value={value}>{children}</PositionContext.Provider>
+	return <PositionFormContext.Provider value={value}>{children}</PositionFormContext.Provider>
 }

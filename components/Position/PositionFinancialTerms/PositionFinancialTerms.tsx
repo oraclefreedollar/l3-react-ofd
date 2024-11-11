@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
 import TokenInput from 'components/Input/TokenInput'
 import NormalInput from 'components/Input/NormalInput'
-import { usePositionCreate } from 'contexts/position'
+import { usePositionFormContext } from 'contexts/position'
 import { PositionCreateFormState } from 'contexts/position/types'
 
 const PositionFinancialTerms: React.FC = () => {
-	const { form, errors, handleChange } = usePositionCreate()
+	const { form, errors, handleChange } = usePositionFormContext()
 	const { interest, limitAmount, maturity } = form
 
 	const onChangeValue = useCallback(

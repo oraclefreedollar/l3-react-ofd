@@ -4,7 +4,7 @@ import Button from 'components/Button'
 import TokenInput from 'components/Input/TokenInput'
 import { RefetchType } from 'utils'
 import { useApproveCollateral } from './hooks/useApproveCollateral'
-import { usePositionCreate } from 'contexts/position'
+import { usePositionFormContext } from 'contexts/position'
 import { useTokenData } from 'hooks'
 import { PositionCreateFormState } from 'contexts/position/types'
 
@@ -15,7 +15,7 @@ type Props = {
 const PositionProposeCollateral: React.FC<Props> = (props) => {
 	const { userBalanceRefetch } = props
 
-	const { form, errors, handleChange } = usePositionCreate()
+	const { form, errors, handleChange } = usePositionFormContext()
 	const { collateralAddress, initialCollAmount, minCollAmount } = form
 
 	const collTokenData = useTokenData(form.collateralAddress)

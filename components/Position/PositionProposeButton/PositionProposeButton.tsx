@@ -1,11 +1,11 @@
 import React from 'react'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 import Button from 'components/Button'
-import { usePositionCreate } from 'contexts/position'
+import { usePositionFormContext } from 'contexts/position'
 import { useOpenPosition } from './hooks/useOpenPosition'
 
 const PositionProposeButton: React.FC = () => {
-	const { collTokenData, form, hasFormError } = usePositionCreate()
+	const { collTokenData, form, hasFormError } = usePositionFormContext()
 	const { auctionDuration, buffer, initialCollAmount, interest, limitAmount, liqPrice, initPeriod, maturity, minCollAmount } = form
 
 	const { openPosition, openingPosition } = useOpenPosition({

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import TokenInput from 'components/Input/TokenInput'
 import NormalInput from 'components/Input/NormalInput'
 import Link from 'next/link'
-import { usePositionCreate } from 'contexts/position'
+import { usePositionFormContext } from 'contexts/position'
 
 type Props = {
 	userBalanceOFD: bigint
@@ -10,7 +10,7 @@ type Props = {
 
 const PositionInitialization: React.FC<Props> = (props: Props) => {
 	const { userBalanceOFD } = props
-	const { form, errors, handleChange } = usePositionCreate()
+	const { form, errors, handleChange } = usePositionFormContext()
 
 	const onChangeInitialCollAmount = useCallback(
 		(value: string) => {
