@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { RefetchType, shortenAddress } from 'utils'
 import { ADDRESS } from 'contracts'
-import { useWriteContractCustom } from 'hooks'
+import { useWriteContractWithToast } from 'hooks'
 import { erc20Abi, maxUint256 } from 'viem'
 import { PositionCollateralTokenData } from 'meta/positions'
 import { useChainId } from 'wagmi'
@@ -32,7 +32,7 @@ export const useApproveCollateral = (props: Props): Returned => {
 		]
 	}, [chainId, collTokenData.symbol])
 
-	const { loading: approving, writeFunction: approve } = useWriteContractCustom({
+	const { loading: approving, writeFunction: approve } = useWriteContractWithToast({
 		contractParams: {
 			address: collTokenData.address,
 			abi: erc20Abi,

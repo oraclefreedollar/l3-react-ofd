@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { formatBigInt, shortenAddress } from 'utils'
 import { ABIS, ADDRESS } from 'contracts'
-import { useWriteContractCustom } from 'hooks'
+import { useWriteContractWithToast } from 'hooks'
 import { useChainId } from 'wagmi'
 import { PositionCollateralTokenData } from 'meta/positions'
 
@@ -56,7 +56,7 @@ export const useOpenPosition = (props: Props): Returned => {
 		]
 	}, [collTokenData.address, collTokenData.symbol, initialCollAmount, liqPrice])
 
-	const { loading: openingPosition, writeFunction: openPosition } = useWriteContractCustom({
+	const { loading: openingPosition, writeFunction: openPosition } = useWriteContractWithToast({
 		contractParams: {
 			address: ADDRESS[chainId].mintingHub,
 			abi: ABIS.MintingHubABI,

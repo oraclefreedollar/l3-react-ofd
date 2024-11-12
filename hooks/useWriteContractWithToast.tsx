@@ -18,7 +18,7 @@ type Returned = {
 	writeFunction: () => Promise<void>
 }
 
-export const useWriteContractCustom = (props: WriteContractCustomProps): Returned => {
+export const useWriteContractWithToast = (props: WriteContractCustomProps): Returned => {
 	const { contractParams, refetchFunctions, toastPending, toastSuccess } = props
 	const [loading, setLoading] = useState<boolean>(false)
 
