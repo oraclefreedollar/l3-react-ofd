@@ -1,4 +1,4 @@
-import React, { Context, createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import React, { Context, createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react'
 import { useOnUpdate, useTokenData } from 'hooks'
 import { initialFormState, PositionCreateFormState } from './types'
 import { validationRules } from './validations'
@@ -30,10 +30,16 @@ export const PositionCreateProvider: React.FC<PropsWithChildren> = ({ children }
 	}, [])
 
 	// Validate the specific field
-	useEffect(() => {
+	useOnUpdate(() => {
 		Object.keys(form).forEach((field) => {
 			const fieldKey = field as keyof PositionCreateFormState
-			if (form[fieldKey] === initialFormState[fieldKey]) return
+			if (form[fieldKey] === initialFormState[fieldKey]) {
+				setErrors((prevErrors) => ({
+					...prevErrors,
+					[field]: '',
+				}))
+				return
+			}
 
 			const error = validationRules[fieldKey]?.({ form, collTokenData })
 			setErrors((prevErrors) => ({
@@ -41,7 +47,7 @@ export const PositionCreateProvider: React.FC<PropsWithChildren> = ({ children }
 				[field]: error,
 			}))
 		})
-	}, [collTokenData, form])
+	}, [collTokenData.address, collTokenData.name, form])
 
 	useOnUpdate(() => {
 		if (form.collateralAddress) {
