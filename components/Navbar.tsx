@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { useAccount } from 'wagmi'
 import NavButton from './NavButton'
 import WalletConnect from './WalletConnect'
+import { ENABLE_EMERGENCY_MODE } from 'utils'
 
 export default function Navbar() {
 	const network = useAccount()
@@ -18,9 +19,9 @@ export default function Navbar() {
 				</Link>
 
 				<ul className="justify-left hidden flex-1 gap-2 md:flex lg:gap-3 xl:w-1/2">
-					<li>
-						<NavButton name="Swap" to="/swap" />
-					</li>
+					{/*<li>*/}
+					{/*	<NavButton name="Swap" to="/swap" />*/}
+					{/*</li>*/}
 					<li>
 						<NavButton name="Collateral" to="/collateral" />
 					</li>
@@ -55,9 +56,9 @@ export default function Navbar() {
 							<div className="fixed top-0 right-0 h-screen translate-x-full overflow-y-auto overscroll-y-none transition duration-500 peer-checked:translate-x-0 peer-checked:shadow-heading">
 								<div className="float-right min-h-full w-full bg-slate-800 opacity-90 backdrop-blur px-6 pt-12 shadow-2xl">
 									<menu className="mt-8 mb-8 flex flex-col text-heading">
-										<li>
-											<NavButton name="Swap" to="/swap" />
-										</li>
+										{/*<li>*/}
+										{/*	<NavButton name="Swap" to="/swap" />*/}
+										{/*</li>*/}
 										<li>
 											<NavButton name="Collateral" to="/collateral" />
 										</li>
@@ -80,6 +81,49 @@ export default function Navbar() {
 					</div>
 				</aside>
 			</header>
+			{ENABLE_EMERGENCY_MODE && (
+				<>
+					<div className="relative w-full bg-red-100 text-red-800 border border-red-300 py-2">
+						<div className="hidden md:block text-center px-4">
+							Notice: On 26.10.2024, a{' '}
+							<a
+								className="text-purple-900 underline hover:no-underline"
+								href="https://github.com/oraclefreedollar/ofd/blob/main/ir.txt"
+								rel="noreferrer"
+								target="_blank"
+							>
+								contract vulnerability was exploited
+							</a>
+							. We’ve frozen frontend features and{' '}
+							<a
+								className="text-purple-900 underline hover:no-underline"
+								href="https://github.com/oraclefreedollar/ofd/blob/main/ir-update.txt"
+								rel="noreferrer"
+								target="_blank"
+							>
+								all funds are safe
+							</a>{' '}
+							. A new version is coming soon.
+						</div>
+						<div className="block md:hidden overflow-hidden whitespace-nowrap">
+							<div className="inline-block animate-scroll px-10">
+								Notice: On 26.10.2024, a{' '}
+								<a className="text-purple-900 underline hover:no-underline" href="https://github.com/oraclefreedollar/ofd/blob/main/ir.txt">
+									contract vulnerability was exploited
+								</a>
+								. We’ve frozen frontend features and{' '}
+								<a
+									className="text-purple-900 underline hover:no-underline"
+									href="https://github.com/oraclefreedollar/ofd/blob/main/ir-update.txt"
+								>
+									all funds are safe
+								</a>{' '}
+								. A new version is coming soon.
+							</div>
+						</div>
+					</div>
+				</>
+			)}
 		</div>
 	)
 }

@@ -41,6 +41,16 @@ module.exports = {
 					secondary: '#0c4a6e', // Dark blue
 				},
 			},
+			keyframes: {
+				scroll: {
+					'0%': { transform: 'translateX(0)' },
+					'100%': { transform: 'translateX(-100%)' },
+				},
+			},
+			animation: {
+				scroll: 'scroll 40s linear infinite',
+				'scroll-start': 'scroll 15s linear infinite',
+			},
 		},
 	},
 	darkMode: 'class',
