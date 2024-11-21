@@ -94,16 +94,16 @@ export default function Navbar() {
 							>
 								contract vulnerability was exploited
 							</a>
-							. We’ve frozen key features and{' '}
+							. We’ve frozen frontend features and{' '}
 							<a
 								className="text-purple-900 underline hover:no-underline"
 								href="https://github.com/oraclefreedollar/ofd/blob/main/ir-update.txt"
 								rel="noreferrer"
 								target="_blank"
 							>
-								secured funds
+								all funds are safe
 							</a>{' '}
-							to protect users. A new version is coming soon.
+							. A new version is coming soon.
 						</div>
 						<div className="block md:hidden overflow-hidden whitespace-nowrap">
 							<div className="inline-block animate-scroll px-10">
@@ -111,14 +111,14 @@ export default function Navbar() {
 								<a className="text-purple-900 underline hover:no-underline" href="https://github.com/oraclefreedollar/ofd/blob/main/ir.txt">
 									contract vulnerability was exploited
 								</a>
-								. We’ve frozen key features and{' '}
+								. We’ve frozen frontend features and{' '}
 								<a
 									className="text-purple-900 underline hover:no-underline"
 									href="https://github.com/oraclefreedollar/ofd/blob/main/ir-update.txt"
 								>
-									secured funds
+									all funds are safe
 								</a>{' '}
-								to protect users. A new version is coming soon.
+								. A new version is coming soon.
 							</div>
 						</div>
 					</div>
