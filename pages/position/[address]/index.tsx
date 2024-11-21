@@ -138,12 +138,12 @@ export default function PositionDetail() {
 								</Link>
 							) : (
 								<>
-									<Link
-										className={`btn btn-primary flex-1 ${isSubjectToCooldown() && 'btn-disabled'}`}
-										href={`/position/${position}/borrow`}
-									>
-										Clone & Mint
-									</Link>
+									{/*<Link*/}
+									{/*	className={`btn btn-primary flex-1 ${isSubjectToCooldown() && 'btn-disabled'}`}*/}
+									{/*	href={`/position/${position}/borrow`}*/}
+									{/*>*/}
+									{/*	Clone & Mint*/}
+									{/*</Link>*/}
 									<Link className="btn btn-primary flex-1 ml-4" href={`/position/${position}/challenge`}>
 										Challenge
 									</Link>

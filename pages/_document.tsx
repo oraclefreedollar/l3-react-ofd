@@ -9,13 +9,13 @@ export default function Document() {
 				<link href="/favicon.ico" rel="icon" type="image/png" />
 			</Head>
 			<body className="font-sans bg-synthwave bg-cover bg-center bg-no-repeat bg-fixed backdrop-blur-md min-h-screen">
-			<div className="fixed inset-0 bg-black/10 -z-10"></div>
-			<div className="relative w-full">
-				<div className="mx-auto px-0 md:px-8 max-w-screen-2xl">
-					<Main />
-					<NextScript />
+				<div className="fixed inset-0 bg-black/10 -z-10"></div>
+				<div className="relative w-full">
+					<div className="mx-auto px-0 md:px-8 max-w-screen-2xl">
+						<Main />
+						<NextScript />
+					</div>
 				</div>
-			</div>
 			</body>
 		</Html>
 	)

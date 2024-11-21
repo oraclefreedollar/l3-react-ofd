@@ -34,6 +34,14 @@ export default function PositionRow({ position }: Props) {
 	// TODO: For testing purposes only
 	// const cooldownWait: number = Math.round((-10000000 + 40000000 * Math.random()) / 1000 / 60);
 
+	// TODO: Restore this code at line 52 when v2 will be ready
+	// ) : BigInt(position.availableForClones) > 0n && !position.closed ? (
+	// 	<Link className="btn btn-primary w-full" href={`/position/${position.position}/borrow`}>
+	// 		Clone & Mint
+	// 	</Link>
+	// ) : (
+	// 	<></>
+	// )
 	return (
 		<TableRow
 			actionCol={
@@ -41,13 +49,7 @@ export default function PositionRow({ position }: Props) {
 					<Link className="btn btn-primary w-full" href={`/position/${position.position}/adjust`}>
 						Adjust
 					</Link>
-				) : BigInt(position.availableForClones) > 0n && !position.closed ? (
-					<Link className="btn btn-primary w-full" href={`/position/${position.position}/borrow`}>
-						Clone & Mint
-					</Link>
-				) : (
-					<></>
-				)
+				) : undefined
 			}
 			link={`/position/${position.position}`}
 		>

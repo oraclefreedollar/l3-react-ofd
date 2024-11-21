@@ -21,3 +21,4 @@ export const SOCIAL = {
 	Partner_Ammer: '',
 	Partner_Zipper: '',
 }
+export const ENABLE_EMERGENCY_MODE: boolean = true

@@ -5,10 +5,10 @@ import DisplayAmount from 'components/DisplayAmount'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 import DateInput from 'components/Input/DateInput'
 import TokenInput from 'components/Input/TokenInput'
-import { TxToast, renderErrorToast } from 'components/TxToast'
+import { renderErrorToast, TxToast } from 'components/TxToast'
 import { ABIS, ADDRESS } from 'contracts'
 import { usePositionStats } from 'hooks'
-import { formatBigInt, min, shortenAddress, toTimestamp } from 'utils'
+import { ENABLE_EMERGENCY_MODE, formatBigInt, min, shortenAddress, toTimestamp } from 'utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
@@ -18,6 +18,7 @@ import { useChainId } from 'wagmi'
 import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
 import { envConfig } from 'app.env.config'
 import { WAGMI_CONFIG } from 'app.config'
+import { EmergencyPage } from 'components/EmergencyPage'
 
 export default function PositionBorrow({}) {
 	const router = useRouter()
@@ -195,6 +196,10 @@ export default function PositionBorrow({}) {
 			setCloning(false)
 		}
 	}, [amount, chainId, expirationDate, position, positionStats, requiredColl])
+
+	if (ENABLE_EMERGENCY_MODE) {
+		return <EmergencyPage />
+	}
 
 	return (
 		<>
