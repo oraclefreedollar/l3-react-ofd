@@ -1,3 +1,6 @@
+import { WAGMI_CHAIN } from 'app.config'
+import { bsc } from 'viem/chains'
+
 export const SOCIAL = {
 	Github_contract: 'https://github.com/oraclefreedollar/ofd',
 	Github_dapp: 'https://github.com/SELISEdigitalplatforms/l3-react-ofd',
@@ -21,4 +24,4 @@ export const SOCIAL = {
 	Partner_Ammer: '',
 	Partner_Zipper: '',
 }
-export const ENABLE_EMERGENCY_MODE: boolean = true
+export const ENABLE_EMERGENCY_MODE: boolean = WAGMI_CHAIN === bsc
