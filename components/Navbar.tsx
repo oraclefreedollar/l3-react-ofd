@@ -19,9 +19,11 @@ export default function Navbar() {
 				</Link>
 
 				<ul className="justify-left hidden flex-1 gap-2 md:flex lg:gap-3 xl:w-1/2">
-					{/*<li>*/}
-					{/*	<NavButton name="Swap" to="/swap" />*/}
-					{/*</li>*/}
+					{!ENABLE_EMERGENCY_MODE && (
+						<li>
+							<NavButton name="Swap" to="/swap" />
+						</li>
+					)}
 					<li>
 						<NavButton name="Collateral" to="/collateral" />
 					</li>
@@ -56,9 +58,11 @@ export default function Navbar() {
 							<div className="fixed top-0 right-0 h-screen translate-x-full overflow-y-auto overscroll-y-none transition duration-500 peer-checked:translate-x-0 peer-checked:shadow-heading">
 								<div className="float-right min-h-full w-full bg-slate-800 opacity-90 backdrop-blur px-6 pt-12 shadow-2xl">
 									<menu className="mt-8 mb-8 flex flex-col text-heading">
-										{/*<li>*/}
-										{/*	<NavButton name="Swap" to="/swap" />*/}
-										{/*</li>*/}
+										{!ENABLE_EMERGENCY_MODE && (
+											<li>
+												<NavButton name="Swap" to="/swap" />
+											</li>
+										)}
 										<li>
 											<NavButton name="Collateral" to="/collateral" />
 										</li>

@@ -2,6 +2,8 @@ import { ABIS, ADDRESS } from 'contracts'
 import { decodeBigIntCall } from 'utils'
 import { useAccount, useChainId, useReadContracts } from 'wagmi'
 import { erc20Abi } from 'viem'
+import { WAGMI_CHAIN } from 'app.config'
+import { bsc } from 'viem/chains'
 
 export const useHomeStats = () => {
 	const chainId = useChainId()
@@ -92,7 +94,8 @@ export const useHomeStats = () => {
 
 	const totalSupplyBigInt = data ? decodeBigIntCall(data[0]) : BigInt(0)
 
-	const ofdTotalSupply: bigint = totalSupplyBigInt > 0n ? totalSupplyBigInt - BigInt(535516.58305794 * 1e18) : totalSupplyBigInt
+	const ofdTotalSupply: bigint =
+		totalSupplyBigInt > 0n && WAGMI_CHAIN === bsc ? totalSupplyBigInt - BigInt(535516.58305794 * 1e18) : totalSupplyBigInt
 	const ofdSymbol: string = data ? String(data[1].result) : ''
 	const ofdBalance: bigint = data ? decodeBigIntCall(data[2]) : BigInt(0)
 	const ofdEquity: bigint = data ? decodeBigIntCall(data[3]) : BigInt(0)
