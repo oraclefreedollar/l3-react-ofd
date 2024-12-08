@@ -1,3 +1,6 @@
+import { WAGMI_CHAIN } from 'app.config'
+import { bsc } from 'viem/chains'
+
 export const SOCIAL = {
 	Github_contract: 'https://github.com/oraclefreedollar/ofd',
 	Github_dapp: 'https://github.com/SELISEdigitalplatforms/l3-react-ofd',
@@ -23,3 +26,5 @@ export const SOCIAL = {
 }
 
 export const OPEN_POSITION_FEE: bigint = 3500n * 10n ** 18n
+
+export const ENABLE_EMERGENCY_MODE: boolean = WAGMI_CHAIN === bsc

@@ -7,7 +7,7 @@ import { ABIS, ADDRESS } from 'contracts'
 import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSwapStats } from 'hooks'
-import { formatBigInt, shortenAddress } from 'utils'
+import { ENABLE_EMERGENCY_MODE, formatBigInt, shortenAddress } from 'utils'
 import Head from 'next/head'
 import { useCallback, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -16,6 +16,7 @@ import { useChainId } from 'wagmi'
 import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
 import { envConfig } from 'app.env.config'
 import { WAGMI_CONFIG } from 'app.config'
+import { EmergencyPage } from 'components/EmergencyPage'
 
 export default function Swap() {
 	const [amount, setAmount] = useState(0n)
@@ -196,6 +197,10 @@ export default function Swap() {
 		[fromBalance, fromSymbol, swapLimit, toSymbol]
 	)
 
+	if (ENABLE_EMERGENCY_MODE) {
+		return <EmergencyPage />
+	}
+
 	return (
 		<>
 			<Head>
@@ -204,8 +209,7 @@ export default function Swap() {
 			<div>
 				<AppPageHeader title="Swap USDT and OFD" />
 				<section className="mx-auto flex max-w-2xl flex-col gap-y-4 px-4 sm:px-8">
-					<div
-						className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50">
+					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50">
 						<TokenInput
 							error={error}
 							limit={swapLimit}

@@ -2,15 +2,15 @@ import React from 'react'
 import { TbPigMoney } from 'react-icons/tb'
 import { BiCoinStack } from 'react-icons/bi'
 import { FaChartLine, FaDollarSign, FaTwitter, FaGithub, FaTelegram } from 'react-icons/fa'
-import { GrMoney } from 'react-icons/gr'
-import { LiaExchangeAltSolid } from 'react-icons/lia'
 import { MdOutlinePool } from 'react-icons/md'
 import { parseUnits } from 'viem'
-import { formatBigInt } from 'utils'
+import { ENABLE_EMERGENCY_MODE, formatBigInt } from 'utils'
 import { SOCIAL } from 'utils'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useHomeStats, useOfdPrice, useTvl } from 'hooks'
+import { LiaExchangeAltSolid } from 'react-icons/lia'
+import { GrMoney } from 'react-icons/gr'
 
 const fadeInUp = {
 	hidden: { opacity: 0, y: 20 },
@@ -45,19 +45,24 @@ export default function Home() {
 		},
 	]
 
+	// TODO: restore links when v2 is ready
 	const navigationLinks = [
-		{
-			title: 'Swap OFD',
-			description: 'Invest in Oracle Free Dollar by swapping USDT',
-			href: '/swap',
-			icon: LiaExchangeAltSolid,
-		},
-		{
-			title: 'Create Position',
-			description: 'Open a new collateral position and mint OFD',
-			href: '/positions/create',
-			icon: GrMoney,
-		},
+		...(!ENABLE_EMERGENCY_MODE
+			? [
+					{
+						title: 'Swap OFD',
+						description: 'Invest in Oracle Free Dollar by swapping USDT',
+						href: '/swap',
+						icon: LiaExchangeAltSolid,
+					},
+					{
+						title: 'Create Position',
+						description: 'Open a new collateral position and mint OFD',
+						href: '/positions/create',
+						icon: GrMoney,
+					},
+				]
+			: []),
 		{
 			title: 'OFDPs / Equity',
 			description: 'Explore OFD pool shares representing equity',
@@ -150,7 +155,8 @@ export default function Home() {
 					</motion.div>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+				{/* TODO: restore previous style when v2 ready */}
+				<div className={`gap-6 mt-12 ${!ENABLE_EMERGENCY_MODE ? 'grid grid-cols-1 md:grid-cols-3' : 'flex justify-center md:grid-cols-3'}`}>
 					{navigationLinks.map((link, index) => (
 						<motion.div
 							initial="hidden"
