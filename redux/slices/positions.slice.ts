@@ -164,9 +164,9 @@ export const fetchPositionsList =
 			const pos = originalPositions.filter((p) => p.collateral == c).at(0)
 			return {
 				address: c,
-				name: pos!.collateralName,
-				symbol: pos!.collateralSymbol,
-				decimals: pos!.collateralDecimals,
+				name: pos?.collateralName ?? '',
+				symbol: pos?.collateralSymbol ?? '',
+				decimals: pos?.collateralDecimals ?? 18,
 			}
 		})
 
