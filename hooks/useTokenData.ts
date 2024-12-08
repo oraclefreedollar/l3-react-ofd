@@ -1,26 +1,18 @@
-import { Address, getAddress, isAddress, zeroAddress } from 'viem'
+import { erc20Abi, getAddress, isAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId, useReadContracts } from 'wagmi'
 import { ADDRESS } from 'contracts/address'
 import { decodeBigIntCall } from 'utils/format'
-import { erc20Abi } from 'viem'
+import { PositionCollateralTokenData } from 'meta/positions'
 
-export const useTokenData: (addr: string) => {
-	address: Address
-	allowance: bigint
-	balance: bigint
-	decimals: bigint
-	name: string
-	refetch: any
-	symbol: string
-} = (addr: string) => {
+export const useTokenData = (addr: string): PositionCollateralTokenData => {
 	if (!isAddress(addr)) addr = zeroAddress
 	const tokenAddress = getAddress(addr)
 	const { address } = useAccount()
 
 	const account = address || zeroAddress
 	const chainId = useChainId()
-	// console.log("Got chain?", { chainId });
 	const mintingHub = ADDRESS[chainId].mintingHub
+
 	const { data, refetch } = useReadContracts({
 		contracts: [
 			{

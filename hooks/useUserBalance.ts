@@ -1,8 +1,9 @@
 import { ABIS, ADDRESS } from 'contracts'
 import { decodeBigIntCall } from 'utils'
 import { useAccount, useChainId, useReadContracts } from 'wagmi'
+import { UserData } from 'meta/user'
 
-export const useUserBalance: () => { equityBalance: bigint; refetch: any; ofdBalance: bigint } = () => {
+export const useUserBalance = (): UserData => {
 	const chainId = useChainId()
 
 	const { address } = useAccount()
@@ -11,8 +12,6 @@ export const useUserBalance: () => { equityBalance: bigint; refetch: any; ofdBal
 		address: ADDRESS[chainId].oracleFreeDollar,
 		abi: ABIS.oracleFreeDollarABI,
 	} as const
-
-	// console.log("ofd:", ofdContract.address);
 
 	const equityContract = {
 		address: ADDRESS[chainId].equity,
@@ -24,7 +23,6 @@ export const useUserBalance: () => { equityBalance: bigint; refetch: any; ofdBal
 	// Fetch all blockchain stats in one web3 call using multicall
 	const { data, refetch } = useReadContracts({
 		contracts: [
-			// oracleFreeDollar Calls
 			{
 				chainId,
 				...ofdContract,
