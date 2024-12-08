@@ -32,7 +32,7 @@ export const validationRules: { [key in keyof PositionCreateFormState]?: (props:
 		return ''
 	},
 	initPeriod: ({ form }) => {
-		if (form.initPeriod < 3n) return 'Initialization period must be greater than 3.'
+		if (form.initPeriod < 5n) return 'Initialization period must be greater than 5 days.'
 		return ''
 	},
 	interest: ({ form }) => {

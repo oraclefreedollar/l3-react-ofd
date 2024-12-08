@@ -15,7 +15,7 @@ export const initialFormState = {
 	auctionDuration: 24n,
 	buffer: 200000n,
 	collateralAddress: '',
-	initPeriod: 3n,
+	initPeriod: 5n,
 	initialCollAmount: 0n,
 	interest: 30000n,
 	limitAmount: 1_000_000n * BigInt(1e18),
