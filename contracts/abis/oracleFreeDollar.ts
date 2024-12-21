@@ -1,4 +1,4 @@
-export const oracleFreeDollarABI = [
+export const OracleFreeDollarABI = [
 	{
 		inputs: [
 			{
