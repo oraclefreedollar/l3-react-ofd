@@ -6,32 +6,33 @@ import { PriceQueryCurrencies, PriceQueryObjectArray } from 'redux/slices/prices
 import { uniqueValues } from 'utils/format-array'
 import { fetchPositions } from './positions'
 import { Contracts } from 'utils'
-import { bsc } from 'viem/chains'
+import { bsc, bscTestnet } from 'viem/chains'
+import { ADDRESS } from 'contracts'
 
 // forced init caching of ERC20Infos
 // solves development mode caching issue with coingecko free plan
 let fetchedPositions: PositionQuery[] = []
 let fetchedAddresses: Address[] = [
-	'0x9c06b95640455ae3dec830a0a05370d4cd6ffef8', //test OFD
-	'0x887c14bc51705eb11e238631a24b4d6305a7b6bd', //test BSC-USD
+	ADDRESS[bscTestnet.id].oracleFreeDollar, //test OFD
+	ADDRESS[bscTestnet.id].usdt, //test BSC-USD
 ]
 let fetchedERC20Infos: ERC20Info[] = [
 	{
-		address: '0x9c06b95640455ae3dec830a0a05370d4cd6ffef8',
+		address: ADDRESS[bscTestnet.id].oracleFreeDollar,
 		name: 'OracleFreeDollar Test',
 		symbol: 'OFD',
 		decimals: 18,
 	},
 	{
-		address: '0x887c14bc51705eb11e238631a24b4d6305a7b6bd',
+		address: ADDRESS[bscTestnet.id].usdt,
 		name: 'Binance-Peg BSC-USD Test',
 		symbol: 'BSC-USD',
 		decimals: 18,
 	},
 ]
 const fetchedPrices: PriceQueryObjectArray = {
-	'0x55899a4cd6d255dccaa84d67e3a08043f2123d7e': {
-		address: '0x55899a4cd6d255dccaa84d67e3a08043f2123d7e',
+	[ADDRESS[bsc.id].oracleFreeDollar]: {
+		address: ADDRESS[bsc.id].oracleFreeDollar,
 		name: 'oracleFreeDollar',
 		symbol: 'OFD',
 		decimals: 18,
@@ -41,8 +42,8 @@ const fetchedPrices: PriceQueryObjectArray = {
 		},
 	},
 	//Test Token
-	'0x9c06b95640455ae3dec830a0a05370d4cd6ffef8': {
-		address: '0x9c06b95640455ae3dec830a0a05370d4cd6ffef8',
+	[ADDRESS[bscTestnet.id].oracleFreeDollar]: {
+		address: ADDRESS[bscTestnet.id].oracleFreeDollar,
 		name: 'OracleFreeDollar Test',
 		symbol: 'OFD',
 		decimals: 18,
@@ -51,8 +52,8 @@ const fetchedPrices: PriceQueryObjectArray = {
 			usd: 1.0,
 		},
 	},
-	'0x887c14bc51705eb11e238631a24b4d6305a7b6bd': {
-		address: '0x887c14bc51705eb11e238631a24b4d6305a7b6bd',
+	[ADDRESS[bscTestnet.id].usdt]: {
+		address: ADDRESS[bscTestnet.id].usdt,
 		name: 'Binance-Peg BSC-USD Test',
 		symbol: 'BSC-USD',
 		decimals: 18,
