@@ -11,7 +11,7 @@ export const useHomeStats = () => {
 
 	const ofdContract = {
 		address: ADDRESS[chainId].oracleFreeDollar,
-		abi: ABIS.oracleFreeDollarABI,
+		abi: ABIS.OracleFreeDollarABI,
 	} as const
 
 	const usdtContract = {

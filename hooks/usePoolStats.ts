@@ -29,7 +29,7 @@ export const usePoolStats: () => {
 
 	const ofdContract = {
 		address: ADDRESS[chainId].oracleFreeDollar,
-		abi: ABIS.oracleFreeDollarABI,
+		abi: ABIS.OracleFreeDollarABI,
 	}
 
 	const { data, refetch } = useReadContracts({
