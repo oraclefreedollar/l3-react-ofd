@@ -158,7 +158,7 @@ export default function PositionBorrow({}) {
 				address: ADDRESS[chainId].mintingHub,
 				abi: ABIS.MintingHubABI,
 				functionName: 'clone',
-				args: [position, requiredColl, amount, BigInt(expirationTime)],
+				args: [position, requiredColl, amount, expirationTime],
 			})
 
 			const toastContent = [

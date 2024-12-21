@@ -29,7 +29,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 						original
 
 						minimumCollateral
-						annualInterestPPM
+						riskPremiumPPM
 						reserveContribution
 						start
 
@@ -45,9 +45,8 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 						collateralDecimals
 						collateralBalance
 
-						limitForPosition
 						limitForClones
-						availableForPosition
+						availableForMinting
 						availableForClones
 						minted
 					}
@@ -78,7 +77,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 				original: getAddress(p.original),
 
 				minimumCollateral: p.minimumCollateral,
-				annualInterestPPM: p.annualInterestPPM,
+				riskPremiumPPM: p.riskPremiumPPM,
 				reserveContribution: p.reserveContribution,
 				start: p.start,
 				// cooldown: p.cooldown,
@@ -94,9 +93,10 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 				collateralDecimals: p.collateralDecimals,
 				collateralBalance: p.collateralBalance,
 
-				limitForPosition: p.limitForPosition,
+				// TODO: check if limit is required
+				//limit: p.limit,
 				limitForClones: p.limitForClones,
-				availableForPosition: p.availableForPosition,
+				availableForMinting: p.availableForMinting,
 				availableForClones: p.availableForClones,
 				minted: p.minted,
 			})
