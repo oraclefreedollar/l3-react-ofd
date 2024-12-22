@@ -5,7 +5,7 @@ import TableRowEmpty from "../Table/TableRowEmpty";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
 import { useState } from "react";
-import { SavingsSavedQuery } from "@frankencoin/api";
+import { SavingsSavedQuery } from "redux/slices/savings.types";
 import SavingsSavedRow from "./SavingsSavedRow";
 
 export default function GovernanceLeadrateTable() {

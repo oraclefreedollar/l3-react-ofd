@@ -2,12 +2,12 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { WAGMI_CONFIG } from "../../app.config";
 import { toast } from "react-toastify";
-import { formatCurrency } from "@utils";
-import { renderErrorTxToast, TxToast } from "@components/TxToast";
+import { formatCurrency } from "utils/format";
+import { renderErrorToast, TxToast } from "components/TxToast";
 import { useAccount, useChainId } from "wagmi";
-import Button from "@components/Button";
+import Button from "components/Button";
 import { formatUnits } from "viem";
-import { ADDRESS, SavingsABI } from "@frankencoin/zchf";
+import { ADDRESS, ABIS } from "contracts";
 
 interface Props {
 	balance: bigint;
@@ -34,7 +34,7 @@ export default function SavingsActionInterest({ balance, interest, disabled, set
 			 */
 			const writeHash = await writeContract(WAGMI_CONFIG, {
 				address: ADDRESS[chainId].savings,
-				abi: SavingsABI,
+				abi: ABIS.SavingsABI,
 				functionName: "adjust",
 				args: [balance],
 			});
@@ -42,11 +42,11 @@ export default function SavingsActionInterest({ balance, interest, disabled, set
 			const toastContent = [
 				{
 					title: `Saved amount: `,
-					value: `${formatCurrency(formatUnits(balance, 18))} ZCHF`,
+					value: `${formatCurrency(formatUnits(balance, 18))} OFD`,
 				},
 				{
 					title: `Claim Interest: `,
-					value: `${formatCurrency(formatUnits(interest, 18))} ZCHF`,
+					value: `${formatCurrency(formatUnits(interest, 18))} OFD`,
 				},
 				{
 					title: "Transaction: ",
@@ -65,7 +65,7 @@ export default function SavingsActionInterest({ balance, interest, disabled, set
 
 			setHidden(true);
 		} catch (error) {
-			toast.error(renderErrorTxToast(error));
+			toast.error(renderErrorToast(error));
 		} finally {
 			if (setLoaded != undefined) setLoaded(false);
 			setAction(false);

@@ -1,17 +1,16 @@
-import AppBox from "@components/AppBox";
-import AppCard from "@components/AppCard";
-import DisplayAmount from "@components/DisplayAmount";
-import DisplayLabel from "@components/DisplayLabel";
+import AppBox from "components/AppBox";
+import AppCard from "components/AppCard";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ADDRESS, FrankencoinABI, SavingsABI } from "@frankencoin/zchf";
+import { ADDRESS} from "contracts";
 import { useChainId } from "wagmi";
-import { useContractUrl } from "@hooks";
-import { shortenAddress } from "@utils";;
-import Button from "@components/Button";
+import { useContractUrl } from "hooks";
+import { shortenAddress } from "utils";;
 import Link from "next/link";
+import DisplayLabel from "components/DisplayLabel";
+import DisplayAmount from "components/DisplayAmount";
 
 export default function SavingsGlobalCard() {
 	const { totalBalance, totalSaved, totalWithdrawn, totalInterest, rate, ratioOfSupply } = useSelector(
@@ -30,7 +29,7 @@ export default function SavingsGlobalCard() {
 				</AppBox>
 				<AppBox>
 					<DisplayLabel label="Total Savings" />
-					<DisplayAmount className="mt-1" amount={totalBalance} currency="ZCHF" hideLogo />
+					<DisplayAmount className="mt-1" amount={totalBalance} currency="OFD" hideLogo />
 				</AppBox>
 				<AppBox>
 					<DisplayLabel label="Module Contract" />
