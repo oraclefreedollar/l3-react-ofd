@@ -1,7 +1,7 @@
-import { AddressLabelSimple, TxLabelSimple } from "@components/AddressLabel";
-import TableRow from "@components/Table/TableRow";
-import { SavingsInterestQuery } from "@frankencoin/api";
-import { formatCurrency } from "@utils";
+import { AddressLabelSimple, TxLabelSimple } from "components/AddressLabel";
+import TableRow from "components/Table/TableRow";
+import { SavingsInterestQuery } from "redux/slices/savings.types";
+import { formatCurrency } from "utils/format";
 import { formatUnits, Hash } from "viem";
 
 interface Props {
@@ -25,11 +25,11 @@ export default function SavingsInterestRow({ headers, tab, item }: Props) {
 					<AddressLabelSimple address={item.account} showLink />
 				</div>
 
-				<div className="flex flex-col">{formatCurrency(formatUnits(BigInt(item.amount), 18))} ZCHF</div>
+				<div className="flex flex-col">{formatCurrency(formatUnits(BigInt(item.amount), 18))} OFD</div>
 
 				{/* <div className={`flex flex-col`}>{formatCurrency(item.rate / 10_000)} %</div> */}
 
-				<div className="flex flex-col">{formatCurrency(formatUnits(BigInt(item.balance), 18))} ZCHF</div>
+				<div className="flex flex-col">{formatCurrency(formatUnits(BigInt(item.balance), 18))} OFD</div>
 
 				{/* <div className="flex flex-col">{formatCurrency(formatUnits(BigInt(item.total), 18))} ZCHF</div> */}
 			</TableRow>

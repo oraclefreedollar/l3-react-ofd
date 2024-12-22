@@ -2,12 +2,12 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { WAGMI_CONFIG } from "../../app.config";
 import { toast } from "react-toastify";
-import { formatCurrency } from "@utils";
-import { renderErrorTxToast, TxToast } from "@components/TxToast";
+import { formatCurrency } from "utils/format";
+import { renderErrorToast, TxToast } from "components/TxToast";
 import { useAccount, useChainId } from "wagmi";
-import Button from "@components/Button";
+import Button from "components/Button";
 import { formatUnits } from "viem";
-import { ADDRESS, SavingsABI } from "@frankencoin/zchf";
+import { ADDRESS, ABIS } from "contracts";
 
 interface Props {
 	amount: bigint;
@@ -22,8 +22,7 @@ export default function SavingsActionSave({ amount, interest, disabled, setLoade
 	const account = useAccount();
 	const chainId = useChainId();
 
-	const handleOnClick = async function (e: any) {
-		e.preventDefault();
+	const handleOnClick = async () => {
 		if (!account.address) return;
 
 		try {
@@ -31,7 +30,7 @@ export default function SavingsActionSave({ amount, interest, disabled, setLoade
 
 			const writeHash = await writeContract(WAGMI_CONFIG, {
 				address: ADDRESS[chainId].savings,
-				abi: SavingsABI,
+				abi: ABIS.SavingsABI,
 				functionName: "adjust",
 				args: [amount],
 			});
@@ -39,11 +38,11 @@ export default function SavingsActionSave({ amount, interest, disabled, setLoade
 			const toastContent = [
 				{
 					title: `Saving: `,
-					value: `${formatCurrency(formatUnits(amount, 18))} ZCHF`,
+					value: `${formatCurrency(formatUnits(amount, 18))} OFD`,
 				},
 				{
 					title: `Accured Interest: `,
-					value: `${formatCurrency(formatUnits(interest, 18))} ZCHF`,
+					value: `${formatCurrency(formatUnits(interest, 18))} OFD`,
 				},
 				{
 					title: "Transaction: ",
@@ -62,7 +61,7 @@ export default function SavingsActionSave({ amount, interest, disabled, setLoade
 
 			setHidden(true);
 		} catch (error) {
-			toast.error(renderErrorTxToast(error));
+			toast.error(renderErrorToast(error));
 		} finally {
 			if (setLoaded != undefined) setLoaded(false);
 			setAction(false);
@@ -70,7 +69,7 @@ export default function SavingsActionSave({ amount, interest, disabled, setLoade
 	};
 
 	return (
-		<Button className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={(e) => handleOnClick(e)}>
+		<Button className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={handleOnClick}>
 			Adjust
 		</Button>
 	);

@@ -5,9 +5,8 @@ import TableRowEmpty from "../Table/TableRowEmpty";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/redux.store";
 import { useState } from "react";
-import { SavingsWithdrawQuery } from "@frankencoin/api";
+import { SavingsWithdrawQuery } from "redux/slices/savings.types";
 import SavingsWithdrawnRow from "./SavingsWithdrawnRow";
-import { Address, parseEther } from "viem";
 
 export default function SavingsWithdrawnTable() {
 	const headers: string[] = ["Date", "Saver", "Amount", "Balance"];

@@ -1,9 +1,9 @@
-import AppCard from "@components/AppCard";
-import TokenInput from "@components/Input/TokenInput";
-import { ADDRESS, FrankencoinABI, SavingsABI } from "@frankencoin/zchf";
-import { useContractUrl } from "@hooks";
+import AppCard from "components/AppCard";
+import TokenInput from "components/Input/TokenInput";
+import { ADDRESS, ABIS } from "contracts";
+import { useContractUrl } from "hooks";
 import { useAccount, useBlockNumber, useChainId } from "wagmi";
-import GuardToAllowedChainBtn from "@components/Guards/GuardToAllowedChainBtn";
+import GuardToAllowedChainBtn from "components/Guards/GuardToAllowedChainBtn";
 import { zeroAddress } from "viem";
 import { useEffect, useState } from "react";
 import SavingsDetailsCard from "./SavingsDetailsCard";
@@ -36,7 +36,7 @@ export default function SavingsInteractionCard() {
 	const account = address || zeroAddress;
 	const ADDR = ADDRESS[chainId];
 
-	const fromSymbol = "ZCHF";
+	const fromSymbol = "OFD";
 	const change: bigint = amount - (userSavingsBalance + userSavingsInterest);
 	const direction: boolean = amount >= userSavingsBalance + userSavingsInterest;
 	const claimable: boolean = userSavingsInterest > 0n;
@@ -48,8 +48,8 @@ export default function SavingsInteractionCard() {
 
 		const fetchAsync = async function () {
 			const _balance = await readContract(WAGMI_CONFIG, {
-				address: ADDR.frankenCoin,
-				abi: FrankencoinABI,
+				address: ADDR.oracleFreeDollar,
+				abi: ABIS.OracleFreeDollarABI,
 				functionName: "balanceOf",
 				args: [account],
 			});
@@ -57,7 +57,7 @@ export default function SavingsInteractionCard() {
 
 			const [_userSavings, _userTicks] = await readContract(WAGMI_CONFIG, {
 				address: ADDR.savings,
-				abi: SavingsABI,
+				abi: ABIS.SavingsABI,
 				functionName: "savings",
 				args: [account],
 			});
@@ -66,12 +66,12 @@ export default function SavingsInteractionCard() {
 
 			const _current = await readContract(WAGMI_CONFIG, {
 				address: ADDR.savings,
-				abi: SavingsABI,
+				abi: ABIS.SavingsABI,
 				functionName: "currentTicks",
 			});
 			setCurrentTicks(_current);
 
-			const _locktime = _userTicks >= _current ? (_userTicks - _current) / BigInt(leadrate) : 0n;
+			const _locktime = _userTicks >= _current && leadrate !== 0 ? (_userTicks - _current) / BigInt(leadrate) : 0n;
 			setUserSavingsLocktime(_locktime);
 
 			const _tickDiff = _current - _userTicks;

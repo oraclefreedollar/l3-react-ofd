@@ -2,12 +2,12 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { WAGMI_CONFIG } from "../../app.config";
 import { toast } from "react-toastify";
-import { formatCurrency } from "@utils";
-import { renderErrorTxToast, TxToast } from "@components/TxToast";
+import { formatCurrency } from "utils/format";
+import { renderErrorToast, TxToast } from "components/TxToast";
 import { useAccount, useChainId } from "wagmi";
-import Button from "@components/Button";
+import Button from "components/Button";
 import { formatUnits } from "viem";
-import { ADDRESS, SavingsABI } from "@frankencoin/zchf";
+import { ADDRESS, ABIS } from "contracts";
 
 interface Props {
 	balance: bigint;
@@ -22,8 +22,7 @@ export default function SavingsActionWithdraw({ balance, change, disabled, setLo
 	const account = useAccount();
 	const chainId = useChainId();
 
-	const handleOnClick = async function (e: any) {
-		e.preventDefault();
+	const handleOnClick = async () => {
 		if (!account.address) return;
 
 		try {
@@ -31,7 +30,7 @@ export default function SavingsActionWithdraw({ balance, change, disabled, setLo
 
 			const writeHash = await writeContract(WAGMI_CONFIG, {
 				address: ADDRESS[chainId].savings,
-				abi: SavingsABI,
+				abi: ABIS.SavingsABI,
 				functionName: "adjust",
 				args: [balance],
 			});
@@ -39,11 +38,11 @@ export default function SavingsActionWithdraw({ balance, change, disabled, setLo
 			const toastContent = [
 				{
 					title: `Saved amount: `,
-					value: `${formatCurrency(formatUnits(balance, 18))} ZCHF`,
+					value: `${formatCurrency(formatUnits(balance, 18))} OFD`,
 				},
 				{
 					title: `Withdraw: `,
-					value: `${formatCurrency(formatUnits(change, 18))} ZCHF`,
+					value: `${formatCurrency(formatUnits(change, 18))} OFD`,
 				},
 				{
 					title: "Transaction: ",
@@ -62,7 +61,7 @@ export default function SavingsActionWithdraw({ balance, change, disabled, setLo
 
 			setHidden(true);
 		} catch (error) {
-			toast.error(renderErrorTxToast(error));
+			toast.error(renderErrorToast(error));
 		} finally {
 			if (setLoaded != undefined) setLoaded(false);
 			setAction(false);
@@ -70,7 +69,7 @@ export default function SavingsActionWithdraw({ balance, change, disabled, setLo
 	};
 
 	return (
-		<Button className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={(e) => handleOnClick(e)}>
+		<Button className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={handleOnClick}>
 			Adjust
 		</Button>
 	);

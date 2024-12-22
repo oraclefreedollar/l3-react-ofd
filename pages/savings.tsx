@@ -6,8 +6,11 @@ import SavingsWithdrawnTable from "components/Savings/SavingsWithdrawnTable";
 import Head from "next/head";
 import { useEffect } from "react";
 import { store } from "../redux/redux.store";
-import { fetchSavings } from "../redux/slices/savings.slice";
 import { useAccount } from "wagmi";
+import { fetchSavings } from "redux/slices/savings.slice";
+import AppTitle from "components/AppTitle";
+import AppPageHeader from "components/AppPageHeader";
+import { envConfig } from "app.env.config";
 
 export default function SavingsPage() {
 	const { address } = useAccount();
@@ -22,6 +25,7 @@ export default function SavingsPage() {
 				<title>OFD - Savings</title>
 			</Head>
 
+			<AppPageHeader title={`${envConfig.AppName} Savings`} />
 			<SavingsGlobalCard />
 
 			<SavingsInteractionCard />
