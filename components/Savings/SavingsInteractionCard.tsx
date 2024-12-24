@@ -116,7 +116,7 @@ export default function SavingsInteractionCard() {
 				</div>
 
 				<div className="mx-auto my-4 w-72 max-w-full flex-col flex gap-4">
-					<GuardToAllowedChainBtn label={direction ? 'Save' : 'Withdraw'}>
+					<GuardToAllowedChainBtn>
 						{userSavingsInterest > 0 && amount == userSavingsBalance ? (
 							<SavingsActionInterest balance={userSavingsBalance} disabled={!!error} interest={userSavingsInterest} />
 						) : amount > userSavingsBalance ? (

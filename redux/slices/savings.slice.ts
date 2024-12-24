@@ -97,6 +97,12 @@ export const slice = createSlice({
 export const reducer = slice.reducer
 export const actions = slice.actions
 
+// Add this type near your other Dispatch types
+type DispatchError = { 
+		type: 'savings/hasError'
+		payload: string 
+}
+
 // Thunk action
 export const fetchSavings =
 	(account: Address | undefined) =>
@@ -108,6 +114,7 @@ export const fetchSavings =
 			| DispatchApiLeadrateRate
 			| DispatchApiSavingsInfo
 			| DispatchApiSavingsUserTable
+			| DispatchError
 		>
 	) => {
 		try {

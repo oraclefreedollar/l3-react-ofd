@@ -22,8 +22,7 @@ export default function SavingsActionInterest({ balance, interest, disabled, set
 	const account = useAccount()
 	const chainId = useChainId()
 
-	const handleOnClick = async function (e: any) {
-		e.preventDefault()
+	const handleOnClick = async () => {
 		if (!account.address) return
 
 		try {
@@ -73,7 +72,7 @@ export default function SavingsActionInterest({ balance, interest, disabled, set
 	}
 
 	return (
-		<Button className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={(e) => handleOnClick(e)}>
+		<Button className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={handleOnClick}>
 			Adjust
 		</Button>
 	)

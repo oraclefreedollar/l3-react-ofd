@@ -25,7 +25,7 @@ export default function SavingsInterestTable() {
 				{sorted.length == 0 ? (
 					<TableRowEmpty>{'There are no interest claims yet.'}</TableRowEmpty>
 				) : (
-					sorted.map((r) => <SavingsInterestRow headers={headers} item={r} key={r.id} tab={tab} />)
+					sorted.map((r) => <SavingsInterestRow item={r} key={r.id} />)
 				)}
 			</TableBody>
 		</Table>

@@ -5,18 +5,16 @@ import { formatCurrency } from 'utils/format'
 import { formatUnits, Hash } from 'viem'
 
 interface Props {
-	headers: string[]
-	tab: string
 	item: SavingsSavedQuery
 }
 
-export default function SavingsitemdRow({ headers, tab, item }: Props) {
+export default function SavingsSavedRow({ item }: Props) {
 	const dateArr: string[] = new Date(item.created * 1000).toDateString().split(' ')
 	const dateStr: string = `${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`
 
 	return (
 		<>
-			<TableRow headers={headers} tab={tab}>
+			<TableRow>
 				<div className="flex flex-col md:text-left max-md:text-right">
 					<TxLabelSimple label={dateStr} showLink tx={item.txHash as Hash} />
 				</div>
