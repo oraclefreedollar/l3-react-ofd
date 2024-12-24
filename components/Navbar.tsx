@@ -37,6 +37,9 @@ export default function Navbar() {
 						<NavButton name="Equity" to="/pool" />
 					</li>
 					<li>
+						<NavButton name="Savings" to="/savings" />
+					</li>
+					<li>
 						<NavButton name="Governance" to="/governance" />
 					</li>
 					{chainId == 97 && (
