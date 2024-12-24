@@ -1,13 +1,13 @@
-import AppCard from "components/AppCard";
-import { formatCurrency } from "utils/format";
-import { formatUnits } from "viem";
+import AppCard from 'components/AppCard'
+import { formatCurrency } from 'utils/format'
+import { formatUnits } from 'viem'
 
 interface Props {
-	balance: bigint;
-	change: bigint;
-	direction: boolean;
-	interest: bigint;
-	locktime: bigint;
+	balance: bigint
+	change: bigint
+	direction: boolean
+	interest: bigint
+	locktime: bigint
 }
 
 export default function SavingsDetailsCard({ balance, change, direction, interest, locktime }: Props) {
@@ -20,7 +20,7 @@ export default function SavingsDetailsCard({ balance, change, direction, interes
 					<div className="">{formatCurrency(formatUnits(balance, 18))} OFD</div>
 				</div>
 				<div className="flex">
-					<div className="flex-1">{direction ? "To be added from your wallet" : "Withdrawn to your wallet"}</div>
+					<div className="flex-1">{direction ? 'To be added from your wallet' : 'Withdrawn to your wallet'}</div>
 					<div className="">{formatCurrency(formatUnits(change, 18))} OFD</div>
 				</div>
 				<div className="flex">
@@ -35,18 +35,16 @@ export default function SavingsDetailsCard({ balance, change, direction, interes
 
 				<div className="flex mt-8">
 					<div className={`flex-1 text-sm`}>
-						When saving additional funds, your balance will be locked until interest starts accruing, which can take up to three
-						days. This rule serves to disincentivize the saving of funds held for transactional purposes.{" "}
+						When saving additional funds, your balance will be locked until interest starts accruing, which can take up to three days. This
+						rule serves to disincentivize the saving of funds held for transactional purposes.{' '}
 						<span className="font-semibold text-text-primary">
 							{locktime > 0
-								? `Your funds are still locked for ${formatCurrency(
-										(parseFloat(locktime.toString()) / 60 / 60).toString()
-								  )} hours.`
-								: ""}
+								? `Your funds are still locked for ${formatCurrency((parseFloat(locktime.toString()) / 60 / 60).toString())} hours.`
+								: ''}
 						</span>
 					</div>
 				</div>
 			</div>
 		</AppCard>
-	);
+	)
 }

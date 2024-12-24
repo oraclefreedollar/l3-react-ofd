@@ -1,71 +1,62 @@
-import TableHeader from "../Table/TableHead";
-import TableBody from "../Table/TableBody";
-import Table from "../Table";
-import TableRowEmpty from "../Table/TableRowEmpty";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/redux.store";
-import { useState } from "react";
-import { SavingsSavedQuery } from "redux/slices/savings.types";
-import SavingsSavedRow from "./SavingsSavedRow";
+import TableHeader from '../Table/TableHead'
+import TableBody from '../Table/TableBody'
+import Table from '../Table'
+import TableRowEmpty from '../Table/TableRowEmpty'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux/redux.store'
+import { useState } from 'react'
+import { SavingsSavedQuery } from 'redux/slices/savings.types'
+import SavingsSavedRow from './SavingsSavedRow'
 
 export default function GovernanceLeadrateTable() {
-	const headers: string[] = ["Date", "Saver", "Amount", "Balance"];
-	const [tab, setTab] = useState<string>(headers[0]);
-	const [reverse, setReverse] = useState<boolean>(false);
+	const headers: string[] = ['Date', 'Saver', 'Amount', 'Balance']
+	const [tab] = useState<string>(headers[0])
+	const [reverse] = useState<boolean>(false)
 
-	const { save } = useSelector((state: RootState) => state.savings.savingsAllUserTable);
-	console.log(save);
-	if (!save) return null;
+	const { save } = useSelector((state: RootState) => state.savings.savingsAllUserTable)
+	console.log(save)
+	if (!save) return null
 
-	const sorted: SavingsSavedQuery[] = sortFunction({ list: save, headers, tab, reverse });
-
-	const handleTabOnChange = function (e: string) {
-		if (tab === e) {
-			setReverse(!reverse);
-		} else {
-			setReverse(false);
-			setTab(e);
-		}
-	};
+	const sorted: SavingsSavedQuery[] = sortFunction({ list: save, headers, tab, reverse })
 
 	return (
 		<Table>
-			<TableHeader headers={headers} tab={tab} reverse={reverse} tabOnChange={handleTabOnChange} />
+			<TableHeader headers={headers} />
 			<TableBody>
 				{sorted.length == 0 ? (
-					<TableRowEmpty>{"There are no savings yet."}</TableRowEmpty>
+					<TableRowEmpty>{'There are no savings yet.'}</TableRowEmpty>
 				) : (
-					sorted.map((r, idx) => <SavingsSavedRow headers={headers} tab={tab} key={r.id} item={r} />)
+					sorted.map((r) => <SavingsSavedRow headers={headers} item={r} key={r.id} tab={tab} />)
 				)}
 			</TableBody>
 		</Table>
-	);
+	)
 }
 
 type SortFunctionParams = {
-	list: SavingsSavedQuery[];
-	headers: string[];
-	tab: string;
-	reverse: boolean;
-};
+	list: SavingsSavedQuery[]
+	headers: string[]
+	tab: string
+	reverse: boolean
+}
 
 function sortFunction(params: SortFunctionParams): SavingsSavedQuery[] {
-	const { list, headers, tab, reverse } = params;
-	let sortingList = [...list]; // make it writeable
+	const { list, headers, tab, reverse } = params
+	const sortingList = [...list] // make it writeable
 
 	if (tab === headers[0]) {
 		// Date
-		sortingList.sort((a, b) => b.created - a.created);
+		sortingList.sort((a, b) => b.created - a.created)
 	} else if (tab === headers[1]) {
 		// Saver
-		sortingList.sort((a, b) => a.account.localeCompare(b.account));
+		sortingList.sort((a, b) => a.account.localeCompare(b.account))
 	} else if (tab === headers[2]) {
 		// Amount
-		sortingList.sort((a, b) => parseInt(b.amount) - parseInt(a.amount));
+		sortingList.sort((a, b) => parseInt(b.amount) - parseInt(a.amount))
 	} else if (tab === headers[3]) {
 		// Balance
-		sortingList.sort((a, b) => parseInt(b.balance) - parseInt(a.balance));
+		sortingList.sort((a, b) => parseInt(b.balance) - parseInt(a.balance))
 	}
 
-	return reverse ? sortingList.reverse() : sortingList;
+	return reverse ? sortingList.reverse() : sortingList
 }

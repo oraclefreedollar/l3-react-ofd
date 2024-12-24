@@ -1,6 +1,6 @@
 import { faArrowUpRightFromSquare, faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Address, Hash } from 'viem'
+import { Address, Hash, zeroAddress } from 'viem'
 import { shortenAddress } from 'utils/format'
 import { useContractUrl, useTxUrl } from 'hooks/useContractUrl'
 import Link from 'next/link'
@@ -42,53 +42,53 @@ export default function AddressLabel({ address, showCopy, showLink }: Props) {
 	)
 }
 
-export function AddressLabelSimple({ address, label, showLink, className }: Props) {
-	const link = useContractUrl(address || zeroAddress);
+export function AddressLabelSimple({ address, showLink }: Props) {
+	const link = useContractUrl(address || zeroAddress)
 
 	const openExplorer = (e: any) => {
-		e.preventDefault();
-		window.open(link, "_blank");
-	};
+		e.preventDefault()
+		window.open(link, '_blank')
+	}
 
 	return (
-		<div className={className}>
-			<span className={showLink ? "cursor-pointer" : ""} onClick={(e) => (showLink ? openExplorer(e) : undefined)}>
-				{label ?? shortenAddress(address)}
+		<div>
+			<span className={showLink ? 'cursor-pointer' : ''} onClick={(e) => (showLink ? openExplorer(e) : undefined)}>
+				{shortenAddress(address)}
 			</span>
 			{showLink && (
 				<span>
-					<FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-3 ml-2 my-auto cursor-pointer" onClick={openExplorer} />
+					<FontAwesomeIcon className="w-3 ml-2 my-auto cursor-pointer" icon={faArrowUpRightFromSquare} onClick={openExplorer} />
 				</span>
 			)}
 		</div>
-	);
+	)
 }
 
 type TxLabelSimpleProps = {
-	label: string;
-	tx: Hash;
-	showLink?: boolean;
-	className?: string;
-};
+	label: string
+	tx: Hash
+	showLink?: boolean
+	className?: string
+}
 
 export function TxLabelSimple({ label, tx, showLink, className }: TxLabelSimpleProps) {
-	const link = useTxUrl(tx);
+	const link = useTxUrl(tx)
 
 	const openExplorer = (e: any) => {
-		e.preventDefault();
-		window.open(link, "_blank");
-	};
+		e.preventDefault()
+		window.open(link, '_blank')
+	}
 
 	return (
 		<div className={className}>
-			<span className={showLink ? "cursor-pointer" : ""} onClick={(e) => (showLink ? openExplorer(e) : undefined)}>
+			<span className={showLink ? 'cursor-pointer' : ''} onClick={(e) => (showLink ? openExplorer(e) : undefined)}>
 				{label}
 			</span>
 			{showLink && (
 				<span>
-					<FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-3 ml-2 my-auto cursor-pointer" onClick={openExplorer} />
+					<FontAwesomeIcon className="w-3 ml-2 my-auto cursor-pointer" icon={faArrowUpRightFromSquare} onClick={openExplorer} />
 				</span>
 			)}
 		</div>
-	);
+	)
 }
