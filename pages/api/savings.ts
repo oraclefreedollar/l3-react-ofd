@@ -12,7 +12,7 @@ import {
 // Query for savings rates and proposals
 const SAVINGS_RATES_QUERY = gql`
     query GetSavingsRates {
-        savingsRateChangeds(orderBy: created, orderDirection: desc) {
+        savingsRateChangeds(orderBy: "created", orderDirection: "desc") {
             items {
                 id
                 created
@@ -21,7 +21,7 @@ const SAVINGS_RATES_QUERY = gql`
                 approvedRate
             }
         }
-        savingsRateProposeds(orderBy: created, orderDirection: desc) {
+        savingsRateProposeds(orderBy: "created", orderDirection: "desc") {
             items {
                 id
                 created
@@ -35,13 +35,66 @@ const SAVINGS_RATES_QUERY = gql`
     }
 `
 
+const SAVINGS_USER_QUERY_ALL = gql`
+    query GetSavingsUser {
+        savingsSaveds(
+            orderBy: "created"
+            orderDirection: "desc"
+        ) {
+            items {
+                id
+                created
+                blockheight
+                txHash
+                account
+                amount
+                rate
+                total
+                balance
+            }
+        }
+        savingsInterests(
+            orderBy: "created"
+            orderDirection: "desc"
+        ) {
+            items {
+                id
+                created
+                blockheight
+                txHash
+                account
+                amount
+                rate
+                total
+                balance
+            }
+        }
+        savingsWithdrawns(
+            orderBy: "created"
+            orderDirection: "desc"
+        ) {
+            items {
+                id
+                created
+                blockheight
+                txHash
+                account
+                amount
+                rate
+                total
+                balance
+            }
+        }
+    }
+`
+
 // Query for user savings data
 const SAVINGS_USER_QUERY = gql`
     query GetSavingsUser($account: String!) {
         savingsSaveds(
             where: { account: $account }
-            orderBy: created
-            orderDirection: desc
+            orderBy: "created"
+            orderDirection: "desc"
         ) {
             items {
                 id
@@ -57,8 +110,8 @@ const SAVINGS_USER_QUERY = gql`
         }
         savingsInterests(
             where: { account: $account }
-            orderBy: created
-            orderDirection: desc
+            orderBy: "created"
+            orderDirection: "desc"
         ) {
             items {
                 id
@@ -74,8 +127,8 @@ const SAVINGS_USER_QUERY = gql`
         }
         savingsWithdrawns(
             where: { account: $account }
-            orderBy: created
-            orderDirection: desc
+            orderBy: "created"
+            orderDirection: "desc"
         ) {
             items {
                 id
@@ -128,11 +181,11 @@ export async function fetchSavingsRates() {
     }
 }
 
-export async function fetchSavingsUserData(account: string) {
+export async function fetchSavingsUserData(account?: string) {
     const { data } = await clientPonder.query({
-        query: SAVINGS_USER_QUERY,
+        query: account ? SAVINGS_USER_QUERY : SAVINGS_USER_QUERY_ALL,
         variables: {
-            account: account.toLowerCase()
+            ...(account && { account: account.toLowerCase() })
         }
     })
 

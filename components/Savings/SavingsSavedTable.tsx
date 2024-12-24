@@ -14,6 +14,7 @@ export default function GovernanceLeadrateTable() {
 	const [reverse, setReverse] = useState<boolean>(false);
 
 	const { save } = useSelector((state: RootState) => state.savings.savingsAllUserTable);
+	console.log(save);
 	if (!save) return null;
 
 	const sorted: SavingsSavedQuery[] = sortFunction({ list: save, headers, tab, reverse });

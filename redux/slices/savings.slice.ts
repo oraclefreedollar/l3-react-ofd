@@ -152,7 +152,8 @@ export const fetchSavings =
             dispatch(slice.actions.setLeadrateRate(leadrateRate));
 
             // Fetch all users data
-            const allUsersData = await fetchSavingsUserData('0x0000000000000000000000000000000000000000');
+            const allUsersData = await fetchSavingsUserData();
+            console.log(allUsersData);
             dispatch(slice.actions.setSavingsAllUserTable(allUsersData));
 
             // Calculate savings info
@@ -169,6 +170,8 @@ export const fetchSavings =
                 ratioOfSupply: 0, // This needs additional calculation based on total supply
             };
             dispatch(slice.actions.setSavingsInfo(savingsInfo));
+
+            console.log(savingsInfo);
 
             // Fetch specific user data if account is provided
             if (account) {
