@@ -23,11 +23,11 @@ export default function SavingsGlobalCard() {
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-2">
 				<AppBox>
 					<DisplayLabel label="Current Interest Rate" />
-					<DisplayAmount amount={BigInt(rate / 10_000)} className="mt-1" currency="%" hideLogo />
+					<DisplayAmount amount={rate / 10_000} className="mt-1" currency="%" hideLogo />
 				</AppBox>
 				<AppBox>
 					<DisplayLabel label="Total Savings" />
-					<DisplayAmount amount={BigInt(totalBalance)} className="mt-1" currency="OFD" hideLogo />
+					<DisplayAmount amount={totalBalance / 10 ** 18} className="mt-1" currency="OFD" hideLogo />
 				</AppBox>
 				<AppBox>
 					<DisplayLabel label="Module Contract" />

@@ -10,22 +10,38 @@ export const toTimestamp = (value: Date) => {
 	return Math.floor(value.getTime() / 1000)
 }
 
-export const formatCurrency = (value: string, digits = 2) => {
-	const amount = parseFloat(value)
+export enum FormatType {
+	"us",
+	"tiny",
+}
 
-	if (amount === null || !!isNaN(amount)) return null
+export const formatCurrency = (value: string | number, minimumFractionDigits = 0, maximumFractionDigits = 2, format = FormatType.tiny) => {
+	const amount = typeof value === "string" ? parseFloat(value) : value;
 
-	if (amount < 0.01 && amount > 0 && digits) {
-		return '< 0.01'
+	// exceptions
+	if (amount === null || !!isNaN(amount)) return null;
+	if (amount < 0.01 && amount > 0 && maximumFractionDigits) {
+		return "< 0.01";
 	}
 
-	const formatter = new Intl.NumberFormat('en-US', {
-		maximumFractionDigits: digits ? digits : 18,
-		minimumFractionDigits: 0,
-	})
+	// us
+	if (format === FormatType.us) {
+		const formatter = new Intl.NumberFormat("en-US", {
+			maximumFractionDigits,
+			minimumFractionDigits,
+		});
+		return formatter.format(amount);
+	}
 
-	return formatter.format(amount)
-}
+	// tiny
+	if (format === FormatType.tiny) {
+		const formatter = new Intl.NumberFormat("en-US", {
+			maximumFractionDigits: amount < 1000 && amount > -1000 ? 2 : 0,
+			minimumFractionDigits: amount < 1000 && amount > -1000 ? 2 : 0,
+		});
+		return formatter.format(amount).split(",").join(" ");
+	}
+};
 
 export function formatNumber(value: string): string {
 	let [floor, decimals] = value.split('.')
