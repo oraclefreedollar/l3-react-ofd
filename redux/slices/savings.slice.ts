@@ -105,7 +105,10 @@ type DispatchError = {
 
 // Thunk action
 export const fetchSavings =
-	(account: Address | undefined) =>
+(
+	account: Address | undefined,
+	totalOFDSupply: bigint | undefined
+) =>
 	async (
 		dispatch: Dispatch<
 			| DispatchBoolean
@@ -118,8 +121,6 @@ export const fetchSavings =
 		>
 	) => {
 		try {
-			console.log('Loading [REDUX]: Savings')
-
 			// Fetch rates and proposals
 			const { rates, proposals } = await fetchSavingsRates()
 
@@ -160,25 +161,23 @@ export const fetchSavings =
 
 			// Fetch all users data
 			const allUsersData = await fetchSavingsUserData()
-			console.log(allUsersData)
 			dispatch(slice.actions.setSavingsAllUserTable(allUsersData))
 
 			// Calculate savings info
 			const totalSaved = allUsersData.save.reduce((sum, item) => sum + Number(item.amount), 0)
 			const totalWithdrawn = allUsersData.withdraw.reduce((sum, item) => sum + Number(item.amount), 0)
 			const totalInterest = allUsersData.interest.reduce((sum, item) => sum + Number(item.amount), 0)
+			const totalBalance = totalSaved - totalWithdrawn 
 
 			const savingsInfo: ApiSavingsInfo = {
 				totalSaved,
 				totalWithdrawn,
-				totalBalance: allUsersData.save[0]?.balance ? Number(allUsersData.save[0].balance) : 0,
+				totalBalance,
 				totalInterest,
 				rate: leadrateInfo.rate,
-				ratioOfSupply: 0, // This needs additional calculation based on total supply
+				ratioOfSupply: Number(totalOFDSupply) / totalBalance,
 			}
 			dispatch(slice.actions.setSavingsInfo(savingsInfo))
-
-			console.log(savingsInfo)
 
 			// Fetch specific user data if account is provided
 			if (account) {
