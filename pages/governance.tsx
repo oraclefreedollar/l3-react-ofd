@@ -202,7 +202,7 @@ export default function Governance() {
 					<AppPageHeader link={equityUrl} title="Base Rate" />
 					<AppCard className="p-4 mb-2">
 						<div>
-							This is the base rate that is applied when minting new Frankencoins and the rate at which savers continuously accrue
+							This is the base rate that is applied when minting new OFDs and the rate at which savers continuously accrue
 							interest. Anyone with veto power can propose a change, which can be applied if there is no counter-proposal within seven
 							days.
 						</div>
