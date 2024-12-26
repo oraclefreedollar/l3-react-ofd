@@ -47,6 +47,12 @@ export const useTokenData = (addr: string): PositionCollateralTokenData => {
 				functionName: 'allowance',
 				args: [account, mintingHub],
 			},
+			{
+				chainId,
+				address: tokenAddress,
+				abi: erc20Abi,
+				functionName: 'totalSupply',
+			},
 		],
 	})
 
@@ -55,7 +61,7 @@ export const useTokenData = (addr: string): PositionCollateralTokenData => {
 	const decimals = data ? decodeBigIntCall(data[2]) : BigInt(0)
 	const balance = data ? decodeBigIntCall(data[3]) : BigInt(0)
 	const allowance = data ? decodeBigIntCall(data[4]) : BigInt(0)
-
+	const totalSupply = data ? decodeBigIntCall(data[5]) : BigInt(0)
 	return {
 		address: tokenAddress,
 		allowance,
@@ -64,5 +70,6 @@ export const useTokenData = (addr: string): PositionCollateralTokenData => {
 		name,
 		refetch,
 		symbol,
+		totalSupply,
 	}
 }

@@ -8,11 +8,11 @@ import MinterProposal from 'components/MinterProposal'
 import OFDPSHolder from 'components/OFDPSHolder'
 import { TxToast, renderErrorToast } from 'components/TxToast'
 import { ABIS, ADDRESS } from 'contracts'
-import { useContractUrl, useDelegationQuery, useGovStats, useMinterQuery, useOFDPSHolders } from 'hooks'
+import { useContractUrl, useDelegationQuery, useGovStats, useMinterQuery, useOFDPSHolders, useTokenData } from 'hooks'
 import { shortenAddress } from 'utils'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { isAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
@@ -20,6 +20,11 @@ import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
 import { envConfig } from 'app.env.config'
 import { useVotingPowers } from 'hooks/useVotingPowers'
 import { WAGMI_CONFIG } from 'app.config'
+import GovernanceLeadrateCurrent from 'components/Governance/GovernanceLeadrateCurrent'
+import GovernanceLeadrateTable from 'components/Governance/GovernanceLeadrateTable'
+import { store } from 'redux/redux.store'
+import { fetchSavings } from 'redux/slices/savings.slice'
+import AppCard from 'components/AppCard'
 
 export default function Governance() {
 	const [inputField, setInputField] = useState('')
@@ -42,6 +47,11 @@ export default function Governance() {
 	const userRawVotesPercent = delegationStats.totalVotes === 0n ? 0n : (delegationStats.userVotes * 10000n) / delegationStats.totalVotes
 	const userTotalVotesPercent =
 		delegationStats.totalVotes === 0n ? 0n : (delegationStats.userTotalVotes * 10000n) / delegationStats.totalVotes
+
+	const { totalSupply } = useTokenData(ADDRESS[chainId].oracleFreeDollar)
+	useEffect(() => {
+		store.dispatch(fetchSavings(address, totalSupply))
+	}, [address, totalSupply])
 
 	const onChangeDelegatee = (e: any) => {
 		setInputField(e.target.value)
@@ -109,9 +119,8 @@ export default function Governance() {
 							<div className="px-1 flex-1">Delegate votes to</div>
 							<div className="flex-1 gap-2 items-center rounded-lg bg-slate-800 p-2">
 								<div
-									className={`flex-1 gap-1 rounded-lg text-white p-1 bg-slate-600 border-2 ${
-										error ? 'border-red-300' : 'border-neutral-100 border-slate-600'
-									}`}
+									className={`flex-1 gap-1 rounded-lg text-white p-1 bg-slate-600 border-2 ${error ? 'border-red-300' : 'border-neutral-100 border-slate-600'
+										}`}
 								>
 									<input
 										className="w-full flex-1 rounded-lg bg-transparent px-2 py-1 text-lg"
@@ -160,22 +169,24 @@ export default function Governance() {
 							</AppBox>
 						</div>
 						<div className="mt-4 text-lg font-bold text-center">Delegating to You</div>
-						<div className="bg-slate-900 rounded-xl p-4 grid grid-cols-1 gap-2">
-							{delegationStats.delegatedFrom.map((from) => {
-								const votePercent = delegationStats.totalVotes === 0n ? 0n : (from.votes * 10000n) / delegationStats.totalVotes
-								return (
-									<Link
-										className="p-4 bg-slate-800 rounded-xl flex hover:bg-slate-700 duration-300"
-										href={chain?.blockExplorers?.default.url + '/address/' + from.owner}
-										key={from.owner}
-										target="_blank"
-									>
-										<div className="underline">{shortenAddress(from.owner)}</div>
-										<span className="ml-auto">{(Number(votePercent) / 100).toFixed(2)} %</span>
-									</Link>
-								)
-							})}
-						</div>
+						{delegationStats.delegatedFrom.length > 0 && (
+							<div className="bg-slate-900 rounded-xl p-4 grid grid-cols-1 gap-2">
+								{delegationStats.delegatedFrom.map((from) => {
+									const votePercent = delegationStats.totalVotes === 0n ? 0n : (from.votes * 10000n) / delegationStats.totalVotes
+									return (
+										<Link
+											className="p-4 bg-slate-800 rounded-xl flex hover:bg-slate-700 duration-300"
+											href={chain?.blockExplorers?.default.url + '/address/' + from.owner}
+											key={from.owner}
+											target="_blank"
+										>
+											<div className="underline">{shortenAddress(from.owner)}</div>
+											<span className="ml-auto">{(Number(votePercent) / 100).toFixed(2)} %</span>
+										</Link>
+									)
+								})}
+							</div>
+						)}
 					</div>
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8">
 						<div className="mt-4 text-lg font-bold text-center">Proposals</div>
@@ -186,9 +197,26 @@ export default function Governance() {
 						</div>
 					</div>
 				</section>
+
+				<section>
+					<AppPageHeader link={equityUrl} title="Base Rate" />
+					<AppCard className="p-4 mb-2">
+						<div>
+							This is the base rate that is applied when minting new OFDs and the rate at which savers continuously accrue
+							interest. Anyone with veto power can propose a change, which can be applied if there is no counter-proposal within seven
+							days.
+						</div>
+					</AppCard>
+
+
+
+					<GovernanceLeadrateCurrent />
+
+					<GovernanceLeadrateTable />
+				</section>
 				<section className="mt-4">
+					<AppPageHeader link={equityUrl} title="Top Voters" />
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8">
-						<div className="mt-4 text-lg font-bold text-center">Top Voters</div>
 						<div className="bg-slate-900 rounded-xl p-4 flex flex-col gap-2">
 							{votingPowers.votesData.map((power) => (
 								<OFDPSHolder
