@@ -41,8 +41,6 @@ export default function DisplayAmount({
 		window.open(url, "_blank");
 	};
 
-	console.log(amount)
-
 	return (
 		<div className={`flex items-center ${className}`}>
 			{!hideLogo && currency && (
@@ -58,7 +56,7 @@ export default function DisplayAmount({
 					<span>
 						{currency == "%" ? "" : " "}
 						{address ? (
-							<a href={url} target="_blank" rel="noreferrer" onClick={openExplorer}>
+							<a href={url} onClick={openExplorer} rel="noreferrer" target="_blank" >
 								{currency}
 							</a>
 						) : (
