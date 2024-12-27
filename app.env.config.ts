@@ -1,6 +1,7 @@
 export const envConfig = {
 	AppName: 'Oracle Free Dollar',
 	COINGECKO_API_KEY: process.env.NEXT_PUBLIC_COINGECKO_API_KEY || '',
+	EMERGENCY_MODE: process.env.NEXT_PUBLIC_EMERGENCY_MODE || '',
 	ENV: process.env.NEXT_PUBLIC_ENV || '',
 	RPC_URL_MAINNET: process.env.NEXT_PUBLIC_RPC_URL_MAINNET || '',
 	RPC_URL_TESTNET: process.env.NEXT_PUBLIC_RPC_URL_TESTNET || '',

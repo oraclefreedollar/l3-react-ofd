@@ -10,7 +10,7 @@ export const useUserBalance = (): UserData => {
 
 	const ofdContract = {
 		address: ADDRESS[chainId].oracleFreeDollar,
-		abi: ABIS.oracleFreeDollarABI,
+		abi: ABIS.OracleFreeDollarABI,
 	} as const
 
 	const equityContract = {

@@ -9,4 +9,5 @@ export type PositionCollateralTokenData = {
 	name: string
 	refetch: RefetchType
 	symbol: string
+	totalSupply: bigint
 }

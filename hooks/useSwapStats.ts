@@ -53,20 +53,20 @@ export const useSwapStats: () => {
 			{
 				chainId,
 				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: ABIS.oracleFreeDollarABI,
+				abi: ABIS.OracleFreeDollarABI,
 				functionName: 'balanceOf',
 				args: [account],
 			},
 			{
 				chainId,
 				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: ABIS.oracleFreeDollarABI,
+				abi: ABIS.OracleFreeDollarABI,
 				functionName: 'symbol',
 			},
 			{
 				chainId,
 				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: ABIS.oracleFreeDollarABI,
+				abi: ABIS.OracleFreeDollarABI,
 				functionName: 'allowance',
 				args: [account, ADDRESS[chainId].bridge],
 			},

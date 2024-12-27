@@ -28,7 +28,7 @@ export default function PositionDetail() {
 
 	const { data: positionAssignedReserve } = useReadContract({
 		address: ADDRESS[chainId].oracleFreeDollar,
-		abi: ABIS.oracleFreeDollarABI,
+		abi: ABIS.OracleFreeDollarABI,
 		functionName: 'calculateAssignedReserve',
 		args: [positionStats.minted, Number(positionStats.reserveContribution)],
 	})

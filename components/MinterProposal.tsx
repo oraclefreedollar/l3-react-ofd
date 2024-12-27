@@ -45,7 +45,7 @@ export default function MinterProposal({ minter, helpers }: Props) {
 
 			const vetoHash = await writeContract(WAGMI_CONFIG, {
 				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: ABIS.oracleFreeDollarABI,
+				abi: ABIS.OracleFreeDollarABI,
 				functionName: 'denyMinter',
 				args: [minter.minter, helpers, 'No'],
 			})
