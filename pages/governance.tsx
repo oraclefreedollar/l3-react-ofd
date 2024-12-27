@@ -119,8 +119,9 @@ export default function Governance() {
 							<div className="px-1 flex-1">Delegate votes to</div>
 							<div className="flex-1 gap-2 items-center rounded-lg bg-slate-800 p-2">
 								<div
-									className={`flex-1 gap-1 rounded-lg text-white p-1 bg-slate-600 border-2 ${error ? 'border-red-300' : 'border-neutral-100 border-slate-600'
-										}`}
+									className={`flex-1 gap-1 rounded-lg text-white p-1 bg-slate-600 border-2 ${
+										error ? 'border-red-300' : 'border-neutral-100 border-slate-600'
+									}`}
 								>
 									<input
 										className="w-full flex-1 rounded-lg bg-transparent px-2 py-1 text-lg"
@@ -198,17 +199,14 @@ export default function Governance() {
 					</div>
 				</section>
 
-				<section>
+				<section className="flex flex-col gap-3">
 					<AppPageHeader link={equityUrl} title="Base Rate" />
 					<AppCard className="p-4 mb-2">
 						<div>
-							This is the base rate that is applied when minting new OFDs and the rate at which savers continuously accrue
-							interest. Anyone with veto power can propose a change, which can be applied if there is no counter-proposal within seven
-							days.
+							This is the base rate that is applied when minting new OFDs and the rate at which savers continuously accrue interest. Anyone
+							with veto power can propose a change, which can be applied if there is no counter-proposal within seven days.
 						</div>
 					</AppCard>
-
-
 
 					<GovernanceLeadrateCurrent />
 
