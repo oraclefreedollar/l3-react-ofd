@@ -3,22 +3,18 @@ import { NextApiResponse } from 'next'
 import { getAddress } from 'viem'
 import { clientPonder } from 'app.config'
 import { PositionQuery } from 'redux/slices/positions.types'
-import { Contracts } from 'utils'
 
 export async function fetchPositions(): Promise<PositionQuery[]> {
 	const { data } = await clientPonder.query({
 		query: gql`
 			query {
-				positions(
-					orderBy: "availableForClones"
-					orderDirection: "desc"
-					where: { collateral_not: "${Contracts.Blacklist[0]}" }
-				) {
+				positions(orderBy: "availableForClones", orderDirection: "desc") {
 					items {
 						position
 						owner
 						ofd
 						collateral
+						cooldown
 						price
 
 						created
@@ -80,7 +76,7 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 				riskPremiumPPM: p.riskPremiumPPM,
 				reserveContribution: p.reserveContribution,
 				start: p.start,
-				// cooldown: p.cooldown,
+				cooldown: p.cooldown,
 				expiration: p.expiration,
 				challengePeriod: p.challengePeriod,
 

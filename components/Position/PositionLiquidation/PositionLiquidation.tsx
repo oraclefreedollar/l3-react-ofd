@@ -3,6 +3,7 @@ import TokenInput from 'components/Input/TokenInput'
 import NormalInput from 'components/Input/NormalInput'
 import { usePositionFormContext } from 'contexts/position'
 import { PositionCreateFormState } from 'contexts/position/types'
+import { OPEN_POSITION_FEE } from 'utils'
 
 const PositionLiquidation: React.FC = () => {
 	const { collTokenData, form, errors, handleChange } = usePositionFormContext()
@@ -25,7 +26,7 @@ const PositionLiquidation: React.FC = () => {
 				error={errors['liqPrice']}
 				hideMaxLabel={minCollAmount == 0n}
 				label="Liquidation Price"
-				max={minCollAmount == 0n ? 0n : (5000n * 10n ** 36n + minCollAmount - 1n) / minCollAmount}
+				max={minCollAmount == 0n ? 0n : (OPEN_POSITION_FEE + minCollAmount - 1n) / minCollAmount}
 				onChange={(value) => onChangeValue('liqPrice', value)}
 				placeholder="Price"
 				symbol="OFD"
