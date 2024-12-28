@@ -3,7 +3,6 @@ import TokenInput from 'components/Input/TokenInput'
 import NormalInput from 'components/Input/NormalInput'
 import { usePositionFormContext } from 'contexts/position'
 import { PositionCreateFormState } from 'contexts/position/types'
-import { OPEN_POSITION_FEE } from 'utils'
 
 const PositionLiquidation: React.FC = () => {
 	const { collTokenData, form, errors, handleChange } = usePositionFormContext()
@@ -21,16 +20,16 @@ const PositionLiquidation: React.FC = () => {
 		<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
 			<div className="text-lg font-bold text-center mt-3">Liquidation</div>
 			<TokenInput
-				balanceLabel="Pick"
-				digit={18n - collTokenData.decimals}
-				error={errors['liqPrice']}
-				hideMaxLabel={minCollAmount == 0n}
 				label="Liquidation Price"
-				max={minCollAmount == 0n ? 0n : (OPEN_POSITION_FEE + minCollAmount - 1n) / minCollAmount}
+				balanceLabel="Pick"
+				symbol="OFD"
+				error={errors['liqPrice']}
+				digit={36n - collTokenData.decimals}
+				hideMaxLabel={minCollAmount == 0n}
+				max={minCollAmount == 0n ? 0n : (5000n * 10n ** 36n + minCollAmount - 1n) / minCollAmount}
+				value={liqPrice.toString()}
 				onChange={(value) => onChangeValue('liqPrice', value)}
 				placeholder="Price"
-				symbol="OFD"
-				value={liqPrice.toString()}
 			/>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 				<NormalInput
