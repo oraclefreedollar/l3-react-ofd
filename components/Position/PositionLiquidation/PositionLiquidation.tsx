@@ -22,7 +22,7 @@ const PositionLiquidation: React.FC = () => {
 			<div className="text-lg font-bold text-center mt-3">Liquidation</div>
 			<TokenInput
 				balanceLabel="Pick"
-				digit={18n - collTokenData.decimals}
+				digit={36n - collTokenData.decimals}
 				error={errors['liqPrice']}
 				hideMaxLabel={minCollAmount == 0n}
 				label="Liquidation Price"
