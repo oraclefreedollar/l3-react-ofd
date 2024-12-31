@@ -72,3 +72,9 @@ export const clientCoingecko = (query: string) => {
 	}
 	return fetch(uri, options)
 }
+
+declare module 'wagmi' {
+	interface Register {
+		config: typeof WAGMI_CONFIG
+	}
+}

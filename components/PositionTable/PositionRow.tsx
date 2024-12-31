@@ -8,6 +8,7 @@ import { RootState } from 'redux/redux.store'
 import { PositionQuery } from 'redux/slices/positions.types'
 import DisplayAmount from '../DisplayAmount'
 import TableRow from '../Table/TableRow'
+import { useMemo } from 'react'
 
 interface Props {
 	position: PositionQuery
@@ -21,6 +22,14 @@ export default function PositionRow({ position }: Props) {
 
 	const collTokenPrice = prices[position.collateral.toLowerCase()]?.price?.usd
 	const ofdPrice = position.ofd && prices[position.ofd]?.price?.usd
+	const positionAvailableForClone = useMemo(
+		() =>
+			BigInt(position.availableForClones) > 0n &&
+			!position.closed &&
+			position.cooldown < Math.floor(Date.now() / 1000) &&
+			position.start < Math.floor(Date.now() / 1000),
+		[position.availableForClones, position.closed, position.cooldown, position.start]
+	)
 
 	if (!collTokenPrice || !ofdPrice) return null
 
@@ -29,19 +38,10 @@ export default function PositionRow({ position }: Props) {
 
 	// const mintedPct = Math.floor((parseInt(position.minted) / parseInt(position.limitForPosition)) * 1000) / 10
 	// const mintedConesPct = Math.floor((1 - parseInt(position.availableForClones) / parseInt(position.limitForClones)) * 1000) / 10
-	// const cooldownWait: number = Math.round((position.cooldown - Date.now()) / 1000 / 60);
 
 	// TODO: For testing purposes only
 	// const cooldownWait: number = Math.round((-10000000 + 40000000 * Math.random()) / 1000 / 60);
 
-	// TODO: Restore this code at line 52 when v2 will be ready
-	// ) : BigInt(position.availableForClones) > 0n && !position.closed ? (
-	// 	<Link className="btn btn-primary w-full" href={`/position/${position.position}/borrow`}>
-	// 		Clone & Mint
-	// 	</Link>
-	// ) : (
-	// 	<></>
-	// )
 	return (
 		<TableRow
 			actionCol={
@@ -49,7 +49,13 @@ export default function PositionRow({ position }: Props) {
 					<Link className="btn btn-primary w-full" href={`/position/${position.position}/adjust`}>
 						Adjust
 					</Link>
-				) : undefined
+				) : positionAvailableForClone ? (
+					<Link className="btn btn-primary w-full" href={`/position/${position.position}/borrow`}>
+						Clone & Mint
+					</Link>
+				) : (
+					<></>
+				)
 			}
 			link={`/position/${position.position}`}
 		>

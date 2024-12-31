@@ -126,7 +126,7 @@ export const usePositionStats: (
 			{
 				address: position,
 				abi: ABIS.PositionABI,
-				functionName: 'annualInterestPPM',
+				functionName: 'riskPremiumPPM',
 			},
 			{
 				address: position,
@@ -141,7 +141,7 @@ export const usePositionStats: (
 			{
 				address: position,
 				abi: ABIS.PositionABI,
-				functionName: 'limitForClones',
+				functionName: 'limit',
 			},
 			{
 				address: position,

@@ -1,9 +1,7 @@
 import { ABIS, ADDRESS } from 'contracts'
-import { decodeBigIntCall } from 'utils'
+import { decodeBigIntCall, ENABLE_EMERGENCY_MODE } from 'utils'
 import { useAccount, useChainId, useReadContracts } from 'wagmi'
 import { erc20Abi } from 'viem'
-import { WAGMI_CHAIN } from 'app.config'
-import { bsc } from 'viem/chains'
 
 export const useHomeStats = () => {
 	const chainId = useChainId()
@@ -11,7 +9,7 @@ export const useHomeStats = () => {
 
 	const ofdContract = {
 		address: ADDRESS[chainId].oracleFreeDollar,
-		abi: ABIS.oracleFreeDollarABI,
+		abi: ABIS.OracleFreeDollarABI,
 	} as const
 
 	const usdtContract = {
@@ -95,7 +93,7 @@ export const useHomeStats = () => {
 	const totalSupplyBigInt = data ? decodeBigIntCall(data[0]) : BigInt(0)
 
 	const ofdTotalSupply: bigint =
-		totalSupplyBigInt > 0n && WAGMI_CHAIN === bsc ? totalSupplyBigInt - BigInt(535516.58305794 * 1e18) : totalSupplyBigInt
+		totalSupplyBigInt > 0n && ENABLE_EMERGENCY_MODE ? totalSupplyBigInt - BigInt(535516.58305794 * 1e18) : totalSupplyBigInt
 	const ofdSymbol: string = data ? String(data[1].result) : ''
 	const ofdBalance: bigint = data ? decodeBigIntCall(data[2]) : BigInt(0)
 	const ofdEquity: bigint = data ? decodeBigIntCall(data[3]) : BigInt(0)

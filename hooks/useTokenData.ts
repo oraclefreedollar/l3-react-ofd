@@ -1,26 +1,18 @@
-import { Address, getAddress, isAddress, zeroAddress } from 'viem'
+import { erc20Abi, getAddress, isAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId, useReadContracts } from 'wagmi'
 import { ADDRESS } from 'contracts/address'
 import { decodeBigIntCall } from 'utils/format'
-import { erc20Abi } from 'viem'
+import { PositionCollateralTokenData } from 'meta/positions'
 
-export const useTokenData: (addr: string) => {
-	address: Address
-	allowance: bigint
-	balance: bigint
-	decimals: bigint
-	name: string
-	refetch: any
-	symbol: string
-} = (addr: string) => {
+export const useTokenData = (addr: string): PositionCollateralTokenData => {
 	if (!isAddress(addr)) addr = zeroAddress
 	const tokenAddress = getAddress(addr)
 	const { address } = useAccount()
 
 	const account = address || zeroAddress
 	const chainId = useChainId()
-	// console.log("Got chain?", { chainId });
 	const mintingHub = ADDRESS[chainId].mintingHub
+
 	const { data, refetch } = useReadContracts({
 		contracts: [
 			{
@@ -55,6 +47,12 @@ export const useTokenData: (addr: string) => {
 				functionName: 'allowance',
 				args: [account, mintingHub],
 			},
+			{
+				chainId,
+				address: tokenAddress,
+				abi: erc20Abi,
+				functionName: 'totalSupply',
+			},
 		],
 	})
 
@@ -63,7 +61,7 @@ export const useTokenData: (addr: string) => {
 	const decimals = data ? decodeBigIntCall(data[2]) : BigInt(0)
 	const balance = data ? decodeBigIntCall(data[3]) : BigInt(0)
 	const allowance = data ? decodeBigIntCall(data[4]) : BigInt(0)
-
+	const totalSupply = data ? decodeBigIntCall(data[5]) : BigInt(0)
 	return {
 		address: tokenAddress,
 		allowance,
@@ -72,5 +70,6 @@ export const useTokenData: (addr: string) => {
 		name,
 		refetch,
 		symbol,
+		totalSupply,
 	}
 }

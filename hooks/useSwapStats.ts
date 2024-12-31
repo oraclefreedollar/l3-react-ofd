@@ -15,7 +15,7 @@ export const useSwapStats: () => {
 	usdtUserAllowance: bigint
 	usdtUserBal: bigint
 } = () => {
-	const chainId = WAGMI_CHAIN.id as number
+	const chainId = WAGMI_CHAIN.id
 	const { address } = useAccount()
 	const account = address || '0x0'
 
@@ -53,20 +53,20 @@ export const useSwapStats: () => {
 			{
 				chainId,
 				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: ABIS.oracleFreeDollarABI,
+				abi: ABIS.OracleFreeDollarABI,
 				functionName: 'balanceOf',
 				args: [account],
 			},
 			{
 				chainId,
 				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: ABIS.oracleFreeDollarABI,
+				abi: ABIS.OracleFreeDollarABI,
 				functionName: 'symbol',
 			},
 			{
 				chainId,
 				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: ABIS.oracleFreeDollarABI,
+				abi: ABIS.OracleFreeDollarABI,
 				functionName: 'allowance',
 				args: [account, ADDRESS[chainId].bridge],
 			},

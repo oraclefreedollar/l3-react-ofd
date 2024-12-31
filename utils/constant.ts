@@ -1,5 +1,4 @@
-import { WAGMI_CHAIN } from 'app.config'
-import { bsc } from 'viem/chains'
+import { envConfig } from 'app.env.config'
 
 export const SOCIAL = {
 	Github_contract: 'https://github.com/oraclefreedollar/ofd',
@@ -24,4 +23,7 @@ export const SOCIAL = {
 	Partner_Ammer: '',
 	Partner_Zipper: '',
 }
-export const ENABLE_EMERGENCY_MODE: boolean = WAGMI_CHAIN === bsc
+
+export const OPEN_POSITION_FEE: bigint = 3500n * 10n ** 36n
+
+export const ENABLE_EMERGENCY_MODE: boolean = envConfig.EMERGENCY_MODE === 'enabled'

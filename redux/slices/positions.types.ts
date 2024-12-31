@@ -34,10 +34,10 @@ export type PositionQuery = {
 	original: Address
 
 	minimumCollateral: string
-	annualInterestPPM: number
+	riskPremiumPPM: number
 	reserveContribution: number
 	start: number
-	// cooldown: number;
+	cooldown: number
 	expiration: number
 	challengePeriod: number
 
@@ -50,9 +50,9 @@ export type PositionQuery = {
 	collateralDecimals: number
 	collateralBalance: string
 
-	limitForPosition: string
+	//limit: string
 	limitForClones: string
-	availableForPosition: string
+	availableForMinting: string
 	availableForClones: string
 	minted: string
 }

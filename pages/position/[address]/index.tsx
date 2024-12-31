@@ -38,7 +38,7 @@ export default function PositionDetail() {
 
 	const { data: positionAssignedReserve } = useReadContract({
 		address: ADDRESS[chainId].oracleFreeDollar,
-		abi: ABIS.oracleFreeDollarABI,
+		abi: ABIS.OracleFreeDollarABI,
 		functionName: 'calculateAssignedReserve',
 		args: [positionStats.minted, Number(positionStats.reserveContribution)],
 	})
@@ -138,12 +138,12 @@ export default function PositionDetail() {
 								</Link>
 							) : (
 								<>
-									{/*<Link*/}
-									{/*	className={`btn btn-primary flex-1 ${isSubjectToCooldown() && 'btn-disabled'}`}*/}
-									{/*	href={`/position/${position}/borrow`}*/}
-									{/*>*/}
-									{/*	Clone & Mint*/}
-									{/*</Link>*/}
+									<Link
+										className={`btn btn-primary flex-1 ${isSubjectToCooldown() && 'btn-disabled'}`}
+										href={`/position/${position}/borrow`}
+									>
+										Clone & Mint
+									</Link>
 									<Link className="btn btn-primary flex-1 ml-4" href={`/position/${position}/challenge`}>
 										Challenge
 									</Link>
