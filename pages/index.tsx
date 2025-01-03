@@ -151,7 +151,7 @@ export default function Home() {
 						viewport={{ once: true }}
 						whileInView={{ opacity: 1, scale: 1 }}
 					>
-						<img alt="Oracle Free Dollar Logo" className="w-3/5 max-w-md" src="/assets/oracle-free-dollar-logo-square.svg" />
+						<img alt="Oracle Free Dollar Logo" className="w-3/5 max-w-md" src="/assets/ofd-white.png" />
 					</motion.div>
 				</div>
 
