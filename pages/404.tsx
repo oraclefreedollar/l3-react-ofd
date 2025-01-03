@@ -15,7 +15,7 @@ export default function Custom404() {
 			<div className="flex flex-col items-center justify-center w-full text-center" style={{ height: '60vh' }}>
 				<h1 className="text-right text-4xl font-bold">
 					<picture>
-						<img alt="logo" className="h-20" src="/assets/oracle-free-dollar-logo.svg" />
+						<img alt="logo" className="h-20" src="/assets/ofd.png" />
 					</picture>
 				</h1>
 				<h1 className="text-4xl font-bold mt-10">You seem to be in the wrong place</h1>
