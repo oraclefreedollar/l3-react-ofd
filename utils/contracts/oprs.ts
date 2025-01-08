@@ -3,7 +3,7 @@ import { ERC20Info } from 'redux/slices/positions.types'
 import { PriceQueryObjectArray } from 'redux/slices/prices.types'
 
 export const oprs = async (fetchedERC20Infos: Array<ERC20Info>, fetchedPrices: PriceQueryObjectArray) => {
-	const contract = '0x3aFc7c9a7d1aC2e78907dffB840B5a879BA17af7'.toLowerCase()
+	const contract = '0x8f73610Dd60185189657c826Df315Cc980ca4A0e'.toLowerCase()
 	const options = {
 		method: 'GET',
 		headers: {
