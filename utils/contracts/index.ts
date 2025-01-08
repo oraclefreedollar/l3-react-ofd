@@ -1,6 +1,7 @@
 import { swissDLT } from './swissDLT'
 import { oprs } from './oprs'
 import { Address } from 'viem'
+import { dsc } from './dsc'
 
 const coingeckoPlatforms: Record<Address, string> = {
 	'0x90685e300a4c4532efcefe91202dfe1dfd572f47': 'ethereum', // CTA
@@ -16,6 +17,7 @@ const Constants = {
 }
 
 const Prices = {
+	dsc,
 	oprs,
 	swissDLT,
 }

@@ -14,7 +14,7 @@ export default function Navbar() {
 			<header className="flex items-center p-2 sm:gap-x-4 md:p-4 relative w-full">
 				<Link className="" href="/">
 					<picture>
-						<img alt="Logo" className="h-9 transition" src="/assets/oracle-free-dollar-logo-square.svg" />
+						<img alt="Logo" className="h-9 transition" src="/assets/ofd-white.png" />
 					</picture>
 				</Link>
 
@@ -77,6 +77,9 @@ export default function Navbar() {
 										</li>
 										<li>
 											<NavButton name="Equity" to="/pool" />
+										</li>
+										<li>
+											<NavButton name="Savings" to="/savings" />
 										</li>
 										<li>
 											<NavButton name="Governance" to="/governance" />
