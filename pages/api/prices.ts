@@ -73,7 +73,8 @@ type updateDetailsResponse = {
 type FetchFunction = () => Promise<void>
 
 export const fetchExternalPrices: Record<Address, FetchFunction> = {
-	'0x3aFc7c9a7d1aC2e78907dffB840B5a879BA17af7': () => Contracts.Prices.oprs(fetchedERC20Infos, fetchedPrices),
+	'0x2F30D9EC8Fec8612DBCD54C4C2604Ffc972E8a8d': () => Contracts.Prices.dsc(fetchedERC20Infos, fetchedPrices),
+	'0x8f73610Dd60185189657c826Df315Cc980ca4A0e': () => Contracts.Prices.oprs(fetchedERC20Infos, fetchedPrices),
 	'0x09A1aD50Ac7B8ddD40bAfa819847Ab1Ea6974a4f': () => Contracts.Prices.swissDLT(fetchedERC20Infos, fetchedPrices),
 }
 
