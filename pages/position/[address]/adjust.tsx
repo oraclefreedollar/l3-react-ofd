@@ -11,7 +11,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 import { toast } from 'react-toastify'
-import { Address, erc20Abi, formatUnits, getAddress, maxUint256, zeroAddress } from 'viem'
+import { Address, erc20Abi, formatUnits, getAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
 import { envConfig } from 'app.env.config'
@@ -106,7 +106,7 @@ export default function PositionAdjust() {
 				address: positionStats.collateral as Address,
 				abi: erc20Abi,
 				functionName: 'approve',
-				args: [position, maxUint256],
+				args: [position, amount],
 			})
 
 			const toastContent = [
