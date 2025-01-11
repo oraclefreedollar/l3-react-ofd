@@ -13,7 +13,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { erc20Abi, formatUnits, getAddress, maxUint256, zeroAddress } from 'viem'
+import { erc20Abi, formatUnits, getAddress, zeroAddress } from 'viem'
 import { useChainId } from 'wagmi'
 import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
 import { envConfig } from 'app.env.config'
@@ -111,7 +111,7 @@ export default function PositionBorrow({}) {
 				address: positionStats.collateral!,
 				abi: erc20Abi,
 				functionName: 'approve',
-				args: [ADDRESS[chainId].mintingHub, maxUint256],
+				args: [ADDRESS[chainId].mintingHub, amount],
 			})
 
 			const toastContent = [

@@ -11,7 +11,7 @@ import { ENABLE_EMERGENCY_MODE, formatBigInt, shortenAddress } from 'utils'
 import Head from 'next/head'
 import { useCallback, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
-import { erc20Abi, formatUnits, maxUint256 } from 'viem'
+import { erc20Abi, formatUnits } from 'viem'
 import { useChainId } from 'wagmi'
 import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
 import { envConfig } from 'app.env.config'
@@ -45,7 +45,7 @@ export default function Swap() {
 				address: ADDRESS[chainId].usdt!,
 				abi: erc20Abi,
 				functionName: 'approve',
-				args: [ADDRESS[chainId].bridge, maxUint256],
+				args: [ADDRESS[chainId].bridge, amount],
 			})
 
 			const toastContent = [
@@ -82,7 +82,7 @@ export default function Swap() {
 			swapStats.refetch()
 			setApproving(false)
 		}
-	}, [chainId, swapStats])
+	}, [amount, chainId, swapStats])
 
 	const handleMint = useCallback(async () => {
 		try {
