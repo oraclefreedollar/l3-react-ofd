@@ -37,6 +37,7 @@ export default function Swap() {
 		() => (direction ? swapStats.bridgeLimit - swapStats.usdtBridgeBal : swapStats.usdtBridgeBal),
 		[direction, swapStats]
 	)
+	const formattedAmount = useMemo(() => Number(amount / BigInt(10 ** 18)), [amount])
 
 	const handleApprove = useCallback(async () => {
 		try {
@@ -51,7 +52,7 @@ export default function Swap() {
 			const toastContent = [
 				{
 					title: 'Amount:',
-					value: 'infinite',
+					value: `${formattedAmount}`,
 				},
 				{
 					title: 'Spender: ',
@@ -82,7 +83,7 @@ export default function Swap() {
 			swapStats.refetch()
 			setApproving(false)
 		}
-	}, [amount, chainId, swapStats])
+	}, [amount, chainId, formattedAmount, swapStats])
 
 	const handleMint = useCallback(async () => {
 		try {

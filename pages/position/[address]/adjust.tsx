@@ -9,7 +9,7 @@ import { usePositionStats } from 'hooks'
 import { abs, formatBigInt, shortenAddress } from 'utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
 import { Address, erc20Abi, formatUnits, getAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
@@ -28,9 +28,14 @@ export default function PositionAdjust() {
 	const [isApproving, setApproving] = useState(false)
 	const [isAdjusting, setAdjusting] = useState(false)
 
-	const [amount, setAmount] = useState(positionStats.minted)
-	const [collateralAmount, setCollateralAmount] = useState(positionStats.collateralBal)
+	const [amount, setAmount] = useState<bigint>(positionStats.minted)
+	const [collateralAmount, setCollateralAmount] = useState<bigint>(positionStats.collateralBal)
 	const [liqPrice, setLiqPrice] = useState(positionStats.liqPrice)
+
+	const formattedCollateralAmount = useMemo(
+		() => Number(collateralAmount / BigInt(10 ** positionStats.collateralDecimal)),
+		[collateralAmount, positionStats.collateralDecimal]
+	)
 
 	const maxRepayable = (1_000_000n * positionStats.ofdBalance) / (1_000_000n - positionStats.reserveContribution)
 	const repayPosition = maxRepayable > positionStats.minted ? 0n : positionStats.minted - maxRepayable
@@ -106,13 +111,13 @@ export default function PositionAdjust() {
 				address: positionStats.collateral as Address,
 				abi: erc20Abi,
 				functionName: 'approve',
-				args: [position, amount],
+				args: [position, collateralAmount],
 			})
 
 			const toastContent = [
 				{
 					title: 'Amount:',
-					value: 'infinite ' + positionStats.collateralSymbol,
+					value: `${formattedCollateralAmount} ${positionStats.collateralSymbol}`,
 				},
 				{
 					title: 'Spender: ',
