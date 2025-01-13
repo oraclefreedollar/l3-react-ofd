@@ -19,7 +19,7 @@ const PositionProposeCollateral: React.FC<Props> = (props) => {
 	const { collateralAddress, initialCollAmount, minCollAmount } = form
 
 	const collTokenData = useTokenData(form.collateralAddress)
-	const { approve, approving } = useApproveCollateral({ collTokenData, userBalanceRefetch })
+	const { approve, approving } = useApproveCollateral({ collTokenData, initialCollAmount, userBalanceRefetch })
 
 	const showApproveButton = useMemo(
 		() =>
