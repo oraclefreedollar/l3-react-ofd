@@ -11,7 +11,7 @@ import { usePositionStats } from 'hooks'
 import { ENABLE_EMERGENCY_MODE, formatBigInt, min, shortenAddress, toTimestamp } from 'utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
 import { erc20Abi, formatUnits, getAddress, zeroAddress } from 'viem'
 import { useChainId } from 'wagmi'
@@ -39,6 +39,7 @@ export default function PositionBorrow({}) {
 		(BigInt(1e18) * amount + positionStats.liqPrice - 1n) / positionStats.liqPrice > positionStats.minimumCollateral
 			? (BigInt(1e18) * amount + positionStats.liqPrice - 1n) / positionStats.liqPrice
 			: positionStats.minimumCollateral
+	const formattedAmount = useMemo(() => Number(amount / BigInt(10 ** 18)), [amount])
 
 	useEffect(() => {
 		// to set initial date during loading
@@ -117,7 +118,7 @@ export default function PositionBorrow({}) {
 			const toastContent = [
 				{
 					title: 'Amount:',
-					value: 'infinite ' + positionStats.collateralSymbol,
+					value: `${formattedAmount} ${positionStats.collateralSymbol}`,
 				},
 				{
 					title: 'Spender: ',
