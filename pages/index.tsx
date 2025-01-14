@@ -49,19 +49,19 @@ export default function Home() {
 	const navigationLinks = [
 		...(!ENABLE_EMERGENCY_MODE
 			? [
-					{
-						title: 'Swap OFD',
-						description: 'Invest in Oracle Free Dollar by swapping USDT',
-						href: '/swap',
-						icon: LiaExchangeAltSolid,
-					},
-					{
-						title: 'Create Position',
-						description: 'Open a new collateral position and mint OFD',
-						href: '/positions/create',
-						icon: GrMoney,
-					},
-				]
+				{
+					title: 'Swap OFD',
+					description: 'Invest in Oracle Free Dollar by swapping USDT',
+					href: '/swap',
+					icon: LiaExchangeAltSolid,
+				},
+				{
+					title: 'Create Position',
+					description: 'Open a new collateral position and mint OFD',
+					href: '/positions/create',
+					icon: GrMoney,
+				},
+			]
 			: []),
 		{
 			title: 'OFDPs / Equity',
@@ -73,6 +73,74 @@ export default function Home() {
 
 	return (
 		<main className="min-h-screen">
+			<div className="w-full bg-gradient-to-r from-purple-900/90 via-slate-900/95 to-purple-900/90 border-b border-purple-500/50 rounded-lg">
+				<div className="container mx-auto px-4 py-4">
+					<div className="flex flex-col items-center justify-center gap-4">
+						<span className="font-semibold text-slate-200">Add the new 2025 contracts to your wallet:</span>
+						<div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl">
+							<div className="flex-1 bg-slate-900/50 rounded-lg p-4 border border-purple-500/30 hover:border-purple-500/50 transition-all rounded-lg">
+								<div className="flex flex-col md:flex-row items-center justify-between gap-4">
+									<div className="flex flex-col gap-1">
+										<span className="text-purple-400 font-semibold">OFD Token</span>
+										<code className="text-xs sm:text-sm text-slate-300">0x969D3B762c543909d6ADDC1b7330BDfdc6cc60e6</code>
+									</div>
+									<button
+										onClick={() => {
+											window.ethereum?.request({
+												method: 'wallet_watchAsset',
+												params: {
+													type: 'ERC20',
+													options: {
+														address: '0x969D3B762c543909d6ADDC1b7330BDfdc6cc60e6',
+														symbol: 'OFD',
+														decimals: 18
+													},
+												},
+											})
+										}}
+										className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105"
+									>
+										<div className="w-5 h-5">
+											<img src="/icons/metamask.svg" alt="MetaMask Icon" />
+										</div>
+
+									</button>
+								</div>
+							</div>
+							<div className="flex-1 bg-slate-900/50 rounded-lg p-4 border border-purple-500/30 hover:border-purple-500/50 transition-all rounded-lg">
+								<div className="flex flex-col md:flex-row items-center justify-between gap-4">
+									<div className="flex flex-col gap-1">
+										<span className="text-purple-400 font-semibold">OFDPS Token</span>
+										<code className="text-xs sm:text-sm text-slate-300">0xc3f061175aDc0992290ec0FF4E28B59b364f3F61</code>
+									</div>
+									<button
+										onClick={() => {
+											window.ethereum?.request({
+												method: 'wallet_watchAsset',
+												params: {
+													type: 'ERC20',
+													options: {
+														address: '0xc3f061175aDc0992290ec0FF4E28B59b364f3F61',
+														symbol: 'OFDPS',
+														decimals: 18
+													},
+												},
+											})
+										}}
+										className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105"
+									>
+										<div className="w-5 h-5">
+											<img src="/icons/metamask.svg" alt="MetaMask Icon" />
+										</div>
+
+
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<motion.section animate="visible" className="container mx-auto px-4 pt-16 pb-8 text-center" initial="hidden" variants={fadeInUp}>
 				<h1 className="text-6xl md:text-7xl font-bold text-neon-purple-subtle hover:text-neon-pink-subtle transition-all duration-300 ease-in-out mb-4">
 					Oracle Free Dollar
