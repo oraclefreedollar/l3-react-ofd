@@ -23,13 +23,16 @@ const PositionProposeButton: React.FC<{ disabled: boolean, onSuccess: () => void
 
 	const handleOpenPosition = async () => {
 		try {
-		  await openPosition()
-		  onSuccess()
+		  const success = await openPosition()
+		  if (success) {
+			onSuccess()
+		  }
 		} catch (error) {
 		  console.error('Failed to open position:', error)
-		  // Optionally handle error state here
+		  // Error handling is already done via toast in useWriteContractWithToast
 		}
-	  }
+	}
+
 	return (
 		<div className="mx-auto w-72 max-w-full flex-col">
 			<GuardToAllowedChainBtn>
