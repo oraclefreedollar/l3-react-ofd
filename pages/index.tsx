@@ -85,6 +85,7 @@ export default function Home() {
 										<code className="text-xs sm:text-sm text-slate-300">0x969D3B762c543909d6ADDC1b7330BDfdc6cc60e6</code>
 									</div>
 									<button
+										className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105"
 										onClick={() => {
 											window.ethereum?.request({
 												method: 'wallet_watchAsset',
@@ -98,10 +99,9 @@ export default function Home() {
 												},
 											})
 										}}
-										className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105"
 									>
 										<div className="w-5 h-5">
-											<img src="/icons/metamask.svg" alt="MetaMask Icon" />
+											<img alt="MetaMask Icon" src="/icons/metamask.svg" />
 										</div>
 
 									</button>
@@ -114,6 +114,7 @@ export default function Home() {
 										<code className="text-xs sm:text-sm text-slate-300">0xc3f061175aDc0992290ec0FF4E28B59b364f3F61</code>
 									</div>
 									<button
+										className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105"
 										onClick={() => {
 											window.ethereum?.request({
 												method: 'wallet_watchAsset',
@@ -127,10 +128,9 @@ export default function Home() {
 												},
 											})
 										}}
-										className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105"
 									>
 										<div className="w-5 h-5">
-											<img src="/icons/metamask.svg" alt="MetaMask Icon" />
+											<img alt="MetaMask Icon" src="/icons/metamask.svg" />
 										</div>
 
 

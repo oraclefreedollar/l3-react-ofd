@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import TokenInput from 'components/Input/TokenInput'
 import NormalInput from 'components/Input/NormalInput'
 import Link from 'next/link'
@@ -6,10 +6,11 @@ import { usePositionFormContext } from 'contexts/position'
 
 type Props = {
 	userBalanceOFD: bigint
+	onValidationChange: (isValid: boolean) => void
 }
 
 const PositionInitialization: React.FC<Props> = (props: Props) => {
-	const { userBalanceOFD } = props
+	const { userBalanceOFD, onValidationChange } = props
 	const { form, errors, handleChange } = usePositionFormContext()
 
 	const onChangeInitialCollAmount = useCallback(
@@ -28,6 +29,15 @@ const PositionInitialization: React.FC<Props> = (props: Props) => {
 		[handleChange]
 	)
 
+	useEffect(() => {
+		const isValid = Boolean(
+			form.initialCollAmount > 0n &&
+			form.initPeriod > 0n &&
+			form.initPeriod >= 5n
+		)
+		onValidationChange(isValid)
+	}, [form.initialCollAmount, form.initPeriod, onValidationChange])
+
 	return (
 		<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
 			<div className="text-lg font-bold justify-center mt-3 flex">Initialization</div>
@@ -40,6 +50,7 @@ const PositionInitialization: React.FC<Props> = (props: Props) => {
 					label="Proposal Fee"
 					onChange={onChangeInitialCollAmount}
 					symbol="OFD"
+					tooltip="If you open a new position (collateral), you must pay at least 1000 OFD. By the way, existing positions can be created (cloned) without OFD fees."
 					value={BigInt(1000 * 1e18).toString()}
 				/>
 				<NormalInput
@@ -50,6 +61,7 @@ const PositionInitialization: React.FC<Props> = (props: Props) => {
 					onChange={onChangeInitPeriod}
 					placeholder="Initialization Period"
 					symbol="days"
+					tooltip="A proposal (a new position) can be vetoed in the first five days. The minimum period for the community to veto is 5 days. If you want, you can extend the period during which a proposal can be vetoed"
 					value={form.initPeriod.toString()}
 				/>
 			</div>
