@@ -3,38 +3,9 @@ import { decodeBigIntCall } from 'utils'
 import { getAddress, maxUint256, zeroAddress } from 'viem'
 import { useAccount, useChainId, useReadContract, useReadContracts } from 'wagmi'
 import { Address, erc20Abi } from 'viem'
+import { PositionStats } from 'meta/positions'
 
-export const usePositionStats: (
-	position: Address,
-	collateral?: Address
-) => {
-	limitForClones: bigint
-	liqPrice: bigint
-	available: bigint
-	annualInterestPPM: bigint
-	refetch: any
-	collateralUserBal: bigint
-	collateralBal: bigint
-	ofdAllowance: bigint
-	reserveContribution: bigint
-	collateralSymbol: string
-	limit: bigint
-	cooldown: bigint
-	challengePeriod: bigint
-	isSuccess: boolean
-	owner: `0x${string}`
-	collateralPosAllowance: bigint
-	collateralDecimal: number
-	collateralAllowance: bigint
-	mintingFee: bigint
-	closed: boolean
-	expiration: bigint
-	minted: bigint
-	minimumCollateral: bigint
-	collateral: `0x${string}` | undefined
-	denied: boolean
-	ofdBalance: bigint
-} = (position: Address, collateral?: Address) => {
+export const usePositionStats = (position: Address, collateral?: Address): PositionStats => {
 	const { address } = useAccount()
 	const chainId = useChainId()
 
