@@ -5,59 +5,58 @@ import DisplayAmount from 'components/DisplayAmount'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 import DateInput from 'components/Input/DateInput'
 import TokenInput from 'components/Input/TokenInput'
-import { renderErrorToast, TxToast } from 'components/TxToast'
-import { ABIS, ADDRESS } from 'contracts'
+import { ADDRESS } from 'contracts'
 import { usePositionStats } from 'hooks'
-import { ENABLE_EMERGENCY_MODE, formatBigInt, min, shortenAddress, toTimestamp } from 'utils'
+import { ENABLE_EMERGENCY_MODE, formatBigInt, min, toTimestamp } from 'utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { toast } from 'react-toastify'
-import { erc20Abi, formatUnits, getAddress, zeroAddress } from 'viem'
+import { useEffect, useMemo, useState } from 'react'
+import { formatUnits, getAddress, zeroAddress } from 'viem'
 import { useChainId } from 'wagmi'
-import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
 import { envConfig } from 'app.env.config'
-import { WAGMI_CONFIG } from 'app.config'
 import { EmergencyPage } from 'components/EmergencyPage'
+import { useBorrowContractsFunctions } from 'hooks/borrow/useBorrowContractsFunctions'
 
 export default function PositionBorrow({}) {
 	const router = useRouter()
 	const { address: positionAddr } = router.query
 
-	const [amount, setAmount] = useState(0n)
-	const [error, setError] = useState('')
-	const [errorDate, setErrorDate] = useState('')
-	const [isApproving, setApproving] = useState(false)
-	const [isCloning, setCloning] = useState(false)
-
 	const chainId = useChainId()
 	const position = getAddress(String(positionAddr || zeroAddress))
 	const positionStats = usePositionStats(position)
+
+	const [amount, setAmount] = useState(0n)
+	const [error, setError] = useState('')
+	const [errorDate, setErrorDate] = useState('')
 	const [expirationDate, setExpirationDate] = useState(new Date())
-	const requiredColl =
-		positionStats.liqPrice > 0 &&
-		(BigInt(1e18) * amount + positionStats.liqPrice - 1n) / positionStats.liqPrice > positionStats.minimumCollateral
-			? (BigInt(1e18) * amount + positionStats.liqPrice - 1n) / positionStats.liqPrice
-			: positionStats.minimumCollateral
-	const formattedAmount = useMemo(() => Number(amount / BigInt(10 ** 18)), [amount])
+
+	const requiredColl = useMemo(
+		() =>
+			positionStats.liqPrice > 0 &&
+			(BigInt(1e18) * amount + positionStats.liqPrice - 1n) / positionStats.liqPrice > positionStats.minimumCollateral
+				? (BigInt(1e18) * amount + positionStats.liqPrice - 1n) / positionStats.liqPrice
+				: positionStats.minimumCollateral,
+		[amount, positionStats.liqPrice, positionStats.minimumCollateral]
+	)
+
+	const borrowersReserveContribution = useMemo(
+		() => (BigInt(positionStats.reserveContribution + positionStats.mintingFee) * amount) / 1_000_000n,
+		[amount, positionStats.mintingFee, positionStats.reserveContribution]
+	)
+	const buttonDisabled = useMemo(() => amount == 0n || !!error, [amount, error])
 
 	useEffect(() => {
 		// to set initial date during loading
-		setExpirationDate(toDate(positionStats.expiration))
+		setExpirationDate(new Date(Number(positionStats.expiration) * 1000))
 	}, [positionStats.expiration])
-
-	const borrowersReserveContribution = (positionStats.reserveContribution * amount) / 1_000_000n
-
-	function toDate(blocktime: bigint) {
-		return new Date(Number(blocktime) * 1000)
-	}
 
 	// max(4 weeks, ((chosen expiration) - (current block))) * position.annualInterestPPM() / (365 days) / 1000000
 	const feePercent =
-		(BigInt(Math.max(60 * 60 * 24 * 30, Math.floor((expirationDate.getTime() - Date.now()) / 1000))) * positionStats.annualInterestPPM) /
+		(BigInt(Math.max(60 * 60 * 24 * 30, Math.floor((expirationDate.getTime() - Date.now()) / 1000))) *
+			BigInt(positionStats.annualInterestPPM)) /
 		BigInt(60 * 60 * 24 * 365)
 	const fees = (feePercent * amount) / 1_000_000n
-	const paidOutToWallet = amount - borrowersReserveContribution - fees
+	const paidOutToWallet = amount - borrowersReserveContribution
 	const availableAmount = BigInt(positionStats.available)
 	const userValue = BigInt(positionStats.collateralUserBal * positionStats.liqPrice) / BigInt(1e18)
 	const borrowingLimit = min(availableAmount, userValue)
@@ -100,103 +99,13 @@ export default function PositionBorrow({}) {
 		setExpirationDate(value)
 	}
 
-	// TODO: check if this is needed
-	// const onMaxExpiration = () => {
-	// 	setExpirationDate(toDate(positionStats.expiration))
-	// }
-
-	const handleApprove = async () => {
-		try {
-			setApproving(true)
-			const approveWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: positionStats.collateral!,
-				abi: erc20Abi,
-				functionName: 'approve',
-				args: [ADDRESS[chainId].mintingHub, amount],
-			})
-
-			const toastContent = [
-				{
-					title: 'Amount:',
-					value: `${formattedAmount} ${positionStats.collateralSymbol}`,
-				},
-				{
-					title: 'Spender: ',
-					value: shortenAddress(ADDRESS[chainId].mintingHub),
-				},
-				{
-					title: 'Transaction:',
-					hash: approveWriteHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Approving ${positionStats.collateralSymbol}`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title={`Successfully Approved ${positionStats.collateralSymbol}`} />,
-				},
-				error: {
-					render(error: unknown) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} catch (e) {
-			console.log(e)
-		} finally {
-			setApproving(false)
-		}
-	}
-
-	const handleClone = useCallback(async () => {
-		try {
-			setCloning(true)
-			const expirationTime = toTimestamp(expirationDate)
-
-			const cloneWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].mintingHub,
-				abi: ABIS.MintingHubABI,
-				functionName: 'clone',
-				args: [position, requiredColl, amount, expirationTime],
-			})
-
-			const toastContent = [
-				{
-					title: `Amount: `,
-					value: formatBigInt(amount) + ' OFD',
-				},
-				{
-					title: `Collateral: `,
-					value: formatBigInt(requiredColl, positionStats.collateralDecimal) + ' ' + positionStats.collateralSymbol,
-				},
-				{
-					title: 'Transaction:',
-					hash: cloneWriteHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: cloneWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Minting OFD`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title="Successfully Minted OFD" />,
-				},
-				error: {
-					render(error: unknown) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} catch (e) {
-			console.log(e)
-		} finally {
-			positionStats.refetch()
-			setCloning(false)
-		}
-	}, [amount, chainId, expirationDate, position, positionStats, requiredColl])
+	const { isApproving, handleApprove, isCloning, handleClone } = useBorrowContractsFunctions({
+		amount,
+		expirationDate,
+		position,
+		positionStats,
+		requiredColl,
+	})
 
 	if (ENABLE_EMERGENCY_MODE) {
 		return <EmergencyPage />
@@ -208,7 +117,7 @@ export default function PositionBorrow({}) {
 				<title>{envConfig.AppName} - Mint</title>
 			</Head>
 			<div>
-				<AppPageHeader backText="Back to position" backTo={`/position/${position}`} title="Mint OracleFreeDollars for Yourself" />
+				<AppPageHeader backText="Back to position" backTo={`/position/${position}`} title="Mint Fresh OracleFreeDollars" />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
 						<div className="text-lg font-bold text-center mt-3">Minting Amount and Collateral</div>
@@ -249,12 +158,12 @@ export default function PositionBorrow({}) {
 						<div className="mx-auto mt-8 w-72 max-w-full flex-col">
 							<GuardToAllowedChainBtn>
 								{requiredColl > positionStats.collateralAllowance ? (
-									<Button disabled={amount == 0n || !!error} isLoading={isApproving} onClick={() => handleApprove()}>
+									<Button disabled={buttonDisabled} isLoading={isApproving} onClick={() => handleApprove()}>
 										Approve
 									</Button>
 								) : (
 									<Button
-										disabled={amount == 0n || !!error}
+										disabled={buttonDisabled}
 										error={
 											requiredColl < positionStats.minimumCollateral
 												? 'A position must have at least ' +
