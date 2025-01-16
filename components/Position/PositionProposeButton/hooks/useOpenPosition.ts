@@ -19,7 +19,7 @@ type Props = {
 }
 
 type Returned = {
-	openPosition: () => Promise<void>
+	openPosition: () => Promise<boolean>
 	openingPosition: boolean
 }
 
@@ -56,7 +56,7 @@ export const useOpenPosition = (props: Props): Returned => {
 		]
 	}, [collTokenData.address, collTokenData.symbol, initialCollAmount, liqPrice])
 
-	const { loading: openingPosition, writeFunction: openPosition } = useWriteContractWithToast({
+	const { loading: openingPosition, writeFunction: openPositionWrite } = useWriteContractWithToast({
 		contractParams: {
 			address: ADDRESS[chainId].mintingHub,
 			abi: ABIS.MintingHubABI,
@@ -78,6 +78,15 @@ export const useOpenPosition = (props: Props): Returned => {
 		toastPending: { title: `Creating a new position`, rows: toastRowsOpenPosition },
 		toastSuccess: { title: `Successfully created a position`, rows: toastRowsOpenPosition },
 	})
+
+	const openPosition = async () => {
+		const success = await openPositionWrite()
+		if (success) {
+			return success
+		} else {
+			throw new Error('Position opening failed')
+		}
+	}
 
 	return {
 		openPosition,

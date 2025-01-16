@@ -15,8 +15,8 @@ type Props = {
 }
 
 type Returned = {
-	handleApprove: () => Promise<void>
-	handleClone: () => Promise<void>
+	handleApprove: () => Promise<boolean>
+	handleClone: () => Promise<boolean>
 	isApproving: boolean
 	isCloning: boolean
 }

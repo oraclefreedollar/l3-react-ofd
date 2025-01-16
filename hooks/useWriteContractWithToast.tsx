@@ -15,14 +15,14 @@ type WriteContractCustomProps = {
 
 type Returned = {
 	loading: boolean
-	writeFunction: () => Promise<void>
+	writeFunction: () => Promise<boolean>
 }
 
 export const useWriteContractWithToast = (props: WriteContractCustomProps): Returned => {
 	const { contractParams, refetchFunctions, toastPending, toastSuccess } = props
 	const [loading, setLoading] = useState<boolean>(false)
 
-	const writeFunction = useCallback(async () => {
+	const writeFunction = useCallback(async (): Promise<boolean> => {
 		try {
 			setLoading(true)
 			const { request } = await simulateContract(WAGMI_CONFIG, contractParams)
@@ -57,8 +57,10 @@ export const useWriteContractWithToast = (props: WriteContractCustomProps): Retu
 					},
 				},
 			})
+			return true
 		} catch (e) {
 			console.log(e)
+			return false
 		} finally {
 			refetchFunctions?.map(async (refetch) => await refetch())
 			setLoading(false)
