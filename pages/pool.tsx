@@ -42,24 +42,21 @@ export default function Pool() {
 	const start = 1731747568
 	const end = 1735635568
 
-	const filteredTrades = trades.filter(
-        (trade: any) => Number(trade.time) < start || Number(trade.time) > end
-    )
+	const filteredTrades = trades
+		.filter((trade: any) => Number(trade.time) < start || Number(trade.time) > end)
 
-	const filteredOldTrades = oldTrades.filter(
-        (trade: any) => Number(trade.time) < start || Number(trade.time) > end
-    )
+	const filteredOldTrades = oldTrades
+		.filter((trade: any) => Number(trade.time) < start || Number(trade.time) > end)	
 
-	const factoredTrades = filteredTrades.map((trade) => {
+	const factoredTrades = filteredOldTrades.map((trade) => {
 		return {
 			...trade,
-			lastPrice: Number(trade.lastPrice) * 1.35,
+			lastPrice: Number(trade.lastPrice) / 1.35,
 		}
 	})
-	console.log(factoredTrades)
-	console.log(filteredOldTrades)
+	
 
-	const combinedTrades = [...factoredTrades, ...filteredOldTrades]
+	const combinedTrades = [...factoredTrades, ...filteredTrades].sort((a: any, b: any) => Number(a.time) - Number(b.time))
 
 	const handleApprove = async () => {
 		try {
