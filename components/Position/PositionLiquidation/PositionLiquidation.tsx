@@ -19,12 +19,7 @@ const PositionLiquidation: React.FC<StepComponentProps> = ({ onValidationChange 
 	)
 
 	useEffect(() => {
-		const isValid = Boolean(
-			auctionDuration > 0n &&
-			buffer > 0n &&
-			liqPrice > 0n &&
-			form.minCollAmount * liqPrice >= OPEN_POSITION_FEE
-		)
+		const isValid = Boolean(auctionDuration > 0n && buffer > 0n && liqPrice > 0n && form.minCollAmount * liqPrice >= OPEN_POSITION_FEE)
 		onValidationChange(isValid)
 	}, [auctionDuration, buffer, liqPrice, form.minCollAmount, onValidationChange])
 
