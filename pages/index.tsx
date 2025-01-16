@@ -49,19 +49,19 @@ export default function Home() {
 	const navigationLinks = [
 		...(!ENABLE_EMERGENCY_MODE
 			? [
-				{
-					title: 'Swap OFD',
-					description: 'Invest in Oracle Free Dollar by swapping USDT',
-					href: '/swap',
-					icon: LiaExchangeAltSolid,
-				},
-				{
-					title: 'Create Position',
-					description: 'Open a new collateral position and mint OFD',
-					href: '/positions/create',
-					icon: GrMoney,
-				},
-			]
+					{
+						title: 'Swap OFD',
+						description: 'Invest in Oracle Free Dollar by swapping USDT',
+						href: '/swap',
+						icon: LiaExchangeAltSolid,
+					},
+					{
+						title: 'Create Position',
+						description: 'Open a new collateral position and mint OFD',
+						href: '/positions/create',
+						icon: GrMoney,
+					},
+				]
 			: []),
 		{
 			title: 'OFDPs / Equity',
@@ -76,12 +76,12 @@ export default function Home() {
 			<div className="w-full bg-gradient-to-r from-purple-900/90 via-slate-900/95 to-purple-900/90 border-b border-purple-500/50 rounded-lg">
 				<div className="container mx-auto px-4 py-4">
 					<div className="flex flex-col items-center justify-center gap-4">
-						<span className="font-semibold text-slate-200">Add the new 2025 contracts to your wallet:</span>
+						<span className="font-semibold text-slate-200">New 2025 official contracts</span>
 						<div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl">
-							<div className="flex-1 bg-slate-900/50 rounded-lg p-4 border border-purple-500/30 hover:border-purple-500/50 transition-all rounded-lg">
+							<div className="flex-1 bg-slate-900/50 p-4 border border-purple-500/30 hover:border-purple-500/50 transition-all rounded-lg">
 								<div className="flex flex-col md:flex-row items-center justify-between gap-4">
 									<div className="flex flex-col gap-1">
-										<span className="text-purple-400 font-semibold">OFD Token</span>
+										<span className="text-purple-400 font-semibold">Add OFD to your wallet</span>
 										<code className="text-xs sm:text-sm text-slate-300">0x969D3B762c543909d6ADDC1b7330BDfdc6cc60e6</code>
 									</div>
 									<button
@@ -94,7 +94,7 @@ export default function Home() {
 													options: {
 														address: '0x969D3B762c543909d6ADDC1b7330BDfdc6cc60e6',
 														symbol: 'OFD',
-														decimals: 18
+														decimals: 18,
 													},
 												},
 											})
@@ -103,14 +103,13 @@ export default function Home() {
 										<div className="w-5 h-5">
 											<img alt="MetaMask Icon" src="/icons/metamask.svg" />
 										</div>
-
 									</button>
 								</div>
 							</div>
-							<div className="flex-1 bg-slate-900/50 rounded-lg p-4 border border-purple-500/30 hover:border-purple-500/50 transition-all rounded-lg">
+							<div className="flex-1 bg-slate-900/50 p-4 border border-purple-500/30 hover:border-purple-500/50 transition-all rounded-lg">
 								<div className="flex flex-col md:flex-row items-center justify-between gap-4">
 									<div className="flex flex-col gap-1">
-										<span className="text-purple-400 font-semibold">OFDPS Token</span>
+										<span className="text-purple-400 font-semibold">Add OFDPS to your wallet</span>
 										<code className="text-xs sm:text-sm text-slate-300">0xc3f061175aDc0992290ec0FF4E28B59b364f3F61</code>
 									</div>
 									<button
@@ -123,7 +122,7 @@ export default function Home() {
 													options: {
 														address: '0xc3f061175aDc0992290ec0FF4E28B59b364f3F61',
 														symbol: 'OFDPS',
-														decimals: 18
+														decimals: 18,
 													},
 												},
 											})
@@ -132,8 +131,6 @@ export default function Home() {
 										<div className="w-5 h-5">
 											<img alt="MetaMask Icon" src="/icons/metamask.svg" />
 										</div>
-
-
 									</button>
 								</div>
 							</div>
