@@ -80,14 +80,13 @@ export const useOpenPosition = (props: Props): Returned => {
 	})
 
 	const openPosition = async () => {
-		try {
-		  const success = await openPositionWrite()
-		  return success
-		} catch (error) {
-		  console.error('Position opening failed:', error)
-		  throw error
+		const success = await openPositionWrite()
+		if (success) {
+			return success
+		} else {
+			throw new Error('Position opening failed')
 		}
-	  }
+	}
 
 	return {
 		openPosition,

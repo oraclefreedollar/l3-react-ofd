@@ -60,7 +60,7 @@ export const useWriteContractWithToast = (props: WriteContractCustomProps): Retu
 			return true
 		} catch (e) {
 			console.log(e)
-			throw e
+			return false
 		} finally {
 			refetchFunctions?.map(async (refetch) => await refetch())
 			setLoading(false)
