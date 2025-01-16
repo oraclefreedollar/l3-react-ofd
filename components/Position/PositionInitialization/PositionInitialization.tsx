@@ -28,13 +28,10 @@ const PositionInitialization: React.FC<Props> = (props: Props) => {
 		},
 		[handleChange]
 	)
-	
+
 	useEffect(() => {
 		const isValid = Boolean(
-			form.initialCollAmount > 0n &&
-			form.initPeriod > 0n &&
-			form.initPeriod >= 5n &&
-			userBalanceOFD >= BigInt(1000 * 1e18)
+			form.initialCollAmount > 0n && form.initPeriod > 0n && form.initPeriod >= 5n && userBalanceOFD >= BigInt(1000 * 1e18)
 		)
 		onValidationChange(isValid)
 	}, [form.initialCollAmount, form.initPeriod, onValidationChange, userBalanceOFD])
