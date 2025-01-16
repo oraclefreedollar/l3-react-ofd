@@ -1,11 +1,12 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import TokenInput from 'components/Input/TokenInput'
 import NormalInput from 'components/Input/NormalInput'
 import { usePositionFormContext } from 'contexts/position'
 import { PositionCreateFormState } from 'contexts/position/types'
 import { OPEN_POSITION_FEE } from 'utils'
+import { StepComponentProps } from 'pages/positions/create'
 
-const PositionLiquidation: React.FC = () => {
+const PositionLiquidation: React.FC<StepComponentProps> = ({ onValidationChange }) => {
 	const { collTokenData, form, errors, handleChange } = usePositionFormContext()
 	const { auctionDuration, buffer, liqPrice, minCollAmount } = form
 
@@ -16,6 +17,16 @@ const PositionLiquidation: React.FC = () => {
 		},
 		[handleChange]
 	)
+
+	useEffect(() => {
+		const isValid = Boolean(
+			auctionDuration > 0n &&
+			buffer > 0n &&
+			liqPrice > 0n &&
+			form.minCollAmount * liqPrice >= OPEN_POSITION_FEE
+		)
+		onValidationChange(isValid)
+	}, [auctionDuration, buffer, liqPrice, form.minCollAmount, onValidationChange])
 
 	return (
 		<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">

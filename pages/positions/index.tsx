@@ -16,17 +16,17 @@ export default function Positions() {
 			<div className="mt-8">
 				<PositionCollateral />
 				<AppPageHeader title="My Positions" />
+				{!ENABLE_EMERGENCY_MODE && (
+					<div className="flex mb-4">
+						<Link className="btn btn-primary m-auto" href={'positions/create'}>
+							Propose New Position Type
+						</Link>
+					</div>
+				)}
 				<PositionTable showMyPos />
 				<AppPageHeader title="Other Positions" />
 				<PositionTable />
 			</div>
-			{!ENABLE_EMERGENCY_MODE && (
-				<div className="flex">
-					<Link className="btn btn-primary m-auto" href={'positions/create'}>
-						Propose New Position Type
-					</Link>
-				</div>
-			)}
 		</>
 	)
 }

@@ -7,7 +7,7 @@ import { PositionCollateralTokenData } from 'meta/positions'
 import { useChainId } from 'wagmi'
 
 type Props = { collTokenData: PositionCollateralTokenData; initialCollAmount: bigint; userBalanceRefetch: RefetchType }
-type Returned = { approve: () => Promise<void>; approving: boolean }
+type Returned = { approve: () => Promise<boolean>; approving: boolean }
 
 export const useApproveCollateral = (props: Props): Returned => {
 	const { collTokenData, initialCollAmount, userBalanceRefetch } = props

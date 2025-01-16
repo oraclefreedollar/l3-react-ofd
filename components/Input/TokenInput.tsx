@@ -3,6 +3,9 @@ import DisplayAmount from '../DisplayAmount'
 import { formatBigInt } from 'utils'
 import { BigNumberInput } from './BigNumberInput'
 import dynamic from 'next/dynamic'
+import { Tooltip } from 'flowbite-react'
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const TokenLogo = dynamic(() => import('../TokenLogo'), { ssr: false })
 
 interface Props {
@@ -21,6 +24,7 @@ interface Props {
 	onChange?: (value: string) => void
 	disabled?: boolean
 	error?: string
+	tooltip?: string
 }
 
 export default function TokenInput({
@@ -39,13 +43,21 @@ export default function TokenInput({
 	disabled,
 	onChange,
 	error,
+	tooltip,
 }: Props) {
 	const { isConnected } = useAccount()
 
 	return (
 		<div>
 			<div className="mb-1 flex gap-2 px-1">
-				<div className="flex-1">{label}</div>
+				<div className="flex flex-1 items-center gap-2">
+					<span>{label}</span>
+					{tooltip && (
+						<Tooltip content={tooltip}>
+							<FontAwesomeIcon className="h-4 w-4 cursor-help text-gray-400 hover:text-gray-500"icon={faCircleQuestion} />
+						</Tooltip>
+					)}
+				</div>
 				{isConnected && symbol && (
 					<div className={`flex gap-2 items-center cursor-pointer ${hideMaxLabel && 'hidden'}`} onClick={() => onChange?.(max.toString())}>
 						{balanceLabel}
@@ -63,9 +75,8 @@ export default function TokenInput({
 						<div className="px-3 py-2 font-bold transition-opacity">{output}</div>
 					) : (
 						<div
-							className={`flex gap-1 rounded-lg text-white p-1 bg-slate-600 border-2 ${
-								error ? 'border-red-300' : 'border-neutral-100 border-slate-600'
-							}`}
+							className={`flex gap-1 rounded-lg text-white p-1 bg-slate-600 border-2 ${error ? 'border-red-300' : 'border-neutral-100 border-slate-600'
+								}`}
 						>
 							<BigNumberInput
 								autofocus={true}
