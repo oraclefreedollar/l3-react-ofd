@@ -42,11 +42,9 @@ export default function Pool() {
 	const start = 1731747568
 	const end = 1735635568
 
-	const filteredTrades = trades
-		.filter((trade: any) => Number(trade.time) < start || Number(trade.time) > end)
+	const filteredTrades = trades.filter((trade: any) => Number(trade.time) < start || Number(trade.time) > end)
 
-	const filteredOldTrades = oldTrades
-		.filter((trade: any) => Number(trade.time) < start || Number(trade.time) > end)	
+	const filteredOldTrades = oldTrades.filter((trade: any) => Number(trade.time) < start || Number(trade.time) > end)
 
 	const factoredTrades = filteredOldTrades.map((trade) => {
 		return {
@@ -54,7 +52,6 @@ export default function Pool() {
 			lastPrice: Number(trade.lastPrice) / 1.35,
 		}
 	})
-	
 
 	const combinedTrades = [...factoredTrades, ...filteredTrades].sort((a: any, b: any) => Number(a.time) - Number(b.time))
 
@@ -431,7 +428,7 @@ export default function Pool() {
 								]}
 								type="area"
 							/>
-						 <p className="text-xs text-gray-400 mb-2 italic opacity-75">Chart includes v1 factorized trades</p>
+							<p className="text-xs text-gray-400 mb-2 italic opacity-75">Chart includes v1 factorized trades</p>
 						</div>
 						<div className="bg-black/40 backdrop-blur-sm rounded-xl p-4 grid grid-cols-1 md:grid-cols-2 gap-2 border border-cyan-500/30">
 							<AppBox>
