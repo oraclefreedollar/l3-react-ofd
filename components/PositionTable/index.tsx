@@ -32,15 +32,17 @@ export default function PositionTable({ showMyPos }: Props) {
 	// console.log({ matchingPositions, showMyPos });
 
 	return (
-		<Table>
-			<TableHeader actionCol headers={['Collateral', 'Liquidation Price', 'Available Amount']} />
-			<TableBody>
-				{matchingPositions.length == 0 ? (
-					<TableRowEmpty>{showMyPos ? "You don't have any positions." : 'There are no other positions yet.'}</TableRowEmpty>
-				) : (
-					matchingPositions.map((pos) => <PositionRow key={pos.position} position={pos} />)
-				)}
-			</TableBody>
-		</Table>
+		<div id='positions-table'>
+			<Table>
+				<TableHeader actionCol headers={['Collateral', 'Liquidation Price', 'Available Amount']} />
+				<TableBody>
+					{matchingPositions.length == 0 ? (
+						<TableRowEmpty>{showMyPos ? "You don't have any positions." : 'There are no other positions yet.'}</TableRowEmpty>
+					) : (
+						matchingPositions.map((pos) => <PositionRow key={pos.position} position={pos} />)
+					)}
+				</TableBody>
+			</Table>
+		</div>
 	)
 }
