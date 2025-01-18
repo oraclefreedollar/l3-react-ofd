@@ -24,50 +24,51 @@ const steps = [
 	{
 		id: 'requirements',
 		title: 'Requirements',
-		component: PositionRequirements
+		component: PositionRequirements,
 	},
 	{
 		id: 'collateral',
 		title: 'Collateral',
-		component: PositionProposeCollateral
+		component: PositionProposeCollateral,
 	},
 	{
 		id: 'initialization',
 		title: 'Position Details',
-		component: PositionInitialization
+		component: PositionInitialization,
 	},
 	{
 		id: 'financial',
 		title: 'Financial Terms',
-		component: PositionFinancialTerms
+		component: PositionFinancialTerms,
 	},
 	{
 		id: 'liquidation',
 		title: 'Liquidation Settings',
-		component: PositionLiquidation
+		component: PositionLiquidation,
 	},
 	{
 		id: 'summary',
 		title: 'Summary',
-		component: PositionSummary
-	}
+		component: PositionSummary,
+	},
 ]
 
 const PositionCreate: React.FC = () => {
 	const userBalance = useUserBalance()
 	const [currentStep, setCurrentStep] = useState(0)
 	const [isSuccess, setIsSuccess] = useState(false)
-	const [stepValidation, setStepValidation] = useState<boolean[]>(
-		new Array(steps.length).fill(false)
-	)
+	const [stepValidation, setStepValidation] = useState<boolean[]>(new Array(steps.length).fill(false))
 
-	const handleValidationChange = useCallback((isValid: boolean) => {
-		setStepValidation(prev => {
-			const newValidation = [...prev]
-			newValidation[currentStep] = isValid
-			return newValidation
-		})
-	}, [currentStep])
+	const handleValidationChange = useCallback(
+		(isValid: boolean) => {
+			setStepValidation((prev) => {
+				const newValidation = [...prev]
+				newValidation[currentStep] = isValid
+				return newValidation
+			})
+		},
+		[currentStep]
+	)
 
 	const handleSuccess = () => {
 		setIsSuccess(true)
@@ -106,9 +107,7 @@ const PositionCreate: React.FC = () => {
 						<span className="text-sm text-white">
 							Step {currentStep + 1} of {steps.length}
 						</span>
-						<span className="text-sm font-medium text-white">
-							{steps[currentStep].title}
-						</span>
+						<span className="text-sm font-medium text-white">{steps[currentStep].title}</span>
 					</div>
 					<div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
 						<div
@@ -128,28 +127,32 @@ const PositionCreate: React.FC = () => {
 				</div>
 
 				{/* Navigation Buttons */}
-				<div className="flex justify-between mt-6">
-					<button
-						className={`
-				px-4 py-2 rounded-md
+				<div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-6 ml-6 mr-6">
+					<div className="flex flex-col">
+						<button
+							className={`
+				px-4 py-2 rounded-md flex-1 
 				${currentStep === 0 ? 'bg-gray-200 text-gray-400' : 'bg-gray-600 text-white hover:bg-gray-700'}
 				`}
-						disabled={currentStep === 0}
-						onClick={handlePrevious}
-					>
-						Back
-					</button>
+							disabled={currentStep === 0}
+							onClick={handlePrevious}
+						>
+							Back
+						</button>
+					</div>
 
 					{currentStep === steps.length - 1 ? (
 						<PositionProposeButton disabled={!stepValidation[currentStep]} onSuccess={handleSuccess} />
 					) : (
-						<button
-							className="btn btn-primary px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-							disabled={!stepValidation[currentStep]}
-							onClick={handleNext}
-						>
-							Next
-						</button>
+						<div className="flex justify-center flex-col">
+							<button
+								className="btn btn-primary px-4 py-2 flex-1 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+								disabled={!stepValidation[currentStep]}
+								onClick={handleNext}
+							>
+								Next
+							</button>
+						</div>
 					)}
 				</div>
 			</div>

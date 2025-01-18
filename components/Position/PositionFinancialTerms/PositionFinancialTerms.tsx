@@ -18,11 +18,7 @@ const PositionFinancialTerms: React.FC<StepComponentProps> = ({ onValidationChan
 	)
 
 	useEffect(() => {
-		const isValid = Boolean(
-			interest > 0n &&
-			limitAmount > 0n &&
-			maturity > 0n
-		)
+		const isValid = Boolean(interest > 0n && limitAmount > 0n && maturity > 0n)
 		onValidationChange(isValid)
 	}, [interest, limitAmount, maturity, onValidationChange])
 

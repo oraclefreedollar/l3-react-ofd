@@ -357,7 +357,7 @@ export default function Pool() {
 									},
 									stroke: {
 										width: 2,
-										curve: 'smooth',
+										curve: 'straight',
 										colors: ['#d89eef'],
 									},
 									dataLabels: {
