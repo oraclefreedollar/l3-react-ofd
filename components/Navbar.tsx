@@ -25,10 +25,10 @@ export default function Navbar() {
 						</li>
 					)}
 					<li>
-						<NavButton name="Collateral" to="/collateral" />
+						<NavButton name="Borrow" to="/collateral" />
 					</li>
 					<li>
-						<NavButton name="Positions" to="/positions" />
+						<NavButton name="My Positions" to="/positions" />
 					</li>
 					<li>
 						<NavButton name="Auctions" to="/auctions" />
