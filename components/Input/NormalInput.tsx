@@ -37,7 +37,7 @@ export default function NormalInput({
 					<span>{label}</span>
 					{tooltip && (
 						<Tooltip content={tooltip}>
-							<FontAwesomeIcon className="h-4 w-4 cursor-help text-gray-400 hover:text-gray-500"icon={faCircleQuestion} />
+							<FontAwesomeIcon className="h-4 w-4 cursor-help text-gray-400 hover:text-gray-500" icon={faCircleQuestion} />
 						</Tooltip>
 					)}
 				</div>
