@@ -3,7 +3,7 @@ import { Tooltip } from 'flowbite-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { BigNumberInput } from './BigNumberInput'
 
-interface Props {
+export interface NormalInputProps {
 	balanceLabel?: string
 	digit?: bigint | number
 	error?: string
@@ -20,7 +20,7 @@ interface Props {
 }
 
 export default function NormalInput({
-	label = 'Send',
+	label,
 	placeholder = 'Input Amount',
 	symbol,
 	digit = 18n,
@@ -29,7 +29,7 @@ export default function NormalInput({
 	onChange,
 	error,
 	tooltip,
-}: Props) {
+}: NormalInputProps) {
 	return (
 		<div>
 			<div className="mb-1 flex gap-2 px-1">

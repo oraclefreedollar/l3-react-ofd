@@ -8,7 +8,7 @@ import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const TokenLogo = dynamic(() => import('../TokenLogo'), { ssr: false })
 
-interface Props {
+export interface TokenInputProps {
 	label?: string
 	symbol: string
 	placeholder?: string
@@ -44,7 +44,7 @@ export default function TokenInput({
 	onChange,
 	error,
 	tooltip,
-}: Props) {
+}: TokenInputProps) {
 	const { isConnected } = useAccount()
 
 	return (
@@ -54,7 +54,7 @@ export default function TokenInput({
 					<span>{label}</span>
 					{tooltip && (
 						<Tooltip content={tooltip}>
-							<FontAwesomeIcon className="h-4 w-4 cursor-help text-gray-400 hover:text-gray-500"icon={faCircleQuestion} />
+							<FontAwesomeIcon className="h-4 w-4 cursor-help text-gray-400 hover:text-gray-500" icon={faCircleQuestion} />
 						</Tooltip>
 					)}
 				</div>
@@ -75,8 +75,9 @@ export default function TokenInput({
 						<div className="px-3 py-2 font-bold transition-opacity">{output}</div>
 					) : (
 						<div
-							className={`flex gap-1 rounded-lg text-white p-1 bg-slate-600 border-2 ${error ? 'border-red-300' : 'border-neutral-100 border-slate-600'
-								}`}
+							className={`flex gap-1 rounded-lg text-white p-1 bg-slate-600 border-2 ${
+								error ? 'border-red-300' : 'border-neutral-100 border-slate-600'
+							}`}
 						>
 							<BigNumberInput
 								autofocus={true}
