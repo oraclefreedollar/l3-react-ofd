@@ -142,7 +142,7 @@ const PositionCreate: React.FC = () => {
 					</div>
 
 					{currentStep === steps.length - 1 ? (
-						<PositionProposeButton disabled={!stepValidation[currentStep]} onSuccess={handleSuccess} />
+						<PositionProposeButton onSuccess={handleSuccess} />
 					) : (
 						<div className="flex justify-center flex-col">
 							<button
