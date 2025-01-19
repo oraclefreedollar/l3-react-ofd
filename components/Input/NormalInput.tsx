@@ -1,6 +1,9 @@
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
+import { Tooltip } from 'flowbite-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { BigNumberInput } from './BigNumberInput'
 
-interface Props {
+export interface NormalInputProps {
 	balanceLabel?: string
 	digit?: bigint | number
 	error?: string
@@ -13,10 +16,11 @@ interface Props {
 	placeholder?: string
 	symbol: string
 	value?: string
+	tooltip?: string
 }
 
 export default function NormalInput({
-	label = 'Send',
+	label,
 	placeholder = 'Input Amount',
 	symbol,
 	digit = 18n,
@@ -24,11 +28,19 @@ export default function NormalInput({
 	value,
 	onChange,
 	error,
-}: Props) {
+	tooltip,
+}: NormalInputProps) {
 	return (
 		<div>
 			<div className="mb-1 flex gap-2 px-1">
-				<div className="flex-1">{label}</div>
+				<div className="flex flex-1 items-center gap-2">
+					<span>{label}</span>
+					{tooltip && (
+						<Tooltip className="max-w-sm" content={tooltip}>
+							<FontAwesomeIcon className="h-4 w-4 cursor-help text-gray-400 hover:text-gray-500" icon={faCircleQuestion} />
+						</Tooltip>
+					)}
+				</div>
 			</div>
 
 			<div className="flex items-center rounded-lg bg-slate-800 p-2">

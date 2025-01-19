@@ -9,7 +9,7 @@ import { TxToast, renderErrorToast } from 'components/TxToast'
 import { ABIS, ADDRESS } from 'contracts'
 import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useContractUrl, useOFDPSQuery, usePoolStats, useTradeQuery } from 'hooks'
+import { useContractUrl, useOFDPSQuery, usePoolStats, useTradeQuery, useTradeQueryOld } from 'hooks'
 import { formatBigInt, formatDuration, shortenAddress } from 'utils'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -36,7 +36,24 @@ export default function Pool() {
 	const equityUrl = useContractUrl(ADDRESS[chainId].equity)
 	const { profit, loss } = useOFDPSQuery(ADDRESS[chainId].oracleFreeDollar)
 	const { trades } = useTradeQuery()
+	const { oldTrades } = useTradeQueryOld()
 	const account = address || zeroAddress
+
+	const start = 1731747568
+	const end = 1735635568
+
+	const filteredTrades = trades.filter((trade: any) => Number(trade.time) < start || Number(trade.time) > end)
+
+	const filteredOldTrades = oldTrades.filter((trade: any) => Number(trade.time) < start || Number(trade.time) > end)
+
+	const factoredTrades = filteredOldTrades.map((trade) => {
+		return {
+			...trade,
+			lastPrice: Number(trade.lastPrice) / 1.35,
+		}
+	})
+
+	const combinedTrades = [...factoredTrades, ...filteredTrades].sort((a: any, b: any) => Number(a.time) - Number(b.time))
 
 	const handleApprove = async () => {
 		try {
@@ -340,7 +357,7 @@ export default function Pool() {
 									},
 									stroke: {
 										width: 2,
-										curve: 'smooth',
+										curve: 'straight',
 										colors: ['#d89eef'],
 									},
 									dataLabels: {
@@ -404,13 +421,14 @@ export default function Pool() {
 								series={[
 									{
 										name: 'OFDPS Price',
-										data: trades.map((trade) => {
+										data: combinedTrades.map((trade) => {
 											return [parseFloat(trade.time) * 1000, Math.round(Number(trade.lastPrice) / 10 ** 16) / 100]
 										}),
 									},
 								]}
 								type="area"
 							/>
+							<p className="text-xs text-gray-400 mb-2 italic opacity-75">Chart includes v1 factorized trades</p>
 						</div>
 						<div className="bg-black/40 backdrop-blur-sm rounded-xl p-4 grid grid-cols-1 md:grid-cols-2 gap-2 border border-cyan-500/30">
 							<AppBox>

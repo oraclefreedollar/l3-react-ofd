@@ -50,10 +50,10 @@ export const validationRules: { [key in keyof PositionCreateFormState]?: (props:
 		if (form.maturity <= 0) return 'Maturity must be greater than 0.'
 		return ''
 	},
-	minCollAmount: ({ form }) => {
-		if (form.minCollAmount * form.liqPrice < OPEN_POSITION_FEE) {
+	minCollAmount: ({ }) => {
+		/*if (form.minCollAmount * form.liqPrice < OPEN_POSITION_FEE) {
 			return 'The collateral must be worth at least 3500 OFD.\n Check either the current value and the liquidation price.'
-		}
+		}*/
 		return ''
 	},
 }

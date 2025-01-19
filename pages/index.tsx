@@ -11,6 +11,7 @@ import { motion } from 'framer-motion'
 import { useHomeStats, useOfdPrice, useTvl } from 'hooks'
 import { LiaExchangeAltSolid } from 'react-icons/lia'
 import { GrMoney } from 'react-icons/gr'
+import OfficialContractBanner from 'components/OfficialContractBanner'
 
 const fadeInUp = {
 	hidden: { opacity: 0, y: 20 },
@@ -45,7 +46,6 @@ export default function Home() {
 		},
 	]
 
-	// TODO: restore links when v2 is ready
 	const navigationLinks = [
 		...(!ENABLE_EMERGENCY_MODE
 			? [
@@ -185,6 +185,8 @@ export default function Home() {
 					))}
 				</div>
 			</motion.section>
+
+			<OfficialContractBanner />
 
 			<motion.footer
 				className="container mx-auto px-4"
