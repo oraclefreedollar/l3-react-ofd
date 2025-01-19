@@ -36,7 +36,7 @@ export default function NormalInput({
 				<div className="flex flex-1 items-center gap-2">
 					<span>{label}</span>
 					{tooltip && (
-						<Tooltip content={tooltip}>
+						<Tooltip className="max-w-sm" content={tooltip}>
 							<FontAwesomeIcon className="h-4 w-4 cursor-help text-gray-400 hover:text-gray-500" icon={faCircleQuestion} />
 						</Tooltip>
 					)}

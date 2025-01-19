@@ -30,7 +30,7 @@ export default function TokenLogo({ currency, size = 8, chain }: Props) {
 
 	return imgExist ? (
 		<picture className=" relative">
-			<img alt="token-logo" className={`w-${size} h-${size} rounded-full`} onError={onImageError} src={src} />
+			<img alt="token-logo" className={`w-${size} h-${size} rounded-full mr-2`} onError={onImageError} src={src} />
 			{chain && (
 				<picture className="absolute bottom-0 right-0 p-px rounded-full bg-slate-800">
 					<img alt="token-logo" className={`w-3 h-3 rounded-full`} onError={onImageError} src={`/chain/${chain}.svg`} />
