@@ -11,6 +11,7 @@ import { motion } from 'framer-motion'
 import { useHomeStats, useOfdPrice, useTvl } from 'hooks'
 import { LiaExchangeAltSolid } from 'react-icons/lia'
 import { GrMoney } from 'react-icons/gr'
+import OfficialContractBanner from 'components/OfficialContractBanner'
 
 const fadeInUp = {
 	hidden: { opacity: 0, y: 20 },
@@ -45,7 +46,6 @@ export default function Home() {
 		},
 	]
 
-	// TODO: restore links when v2 is ready
 	const navigationLinks = [
 		...(!ENABLE_EMERGENCY_MODE
 			? [
@@ -73,71 +73,6 @@ export default function Home() {
 
 	return (
 		<main className="min-h-screen">
-			<div className="w-full bg-gradient-to-r from-purple-900/90 via-slate-900/95 to-purple-900/90 border-b border-purple-500/50 rounded-lg">
-				<div className="container mx-auto px-4 py-4">
-					<div className="flex flex-col items-center justify-center gap-4">
-						<span className="font-semibold text-slate-200">New 2025 official contracts</span>
-						<div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl">
-							<div className="flex-1 bg-slate-900/50 p-4 border border-purple-500/30 hover:border-purple-500/50 transition-all rounded-lg">
-								<div className="flex flex-col md:flex-row items-center justify-between gap-4">
-									<div className="flex flex-col gap-1">
-										<span className="text-purple-400 font-semibold">Add OFD to your wallet</span>
-										<code className="text-xs sm:text-sm text-slate-300">0x969D3B762c543909d6ADDC1b7330BDfdc6cc60e6</code>
-									</div>
-									<button
-										className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105"
-										onClick={() => {
-											window.ethereum?.request({
-												method: 'wallet_watchAsset',
-												params: {
-													type: 'ERC20',
-													options: {
-														address: '0x969D3B762c543909d6ADDC1b7330BDfdc6cc60e6',
-														symbol: 'OFD',
-														decimals: 18,
-													},
-												},
-											})
-										}}
-									>
-										<div className="w-5 h-5">
-											<img alt="MetaMask Icon" src="/icons/metamask.svg" />
-										</div>
-									</button>
-								</div>
-							</div>
-							<div className="flex-1 bg-slate-900/50 p-4 border border-purple-500/30 hover:border-purple-500/50 transition-all rounded-lg">
-								<div className="flex flex-col md:flex-row items-center justify-between gap-4">
-									<div className="flex flex-col gap-1">
-										<span className="text-purple-400 font-semibold">Add OFDPS to your wallet</span>
-										<code className="text-xs sm:text-sm text-slate-300">0xc3f061175aDc0992290ec0FF4E28B59b364f3F61</code>
-									</div>
-									<button
-										className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105"
-										onClick={() => {
-											window.ethereum?.request({
-												method: 'wallet_watchAsset',
-												params: {
-													type: 'ERC20',
-													options: {
-														address: '0xc3f061175aDc0992290ec0FF4E28B59b364f3F61',
-														symbol: 'OFDPS',
-														decimals: 18,
-													},
-												},
-											})
-										}}
-									>
-										<div className="w-5 h-5">
-											<img alt="MetaMask Icon" src="/icons/metamask.svg" />
-										</div>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 			<motion.section animate="visible" className="container mx-auto px-4 pt-16 pb-8 text-center" initial="hidden" variants={fadeInUp}>
 				<h1 className="text-6xl md:text-7xl font-bold text-neon-purple-subtle hover:text-neon-pink-subtle transition-all duration-300 ease-in-out mb-4">
 					Oracle Free Dollar
@@ -250,6 +185,8 @@ export default function Home() {
 					))}
 				</div>
 			</motion.section>
+
+			<OfficialContractBanner />
 
 			<motion.footer
 				className="container mx-auto px-4"
