@@ -4,8 +4,8 @@ import Button from 'components/Button'
 import { usePositionFormContext } from 'contexts/position'
 import { useOpenPosition } from './hooks/useOpenPosition'
 
-const PositionProposeButton: React.FC<{ disabled: boolean, onSuccess: () => void }> = ({ disabled, onSuccess }) => {
-	const { collTokenData, form} = usePositionFormContext()
+const PositionProposeButton: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
+	const { collTokenData, form, hasFormError } = usePositionFormContext()
 	const { auctionDuration, buffer, initialCollAmount, interest, limitAmount, liqPrice, initPeriod, maturity, minCollAmount } = form
 
 	const { openPosition, openingPosition } = useOpenPosition({
@@ -23,25 +23,20 @@ const PositionProposeButton: React.FC<{ disabled: boolean, onSuccess: () => void
 
 	const handleOpenPosition = async () => {
 		try {
-		  const success = await openPosition()
-		  if (success) {
-			onSuccess()
-		  }
+			const success = await openPosition()
+			if (success) {
+				onSuccess()
+			}
 		} catch (error) {
-		  console.error('Failed to open position:', error)
-		  // Error handling is already done via toast in useWriteContractWithToast
+			console.error('Failed to open position:', error)
+			// Error handling is already done via toast in useWriteContractWithToast
 		}
 	}
 
 	return (
-		<div className="mx-auto w-72 max-w-full flex-col">
+		<div className="max-w-full flex-col">
 			<GuardToAllowedChainBtn>
-				<Button
-					disabled={disabled}
-					isLoading={openingPosition}
-					onClick={handleOpenPosition}
-					variant="primary"
-				>
+				<Button disabled={hasFormError} isLoading={openingPosition} onClick={handleOpenPosition} variant="primary">
 					Propose Position
 				</Button>
 			</GuardToAllowedChainBtn>
