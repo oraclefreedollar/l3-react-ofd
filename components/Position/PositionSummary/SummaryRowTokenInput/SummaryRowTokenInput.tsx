@@ -1,10 +1,9 @@
 import React from 'react'
-import { TokenInputProps } from 'components/Input/TokenInput'
+import TokenInput, { TokenInputProps } from 'components/Input/TokenInput'
 import { PositionCreateFormState } from 'contexts/position/types'
 import { Tooltip } from 'flowbite-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
-import NormalInput from 'components/Input/NormalInput'
 import { usePositionFormContext } from 'contexts/position'
 
 type Props = Omit<TokenInputProps, 'onChange' | 'value'> & {
@@ -30,7 +29,7 @@ const SummaryRowTokenInput: React.FC<Props> = (props: Props) => {
 				)}
 			</div>
 			<div className="flex-1 max-w-lg">
-				<NormalInput
+				<TokenInput
 					{...otherProps}
 					error={errors[fieldName]}
 					onChange={(value) => onChangeValue(fieldName, value)}
