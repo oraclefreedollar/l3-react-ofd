@@ -108,7 +108,7 @@ const PositionSummaryForm: React.FC = () => {
 				label="Maturity Period"
 				onChangeValue={onChangeValue}
 				placeholder="Maturity Period"
-				symbol="days"
+				symbol="months"
 				tooltip="The maturity refers to the duration for which the position is set when opening a new position to mint Oracle Free Dollar (OFD). It defines the time period until the position expires, which can be set between today and the limit date (one year from the date the parent position was minted).The maturity period affects the annual interest charged, as shorter maturities will result in a different final interest amount."
 				value={maturity}
 			/>
