@@ -11,7 +11,7 @@
     "composite": true,
     "baseUrl": "./",
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "lib": [
       "ESNext",
       "DOM",
@@ -51,5 +51,9 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
+    "types": [
+      "react",
+      "react-dom"
+    ]
   }
 }

@@ -1,4 +1,3 @@
-import React from 'react'
 import { TbPigMoney } from 'react-icons/tb'
 import { BiCoinStack } from 'react-icons/bi'
 import { FaChartLine, FaDollarSign, FaTwitter, FaGithub, FaTelegram } from 'react-icons/fa'
@@ -12,6 +11,7 @@ import { useHomeStats, useOfdPrice, useTvl } from 'hooks'
 import { LiaExchangeAltSolid } from 'react-icons/lia'
 import { GrMoney } from 'react-icons/gr'
 import OfficialContractBanner from 'components/OfficialContractBanner'
+import { useTranslation } from 'react-i18next'
 
 const fadeInUp = {
 	hidden: { opacity: 0, y: 20 },
@@ -22,6 +22,8 @@ export default function Home() {
 	const tvlData = useTvl()
 	const homestats = useHomeStats()
 	const ofdPrice = useOfdPrice()
+
+	const { t } = useTranslation()
 
 	const stats = [
 		{
