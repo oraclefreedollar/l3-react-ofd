@@ -14,13 +14,11 @@ export const RPC_URL_TESTNET = envConfig.RPC_URL_TESTNET
 // >>>>>> SELECTED URI HERE <<<<<<
 
 // API KEYS
-// FIXME: move to env or white list domain
 export const COINGECKO_API_KEY = envConfig.COINGECKO_API_KEY
 
 export const THE_GRAPH_KEY = envConfig.THE_GRAPH_KEY
 
 // WAGMI CONFIG
-// FIXME: move to env or white list domain
 export const WAGMI_PROJECT_ID = envConfig.WAGMI_PROJECT_ID
 
 export const WAGMI_CHAIN = envConfig.ENV === ('dev' || 'local') ? bscTestnet : bsc
