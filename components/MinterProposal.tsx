@@ -1,16 +1,11 @@
 import { ABIS, ADDRESS } from 'contracts'
-import { useContractUrl } from 'hooks'
+import { useContractUrl, useWriteContractWithToast } from 'hooks'
 import { formatBigInt, formatDate, formatDuration, isDateExpired, shortenAddress } from 'utils'
 import Link from 'next/link'
-import { useState } from 'react'
-import { toast } from 'react-toastify'
 import { Address } from 'viem'
 import { useChainId } from 'wagmi'
-import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
 import AppBox from './AppBox'
 import Button from './Button'
-import { TxToast, renderErrorToast } from './TxToast'
-import { WAGMI_CONFIG } from 'app.config'
 
 type Props = {
 	minter: Minter
@@ -31,53 +26,30 @@ type Minter = {
 }
 
 export default function MinterProposal({ minter, helpers }: Props) {
-	const [isConfirming, setIsConfirming] = useState(false)
-
 	const minterUrl = useContractUrl(minter.minter)
 	const isVotingFinished = isDateExpired(BigInt(minter.applyDate) + BigInt(minter.applicationPeriod))
 	const status = !minter.vetor ? (isVotingFinished ? 'Passed' : 'Active') : 'Vetoed'
 
 	const chainId = useChainId()
 
-	const handleVeto = async () => {
-		try {
-			setIsConfirming(true)
+	const toastContent = [{ title: 'Reason:', value: 'No' }]
 
-			const vetoHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: ABIS.OracleFreeDollarABI,
-				functionName: 'denyMinter',
-				args: [minter.minter, helpers, 'No'],
-			})
-
-			const toastContent = [
-				{
-					title: 'Reason:',
-					value: 'No',
-				},
-				{
-					title: 'Transaction:',
-					hash: vetoHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: vetoHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Vetoing Proposal`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title="Successfully Vetoed" />,
-				},
-				error: {
-					render(error: any) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} finally {
-			setIsConfirming(false)
-		}
-	}
+	const { loading: isConfirming, writeFunction: handleVeto } = useWriteContractWithToast({
+		contractParams: {
+			address: ADDRESS[chainId].oracleFreeDollar,
+			abi: ABIS.OracleFreeDollarABI,
+			functionName: 'denyMinter',
+			args: [minter.minter, helpers, 'No'],
+		},
+		toastPending: {
+			title: 'Vetoing proposal...',
+			rows: toastContent,
+		},
+		toastSuccess: {
+			title: 'Successfully vetoed',
+			rows: toastContent,
+		},
+	})
 
 	return (
 		<AppBox className="grid grid-cols-6 hover:bg-slate-700 duration-300">
