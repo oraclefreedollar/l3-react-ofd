@@ -6,16 +6,16 @@ import AppCard from 'components/AppCard'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/redux.store'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useAccount } from 'wagmi'
-import { WAGMI_CHAIN } from 'app.config'
+import { useAccount, useChainId } from 'wagmi'
 import { ADDRESS, ABIS } from 'contracts'
 import { useWriteContractWithToast } from 'hooks'
+import { toast } from 'react-toastify'
 
 interface Props {}
 
 export default function GovernanceLeadrateCurrent({}: Props) {
 	const account = useAccount()
-	const chainId = WAGMI_CHAIN.id
+	const chainId = useChainId()
 	const info = useSelector((state: RootState) => state.savings.leadrateInfo)
 
 	const [newRate, setNewRate] = useState<number>(info.rate || 0)
@@ -54,7 +54,10 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 	})
 
 	const onClick = useCallback(async () => {
-		if (!account.address) return
+		if (!account.address) {
+			toast.error('Please connect your wallet')
+			return
+		}
 
 		const success = await handleOnClick()
 		setHidden(success)
