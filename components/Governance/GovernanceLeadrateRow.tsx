@@ -1,7 +1,7 @@
 import { Hash } from 'viem'
 import TableRow from '../Table/TableRow'
 import { AddressLabelSimple, TxLabelSimple } from 'components/AddressLabel'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { ApiLeadrateInfo, LeadrateProposed } from 'redux/slices/savings.types'
 import Button from 'components/Button'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
@@ -25,10 +25,6 @@ export default function GovernanceLeadrateRow({ info, proposal, currentProposal 
 	const dateStr: string = `${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`
 
 	const { isApplying, handleOnApply, isDenying, handleOnDeny } = useWriteContractsGovernanceLeadrateRow({ info, proposal })
-
-	useEffect(() => {
-		setHidden(isApplying || isDenying)
-	}, [isApplying, isDenying])
 
 	const onApply = useCallback(async () => {
 		const success = await handleOnApply()
