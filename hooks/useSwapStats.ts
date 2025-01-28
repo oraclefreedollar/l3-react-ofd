@@ -3,18 +3,9 @@ import { decodeBigIntCall } from 'utils'
 import { useAccount, useReadContracts } from 'wagmi'
 import { erc20Abi } from 'viem'
 import { WAGMI_CHAIN } from 'app.config'
+import { SwapStats } from 'meta/swap'
 
-export const useSwapStats: () => {
-	bridgeLimit: bigint
-	ofdSymbol: string
-	ofdUserAllowance: bigint
-	ofdUserBal: bigint
-	refetch: any
-	usdtBridgeBal: bigint
-	usdtSymbol: string
-	usdtUserAllowance: bigint
-	usdtUserBal: bigint
-} = () => {
+export const useSwapStats = (): SwapStats => {
 	const chainId = WAGMI_CHAIN.id
 	const { address } = useAccount()
 	const account = address || '0x0'

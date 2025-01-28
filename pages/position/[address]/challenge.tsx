@@ -5,21 +5,18 @@ import DisplayAmount from 'components/DisplayAmount'
 import DisplayLabel from 'components/DisplayLabel'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 import TokenInput from 'components/Input/TokenInput'
-import { TxToast, renderErrorToast } from 'components/TxToast'
-import { ABIS, ADDRESS } from 'contracts'
+import { ADDRESS } from 'contracts'
 import { useOfdPrice, usePositionStats } from 'hooks'
-import { formatBigInt, formatDuration, shortenAddress } from 'utils'
+import { formatBigInt, formatDuration } from 'utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { toast } from 'react-toastify'
-import { erc20Abi, getAddress, zeroAddress } from 'viem'
+import { getAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
-import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
 import { envConfig } from 'app.env.config'
-import { WAGMI_CONFIG } from 'app.config'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/redux.store'
+import { useChallengeContractsFunctions } from 'hooks/challenge/useChallengeContractsFunctions'
 
 export default function PositionChallenge() {
 	const router = useRouter()
@@ -27,8 +24,6 @@ export default function PositionChallenge() {
 
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
-	const [isApproving, setApproving] = useState(false)
-	const [isChallenging, setChallenging] = useState(false)
 
 	const chainId = useChainId()
 	const { address } = useAccount()
@@ -38,6 +33,8 @@ export default function PositionChallenge() {
 	const prices = useSelector((state: RootState) => state.prices.coingecko)
 	const collateralPrice = prices[positionStats.collateral?.toLowerCase() ?? zeroAddress]?.price?.usd
 	const ofdPrice = useOfdPrice()
+
+	const { isApproving, handleApprove, isChallenging, handleChallenge } = useChallengeContractsFunctions({ amount, position, positionStats })
 
 	const onChangeAmount = (value: string) => {
 		const valueBigInt = BigInt(value)
@@ -50,97 +47,6 @@ export default function PositionChallenge() {
 			setError('Challenge collateral should be greater than minimum collateral')
 		} else {
 			setError('')
-		}
-	}
-
-	const handleApprove = async () => {
-		try {
-			setApproving(true)
-			const approveWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: positionStats.collateral!,
-				abi: erc20Abi,
-				functionName: 'approve',
-				args: [ADDRESS[chainId].mintingHub, amount],
-			})
-
-			const toastContent = [
-				{
-					title: 'Amount:',
-					value: formatBigInt(amount, positionStats.collateralDecimal) + ' ' + positionStats.collateralSymbol,
-				},
-				{
-					title: 'Spender: ',
-					value: shortenAddress(ADDRESS[chainId].mintingHub),
-				},
-				{
-					title: 'Transaction:',
-					hash: approveWriteHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Approving ${positionStats.collateralSymbol}`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title={`Successfully Approved ${positionStats.collateralSymbol}`} />,
-				},
-				error: {
-					render(error: any) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} catch (e) {
-			console.log(e)
-		} finally {
-			setApproving(false)
-		}
-	}
-
-	const handleChallenge = async () => {
-		try {
-			setChallenging(true)
-
-			const challengeWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].mintingHub,
-				abi: ABIS.MintingHubABI,
-				functionName: 'challenge',
-				args: [position, amount, positionStats.liqPrice],
-			})
-
-			const toastContent = [
-				{
-					title: 'Size:',
-					value: formatBigInt(amount, positionStats.collateralDecimal) + ' ' + positionStats.collateralSymbol,
-				},
-				{
-					title: 'Price: ',
-					value: formatBigInt(positionStats.liqPrice, 36 - positionStats.collateralDecimal),
-				},
-				{
-					title: 'Transaction:',
-					hash: challengeWriteHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: challengeWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Launching a challenge`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title={`Successfully Launched challenge`} />,
-				},
-				error: {
-					render(error: any) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} catch (e) {
-			console.log(e)
-		} finally {
-			setChallenging(false)
 		}
 	}
 

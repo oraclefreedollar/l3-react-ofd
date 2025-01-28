@@ -6,20 +6,24 @@ import DisplayLabel from 'components/DisplayLabel'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 import MinterProposal from 'components/MinterProposal'
 import OFDPSHolder from 'components/OFDPSHolder'
-import { TxToast, renderErrorToast } from 'components/TxToast'
 import { ABIS, ADDRESS } from 'contracts'
-import { useContractUrl, useDelegationQuery, useGovStats, useMinterQuery, useOFDPSHolders, useTokenData } from 'hooks'
+import {
+	useContractUrl,
+	useDelegationQuery,
+	useGovStats,
+	useMinterQuery,
+	useOFDPSHolders,
+	useTokenData,
+	useWriteContractWithToast,
+} from 'hooks'
 import { shortenAddress } from 'utils'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { useEffect, useMemo, useState } from 'react'
 import { isAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
-import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
 import { envConfig } from 'app.env.config'
 import { useVotingPowers } from 'hooks/useVotingPowers'
-import { WAGMI_CONFIG } from 'app.config'
 import GovernanceLeadrateCurrent from 'components/Governance/GovernanceLeadrateCurrent'
 import GovernanceLeadrateTable from 'components/Governance/GovernanceLeadrateTable'
 import { store } from 'redux/redux.store'
@@ -30,7 +34,6 @@ export default function Governance() {
 	const [inputField, setInputField] = useState('')
 	const [delegator, setDelegator] = useState(zeroAddress)
 	const [error, setError] = useState('')
-	const [isConfirming, setIsConfirming] = useState(false)
 
 	const { chain } = useAccount()
 	const { address } = useAccount()
@@ -64,46 +67,33 @@ export default function Governance() {
 		}
 	}
 
-	const handleDelegate = async () => {
-		try {
-			setIsConfirming(true)
+	const toastContent = useMemo(
+		() => [
+			{
+				title: 'Delegate To:',
+				value: delegator,
+			},
+		],
+		[delegator]
+	)
 
-			const delegateHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].equity,
-				abi: ABIS.EquityABI,
-				functionName: 'delegateVoteTo',
-				args: [delegator],
-			})
-
-			const toastContent = [
-				{
-					title: 'Delegate To:',
-					value: delegator,
-				},
-				{
-					title: 'Transaction:',
-					hash: delegateHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: delegateHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Delegating Votes`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title="Successfully Delegated Votes" />,
-				},
-				error: {
-					render(error: any) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} finally {
-			delegationStats.refetch()
-			setIsConfirming(false)
-		}
-	}
+	const { loading: isConfirming, writeFunction: handleDelegate } = useWriteContractWithToast({
+		contractParams: {
+			abi: ABIS.EquityABI,
+			address: ADDRESS[chainId].equity,
+			args: [delegator],
+			functionName: 'delegateVoteTo',
+		},
+		toastSuccess: {
+			title: 'Successfully Delegated Votes',
+			rows: toastContent,
+		},
+		toastPending: {
+			title: 'Delegating Votes',
+			rows: toastContent,
+		},
+		refetchFunctions: [delegationStats.refetch],
+	})
 
 	return (
 		<>

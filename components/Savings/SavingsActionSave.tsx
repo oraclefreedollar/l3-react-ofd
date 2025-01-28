@@ -1,13 +1,11 @@
-import { Dispatch, SetStateAction, useState } from 'react'
-import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
-import { WAGMI_CONFIG } from '../../app.config'
-import { toast } from 'react-toastify'
+import { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react'
 import { formatCurrency } from 'utils/format'
-import { renderErrorToast, TxToast } from 'components/TxToast'
 import { useAccount, useChainId } from 'wagmi'
 import Button from 'components/Button'
 import { formatUnits } from 'viem'
 import { ADDRESS, ABIS } from 'contracts'
+import { useWriteContractWithToast } from 'hooks'
+import { toast } from 'react-toastify'
 
 interface Props {
 	amount: bigint
@@ -17,59 +15,54 @@ interface Props {
 }
 
 export default function SavingsActionSave({ amount, interest, disabled, setLoaded }: Props) {
-	const [isAction, setAction] = useState<boolean>(false)
 	const [isHidden, setHidden] = useState<boolean>(false)
 	const account = useAccount()
 	const chainId = useChainId()
 
-	const handleOnClick = async () => {
-		if (!account.address) return
+	const toastContent = useMemo(
+		() => [
+			{
+				title: `Saving: `,
+				value: `${formatCurrency(formatUnits(amount, 18))} OFD`,
+			},
+			{
+				title: `Accured Interest: `,
+				value: `${formatCurrency(formatUnits(interest, 18))} OFD`,
+			},
+		],
+		[amount, interest]
+	)
 
-		try {
-			setAction(true)
+	const { loading: isAction, writeFunction: handleOnClick } = useWriteContractWithToast({
+		contractParams: {
+			address: ADDRESS[chainId].savings,
+			abi: ABIS.SavingsABI,
+			functionName: 'adjust',
+			args: [amount],
+		},
+		toastPending: {
+			title: 'Increasing savings...',
+			rows: toastContent,
+		},
+		toastSuccess: {
+			title: 'Savings increased',
+			rows: toastContent,
+		},
+	})
 
-			const writeHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].savings,
-				abi: ABIS.SavingsABI,
-				functionName: 'adjust',
-				args: [amount],
-			})
-
-			const toastContent = [
-				{
-					title: `Saving: `,
-					value: `${formatCurrency(formatUnits(amount, 18))} OFD`,
-				},
-				{
-					title: `Accured Interest: `,
-					value: `${formatCurrency(formatUnits(interest, 18))} OFD`,
-				},
-				{
-					title: 'Transaction: ',
-					hash: writeHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: writeHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Increasing savings...`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title="Savings increased" />,
-				},
-			})
-
-			setHidden(true)
-		} catch (error) {
-			toast.error(renderErrorToast(error))
-		} finally {
-			if (setLoaded != undefined) setLoaded(false)
-			setAction(false)
+	const onClick = useCallback(async () => {
+		if (!account.address) {
+			toast.error('Please connect your wallet')
+			return
 		}
-	}
+
+		const success = await handleOnClick()
+		if (setLoaded != undefined) setLoaded(false)
+		setHidden(success)
+	}, [account.address, handleOnClick, setLoaded])
 
 	return (
-		<Button className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={handleOnClick}>
+		<Button className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={onClick}>
 			Adjust
 		</Button>
 	)

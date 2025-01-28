@@ -5,39 +5,31 @@ import DisplayAmount from 'components/DisplayAmount'
 import DisplayLabel from 'components/DisplayLabel'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 import TokenInput from 'components/Input/TokenInput'
-import { TxToast, renderErrorToast } from 'components/TxToast'
 import { ABIS, ADDRESS } from 'contracts'
 import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContractUrl, useOFDPSQuery, usePoolStats, useTradeQuery, useTradeQueryOld } from 'hooks'
-import { formatBigInt, formatDuration, shortenAddress } from 'utils'
+import { formatDuration } from 'utils'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useState } from 'react'
-import { toast } from 'react-toastify'
-import { erc20Abi, formatUnits, zeroAddress } from 'viem'
-import { useAccount, useChainId, useReadContract } from 'wagmi'
-import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
+import { formatUnits } from 'viem'
+import { useChainId, useReadContract } from 'wagmi'
 import { envConfig } from 'app.env.config'
-import { WAGMI_CONFIG } from 'app.config'
+import { useEquityContractsFunctions } from 'hooks/pool/useEquityContractsFunctions'
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 export default function Pool() {
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
 	const [direction, setDirection] = useState(true)
-	const [isApproving, setApproving] = useState(false)
-	const [isInvesting, setInvesting] = useState(false)
-	const [isRedeeming, setRedeeming] = useState(false)
 
-	const { address } = useAccount()
 	const chainId = useChainId()
 	const poolStats = usePoolStats()
 	const equityUrl = useContractUrl(ADDRESS[chainId].equity)
 	const { profit, loss } = useOFDPSQuery(ADDRESS[chainId].oracleFreeDollar)
-	const { trades } = useTradeQuery()
+	const { trades, refetch: refetchTrades } = useTradeQuery()
 	const { oldTrades } = useTradeQueryOld()
-	const account = address || zeroAddress
 
 	const start = 1731747568
 	const end = 1735635568
@@ -55,138 +47,6 @@ export default function Pool() {
 
 	const combinedTrades = [...factoredTrades, ...filteredTrades].sort((a: any, b: any) => Number(a.time) - Number(b.time))
 
-	const handleApprove = async () => {
-		try {
-			setApproving(true)
-			const approveWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].oracleFreeDollar,
-				abi: erc20Abi,
-				functionName: 'approve',
-				args: [ADDRESS[chainId].equity, amount],
-			})
-
-			const toastContent = [
-				{
-					title: 'Amount:',
-					value: formatBigInt(amount) + ' OFD',
-				},
-				{
-					title: 'Spender: ',
-					value: shortenAddress(ADDRESS[chainId].equity),
-				},
-				{
-					title: 'Transaction:',
-					hash: approveWriteHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Approving OFD`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title="Successfully Approved OFD" />,
-				},
-				error: {
-					render(error: any) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} finally {
-			poolStats.refetch()
-			setApproving(false)
-		}
-	}
-
-	const handleInvest = async () => {
-		try {
-			setInvesting(true)
-
-			const investWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].equity,
-				abi: ABIS.EquityABI,
-				functionName: 'invest',
-				args: [amount, result],
-			})
-
-			const toastContent = [
-				{
-					title: 'Amount:',
-					value: formatBigInt(amount, 18) + ' OFD',
-				},
-				{
-					title: 'Shares: ',
-					value: formatBigInt(result) + ' OFDPS',
-				},
-				{
-					title: 'Transaction: ',
-					hash: investWriteHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: investWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Investing OFD`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title="Successfully Invested" />,
-				},
-				error: {
-					render(error: any) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} finally {
-			poolStats.refetch()
-			setInvesting(false)
-		}
-	}
-	const handleRedeem = async () => {
-		try {
-			setRedeeming(true)
-			const redeemWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].equity,
-				abi: ABIS.EquityABI,
-				functionName: 'redeem',
-				args: [account, amount],
-			})
-
-			const toastContent = [
-				{
-					title: 'Amount:',
-					value: formatBigInt(amount) + ' OFDPS',
-				},
-				{
-					title: 'Receive: ',
-					value: formatBigInt(result) + ' OFD',
-				},
-				{
-					title: 'Transaction: ',
-					hash: redeemWriteHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: redeemWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Redeeming OFDPS`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title="Successfully Redeemed" />,
-				},
-				error: {
-					render(error: any) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} finally {
-			poolStats.refetch()
-			setRedeeming(false)
-		}
-	}
-
 	const { data: ofdpsResult, isLoading: shareLoading } = useReadContract({
 		address: ADDRESS[chainId].equity,
 		abi: ABIS.EquityABI,
@@ -194,7 +54,7 @@ export default function Pool() {
 		args: [amount],
 	})
 
-	const { data: frankenResult, isLoading: proceedLoading } = useReadContract({
+	const { data: ofdResult, isLoading: proceedLoading } = useReadContract({
 		address: ADDRESS[chainId].equity,
 		abi: ABIS.EquityABI,
 		functionName: 'calculateProceeds',
@@ -202,10 +62,17 @@ export default function Pool() {
 	})
 
 	const fromBalance = direction ? poolStats.ofdBalance : poolStats.equityBalance
-	const result = (direction ? ofdpsResult : frankenResult) || 0n
+	const result = (direction ? ofdpsResult : ofdResult) || 0n
 	const fromSymbol = direction ? 'OFD' : 'OFDPS'
 	const toSymbol = !direction ? 'OFD' : 'OFDPS'
 	const redeemLeft = 86400n * 90n - (poolStats.equityBalance ? poolStats.equityUserVotes / poolStats.equityBalance / 2n ** 20n : 0n)
+
+	const { handleApprove, handleInvest, handleRedeem, isApproving, isInvesting, isRedeeming } = useEquityContractsFunctions({
+		amount,
+		poolStats,
+		refetchTrades,
+		result,
+	})
 
 	const onChangeAmount = (value: string) => {
 		const valueBigInt = BigInt(value)
