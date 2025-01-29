@@ -1,13 +1,11 @@
-import { Dispatch, SetStateAction, useState } from 'react'
-import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
-import { WAGMI_CONFIG } from '../../app.config'
+import { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
 import { formatCurrency } from 'utils/format'
-import { renderErrorToast, TxToast } from 'components/TxToast'
 import { useAccount, useChainId } from 'wagmi'
 import Button from 'components/Button'
 import { formatUnits } from 'viem'
 import { ADDRESS, ABIS } from 'contracts'
+import { useWriteContractWithToast } from 'hooks'
 
 interface Props {
 	balance: bigint
@@ -17,62 +15,58 @@ interface Props {
 }
 
 export default function SavingsActionInterest({ balance, interest, disabled, setLoaded }: Props) {
-	const [isAction, setAction] = useState<boolean>(false)
 	const [isHidden, setHidden] = useState<boolean>(false)
 	const account = useAccount()
 	const chainId = useChainId()
 
-	const handleOnClick = async () => {
-		if (!account.address) return
+	const toastContent = useMemo(
+		() => [
+			{
+				title: `Saved amount: `,
+				value: `${formatCurrency(formatUnits(balance, 18))} OFD`,
+			},
+			{
+				title: `Claim Interest: `,
+				value: `${formatCurrency(formatUnits(interest, 18))} OFD`,
+			},
+		],
+		[balance, interest]
+	)
 
-		try {
-			setAction(true)
-			/**
-			 * @dev: checkout if you want to return back to "claim" into savings account, aka reinvest via SC function "refreshMyBalance"
-			 * https://github.com/Frankencoin-ZCHF/frankencoin-dapp/blob/b1356dc0e45157b0e65b20fef019af00e5126653/components/PageSavings/SavingsActionInterest.tsx
-			 */
-			const writeHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].savings,
-				abi: ABIS.SavingsABI,
-				functionName: 'adjust',
-				args: [balance],
-			})
+	/**
+	 * @dev: checkout if you want to return back to "claim" into savings account, aka reinvest via SC function "refreshMyBalance"
+	 * https://github.com/Frankencoin-ZCHF/frankencoin-dapp/blob/b1356dc0e45157b0e65b20fef019af00e5126653/components/PageSavings/SavingsActionInterest.tsx
+	 */
+	const { loading: isAction, writeFunction: handleOnClick } = useWriteContractWithToast({
+		contractParams: {
+			address: ADDRESS[chainId].savings,
+			abi: ABIS.SavingsABI,
+			functionName: 'adjust',
+			args: [balance],
+		},
+		toastPending: {
+			title: 'Claiming Interest...',
+			rows: toastContent,
+		},
+		toastSuccess: {
+			title: 'Successfully claimed',
+			rows: toastContent,
+		},
+	})
 
-			const toastContent = [
-				{
-					title: `Saved amount: `,
-					value: `${formatCurrency(formatUnits(balance, 18))} OFD`,
-				},
-				{
-					title: `Claim Interest: `,
-					value: `${formatCurrency(formatUnits(interest, 18))} OFD`,
-				},
-				{
-					title: 'Transaction: ',
-					hash: writeHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: writeHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Claiming Interest...`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title="Successfully claimed" />,
-				},
-			})
-
-			setHidden(true)
-		} catch (error) {
-			toast.error(renderErrorToast(error))
-		} finally {
-			if (setLoaded != undefined) setLoaded(false)
-			setAction(false)
+	const onClick = useCallback(async () => {
+		if (!account.address) {
+			toast.error('Please connect your wallet')
+			return
 		}
-	}
+
+		const success = await handleOnClick()
+		setHidden(success)
+		if (setLoaded != undefined) setLoaded(false)
+	}, [account.address, handleOnClick, setLoaded])
 
 	return (
-		<Button className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={handleOnClick}>
+		<Button className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={onClick}>
 			Adjust
 		</Button>
 	)
