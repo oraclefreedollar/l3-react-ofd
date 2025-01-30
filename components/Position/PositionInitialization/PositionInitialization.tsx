@@ -3,6 +3,8 @@ import TokenInput from 'components/Input/TokenInput'
 import NormalInput from 'components/Input/NormalInput'
 import Link from 'next/link'
 import { usePositionFormContext } from 'contexts/position'
+import { useTranslation } from 'react-i18next'
+import { CoinTicker } from 'meta/coins'
 
 type Props = {
 	userBalanceOFD: bigint
@@ -11,6 +13,9 @@ type Props = {
 
 const PositionInitialization: React.FC<Props> = (props: Props) => {
 	const { userBalanceOFD, onValidationChange } = props
+
+	const { t } = useTranslation()
+
 	const { form, errors, handleChange } = usePositionFormContext()
 
 	const onChangeInitialCollAmount = useCallback(
@@ -38,16 +43,16 @@ const PositionInitialization: React.FC<Props> = (props: Props) => {
 
 	return (
 		<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
-			<div className="text-lg font-bold justify-center mt-3 flex">Initialization</div>
+			<div className="text-lg font-bold justify-center mt-3 flex">{t('pages:position:create:initialization:section:title')}</div>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 				<TokenInput
 					digit={18}
 					disabled
-					error={userBalanceOFD < BigInt(1000 * 1e18) ? 'Not enough OFD' : ''}
+					error={userBalanceOFD < BigInt(1000 * 1e18) ? t('pages:position:create:initialization:section:proposalFeeError') : ''}
 					hideMaxLabel
-					label="Proposal Fee"
+					label={t('pages:position:create:initialization:section:proposalFeeLabel')}
 					onChange={onChangeInitialCollAmount}
-					symbol="OFD"
+					symbol={CoinTicker.OFD}
 					tooltip="If you open a new position (collateral), you must pay at least 1000 OFD. By the way, existing positions can be created (cloned) without OFD fees."
 					value={BigInt(1000 * 1e18).toString()}
 				/>
@@ -55,21 +60,20 @@ const PositionInitialization: React.FC<Props> = (props: Props) => {
 					digit={0}
 					error={errors['initPeriod']}
 					hideMaxLabel
-					label="Initialization Period"
+					label={t('pages:position:create:initialization:section:initPeriodLabel')}
 					onChange={onChangeInitPeriod}
-					placeholder="Initialization Period"
-					symbol="days"
+					placeholder={t('pages:position:create:initialization:section:initPeriodLabel')}
+					symbol={t('common:days')}
 					tooltip="A proposal (a new position) can be vetoed in the first five days. The minimum period for the community to veto is 5 days. If you want, you can extend the period during which a proposal can be vetoed"
 					value={form.initPeriod.toString()}
 				/>
 			</div>
 			<div>
-				It is recommended to{' '}
+				{t('pages:position:create:initialization:section:discuss:description1')}
 				<Link href="https://github.com/oracleFreeDollar-OFD/oracleFreeDollar/discussions" target="_blank">
-					{' '}
-					discuss{' '}
-				</Link>{' '}
-				new positions before initiating them to increase the probability of passing the decentralized governance process.
+					{t('pages:position:create:initialization:section:discuss:title')}
+				</Link>
+				{t('pages:position:create:initialization:section:discuss:description2')}
 			</div>
 		</div>
 	)

@@ -5,8 +5,6 @@ import { useChainId } from 'wagmi'
 import { formatBigInt, shortenAddress } from 'utils'
 import { useMemo } from 'react'
 import { PositionStats } from 'meta/positions'
-import { useTranslation } from 'react-i18next'
-import { CoinTicker } from 'meta/coins'
 
 type Props = {
 	amount: bigint
@@ -25,20 +23,19 @@ type Returned = {
 export const useWriteContractsBid = (props: Props): Returned => {
 	const { amount, challenge, expectedOFD, positionStats } = props
 	const chainId = useChainId()
-	const { t } = useTranslation()
 
 	const toastContentApprove = useMemo(
 		() => [
 			{
-				title: t('common:toasts:approve:amount'),
-				value: formatBigInt(expectedOFD()) + ` ${CoinTicker.OFD}`,
+				title: 'Amount:',
+				value: formatBigInt(expectedOFD()) + ' OFD',
 			},
 			{
-				title: t('common:toasts:approve:spender'),
+				title: 'Spender: ',
 				value: shortenAddress(ADDRESS[chainId].mintingHub),
 			},
 		],
-		[chainId, expectedOFD, t]
+		[chainId, expectedOFD]
 	)
 
 	const { loading: isApproving, writeFunction: handleApprove } = useWriteContractWithToast({
@@ -49,11 +46,11 @@ export const useWriteContractsBid = (props: Props): Returned => {
 			args: [ADDRESS[chainId].mintingHub, expectedOFD()],
 		},
 		toastPending: {
-			title: t('common:toasts:approve:pending', { symbol: CoinTicker.OFD }),
+			title: 'Approving OFD',
 			rows: toastContentApprove,
 		},
 		toastSuccess: {
-			title: t('common:toasts:approve:success', { symbol: CoinTicker.OFD }),
+			title: 'Successfully Approved OFD',
 			rows: toastContentApprove,
 		},
 	})
@@ -61,15 +58,15 @@ export const useWriteContractsBid = (props: Props): Returned => {
 	const toastContentBid = useMemo(
 		() => [
 			{
-				title: t('common:toasts:bid:bidAmount'),
+				title: `Bid Amount: `,
 				value: formatBigInt(amount, positionStats.collateralDecimal) + ' ' + positionStats.collateralSymbol,
 			},
 			{
-				title: t('common:toasts:bid:expectedOFD'),
-				value: formatBigInt(expectedOFD()) + ` ${CoinTicker.OFD}`,
+				title: `Expected OFD: `,
+				value: formatBigInt(expectedOFD()) + ' OFD',
 			},
 		],
-		[amount, expectedOFD, positionStats.collateralDecimal, positionStats.collateralSymbol, t]
+		[amount, expectedOFD, positionStats.collateralDecimal, positionStats.collateralSymbol]
 	)
 
 	const { loading: isBidding, writeFunction: handleBid } = useWriteContractWithToast({
@@ -80,11 +77,11 @@ export const useWriteContractsBid = (props: Props): Returned => {
 			args: [Number(challenge?.index || 0n), amount, true],
 		},
 		toastPending: {
-			title: t('common:toasts:bid:pending'),
+			title: 'Placing a bid',
 			rows: toastContentBid,
 		},
 		toastSuccess: {
-			title: t('common:toasts:bid:success'),
+			title: 'Successfully Placed Bid',
 			rows: toastContentBid,
 		},
 	})

@@ -2,17 +2,13 @@ import { useUserBalance } from 'hooks'
 import Head from 'next/head'
 import AppPageHeader from 'components/AppPageHeader'
 import { envConfig } from 'app.env.config'
-import React, { useState, useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { PositionCreateProvider } from 'contexts/position'
-import PositionInitialization from 'components/Position/PositionInitialization'
-import PositionProposeCollateral from 'components/Position/PositionProposeCollateral'
-import PositionFinancialTerms from 'components/Position/PositionFinancialTerms'
-import PositionLiquidation from 'components/Position/PositionLiquidation'
 import PositionProposeButton from 'components/Position/PositionProposeButton'
-import PositionRequirements from 'components/Position/PositionRequirements/PositionRequirements'
 import PositionSuccess from 'components/Position/PositionSuccess/PositionSuccess'
-import PositionSummary from 'components/Position/PositionSummary/PositionSummary'
+import { usePositionCreateSteps } from 'hooks/positions/usePositionCreateSteps'
+import { useTranslation } from 'react-i18next'
 
 export interface StepComponentProps {
 	userBalanceOFD?: bigint
@@ -20,43 +16,14 @@ export interface StepComponentProps {
 	onValidationChange: (isValid: boolean) => void
 }
 
-const steps = [
-	{
-		id: 'requirements',
-		title: 'Requirements',
-		component: PositionRequirements,
-	},
-	{
-		id: 'collateral',
-		title: 'Collateral',
-		component: PositionProposeCollateral,
-	},
-	{
-		id: 'initialization',
-		title: 'Position Details',
-		component: PositionInitialization,
-	},
-	{
-		id: 'financial',
-		title: 'Financial Terms',
-		component: PositionFinancialTerms,
-	},
-	{
-		id: 'liquidation',
-		title: 'Liquidation Settings',
-		component: PositionLiquidation,
-	},
-	{
-		id: 'summary',
-		title: 'Summary',
-		component: PositionSummary,
-	},
-]
-
 const PositionCreate: React.FC = () => {
+	const { t } = useTranslation()
 	const userBalance = useUserBalance()
+
 	const [currentStep, setCurrentStep] = useState(0)
 	const [isSuccess, setIsSuccess] = useState(false)
+
+	const steps = usePositionCreateSteps()
 	const [stepValidation, setStepValidation] = useState<boolean[]>(new Array(steps.length).fill(false))
 
 	const handleValidationChange = useCallback(
@@ -91,13 +58,15 @@ const PositionCreate: React.FC = () => {
 	return (
 		<PositionCreateProvider>
 			<Head>
-				<title>{envConfig.AppName} - Propose Position</title>
+				<title>
+					{envConfig.AppName} - {t('pages:position:create:title')}
+				</title>
 			</Head>
 			<div className="space-y-6">
 				<AppPageHeader
-					backText="Back to positions"
+					backText={t('pages:position:create:header:backText')}
 					backTo="/positions"
-					title="Propose New Position Type"
+					title={t('pages:position:create:header:title')}
 					tooltip="Propose a completely new position with a collateral of your choice."
 				/>
 
@@ -105,7 +74,7 @@ const PositionCreate: React.FC = () => {
 				<div className="w-full">
 					<div className="flex items-center justify-between px-4 mb-6">
 						<span className="text-sm text-white">
-							Step {currentStep + 1} of {steps.length}
+							{t('pages:position:create:stepCounter', { current: currentStep + 1, total: steps.length })}
 						</span>
 						<span className="text-sm font-medium text-white">{steps[currentStep].title}</span>
 					</div>
@@ -137,7 +106,7 @@ const PositionCreate: React.FC = () => {
 							disabled={currentStep === 0}
 							onClick={handlePrevious}
 						>
-							Back
+							{t('pages:position:create:buttons:back')}
 						</button>
 					</div>
 
@@ -150,7 +119,7 @@ const PositionCreate: React.FC = () => {
 								disabled={!stepValidation[currentStep]}
 								onClick={handleNext}
 							>
-								Next
+								{t('pages:position:create:buttons:next')}
 							</button>
 						</div>
 					)}

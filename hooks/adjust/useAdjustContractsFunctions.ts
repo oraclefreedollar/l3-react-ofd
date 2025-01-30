@@ -63,15 +63,15 @@ export const useAdjustContractsFunctions = (props: Props): Returned => {
 	const toastContentAdjust = useMemo(
 		() => [
 			{
-				title: t('common:toasts:adjust:amount'),
+				title: t('common:toasts:approve:amount'),
 				value: formatBigInt(amount),
 			},
 			{
-				title: t('common:toasts:adjust:collateralAmount'),
+				title: 'Collateral Amount:',
 				value: formatBigInt(collateralAmount, positionStats.collateralDecimal),
 			},
 			{
-				title: t('common:toasts:adjust:liquidationPrice'),
+				title: 'Liquidation Price:',
 				value: formatBigInt(liqPrice, 36 - positionStats.collateralDecimal),
 			},
 		],
@@ -86,11 +86,11 @@ export const useAdjustContractsFunctions = (props: Props): Returned => {
 			args: [amount, collateralAmount, liqPrice],
 		},
 		toastSuccess: {
-			title: t('common:toasts:adjust:success'),
+			title: `Successfully Adjusted Position`,
 			rows: toastContentAdjust,
 		},
 		toastPending: {
-			title: t('common:toasts:adjust:pending'),
+			title: `Adjusting Position`,
 			rows: toastContentAdjust,
 		},
 		refetchFunctions: [positionStats.refetch],
