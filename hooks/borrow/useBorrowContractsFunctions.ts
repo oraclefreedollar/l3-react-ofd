@@ -5,6 +5,7 @@ import { useWriteContractWithToast } from 'hooks'
 import { erc20Abi, formatUnits } from 'viem'
 import { useChainId } from 'wagmi'
 import { PositionStats } from 'meta/positions'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
 	amount: bigint
@@ -23,6 +24,7 @@ type Returned = {
 
 export const useBorrowContractsFunctions = (props: Props): Returned => {
 	const { amount, expirationDate, position, positionStats, requiredColl } = props
+	const { t } = useTranslation()
 
 	const chainId = useChainId()
 	const expirationTime = toTimestamp(expirationDate)
@@ -30,15 +32,15 @@ export const useBorrowContractsFunctions = (props: Props): Returned => {
 	const approveToastMessageRows = useMemo(
 		() => [
 			{
-				title: 'Amount:',
+				title: t('common:toasts:approve:amount'),
 				value: `${formatUnits(requiredColl, positionStats.collateralDecimal)} ${positionStats.collateralSymbol}`,
 			},
 			{
-				title: 'Spender: ',
+				title: t('common:toasts:approve:spender'),
 				value: shortenAddress(ADDRESS[chainId].mintingHub),
 			},
 		],
-		[chainId, positionStats.collateralDecimal, positionStats.collateralSymbol, requiredColl]
+		[chainId, positionStats.collateralDecimal, positionStats.collateralSymbol, requiredColl, t]
 	)
 
 	const { loading: isApproving, writeFunction: handleApprove } = useWriteContractWithToast({
@@ -48,23 +50,29 @@ export const useBorrowContractsFunctions = (props: Props): Returned => {
 			functionName: 'approve',
 			args: [ADDRESS[chainId].mintingHub, requiredColl],
 		},
-		toastPending: { title: `Approving ${positionStats.collateralSymbol}`, rows: approveToastMessageRows },
-		toastSuccess: { title: `Successfully Approved ${positionStats.collateralSymbol}`, rows: approveToastMessageRows },
+		toastPending: {
+			title: t('common:toasts:approve:pending', { symbol: positionStats.collateralSymbol }),
+			rows: approveToastMessageRows,
+		},
+		toastSuccess: {
+			title: t('common:toasts:approve:success', { symbol: positionStats.collateralSymbol }),
+			rows: approveToastMessageRows,
+		},
 		refetchFunctions: [positionStats.refetch],
 	})
 
 	const cloneToastMessageRows = useMemo(
 		() => [
 			{
-				title: `Amount: `,
+				title: t('common:toasts:clone:amount'),
 				value: formatBigInt(amount) + ' OFD',
 			},
 			{
-				title: `Collateral: `,
+				title: t('common:toasts:clone:collateral'),
 				value: formatBigInt(requiredColl, positionStats.collateralDecimal) + ' ' + positionStats.collateralSymbol,
 			},
 		],
-		[amount, positionStats.collateralDecimal, positionStats.collateralSymbol, requiredColl]
+		[amount, positionStats.collateralDecimal, positionStats.collateralSymbol, requiredColl, t]
 	)
 
 	const { loading: isCloning, writeFunction: handleClone } = useWriteContractWithToast({
@@ -74,8 +82,8 @@ export const useBorrowContractsFunctions = (props: Props): Returned => {
 			functionName: 'clone',
 			args: [position, requiredColl, amount, expirationTime],
 		},
-		toastPending: { title: `Minting OFD`, rows: cloneToastMessageRows },
-		toastSuccess: { title: `Successfully Minted OFD`, rows: cloneToastMessageRows },
+		toastPending: { title: t('common:toasts:clone:pending'), rows: cloneToastMessageRows },
+		toastSuccess: { title: t('common:toasts:clone:success'), rows: cloneToastMessageRows },
 		refetchFunctions: [positionStats.refetch],
 	})
 

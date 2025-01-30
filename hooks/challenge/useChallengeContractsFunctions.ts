@@ -5,26 +5,29 @@ import { useWriteContractWithToast } from 'hooks'
 import { erc20Abi } from 'viem'
 import { useChainId } from 'wagmi'
 import { PositionStats } from 'meta/positions'
+import { useTranslation } from 'react-i18next'
 
 type Props = { amount: bigint; position: string; positionStats: PositionStats }
 type Returned = { isApproving: boolean; isChallenging: boolean; handleApprove: () => void; handleChallenge: () => void }
 
 export const useChallengeContractsFunctions = (props: Props): Returned => {
 	const { amount, position, positionStats } = props
+	const { t } = useTranslation()
+
 	const chainId = useChainId()
 
 	const toastContentApprove = useMemo(
 		() => [
 			{
-				title: 'Amount:',
+				title: t('common:toasts:approve:amount'),
 				value: formatBigInt(amount, positionStats.collateralDecimal) + ' ' + positionStats.collateralSymbol,
 			},
 			{
-				title: 'Spender: ',
+				title: t('common:toasts:approve:spender'),
 				value: shortenAddress(ADDRESS[chainId].mintingHub),
 			},
 		],
-		[amount, chainId, positionStats.collateralDecimal, positionStats.collateralSymbol]
+		[amount, chainId, positionStats.collateralDecimal, positionStats.collateralSymbol, t]
 	)
 
 	const { loading: isApproving, writeFunction: handleApprove } = useWriteContractWithToast({
@@ -35,11 +38,11 @@ export const useChallengeContractsFunctions = (props: Props): Returned => {
 			args: [ADDRESS[chainId].mintingHub, amount],
 		},
 		toastSuccess: {
-			title: `Successfully Approved ${positionStats.collateralSymbol}`,
+			title: t('common:toasts:approve:success', { symbol: positionStats.collateralSymbol }),
 			rows: toastContentApprove,
 		},
 		toastPending: {
-			title: `Approving ${positionStats.collateralSymbol}`,
+			title: t('common:toasts:approve:pending', { symbol: positionStats.collateralSymbol }),
 			rows: toastContentApprove,
 		},
 	})
@@ -47,15 +50,15 @@ export const useChallengeContractsFunctions = (props: Props): Returned => {
 	const toastContentChallenge = useMemo(
 		() => [
 			{
-				title: 'Size:',
+				title: t('common:toasts:challenge:size'),
 				value: formatBigInt(amount, positionStats.collateralDecimal) + ' ' + positionStats.collateralSymbol,
 			},
 			{
-				title: 'Price: ',
+				title: t('common:toasts:challenge:price'),
 				value: formatBigInt(positionStats.liqPrice, 36 - positionStats.collateralDecimal),
 			},
 		],
-		[amount, positionStats.collateralDecimal, positionStats.collateralSymbol, positionStats.liqPrice]
+		[amount, positionStats.collateralDecimal, positionStats.collateralSymbol, positionStats.liqPrice, t]
 	)
 
 	const { loading: isChallenging, writeFunction: handleChallenge } = useWriteContractWithToast({
@@ -66,11 +69,11 @@ export const useChallengeContractsFunctions = (props: Props): Returned => {
 			args: [position, amount, positionStats.liqPrice],
 		},
 		toastSuccess: {
-			title: `Successfully Launched challenge`,
+			title: t('common:toasts:challenge:success'),
 			rows: toastContentChallenge,
 		},
 		toastPending: {
-			title: `Launching a challenge`,
+			title: t('common:toasts:challenge:pending'),
 			rows: toastContentChallenge,
 		},
 	})

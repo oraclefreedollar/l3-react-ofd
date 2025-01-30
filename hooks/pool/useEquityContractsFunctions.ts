@@ -4,6 +4,8 @@ import { useWriteContractWithToast } from 'hooks'
 import { erc20Abi, zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { EquityPoolStats } from 'meta/equity'
+import { useTranslation } from 'react-i18next'
+import { CoinTicker } from 'meta/coins'
 
 type Props = { amount: bigint; poolStats: EquityPoolStats; refetchTrades: any; result: bigint }
 
@@ -18,6 +20,7 @@ type Returned = {
 
 export const useEquityContractsFunctions = (props: Props): Returned => {
 	const { amount, poolStats, refetchTrades, result } = props
+	const { t } = useTranslation()
 
 	const { address } = useAccount()
 	const account = address || zeroAddress
@@ -25,11 +28,11 @@ export const useEquityContractsFunctions = (props: Props): Returned => {
 
 	const approveToastContent = [
 		{
-			title: 'Amount:',
+			title: t('common:toasts:approve:amount'),
 			value: formatBigInt(amount) + ' OFD',
 		},
 		{
-			title: 'Spender: ',
+			title: t('common:toasts:approve:spender'),
 			value: shortenAddress(ADDRESS[chainId].equity),
 		},
 	]
@@ -41,19 +44,25 @@ export const useEquityContractsFunctions = (props: Props): Returned => {
 			args: [ADDRESS[chainId].equity, amount],
 			functionName: 'approve',
 		},
-		toastPending: { title: 'Approving OFD', rows: approveToastContent },
-		toastSuccess: { title: 'Successfully Approved OFD', rows: approveToastContent },
+		toastPending: {
+			title: t('common:toasts:approve:pending', { symbol: CoinTicker.OFD }),
+			rows: approveToastContent,
+		},
+		toastSuccess: {
+			title: t('common:toasts:approve:success', { symbol: CoinTicker.OFD }),
+			rows: approveToastContent,
+		},
 		refetchFunctions: [poolStats.refetch],
 	})
 
 	const investToastContent = [
 		{
-			title: 'Amount:',
-			value: formatBigInt(amount, 18) + ' OFD',
+			title: t('common:toasts:pool:invest:amount'),
+			value: `${formatBigInt(amount, 18)} ${CoinTicker.OFD}`,
 		},
 		{
-			title: 'Shares: ',
-			value: formatBigInt(result) + ' OFDPS',
+			title: t('common:toasts:pool:invest:shares'),
+			value: `${formatBigInt(result)} ${CoinTicker.OFDPS}`,
 		},
 	]
 
@@ -64,19 +73,19 @@ export const useEquityContractsFunctions = (props: Props): Returned => {
 			args: [amount, result],
 			functionName: 'invest',
 		},
-		toastPending: { title: 'Investing OFD', rows: investToastContent },
-		toastSuccess: { title: 'Successfully Invested OFD', rows: investToastContent },
+		toastPending: { title: t('common:toasts:pool:invest:pending'), rows: investToastContent },
+		toastSuccess: { title: t('common:toasts:pool:invest:success'), rows: investToastContent },
 		refetchFunctions: [poolStats.refetch, refetchTrades],
 	})
 
 	const redeemToastContent = [
 		{
-			title: 'Amount:',
-			value: formatBigInt(amount) + ' OFDPS',
+			title: t('common:toasts:pool:redeem:amount'),
+			value: `${formatBigInt(amount)} ${CoinTicker.OFDPS}`,
 		},
 		{
-			title: 'Receive: ',
-			value: formatBigInt(result) + ' OFD',
+			title: t('common:toasts:pool:redeem:receive'),
+			value: `${formatBigInt(result)} ${CoinTicker.OFD}`,
 		},
 	]
 
@@ -87,8 +96,8 @@ export const useEquityContractsFunctions = (props: Props): Returned => {
 			args: [account, amount],
 			functionName: 'redeem',
 		},
-		toastPending: { title: 'Redeeming OFDPS', rows: redeemToastContent },
-		toastSuccess: { title: 'Successfully Redeemed', rows: redeemToastContent },
+		toastPending: { title: t('common:toasts:pool:redeem:pending'), rows: redeemToastContent },
+		toastSuccess: { title: t('common:toasts:pool:redeem:success'), rows: redeemToastContent },
 		refetchFunctions: [poolStats.refetch, refetchTrades],
 	})
 

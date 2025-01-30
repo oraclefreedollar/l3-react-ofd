@@ -1,5 +1,5 @@
-import common from './common'
 import pages from './pages'
+import { common } from './common'
 
 const en = {
 	common,

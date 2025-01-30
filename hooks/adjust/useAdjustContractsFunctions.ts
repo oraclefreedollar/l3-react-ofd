@@ -4,6 +4,7 @@ import { PositionStats } from 'meta/positions'
 import { useMemo } from 'react'
 import { formatBigInt, shortenAddress } from 'utils'
 import { ABIS } from 'contracts'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
 	amount: bigint
@@ -21,6 +22,7 @@ type Returned = {
 
 export const useAdjustContractsFunctions = (props: Props): Returned => {
 	const { amount, collateralAmount, liqPrice, position, positionStats } = props
+	const { t } = useTranslation()
 
 	const formattedCollateralAmount = useMemo(
 		() => Number(collateralAmount / BigInt(10 ** positionStats.collateralDecimal)),
@@ -30,15 +32,15 @@ export const useAdjustContractsFunctions = (props: Props): Returned => {
 	const toastContentApprove = useMemo(
 		() => [
 			{
-				title: 'Amount:',
+				title: t('common:toasts:approve:amount'),
 				value: `${formattedCollateralAmount} ${positionStats.collateralSymbol}`,
 			},
 			{
-				title: 'Spender: ',
+				title: t('common:toasts:approve:spender'),
 				value: shortenAddress(position),
 			},
 		],
-		[formattedCollateralAmount, position, positionStats.collateralSymbol]
+		[formattedCollateralAmount, position, positionStats.collateralSymbol, t]
 	)
 
 	const { loading: isApproving, writeFunction: handleApprove } = useWriteContractWithToast({
@@ -49,11 +51,11 @@ export const useAdjustContractsFunctions = (props: Props): Returned => {
 			args: [position, collateralAmount],
 		},
 		toastSuccess: {
-			title: `Successfully Approved ${positionStats.collateralSymbol}`,
+			title: t('common:toasts:approve:success', { symbol: positionStats.collateralSymbol }),
 			rows: toastContentApprove,
 		},
 		toastPending: {
-			title: `Approving ${positionStats.collateralSymbol}`,
+			title: t('common:toasts:approve:pending', { symbol: positionStats.collateralSymbol }),
 			rows: toastContentApprove,
 		},
 	})
@@ -61,19 +63,19 @@ export const useAdjustContractsFunctions = (props: Props): Returned => {
 	const toastContentAdjust = useMemo(
 		() => [
 			{
-				title: 'Amount:',
+				title: t('common:toasts:adjust:amount'),
 				value: formatBigInt(amount),
 			},
 			{
-				title: 'Collateral Amount:',
+				title: t('common:toasts:adjust:collateralAmount'),
 				value: formatBigInt(collateralAmount, positionStats.collateralDecimal),
 			},
 			{
-				title: 'Liquidation Price:',
+				title: t('common:toasts:adjust:liquidationPrice'),
 				value: formatBigInt(liqPrice, 36 - positionStats.collateralDecimal),
 			},
 		],
-		[amount, collateralAmount, liqPrice, positionStats.collateralDecimal]
+		[amount, collateralAmount, liqPrice, positionStats.collateralDecimal, t]
 	)
 
 	const { loading: isAdjusting, writeFunction: handleAdjust } = useWriteContractWithToast({
@@ -84,11 +86,11 @@ export const useAdjustContractsFunctions = (props: Props): Returned => {
 			args: [amount, collateralAmount, liqPrice],
 		},
 		toastSuccess: {
-			title: `Successfully Adjusted Position`,
+			title: t('common:toasts:adjust:success'),
 			rows: toastContentAdjust,
 		},
 		toastPending: {
-			title: `Adjusting Position`,
+			title: t('common:toasts:adjust:pending'),
 			rows: toastContentAdjust,
 		},
 		refetchFunctions: [positionStats.refetch],
