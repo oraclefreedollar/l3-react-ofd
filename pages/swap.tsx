@@ -13,11 +13,13 @@ import { envConfig } from 'app.env.config'
 import { EmergencyPage } from 'components/EmergencyPage'
 import { useSwapContractsFunctions } from 'hooks/swap/useSwapContractsFunctions'
 import { CoinTicker } from 'meta/coins'
+import { useTranslation } from 'react-i18next'
 
 export default function Swap() {
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
 	const [direction, setDirection] = useState(true)
+	const { t } = useTranslation()
 
 	const swapStats = useSwapStats()
 
@@ -47,14 +49,14 @@ export default function Swap() {
 			setAmount(valueBigInt)
 
 			if (valueBigInt > fromBalance) {
-				setError(`Not enough ${fromSymbol} in your wallet.`)
+				setError(t('pages:swap:errors:insufficientBalance', { symbol: fromSymbol }))
 			} else if (valueBigInt > swapLimit) {
-				setError(`Not enough ${toSymbol} available to swap.`)
+				setError(t('pages:swap:errors:insufficientSwapLimit', { symbol: toSymbol }))
 			} else {
 				setError('')
 			}
 		},
-		[fromBalance, fromSymbol, swapLimit, toSymbol]
+		[fromBalance, fromSymbol, swapLimit, toSymbol, t]
 	)
 
 	if (ENABLE_EMERGENCY_MODE) {
@@ -64,25 +66,28 @@ export default function Swap() {
 	return (
 		<>
 			<Head>
-				<title>{envConfig.AppName} - Swap</title>
+				<title>
+					{envConfig.AppName} - {t('pages:swap:title')}
+				</title>
 			</Head>
 			<div>
-				<AppPageHeader title="Swap USDT and OFD" />
+				<AppPageHeader title={t('pages:swap:header')} />
 				<section className="mx-auto flex max-w-2xl flex-col gap-y-4 px-4 sm:px-8">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50">
 						<TokenInput
 							error={error}
 							limit={swapLimit}
-							limitLabel="Swap limit"
+							limitLabel={t('pages:swap:swapLimit')}
 							max={fromBalance}
 							onChange={onChangeAmount}
-							placeholder={'Swap Amount'}
+							placeholder={t('pages:swap:swapAmount')}
 							symbol={fromSymbol}
 							value={amount.toString()}
 						/>
 
 						<div className="py-4 text-center">
 							<button
+								aria-label={t('pages:swap:buttons:switchDirection')}
 								className={`btn btn-secondary text-slate-800 w-14 h-14 rounded-full transition ${direction && 'rotate-180'}`}
 								onClick={onChangeDirection}
 							>
@@ -91,9 +96,9 @@ export default function Swap() {
 						</div>
 
 						<TokenInput
-							label="Receive"
+							label={t('pages:swap:receive')}
 							max={toBalance}
-							note={`1 ${fromSymbol} = 1 ${toSymbol}`}
+							note={t('pages:swap:exchangeRate', { fromSymbol, toSymbol })}
 							output={formatUnits(amount, 18)}
 							symbol={toSymbol}
 						/>
@@ -103,35 +108,20 @@ export default function Swap() {
 								{direction ? (
 									amount > swapStats.usdtUserAllowance ? (
 										<Button isLoading={isApproving} onClick={() => handleApprove()}>
-											Approve
+											{t('pages:swap:buttons:approve')}
 										</Button>
 									) : (
 										<Button disabled={amount == 0n || !!error} isLoading={isMinting} onClick={() => handleMint()}>
-											Swap
+											{t('pages:swap:buttons:swap')}
 										</Button>
 									)
 								) : (
 									<Button disabled={amount == 0n || !!error} isLoading={isBurning} onClick={() => handleBurn()}>
-										Swap
+										{t('pages:swap:buttons:swap')}
 									</Button>
 								)}
 							</GuardToAllowedChainBtn>
 						</div>
-
-						{/* <div className="mx-auto mt-8">
-							<a
-								href={SOCIAL.Uniswap_Mainnet}
-								target="_blank"
-								rel="noreferrer"
-								className="flex items-center justify-center underline"
-							>
-								Also available on
-								<picture>
-									<img src="/assets/uniswap.svg" alt="logo" className="w-6 mb-2 mx-1" />
-								</picture>
-								Uniswap.
-							</a>
-						</div> */}
 					</div>
 				</section>
 			</div>
