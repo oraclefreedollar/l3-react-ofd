@@ -27,7 +27,7 @@ export default function BorrowPositionRow({ item }: Props) {
     const expirationString: string = `${expirationStr[2]} ${expirationStr[1]} ${expirationStr[3]}`;
 
     const effectiveLTV: number = ((price * (1 - reserve / 100)) / collTokenPrice) * ofdPrice * 100;
-    const effectiveInterest: number = (rate / 10 ** 4 + interest) / (1 - reserve / 100);
+    const effectiveInterest: number =  (interest / (1 - reserve / 100) + rate / 10 ** 4 );
 
     return (
         <>
