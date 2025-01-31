@@ -14,7 +14,7 @@ export default function Positions() {
 	return (
 		<>
 			<Head>
-				<title>Frankencoin - Monitoring</title>
+				<title>OracleFreeDollar - Monitoring</title>
 			</Head>
 
 			<AppPageHeader title="Monitoring" />

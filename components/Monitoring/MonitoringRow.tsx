@@ -28,10 +28,10 @@ export default function MonitoringRow({ position }: Props) {
     const maturity: number = (position.expiration * 1000 - Date.now()) / 1000 / 60 / 60 / 24;
 
     const balance: number = Math.round((parseInt(position.collateralBalance) / 10 ** position.collateralDecimals) * 100) / 100;
-    const balanceZCHF: number = Math.round(((balance * collTokenPrice) / ofdPrice) * 100) / 100;
+    const balanceOFD: number = Math.round(((balance * collTokenPrice) / ofdPrice) * 100) / 100;
 
-    const liquidationZCHF: number = Math.round((parseInt(position.price) / 10 ** (36 - position.collateralDecimals)) * 100) / 100;
-    const liquidationPct: number = Math.round((balanceZCHF / (liquidationZCHF * balance)) * 10000) / 100;
+    const liquidationOFD: number = Math.round((parseInt(position.price) / 10 ** (36 - position.collateralDecimals)) * 100) / 100;
+    const liquidationPct: number = Math.round((balanceOFD / (liquidationOFD * balanceOFD)) * 10000) / 100;
 
     const digits: number = position.collateralDecimals;
     const positionChallenges = challenges.map[position.position.toLowerCase() as Address] ?? [];
@@ -58,6 +58,7 @@ export default function MonitoringRow({ position }: Props) {
                     {maturity <= 0 ? "Force Sell" : "Challenge"}
                 </Button>
             }
+            link={`/position/${position.position}`}
         >
 
             <div className="flex flex-col max-md:mb-5">
