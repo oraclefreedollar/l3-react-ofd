@@ -6,6 +6,7 @@ import { reducer as positionReducer } from './slices/positions.slice'
 import { reducer as pricesReducer } from './slices/prices.slice'
 import { reducer as accountReducer } from './slices/account.slice'
 import { reducer as savingsReducer } from './slices/savings.slice'
+import { reducer as challengesReducer } from './slices/challenges.slice'
 // store with combined reducers
 export const store = configureStore({
 	reducer: combineReducers({
@@ -13,6 +14,7 @@ export const store = configureStore({
 		prices: pricesReducer,
 		account: accountReducer,
 		savings: savingsReducer,
+		challenges: challengesReducer,
 	}),
 })
 

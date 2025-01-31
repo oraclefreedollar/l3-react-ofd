@@ -42,6 +42,9 @@ export default function Navbar() {
 					<li>
 						<NavButton name="Governance" to="/governance" />
 					</li>
+					<li>
+						<NavButton name="Monitoring" to="/monitoring" />
+					</li>
 					{chainId == 97 && (
 						<li>
 							<NavButton name="Faucet" to="/faucet" />
