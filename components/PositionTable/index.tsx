@@ -8,19 +8,19 @@ import TableBody from '../Table/TableBody'
 import TableHeader from '../Table/TableHead'
 import TableRowEmpty from '../Table/TableRowEmpty'
 import PositionRow from './PositionRow'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
 	showMyPos?: boolean
 }
 
 export default function PositionTable({ showMyPos }: Props) {
+	const { t } = useTranslation()
+
 	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
-	// console.log({ openPositionsByCollateral });
 	const { address } = useAccount()
 	const account = address || zeroAddress
 	const openPositions: PositionQuery[] = []
-
-	// console.log("Account:", account);
 
 	for (const collateral in openPositionsByCollateral) {
 		openPositions.push(...openPositionsByCollateral[collateral])
@@ -29,15 +29,22 @@ export default function PositionTable({ showMyPos }: Props) {
 		showMyPos ? position.owner == account : position.owner != account && !position.denied && !position.closed
 	)
 
-	// console.log({ matchingPositions, showMyPos });
-
 	return (
-		<div id='positions-table'>
+		<div id="positions-table">
 			<Table>
-				<TableHeader actionCol headers={['Collateral', 'Liquidation Price', 'Available Amount']} />
+				<TableHeader
+					actionCol
+					headers={[
+						t('pages:position:list:table:header:collateral'),
+						t('pages:position:list:table:header:liqPrice'),
+						t('pages:position:list:table:header:availableAmount'),
+					]}
+				/>
 				<TableBody>
 					{matchingPositions.length == 0 ? (
-						<TableRowEmpty>{showMyPos ? "You don't have any positions." : 'There are no other positions yet.'}</TableRowEmpty>
+						<TableRowEmpty>
+							{showMyPos ? t('pages:position:list:table:noPositionsAccount') : t('pages:position:list:table:noPositions')}
+						</TableRowEmpty>
 					) : (
 						matchingPositions.map((pos) => <PositionRow key={pos.position} position={pos} />)
 					)}

@@ -99,8 +99,44 @@ const position = {
 			},
 		},
 	},
+	collaterals: {
+		status: {
+			danger: 'Danger, blow {{percentage}}% collateralized',
+			safe: 'Safe, blow {{percentage}}% collateralized',
+			warning: 'Warning, blow {{percentage}}% collateralized',
+		},
+	},
 	borrow: {
 		title: 'Mint',
+		options: {
+			title: 'How do you plan to Borrow?',
+			openNewPosition: {
+				title: 'Open New Position (Collateral)',
+				description: 'Start fresh with a new borrowing position. This option allows you to set up your collateral and terms from scratch.',
+			},
+			cloneExistingPosition: {
+				title: 'Clone Existing Position (Collateral)',
+				description: 'Copy the parameters of an existing position to quickly set up a new one with similar terms and conditions.',
+			},
+		},
+	},
+	list: {
+		title: 'Positions',
+		myPositions: 'My Positions',
+		otherPositions: 'Other Positions',
+		table: {
+			adjust: 'Adjust',
+			clone: 'Clone & Mint',
+			closed: 'Closed',
+			denied: 'Denied',
+			header: {
+				collateral: 'Collateral',
+				liqPrice: 'Liquidation Price',
+				availableAmount: 'Available Amount',
+			},
+			noPositions: 'There are no other positions yet.',
+			noPositionsAccount: 'You don’t have any positions.',
+		},
 	},
 }
 

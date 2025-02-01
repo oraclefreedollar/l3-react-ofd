@@ -9,12 +9,16 @@ import { PositionQuery } from 'redux/slices/positions.types'
 import DisplayAmount from '../DisplayAmount'
 import TableRow from '../Table/TableRow'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { CoinTicker } from 'meta/coins'
 
 interface Props {
 	position: PositionQuery
 }
 
 export default function PositionRow({ position }: Props) {
+	const { t } = useTranslation()
+
 	const { address } = useAccount()
 	const chainId = useChainId()
 	const prices = useSelector((state: RootState) => state.prices.coingecko)
@@ -47,11 +51,11 @@ export default function PositionRow({ position }: Props) {
 			actionCol={
 				isMine ? (
 					<Link className="btn btn-primary w-full" href={`/position/${position.position}/adjust`}>
-						Adjust
+						{t('pages:position:list:table:adjust')}
 					</Link>
 				) : positionAvailableForClone ? (
 					<Link className="btn btn-primary w-full" href={`/position/${position.position}/borrow`}>
-						Clone & Mint
+						{t('pages:position:list:table:clone')}
 					</Link>
 				) : (
 					<></>
@@ -73,7 +77,7 @@ export default function PositionRow({ position }: Props) {
 					// bold={positionStats.cooldown * 1000n > Date.now()}
 					address={ADDRESS[chainId].oracleFreeDollar}
 					amount={BigInt(position.price)}
-					currency={'OFD'}
+					currency={CoinTicker.OFD}
 					digits={36 - position.collateralDecimals}
 					hideLogo
 					usdPrice={ofdPrice}
@@ -86,14 +90,14 @@ export default function PositionRow({ position }: Props) {
 
 			<div className="flex items-center">
 				{position.denied ? (
-					<Badge color="dark">Denied</Badge>
+					<Badge color="dark">{t('pages:position:list:table:denied')}</Badge>
 				) : BigInt(position.collateralBalance) == 0n ? (
-					<Badge color="dark">Closed</Badge>
+					<Badge color="dark">{t('pages:position:list:table:closed')}</Badge>
 				) : (
 					<DisplayAmount
 						address={ADDRESS[chainId].oracleFreeDollar}
 						amount={BigInt(position.availableForClones)}
-						currency={'OFD'}
+						currency={CoinTicker.OFD}
 						hideLogo
 						usdPrice={ofdPrice}
 					/>
