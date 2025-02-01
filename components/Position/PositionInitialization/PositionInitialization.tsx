@@ -53,7 +53,7 @@ const PositionInitialization: React.FC<Props> = (props: Props) => {
 					label={t('pages:position:create:initialization:section:proposalFeeLabel')}
 					onChange={onChangeInitialCollAmount}
 					symbol={CoinTicker.OFD}
-					tooltip="If you open a new position (collateral), you must pay at least 1000 OFD. By the way, existing positions can be created (cloned) without OFD fees."
+					tooltip={t('common:tooltips:position:create:proposalFee')}
 					value={BigInt(1000 * 1e18).toString()}
 				/>
 				<NormalInput
@@ -64,7 +64,7 @@ const PositionInitialization: React.FC<Props> = (props: Props) => {
 					onChange={onChangeInitPeriod}
 					placeholder={t('pages:position:create:initialization:section:initPeriodLabel')}
 					symbol={t('common:days')}
-					tooltip="A proposal (a new position) can be vetoed in the first five days. The minimum period for the community to veto is 5 days. If you want, you can extend the period during which a proposal can be vetoed"
+					tooltip={t('common:tooltips:position:create:initPeriod')}
 					value={form.initPeriod.toString()}
 				/>
 			</div>

@@ -18,12 +18,12 @@ export interface StepComponentProps {
 
 const PositionCreate: React.FC = () => {
 	const { t } = useTranslation()
+
 	const userBalance = useUserBalance()
+	const steps = usePositionCreateSteps()
 
 	const [currentStep, setCurrentStep] = useState(0)
 	const [isSuccess, setIsSuccess] = useState(false)
-
-	const steps = usePositionCreateSteps()
 	const [stepValidation, setStepValidation] = useState<boolean[]>(new Array(steps.length).fill(false))
 
 	const handleValidationChange = useCallback(
@@ -67,7 +67,7 @@ const PositionCreate: React.FC = () => {
 					backText={t('pages:position:create:header:backText')}
 					backTo="/positions"
 					title={t('pages:position:create:header:title')}
-					tooltip="Propose a completely new position with a collateral of your choice."
+					tooltip={t('common:tooltips:position:create:header')}
 				/>
 
 				{/* Step Progress */}

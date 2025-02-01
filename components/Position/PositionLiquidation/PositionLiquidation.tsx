@@ -40,7 +40,7 @@ const PositionLiquidation: React.FC<StepComponentProps> = ({ onValidationChange 
 				onChange={(value) => onChangeValue('liqPrice', value)}
 				placeholder={t('pages:position:create:liquidation:section:liqPricePlaceholder')}
 				symbol={CoinTicker.OFD}
-				tooltip="The liquidation price is the threshold value at which a position will be liquidated if the market price of the collateral falls below it. When opening a new position to mint Oracle Free Dollar (OFD), you can set the liquidation price freely, but it must ensure that the position can be liquidated for at least a minimum amount (e.g., 3,500 OFD).This price is crucial as it helps protect the system from losses by ensuring that the collateral can cover the minted OFD in case of a market downturn."
+				tooltip={t('common:tooltips:position:create:liqPrice')}
 				value={liqPrice.toString()}
 			/>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -52,7 +52,7 @@ const PositionLiquidation: React.FC<StepComponentProps> = ({ onValidationChange 
 					onChange={(value) => onChangeValue('buffer', value)}
 					placeholder={t('pages:position:create:liquidation:section:bufferPlaceholder')}
 					symbol="%"
-					tooltip="The retained reserve is the portion of the collateral that is set aside to ensure the stability of the position and the overall system. When opening a new position to mint Oracle Free Dollar (OFD), the retained reserve acts as a safety net to cover potential losses and mitigate risks associated with market volatility.This reserve is calculated based on the reserve requirement and is important for maintaining confidence in the system, especially during challenges or liquidations. It helps ensure that there are sufficient funds available to manage any adverse situations that may arise."
+					tooltip={t('common:tooltips:position:create:buffer')}
 					value={buffer.toString()}
 				/>
 				<NormalInput
@@ -63,7 +63,7 @@ const PositionLiquidation: React.FC<StepComponentProps> = ({ onValidationChange 
 					onChange={(value) => onChangeValue('auctionDuration', value)}
 					placeholder={t('pages:position:create:liquidation:section:auctionDurationLabel')}
 					symbol={t('common:hours')}
-					tooltip="The auction duration refers to the length of time that an auction will run when a position is challenged. It determines how long bidders have to place their bids on the collateral associated with the position."
+					tooltip={t('common:tooltips:position:create:auctionDuration')}
 					value={auctionDuration.toString()}
 				/>
 			</div>

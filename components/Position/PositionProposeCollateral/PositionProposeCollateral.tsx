@@ -76,7 +76,7 @@ const PositionProposeCollateral: React.FC<Props> = (props) => {
 				label={t('pages:position:create:collateral:addressLabel')}
 				onChange={(value) => handleChange('collateralAddress', value)}
 				placeholder={t('pages:position:create:collateral:addressPlaceholder')}
-				tooltip="The token contract address of the collateral is inserted here"
+				tooltip={t('common:tooltips:position:create:collateralAddress')}
 				value={collateralAddress}
 			/>
 			{showApproveButton && (
@@ -100,7 +100,7 @@ const PositionProposeCollateral: React.FC<Props> = (props) => {
 				onChange={(value) => onChangeValue('minCollAmount', value)}
 				placeholder={t('pages:position:create:collateral:minCollateralPlaceholder')}
 				symbol={collTokenData.symbol}
-				tooltip="The minimum amount of collateral that must be deposited. If the amount is less than this, the position will not be created."
+				tooltip={t('common:tooltips:position:create:minCollateral')}
 				value={minCollAmount.toString()}
 			/>
 			<TokenInput
@@ -111,7 +111,7 @@ const PositionProposeCollateral: React.FC<Props> = (props) => {
 				onChange={(value) => onChangeValue('initialCollAmount', value)}
 				placeholder={t('pages:position:create:collateral:initialCollateralPlaceholder')}
 				symbol={collTokenData.symbol}
-				tooltip="The amount of collateral that you want to deposit into the position. This amount must be greater than the minimum collateral amount."
+				tooltip={t('common:tooltips:position:create:initialCollateral')}
 				value={initialCollAmount.toString()}
 			/>
 		</div>

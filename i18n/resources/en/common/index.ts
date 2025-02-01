@@ -1,5 +1,6 @@
 import navigation from './navigation'
 import toasts from './toasts'
+import tooltips from './tooltips'
 
 export const common = {
 	cancel: 'Cancel',
@@ -12,4 +13,5 @@ export const common = {
 	},
 	navigation,
 	toasts,
+	tooltips,
 }
