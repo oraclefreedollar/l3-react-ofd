@@ -11,6 +11,9 @@ export interface PositionQuery {
 	owner: Address
 	position: Address
 	price: bigint
+	expiration: number
+	collateralDecimals: number
+	collateralSymbol: string
 }
 
 export const usePositionLists = () => {
@@ -30,6 +33,9 @@ export const usePositionLists = () => {
 						collateralBalance
 						denied
 						closed
+						expiration
+						collateralDecimals
+						collateralSymbol
 					}
 				}
 			}
@@ -52,6 +58,9 @@ export const usePositionLists = () => {
 				owner: getAddress(position.owner),
 				position: getAddress(position.position),
 				price: BigInt(position.price),
+				expiration: position.expiration,
+				collateralDecimals: position.collateralDecimals,
+				collateralSymbol: position.collateralSymbol,
 			})
 		})
 	}
