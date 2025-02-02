@@ -10,14 +10,18 @@ import { usePositionStats } from 'hooks'
 import { ENABLE_EMERGENCY_MODE, formatBigInt, min, toTimestamp } from 'utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { formatUnits, getAddress, zeroAddress } from 'viem'
 import { useChainId } from 'wagmi'
 import { envConfig } from 'app.env.config'
 import { EmergencyPage } from 'components/EmergencyPage'
 import { useBorrowContractsFunctions } from 'hooks/borrow/useBorrowContractsFunctions'
+import { useTranslation } from 'react-i18next'
+import { CoinTicker } from 'meta/coins'
 
 export default function PositionBorrow({}) {
+	const { t } = useTranslation()
+
 	const router = useRouter()
 	const { address: positionAddr } = router.query
 
@@ -61,43 +65,52 @@ export default function PositionBorrow({}) {
 	const userValue = BigInt(positionStats.collateralUserBal * positionStats.liqPrice) / BigInt(1e18)
 	const borrowingLimit = min(availableAmount, userValue)
 
-	const onChangeAmount = (value: string) => {
-		const valueBigInt = BigInt(value)
-		setAmount(valueBigInt)
-		if (valueBigInt > borrowingLimit) {
-			if (availableAmount > userValue) {
-				setError(`Not enough ${positionStats.collateralSymbol} in your wallet.`)
+	const onChangeAmount = useCallback(
+		(value: string) => {
+			const valueBigInt = BigInt(value)
+			setAmount(valueBigInt)
+			if (valueBigInt > borrowingLimit) {
+				if (availableAmount > userValue) {
+					setError(t('pages:position:borrow:mintingSection:errors:notEnoughCollateral', { symbol: positionStats.collateralSymbol }))
+				} else {
+					setError(t('pages:position:borrow:mintingSection:errors:notEnoughOFD'))
+				}
 			} else {
-				setError('Not enough OFD available for this position.')
+				setError('')
 			}
-		} else {
-			setError('')
-		}
-	}
+		},
+		[availableAmount, borrowingLimit, positionStats.collateralSymbol, t, userValue]
+	)
 
-	const onChangeCollateral = (value: string) => {
-		const valueBigInt = (BigInt(value) * positionStats.liqPrice) / BigInt(1e18)
-		if (valueBigInt > borrowingLimit) {
-			setError('Cannot mint more than ' + borrowingLimit + '.' + valueBigInt)
-		} else {
-			setError('')
-		}
-		setAmount(valueBigInt)
-	}
+	const onChangeCollateral = useCallback(
+		(value: string) => {
+			const valueBigInt = (BigInt(value) * positionStats.liqPrice) / BigInt(1e18)
+			if (valueBigInt > borrowingLimit) {
+				setError(t('pages:position:borrow:mintingSection:errors:cannotMintMore', { limit: borrowingLimit, value: valueBigInt }))
+			} else {
+				setError('')
+			}
+			setAmount(valueBigInt)
+		},
+		[borrowingLimit, positionStats.liqPrice, t]
+	)
 
-	const onChangeExpiration = (value: Date | null) => {
-		if (!value) value = new Date()
-		const newTimestamp = toTimestamp(value)
-		const bottomLimit = toTimestamp(new Date())
-		const uppperLimit = positionStats.expiration
+	const onChangeExpiration = useCallback(
+		(value: Date | null) => {
+			if (!value) value = new Date()
+			const newTimestamp = toTimestamp(value)
+			const bottomLimit = toTimestamp(new Date())
+			const uppperLimit = positionStats.expiration
 
-		if (newTimestamp < bottomLimit || newTimestamp > uppperLimit) {
-			setErrorDate('Expiration Date should be between Now and Limit')
-		} else {
-			setErrorDate('')
-		}
-		setExpirationDate(value)
-	}
+			if (newTimestamp < bottomLimit || newTimestamp > uppperLimit) {
+				setErrorDate(t('pages:position:borrow:mintingSection:expiration:error'))
+			} else {
+				setErrorDate('')
+			}
+			setExpirationDate(value)
+		},
+		[positionStats.expiration, t]
+	)
 
 	const { isApproving, handleApprove, isCloning, handleClone } = useBorrowContractsFunctions({
 		amount,
@@ -114,42 +127,47 @@ export default function PositionBorrow({}) {
 	return (
 		<>
 			<Head>
-				<title>{envConfig.AppName} - Mint</title>
+				<title>
+					{envConfig.AppName} - {t('pages:position:borrow:title')}
+				</title>
 			</Head>
 			<div>
-				<AppPageHeader backText="Back to position" backTo={`/position/${position}`} title="Mint Fresh OracleFreeDollars" />
+				<AppPageHeader
+					backText={t('pages:position:borrow:back')}
+					backTo={`/position/${position}`}
+					title={t('pages:position:borrow:title')}
+				/>
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
-						<div className="text-lg font-bold text-center mt-3">Minting Amount and Collateral</div>
+						<div className="text-lg font-bold text-center mt-3">{t('pages:position:borrow:mintingSection:title')}</div>
 						<div className="space-y-8">
 							<TokenInput
-								balanceLabel="Limit:"
+								balanceLabel={t('pages:position:borrow:mintingSection:amount:balanceLabel')}
 								error={error}
-								label="Amount"
+								label={t('pages:position:borrow:mintingSection:amount:label')}
 								max={availableAmount}
 								onChange={onChangeAmount}
-								placeholder="Total Amount to be Minted"
-								symbol="OFD"
+								placeholder={t('pages:position:borrow:mintingSection:amount:placeholder')}
+								symbol={CoinTicker.OFD}
 								value={amount.toString()}
 							/>
 							<TokenInput
-								balanceLabel="Your balance:"
+								balanceLabel={t('pages:position:borrow:mintingSection:collateral:balanceLabel')}
 								digit={positionStats.collateralDecimal}
-								label="Required Collateral"
+								label={t('pages:position:borrow:mintingSection:collateral:label')}
 								max={positionStats.collateralUserBal}
-								note={
-									`Valued at ${formatBigInt(positionStats.liqPrice, 36 - positionStats.collateralDecimal)} OFD, minimum is ` +
-									formatBigInt(positionStats.minimumCollateral, Number(positionStats.collateralDecimal)) +
-									' ' +
-									positionStats.collateralSymbol
-								}
+								note={t('pages:position:borrow:mintingSection:collateral:valueNote', {
+									price: formatBigInt(positionStats.liqPrice, 36 - positionStats.collateralDecimal),
+									minimum: formatBigInt(positionStats.minimumCollateral, Number(positionStats.collateralDecimal)),
+									symbol: positionStats.collateralSymbol,
+								})}
 								onChange={onChangeCollateral}
 								output={formatUnits(requiredColl, positionStats.collateralDecimal)}
 								symbol={positionStats.collateralSymbol}
 							/>
 							<DateInput
 								error={errorDate}
-								label="Expiration"
+								label={t('pages:position:borrow:mintingSection:expiration:label')}
 								max={positionStats.expiration}
 								onChange={onChangeExpiration}
 								value={expirationDate}
@@ -159,24 +177,24 @@ export default function PositionBorrow({}) {
 							<GuardToAllowedChainBtn>
 								{requiredColl > positionStats.collateralAllowance ? (
 									<Button disabled={buttonDisabled} isLoading={isApproving} onClick={() => handleApprove()}>
-										Approve
+										{t('pages:position:borrow:mintingSection:buttons:approve')}
 									</Button>
 								) : (
 									<Button
 										disabled={buttonDisabled}
 										error={
 											requiredColl < positionStats.minimumCollateral
-												? 'A position must have at least ' +
-													formatBigInt(positionStats.minimumCollateral, Number(positionStats.collateralDecimal)) +
-													' ' +
-													positionStats.collateralSymbol
+												? t('pages:position:borrow:mintingSection:buttons:minimumError', {
+														minimum: formatBigInt(positionStats.minimumCollateral, Number(positionStats.collateralDecimal)),
+														symbol: positionStats.collateralSymbol,
+													})
 												: ''
 										}
 										isLoading={isCloning}
 										onClick={() => handleClone()}
 										variant="primary"
 									>
-										Clone Position
+										{t('pages:position:borrow:mintingSection:buttons:clone')}
 									</Button>
 								)}
 							</GuardToAllowedChainBtn>
@@ -184,45 +202,39 @@ export default function PositionBorrow({}) {
 					</div>
 					<div>
 						<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
-							<div className="text-lg font-bold text-center mt-3">Outcome</div>
+							<div className="text-lg font-bold text-center mt-3">{t('pages:position:borrow:outcome:title')}</div>
 							<div className="bg-slate-900 rounded-xl p-4 flex flex-col gap-2">
 								<div className="flex">
-									<div className="flex-1">Sent to your wallet</div>
-									<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={paidOutToWallet} currency="OFD" hideLogo />
+									<div className="flex-1">{t('pages:position:borrow:outcome:sentToWallet')}</div>
+									<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={paidOutToWallet} currency={CoinTicker.OFD} hideLogo />
 								</div>
 								<div className="flex">
-									<div className="flex-1">Locked in borrowers reserve</div>
+									<div className="flex-1">{t('pages:position:borrow:outcome:lockedInReserve')}</div>
 									<DisplayAmount
 										address={ADDRESS[chainId].oracleFreeDollar}
 										amount={borrowersReserveContribution}
-										currency="OFD"
+										currency={CoinTicker.OFD}
 										hideLogo
 									/>
 								</div>
 								<div className="flex">
-									<div className="flex-1">Fees ({formatBigInt(feePercent, 4)}%)</div>
-									<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={fees} currency="OFD" hideLogo />
+									<div className="flex-1">{t('pages:position:borrow:outcome:fees', { percent: formatBigInt(feePercent, 4) })}</div>
+									<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={fees} currency={CoinTicker.OFD} hideLogo />
 								</div>
 								<hr className="border-slate-700 border-dashed" />
 								<div className="flex font-bold">
-									<div className="flex-1">Total</div>
-									<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={amount} currency="OFD" hideLogo />
+									<div className="flex-1">{t('pages:position:borrow:outcome:total')}</div>
+									<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={amount} currency={CoinTicker.OFD} hideLogo />
 								</div>
 							</div>
 						</div>
 						<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4 mt-4">
-							<div className="text-lg font-bold text-center mt-3">Notes</div>
+							<div className="text-lg font-bold text-center mt-3">{t('pages:position:borrow:notes:title')}</div>
 							<AppBox className="flex-1 mt-4">
 								<ol className="flex flex-col gap-y-2 pl-6 [&>li]:list-decimal">
-									<li>The amount borrowed can be changed later, but not increased beyond the initial amount.</li>
-									<li>
-										The liquidation price is inherited from the parent position, but can be adjusted later. For example, the liquidation
-										price could be doubled and then half of the collateral taken out if the new liquidation price is not challenged.
-									</li>
-									<li>
-										It is possible to repay partially or to repay early in order to get the collateral back, but the fee is paid upfront and
-										never returned.
-									</li>
+									<li>{t('pages:position:borrow:notes:description1')}</li>
+									<li>{t('pages:position:borrow:notes:description2')}</li>
+									<li>{t('pages:position:borrow:notes:description3')}</li>
 								</ol>
 							</AppBox>
 						</div>
