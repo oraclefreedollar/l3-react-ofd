@@ -17,8 +17,12 @@ import { envConfig } from 'app.env.config'
 import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/redux.store'
+import { useTranslation } from 'react-i18next'
+import { CoinTicker } from 'meta/coins'
 
 export default function PositionDetail() {
+	const { t } = useTranslation()
+
 	const router = useRouter()
 	const { address } = router.query
 	const explorerUrl = useContractUrl(String(address))
@@ -51,30 +55,32 @@ export default function PositionDetail() {
 	return (
 		<>
 			<Head>
-				<title>{envConfig.AppName} - Position Overview</title>
+				<title>
+					{envConfig.AppName} - {t('pages:position:overview:title')}
+				</title>
 			</Head>
 			<div>
 				<AppPageHeader
-					backText="Back to positions"
+					backText={t('pages:position:overview:back')}
 					backTo="/positions"
 					link={explorerUrl}
-					title={`Position Overview ${address && shortenAddress(position)}`}
+					title={t('pages:position:overview:subTitle', { address: address && shortenAddress(position) })}
 				/>
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex border border-purple-500/50 flex-col gap-y-4">
-						<div className="text-lg font-bold text-center">Position Details</div>
+						<div className="text-lg font-bold text-center">{t('pages:position:overview:section:positionDetails')}</div>
 						<div className="bg-slate-900 rounded-xl p-4 grid gap-2 grid-cols-2 lg:grid-cols-6">
 							<AppBox className="col-span-3">
-								<DisplayLabel label="Minted Total" />
+								<DisplayLabel label={t('pages:position:overview:section:mintedTotal')} />
 								<DisplayAmount
 									address={ADDRESS[chainId].oracleFreeDollar}
 									amount={positionStats.minted}
-									currency="OFD"
+									currency={CoinTicker.OFD}
 									usdPrice={ofdPrice}
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
-								<DisplayLabel label="Collateral" />
+								<DisplayLabel label={t('pages:position:overview:section:collateral')} />
 								<DisplayAmount
 									address={positionStats.collateral}
 									amount={positionStats.collateralBal}
@@ -84,57 +90,57 @@ export default function PositionDetail() {
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
-								<DisplayLabel label="Liquidation Price" />
+								<DisplayLabel label={t('pages:position:overview:section:liqPrice')} />
 								<DisplayAmount
 									address={ADDRESS[chainId].oracleFreeDollar}
 									amount={positionStats.liqPrice}
-									currency={'OFD'}
+									currency={CoinTicker.OFD}
 									digits={36 - positionStats.collateralDecimal}
 									usdPrice={ofdPrice}
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
-								<DisplayLabel label="Retained Reserve" />
+								<DisplayLabel label={t('pages:position:overview:section:retainedReserve')} />
 								<DisplayAmount
 									address={ADDRESS[chainId].oracleFreeDollar}
 									amount={positionAssignedReserve || 0n}
-									currency={'OFD'}
+									currency={CoinTicker.OFD}
 									usdPrice={ofdPrice}
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
-								<DisplayLabel label="Limit" />
+								<DisplayLabel label={t('pages:position:overview:section:limit')} />
 								<DisplayAmount
 									address={ADDRESS[chainId].oracleFreeDollar}
 									amount={positionStats.limit}
-									currency={'OFD'}
+									currency={CoinTicker.OFD}
 									usdPrice={ofdPrice}
 								/>
 							</AppBox>
 							<AppBox className="col-span-1 sm:col-span-3">
-								<DisplayLabel label="Owner" />
+								<DisplayLabel label={t('pages:position:overview:section:owner')} />
 								<Link className="flex items-center" href={ownerLink} target="_blank">
 									{shortenAddress(positionStats.owner)}
 									<FontAwesomeIcon className="w-3 ml-2" icon={faArrowUpRightFromSquare} />
 								</Link>
 							</AppBox>
 							<AppBox className="col-span-2 sm:col-span-2">
-								<DisplayLabel label="Expiration Date" />
-								<b>{positionStats.closed ? 'Closed' : formatDate(positionStats.expiration)}</b>
+								<DisplayLabel label={t('pages:position:overview:section:expirationDate')} />
+								<b>{positionStats.closed ? t('pages:position:overview:section:closed') : formatDate(positionStats.expiration)}</b>
 							</AppBox>
 							<AppBox className="col-span-1 sm:col-span-2">
-								<DisplayLabel label="Reserve Requirement" />
+								<DisplayLabel label={t('pages:position:overview:section:reserveRequirement')} />
 								<DisplayAmount amount={positionStats.reserveContribution / 100n} currency={'%'} digits={2} hideLogo />
 							</AppBox>
 							<AppBox className="col-span-2 sm:col-span-2">
-								<DisplayLabel label="Annual Interest" />
+								<DisplayLabel label={t('pages:position:overview:section:annualInterest')} />
 								<DisplayAmount amount={positionStats.annualInterestPPM / 100n} currency={'%'} digits={2} hideLogo />
 							</AppBox>
 						</div>
 						<div className="mt-4 w-full flex">
 							{positionStats.owner == account ? (
 								<Link className="btn btn-primary w-72 m-auto" href={`/position/${position}/adjust`}>
-									Adjust
+									{t('pages:position:overview:buttons:adjust')}
 								</Link>
 							) : (
 								<>
@@ -142,10 +148,10 @@ export default function PositionDetail() {
 										className={`btn btn-primary flex-1 ${isSubjectToCooldown() && 'btn-disabled'}`}
 										href={`/position/${position}/borrow`}
 									>
-										Clone & Mint
+										{t('pages:position:overview:buttons:clone')}
 									</Link>
 									<Link className="btn btn-primary flex-1 ml-4" href={`/position/${position}/challenge`}>
-										Challenge
+										{t('pages:position:overview:buttons:challenge')}
 									</Link>
 								</>
 							)}
@@ -154,20 +160,16 @@ export default function PositionDetail() {
 					<div>
 						{isSubjectToCooldown() && (
 							<div className="bg-slate-950 rounded-xl p-4 flex flex-col mb-4">
-								<div className="text-lg font-bold text-center">Cooldown</div>
+								<div className="text-lg font-bold text-center">{t('pages:position:overview:cooldown:title')}</div>
 								<AppBox className="flex-1 mt-4">
-									<p>
-										This position is subject to a cooldown period that ends on {formatDate(positionStats.cooldown)} as its owner has
-										recently increased the applicable liquidation price. The cooldown period gives other users an opportunity to challenge
-										the position before additional oracleFreeDollars can be minted.
-									</p>
+									<p>{t('pages:position:overview:cooldown:description', { cooldown: formatDate(positionStats.cooldown) })}</p>
 								</AppBox>
 							</div>
 						)}
 						<ChallengeTable
 							challenges={challengsData}
 							loading={loading || queryLoading}
-							noContentText="This position is currently not being challenged."
+							noContentText={t('pages:position:overview:challengeTable:noContent')}
 						/>
 					</div>
 				</section>

@@ -3,6 +3,7 @@ import borrow from './borrow'
 import collaterals from './collaterals'
 import create from './create'
 import list from './list'
+import overview from './overview'
 
 const position = {
 	adjust,
@@ -10,6 +11,7 @@ const position = {
 	collaterals,
 	create,
 	list,
+	overview,
 }
 
 export default position
