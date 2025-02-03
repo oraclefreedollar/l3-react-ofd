@@ -14,86 +14,85 @@ import { fetchSavings } from 'redux/slices/savings.slice'
 import { ADDRESS } from 'contracts'
 import { useTokenData } from 'hooks'
 import { useAccount, useChainId } from 'wagmi'
+import { useTranslation } from 'react-i18next'
 
 export default function Overview() {
+	const { t } = useTranslation()
+
 	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
-	const [list, setList] = useState<PositionQuery[]>([]);
+	const [list, setList] = useState<PositionQuery[]>([])
 	const { address } = useAccount()
 	const chainId = useChainId()
 	const { totalSupply } = useTokenData(ADDRESS[chainId].oracleFreeDollar)
-	
+
 	useEffect(() => {
 		store.dispatch(fetchSavings(address, totalSupply))
 	}, [address, totalSupply])
 
-	const openPositions = useMemo(() =>
-		openPositionsByCollateral.flat(1),
-		[openPositionsByCollateral]
-	);
+	const openPositions = useMemo(() => openPositionsByCollateral.flat(1), [openPositionsByCollateral])
 
 	const makeUnique = useCallback((positions: PositionQuery[]) => {
-		const highestMaturityMap = new Map();
+		const highestMaturityMap = new Map()
 		positions.forEach((pos) => {
-			const key = pos.original + "-" + pos.price;
+			const key = pos.original + '-' + pos.price
 			if (!highestMaturityMap.has(key)) {
-				highestMaturityMap.set(key, pos);
+				highestMaturityMap.set(key, pos)
 			} else {
-				const highest = highestMaturityMap.get(key);
+				const highest = highestMaturityMap.get(key)
 				if (pos.expiration > highest.expiration) {
-					highestMaturityMap.set(key, pos);
+					highestMaturityMap.set(key, pos)
 				}
 			}
-		});
-		return Array.from(highestMaturityMap.values());
-	}, []);
+		})
+		return Array.from(highestMaturityMap.values())
+	}, [])
 
 	const matchingPositions = useMemo(() => {
 		const filteredPositions = openPositions.filter((position) => {
 			if (position.closed || position.denied) {
-				return false;
+				return false
 			} else if (position.cooldown * 1000 > Date.now()) {
-				return false; // under cooldown
-			} else if (BigInt(position.isOriginal ? position.availableForClones : position.availableForMinting) === 0n) {
-				return false;
-			} else {
-				return true;
-			}
-		});
+				return false // under cooldown
+			} else return BigInt(position.isOriginal ? position.availableForClones : position.availableForMinting) !== 0n
+		})
 
-		return makeUnique(filteredPositions);
-	}, [openPositions, makeUnique]);
+		return makeUnique(filteredPositions)
+	}, [openPositions, makeUnique])
 
 	useEffect(() => {
-		setList(matchingPositions);
-	}, [matchingPositions]);
+		setList(matchingPositions)
+	}, [matchingPositions])
 
-	const headers: string[] = [
-		'Collateral',
-		'Loan-to-Value',
-		'Effective Interest',
-		'Liquidation Price',
-		'Maturity',
-		'Action',
-	];
+	const headers: string[] = useMemo(
+		() => [
+			t('pages:collateral:table:collateral'),
+			t('pages:collateral:table:loanToValue'),
+			t('pages:collateral:table:effectiveInterest'),
+			t('pages:collateral:table:liquidationPrice'),
+			t('pages:collateral:table:maturity'),
+		],
+		[t]
+	)
 
 	return (
 		<div>
 			<Head>
-				<title>{envConfig.AppName} - Collateral</title>
+				<title>
+					{envConfig.AppName} - {t('pages:collateral:title')}
+				</title>
 			</Head>
 
-			<AppPageHeader title="Mint fresh OFD" />
+			<AppPageHeader title={t('pages:collateral:headerTitle')} />
 			<Table>
-				<TableHeader headers={headers} />
+				<TableHeader actionCol headers={headers} />
 				<TableBody>
 					{list.length === 0 ? (
-						<TableRowEmpty>{'There are no savings yet.'}</TableRowEmpty>
+						<TableRowEmpty>{t('pages:collateral:noSavings')}</TableRowEmpty>
 					) : (
 						list.map((r) => <BorrowPositionRow item={r} key={r.position} />)
 					)}
 				</TableBody>
-
 			</Table>
 		</div>
-	);
+	)
 }
