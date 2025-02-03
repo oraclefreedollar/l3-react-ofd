@@ -1,6 +1,7 @@
 import navigation from './navigation'
 import toasts from './toasts'
 import tooltips from './tooltips'
+import footer from './footer'
 
 export const common = {
 	cancel: 'Cancel',
@@ -11,6 +12,7 @@ export const common = {
 	equity: {
 		votes: '% Votes',
 	},
+	footer,
 	navigation,
 	toasts,
 	tooltips,
