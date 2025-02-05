@@ -10,7 +10,7 @@ type LayoutProps = {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-	const { t } = useTranslation(['home', 'common'])
+	const { t } = useTranslation()
 
 	return (
 		<>

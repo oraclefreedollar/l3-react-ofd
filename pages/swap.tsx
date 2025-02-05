@@ -7,15 +7,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSwapStats } from 'hooks'
 import { ENABLE_EMERGENCY_MODE } from 'utils'
 import Head from 'next/head'
-import { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { formatUnits } from 'viem'
 import { envConfig } from 'app.env.config'
 import { EmergencyPage } from 'components/EmergencyPage'
 import { useSwapContractsFunctions } from 'hooks/swap/useSwapContractsFunctions'
 import { CoinTicker } from 'meta/coins'
 import { useTranslation } from 'next-i18next'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-export default function Swap() {
+const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
 	const [direction, setDirection] = useState(true)
@@ -49,9 +51,9 @@ export default function Swap() {
 			setAmount(valueBigInt)
 
 			if (valueBigInt > fromBalance) {
-				setError(t('pages:swap:errors:insufficientBalance', { symbol: fromSymbol }))
+				setError(t('swap:errors:insufficientBalance', { symbol: fromSymbol }))
 			} else if (valueBigInt > swapLimit) {
-				setError(t('pages:swap:errors:insufficientSwapLimit', { symbol: toSymbol }))
+				setError(t('swap:errors:insufficientSwapLimit', { symbol: toSymbol }))
 			} else {
 				setError('')
 			}
@@ -67,27 +69,27 @@ export default function Swap() {
 		<>
 			<Head>
 				<title>
-					{envConfig.AppName} - {t('pages:swap:title')}
+					{envConfig.AppName} - {t('swap:title')}
 				</title>
 			</Head>
 			<div>
-				<AppPageHeader title={t('pages:swap:header')} />
+				<AppPageHeader title={t('swap:header')} />
 				<section className="mx-auto flex max-w-2xl flex-col gap-y-4 px-4 sm:px-8">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50">
 						<TokenInput
 							error={error}
 							limit={swapLimit}
-							limitLabel={t('pages:swap:swapLimit')}
+							limitLabel={t('swap:swapLimit')}
 							max={fromBalance}
 							onChange={onChangeAmount}
-							placeholder={t('pages:swap:swapAmount')}
+							placeholder={t('swap:swapAmount')}
 							symbol={fromSymbol}
 							value={amount.toString()}
 						/>
 
 						<div className="py-4 text-center">
 							<button
-								aria-label={t('pages:swap:buttons:switchDirection')}
+								aria-label={t('swap:buttons:switchDirection')}
 								className={`btn btn-secondary text-slate-800 w-14 h-14 rounded-full transition ${direction && 'rotate-180'}`}
 								onClick={onChangeDirection}
 							>
@@ -96,9 +98,9 @@ export default function Swap() {
 						</div>
 
 						<TokenInput
-							label={t('pages:swap:receive')}
+							label={t('swap:receive')}
 							max={toBalance}
-							note={t('pages:swap:exchangeRate', { fromSymbol, toSymbol })}
+							note={t('swap:exchangeRate', { fromSymbol, toSymbol })}
 							output={formatUnits(amount, 18)}
 							symbol={toSymbol}
 						/>
@@ -108,16 +110,16 @@ export default function Swap() {
 								{direction ? (
 									amount > swapStats.usdtUserAllowance ? (
 										<Button isLoading={isApproving} onClick={() => handleApprove()}>
-											{t('pages:swap:buttons:approve')}
+											{t('swap:buttons:approve')}
 										</Button>
 									) : (
 										<Button disabled={amount == 0n || !!error} isLoading={isMinting} onClick={() => handleMint()}>
-											{t('pages:swap:buttons:swap')}
+											{t('swap:buttons:swap')}
 										</Button>
 									)
 								) : (
 									<Button disabled={amount == 0n || !!error} isLoading={isBurning} onClick={() => handleBurn()}>
-										{t('pages:swap:buttons:swap')}
+										{t('swap:buttons:swap')}
 									</Button>
 								)}
 							</GuardToAllowedChainBtn>
@@ -128,3 +130,11 @@ export default function Swap() {
 		</>
 	)
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
+	props: {
+		...(await serverSideTranslations(locale ?? 'en', ['swap'])),
+	},
+})
+
+export default Swap
