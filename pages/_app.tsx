@@ -15,9 +15,10 @@ import { clientPonder } from 'app.config'
 import BlockUpdater from 'components/BlockUpdater'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import 'i18n/i18n'
+import { appWithTranslation } from 'next-i18next'
+import nextI18nextConfig from '../next-i18next.config'
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
 	return (
 		<ReduxProvider store={store}>
 			<Web3ModalProvider>
@@ -37,3 +38,5 @@ export default function App({ Component, pageProps }: AppProps) {
 		</ReduxProvider>
 	)
 }
+
+export default appWithTranslation(App, nextI18nextConfig)
