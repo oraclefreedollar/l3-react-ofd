@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import PositionSummaryForm from 'components/Position/PositionSummary/PositionSummaryForm'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 type Props = {
 	onValidationChange: (isValid: boolean) => void

@@ -4,7 +4,7 @@ import PositionTable from 'components/PositionTable'
 import PositionCollateral from 'components/PositionTable/PositionCollateral'
 import { envConfig } from 'app.env.config'
 import BorrowOptions from 'components/BorrowOptions'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 export default function Positions() {
 	const { t } = useTranslation()

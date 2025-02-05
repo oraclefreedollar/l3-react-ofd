@@ -16,7 +16,7 @@ import { useChainId } from 'wagmi'
 import { envConfig } from 'app.env.config'
 import { EmergencyPage } from 'components/EmergencyPage'
 import { useBorrowContractsFunctions } from 'hooks/borrow/useBorrowContractsFunctions'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
 export default function PositionBorrow({}) {

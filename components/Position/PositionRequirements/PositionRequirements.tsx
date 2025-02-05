@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { StepComponentProps } from 'pages/positions/create'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 const PositionRequirements: React.FC<StepComponentProps> = ({ onValidationChange }) => {
 	const { t } = useTranslation()

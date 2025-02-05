@@ -9,7 +9,7 @@ import { PositionQuery } from 'redux/slices/positions.types'
 import DisplayAmount from '../DisplayAmount'
 import TableRow from '../Table/TableRow'
 import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
 interface Props {

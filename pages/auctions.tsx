@@ -5,7 +5,7 @@ import { useAccount } from 'wagmi'
 import AppPageHeader from 'components/AppPageHeader'
 import ChallengeTable from 'components/ChallengeTable'
 import { envConfig } from 'app.env.config'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 export default function Auction({}) {
 	const { t } = useTranslation()

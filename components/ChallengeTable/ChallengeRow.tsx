@@ -2,7 +2,7 @@ import { usePositionStats } from 'hooks'
 import { formatBigInt, formatDate, formatDuration, isDateExpired } from 'utils'
 import Link from 'next/link'
 import { Address } from 'viem'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 import { useMemo } from 'react'
 

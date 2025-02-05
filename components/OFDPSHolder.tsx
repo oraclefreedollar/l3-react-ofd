@@ -3,7 +3,7 @@ import { formatBigInt } from 'utils/format'
 import AddressLabel from './AddressLabel'
 import AppBox from './AppBox'
 import { CoinTicker } from 'meta/coins'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 interface Props {
 	holder: Address

@@ -1,7 +1,7 @@
 import { faPlus, faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import React from 'react'
 
 const BorrowOptions: React.FC = () => {

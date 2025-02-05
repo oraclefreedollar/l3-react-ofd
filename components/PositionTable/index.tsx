@@ -8,7 +8,7 @@ import TableBody from '../Table/TableBody'
 import TableHeader from '../Table/TableHead'
 import TableRowEmpty from '../Table/TableRowEmpty'
 import PositionRow from './PositionRow'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 interface Props {
 	showMyPos?: boolean

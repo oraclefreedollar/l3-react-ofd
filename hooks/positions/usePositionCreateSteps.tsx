@@ -5,7 +5,7 @@ import PositionInitialization from 'components/Position/PositionInitialization'
 import PositionFinancialTerms from 'components/Position/PositionFinancialTerms'
 import PositionLiquidation from 'components/Position/PositionLiquidation'
 import PositionSummary from 'components/Position/PositionSummary/PositionSummary'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 export const usePositionCreateSteps = () => {
 	const { t } = useTranslation()

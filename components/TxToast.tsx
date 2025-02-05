@@ -2,11 +2,9 @@ import Link from 'next/link'
 import { useAccount } from 'wagmi'
 import { shortenHash, transactionLink } from 'utils'
 import { Hash } from 'viem'
-import i18n from 'i18next'
 
-export const renderErrorToast = (error: any) => {
+export const renderErrorToast = (error: any, title: string) => {
 	const errorLines: string[] = error.message.split('\n')
-	const t = i18n.t
 
 	return (
 		<TxToast
@@ -16,7 +14,7 @@ export const renderErrorToast = (error: any) => {
 					value: errorLines[0],
 				},
 			]}
-			title={t('common:toasts:transaction:error')}
+			title={title}
 		/>
 	)
 }

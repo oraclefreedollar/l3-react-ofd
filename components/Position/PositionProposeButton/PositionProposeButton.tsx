@@ -3,7 +3,7 @@ import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 import Button from 'components/Button'
 import { usePositionFormContext } from 'contexts/position'
 import { useOpenPosition } from './hooks/useOpenPosition'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 const PositionProposeButton: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
 	const { t } = useTranslation()

@@ -16,7 +16,7 @@ import { useCallback, useState } from 'react'
 import { useChainId } from 'wagmi'
 import { envConfig } from 'app.env.config'
 import { useWriteContractsBid } from 'hooks/bid/useWriteContractsBid'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
 export default function ChallengePlaceBid({}) {

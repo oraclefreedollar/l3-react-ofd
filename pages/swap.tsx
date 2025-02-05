@@ -13,7 +13,7 @@ import { envConfig } from 'app.env.config'
 import { EmergencyPage } from 'components/EmergencyPage'
 import { useSwapContractsFunctions } from 'hooks/swap/useSwapContractsFunctions'
 import { CoinTicker } from 'meta/coins'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 export default function Swap() {
 	const [amount, setAmount] = useState(0n)

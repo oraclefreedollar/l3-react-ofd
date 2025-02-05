@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { faBook, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faTelegram, faXTwitter } from '@fortawesome/free-brands-svg-icons'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 interface ButtonProps {
 	link: string
@@ -22,7 +22,7 @@ const FooterButton = ({ link, text, icon }: ButtonProps) => {
 }
 
 const Footer = () => {
-	const { t } = useTranslation()
+	const { t } = useTranslation('common')
 
 	return (
 		<footer className="container mx-auto px-4 py-6 relative min-h-[100px]">
@@ -54,7 +54,7 @@ const Footer = () => {
 						<div className="opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
 							<div className="fixed left-4 right-4 bottom-[100px] sm:absolute sm:bottom-full sm:left-1/2 sm:right-auto sm:w-64 sm:-translate-x-1/2 sm:mb-2 p-2 bg-slate-800 rounded-lg text-sm text-slate-300">
 								<div className="relative">
-									{t('common:footer:tooltip')}
+									{t('common:tooltips:footer')}
 									<div className="hidden sm:block absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
 								</div>
 							</div>

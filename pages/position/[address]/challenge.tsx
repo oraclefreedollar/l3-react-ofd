@@ -17,7 +17,7 @@ import { envConfig } from 'app.env.config'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/redux.store'
 import { useChallengeContractsFunctions } from 'hooks/challenge/useChallengeContractsFunctions'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 export default function PositionChallenge() {
 	const router = useRouter()

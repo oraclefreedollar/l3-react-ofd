@@ -8,7 +8,7 @@ import { PositionCreateProvider } from 'contexts/position'
 import PositionProposeButton from 'components/Position/PositionProposeButton'
 import PositionSuccess from 'components/Position/PositionSuccess/PositionSuccess'
 import { usePositionCreateSteps } from 'hooks/positions/usePositionCreateSteps'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 export interface StepComponentProps {
 	userBalanceOFD?: bigint

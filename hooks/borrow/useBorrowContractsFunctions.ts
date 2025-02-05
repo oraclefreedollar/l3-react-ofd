@@ -5,7 +5,7 @@ import { useWriteContractWithToast } from 'hooks'
 import { erc20Abi, formatUnits } from 'viem'
 import { useChainId } from 'wagmi'
 import { PositionStats } from 'meta/positions'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 type Props = {
 	amount: bigint

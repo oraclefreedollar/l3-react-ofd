@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 import Button from 'components/Button'
 import ReactConfetti from 'react-confetti'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 const PositionSuccess: React.FC = () => {
 	const { t } = useTranslation()

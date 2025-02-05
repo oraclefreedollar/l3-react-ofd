@@ -17,7 +17,7 @@ import { envConfig } from 'app.env.config'
 import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/redux.store'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
 export default function PositionDetail() {

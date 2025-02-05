@@ -3,7 +3,7 @@ import TokenInput from 'components/Input/TokenInput'
 import NormalInput from 'components/Input/NormalInput'
 import Link from 'next/link'
 import { usePositionFormContext } from 'contexts/position'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
 type Props = {

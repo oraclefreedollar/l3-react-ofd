@@ -3,11 +3,11 @@ import { useChainId } from 'wagmi'
 import NavButton from './NavButton'
 import WalletConnect from './WalletConnect'
 import { ENABLE_EMERGENCY_MODE } from 'utils'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
+import React from 'react'
 
-export default function Navbar() {
-	const { t } = useTranslation()
-
+const Navbar: React.FC = () => {
+	const { t } = useTranslation(['common'])
 	const chainId = useChainId()
 
 	return (
@@ -44,7 +44,7 @@ export default function Navbar() {
 						<NavButton name={t('common:navigation:governance')} to="/governance" />
 					</li>
 					<li>
-						<NavButton name="Monitoring" to="/monitoring" />
+						<NavButton name={t('common:navigation:monitoring')} to="/monitoring" />
 					</li>
 					{chainId == 97 && (
 						<li>
@@ -141,3 +141,5 @@ export default function Navbar() {
 		</div>
 	)
 }
+
+export default Navbar

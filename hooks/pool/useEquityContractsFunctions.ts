@@ -4,7 +4,7 @@ import { useWriteContractWithToast } from 'hooks'
 import { erc20Abi, zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { EquityPoolStats } from 'meta/equity'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
 type Props = { amount: bigint; poolStats: EquityPoolStats; refetchTrades: any; result: bigint }

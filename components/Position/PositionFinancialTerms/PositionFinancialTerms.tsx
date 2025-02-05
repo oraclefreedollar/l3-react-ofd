@@ -4,7 +4,7 @@ import NormalInput from 'components/Input/NormalInput'
 import { usePositionFormContext } from 'contexts/position'
 import { PositionCreateFormState } from 'contexts/position/types'
 import { StepComponentProps } from 'pages/positions/create'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
 const PositionFinancialTerms: React.FC<StepComponentProps> = ({ onValidationChange }) => {

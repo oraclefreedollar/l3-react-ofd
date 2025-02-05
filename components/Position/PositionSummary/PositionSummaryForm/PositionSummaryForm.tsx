@@ -5,7 +5,7 @@ import SummaryRowTokenInput from 'components/Position/PositionSummary/SummaryRow
 import SummaryRowNormalInput from 'components/Position/PositionSummary/SummaryRowNormalInput'
 import { OPEN_POSITION_FEE } from 'utils'
 import { SummaryRow } from 'components/Position/PositionSummary/SummaryRow/SummaryRow'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
 const PositionSummaryForm: React.FC = () => {

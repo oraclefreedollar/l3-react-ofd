@@ -5,7 +5,7 @@ import { renderErrorToast, TxToast } from 'components/TxToast'
 import { Hash, SimulateContractParameters } from 'viem'
 import { useCallback, useState } from 'react'
 import { RefetchType } from 'utils'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 type WriteContractCustomProps = {
 	contractParams: SimulateContractParameters
@@ -21,7 +21,7 @@ type Returned = {
 
 export const useWriteContractWithToast = (props: WriteContractCustomProps): Returned => {
 	const { contractParams, refetchFunctions, toastPending, toastSuccess } = props
-	const { t } = useTranslation()
+	const { t } = useTranslation(['common'])
 	const [loading, setLoading] = useState<boolean>(false)
 
 	const writeFunction = useCallback(async (): Promise<boolean> => {
@@ -55,14 +55,14 @@ export const useWriteContractWithToast = (props: WriteContractCustomProps): Retu
 				},
 				error: {
 					render(error: unknown) {
-						return renderErrorToast(error)
+						return renderErrorToast(error, t('common:toasts:transaction:error'))
 					},
 				},
 			})
 			return true
 		} catch (e) {
 			console.log(e)
-			toast.error(renderErrorToast(e))
+			toast.error(renderErrorToast(e, t('common:toasts:transaction:error')))
 			return false
 		} finally {
 			refetchFunctions?.map(async (refetch) => await refetch())

@@ -6,7 +6,7 @@ import { erc20Abi } from 'viem'
 import { useChainId } from 'wagmi'
 import { SwapStats } from 'meta/swap'
 import { CoinTicker } from 'meta/coins'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 type Props = { amount: bigint; fromSymbol: CoinTicker; swapStats: SwapStats; toSymbol: CoinTicker }
 
@@ -21,7 +21,7 @@ type Returned = {
 
 export const useSwapContractsFunctions = (props: Props): Returned => {
 	const { amount, fromSymbol, swapStats, toSymbol } = props
-	const { t } = useTranslation()
+	const { t } = useTranslation('common')
 
 	const chainId = useChainId()
 	const formattedAmount = useMemo(() => Number(amount / BigInt(10 ** 18)), [amount])

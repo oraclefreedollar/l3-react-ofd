@@ -14,7 +14,7 @@ import { useAccount, useChainId } from 'wagmi'
 import { envConfig } from 'app.env.config'
 import { useAdjustContractsFunctions } from 'hooks/adjust/useAdjustContractsFunctions'
 import { CoinTicker } from 'meta/coins'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 export default function PositionAdjust() {
 	const { t } = useTranslation()

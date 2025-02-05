@@ -4,7 +4,7 @@ import { PositionStats } from 'meta/positions'
 import { useMemo } from 'react'
 import { formatBigInt, shortenAddress } from 'utils'
 import { ABIS } from 'contracts'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 type Props = {
 	amount: bigint
@@ -22,7 +22,7 @@ type Returned = {
 
 export const useAdjustContractsFunctions = (props: Props): Returned => {
 	const { amount, collateralAmount, liqPrice, position, positionStats } = props
-	const { t } = useTranslation()
+	const { t } = useTranslation('common')
 
 	const formattedCollateralAmount = useMemo(
 		() => Number(collateralAmount / BigInt(10 ** positionStats.collateralDecimal)),

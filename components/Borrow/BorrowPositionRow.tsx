@@ -7,7 +7,7 @@ import { formatCurrency } from 'utils/format'
 import { Address } from 'viem'
 import DisplayCollateralBorrowTable from './DisplayCollateralBorrowTable'
 import Link from 'next/link'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 interface Props {
 	item: PositionQuery

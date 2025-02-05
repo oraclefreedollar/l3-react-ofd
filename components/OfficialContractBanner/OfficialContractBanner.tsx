@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 const fadeInUp = {
 	hidden: { opacity: 0, y: 20 },
@@ -9,7 +9,7 @@ const fadeInUp = {
 }
 
 const OfficialContractBanner: React.FC = () => {
-	const { t } = useTranslation()
+	const { t } = useTranslation('home', { useSuspense: false })
 
 	return (
 		<motion.div
@@ -22,12 +22,12 @@ const OfficialContractBanner: React.FC = () => {
 			<div className="w-full bg-gradient-to-r from-purple-900/90 via-slate-900/95 to-purple-900/90 border-b border-purple-500/50 rounded-lg">
 				<div className="container mx-auto px-4 py-4">
 					<div className="flex flex-col items-center justify-center gap-4">
-						<span className="font-semibold text-slate-200">{t('pages:home:officialContracts:title')}</span>
+						<span className="font-semibold text-slate-200">{t('home:officialContracts:title')}</span>
 						<div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl">
 							<div className="flex-1 bg-slate-900/50 p-4 border border-purple-500/30 hover:border-purple-500/50 transition-all rounded-lg">
 								<div className="flex flex-col md:flex-row items-center justify-between gap-4">
 									<div className="flex flex-col gap-1">
-										<span className="text-purple-400 font-semibold">{t('pages:home:officialContracts:ofd:title')}</span>
+										<span className="text-purple-400 font-semibold">{t('home:officialContracts:ofd:title')}</span>
 										<code className="text-xs sm:text-sm text-slate-300">0x969D3B762c543909d6ADDC1b7330BDfdc6cc60e6</code>
 									</div>
 									<button
@@ -55,7 +55,7 @@ const OfficialContractBanner: React.FC = () => {
 							<div className="flex-1 bg-slate-900/50 p-4 border border-purple-500/30 hover:border-purple-500/50 transition-all rounded-lg">
 								<div className="flex flex-col md:flex-row items-center justify-between gap-4">
 									<div className="flex flex-col gap-1">
-										<span className="text-purple-400 font-semibold">{t('pages:home:officialContracts:ofdps:title')}</span>
+										<span className="text-purple-400 font-semibold">{t('home:officialContracts:ofdps:title')}</span>
 										<code className="text-xs sm:text-sm text-slate-300">0xc3f061175aDc0992290ec0FF4E28B59b364f3F61</code>
 									</div>
 									<button

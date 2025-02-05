@@ -5,7 +5,7 @@ import { usePositionFormContext } from 'contexts/position'
 import { PositionCreateFormState } from 'contexts/position/types'
 import { OPEN_POSITION_FEE } from 'utils'
 import { StepComponentProps } from 'pages/positions/create'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
 const PositionLiquidation: React.FC<StepComponentProps> = ({ onValidationChange }) => {

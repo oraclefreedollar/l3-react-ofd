@@ -7,7 +7,7 @@ import { useApproveCollateral } from './hooks/useApproveCollateral'
 import { usePositionFormContext } from 'contexts/position'
 import { useTokenData } from 'hooks'
 import { PositionCreateFormState } from 'contexts/position/types'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 
 type Props = {
 	userBalanceRefetch: RefetchType
