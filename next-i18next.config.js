@@ -29,6 +29,7 @@ module.exports = {
 		'home',
 		'myPositions',
 		'positionAdjust',
+		'positionBid',
 		'positionBorrow',
 		'positionCollaterals',
 		'positionCreate',

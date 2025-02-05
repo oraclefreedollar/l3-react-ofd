@@ -12,15 +12,19 @@ import { formatDate, formatDuration, min, shortenAddress } from 'utils'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useChainId } from 'wagmi'
 import { envConfig } from 'app.env.config'
 import { useWriteContractsBid } from 'hooks/bid/useWriteContractsBid'
 import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
+import { InferGetServerSidePropsType } from 'next'
 
-export default function ChallengePlaceBid({}) {
-	const { t } = useTranslation()
+const namespaces = ['positionBid']
+
+const ChallengePlaceBid: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const { t } = useTranslation(namespaces)
 
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
@@ -58,9 +62,9 @@ export default function ChallengePlaceBid({}) {
 			setAmount(valueBigInt)
 
 			if (valueBigInt > positionStats.collateralUserBal) {
-				setError(t('pages:position:bid:errors:noEnoughBalance'))
+				setError(t('positionBid:errors:noEnoughBalance'))
 			} else if (valueBigInt > remainingCol) {
-				setError(t('pages:position:bid:errors:expectedWinningCollateral'))
+				setError(t('positionBid:errors:expectedWinningCollateral'))
 			} else {
 				setError('')
 			}
@@ -72,38 +76,38 @@ export default function ChallengePlaceBid({}) {
 		<>
 			<Head>
 				<title>
-					{envConfig.AppName} - {t('pages:position:bid:title')}
+					{envConfig.AppName} - {t('positionBid:title')}
 				</title>
 			</Head>
 			<div>
-				<AppPageHeader backText={t('pages:position:bid:back')} backTo={`/position/${address}`} title={t('pages:position:bid:title')} />
+				<AppPageHeader backText={t('positionBid:back')} backTo={`/position/${address}`} title={t('positionBid:title')} />
 				<section className="mx-auto max-w-2xl sm:px-8">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50 gap-y-4">
-						<div className="text-lg font-bold text-center mt-3">{t('pages:position:bid:details:title')}</div>
+						<div className="text-lg font-bold text-center mt-3">{t('positionBid:details:title')}</div>
 						<div className="space-y-12">
 							<div className="space-y-4">
 								<TokenInput
 									digit={positionStats.collateralDecimal}
 									error={error}
-									label={t('pages:position:bid:details:challengeLabel')}
+									label={t('positionBid:details:challengeLabel')}
 									max={min(positionStats.collateralUserBal, remainingCol)}
 									onChange={onChangeAmount}
-									placeholder={t('pages:position:bid:details:challengePlaceholder')}
+									placeholder={t('positionBid:details:challengePlaceholder')}
 									symbol={positionStats.collateralSymbol}
 									value={amount.toString()}
 								/>
 								<div className="flex flex-col gap-1">
-									<span>{t('pages:position:bid:details:expectedPrice', { amount: formatUnits(expectedOFD(), 18) })}</span>
+									<span>{t('positionBid:details:expectedPrice', { amount: formatUnits(expectedOFD(), 18) })}</span>
 								</div>
 							</div>
 						</div>
 						<div className="bg-slate-900 rounded-xl p-4 grid grid-cols-1 md:grid-cols-2 gap-2 lg:col-span-2">
 							<AppBox>
-								<DisplayLabel label={t('pages:position:bid:details:remainingCollateral')} />
+								<DisplayLabel label={t('positionBid:details:remainingCollateral')} />
 								<DisplayAmount address={positionStats.collateral} amount={remainingCol} currency={positionStats.collateralSymbol} />
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label={t('pages:position:bid:details:originalSize')} />
+								<DisplayLabel label={t('positionBid:details:originalSize')} />
 								<DisplayAmount
 									address={positionStats.collateral}
 									amount={challenge?.size || 0n}
@@ -111,7 +115,7 @@ export default function ChallengePlaceBid({}) {
 								/>
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label={t('pages:position:bid:details:pricePerUnit')} />
+								<DisplayLabel label={t('positionBid:details:pricePerUnit')} />
 								<DisplayAmount
 									address={ADDRESS[chainId].oracleFreeDollar}
 									amount={buyNowPrice}
@@ -120,11 +124,11 @@ export default function ChallengePlaceBid({}) {
 								/>
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label={t('pages:position:bid:details:reachingZero')} />
+								<DisplayLabel label={t('positionBid:details:reachingZero')} />
 								{formatDate(challenge?.auctionEnd || 0)}
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label={t('pages:position:bid:details:phaseDuration')} />
+								<DisplayLabel label={t('positionBid:details:phaseDuration')} />
 								<div>{formatDuration(positionStats.challengePeriod)}</div>
 							</AppBox>
 							<AppBox>
@@ -138,11 +142,11 @@ export default function ChallengePlaceBid({}) {
 							<GuardToAllowedChainBtn>
 								{expectedOFD() > positionStats.ofdAllowance ? (
 									<Button isLoading={isApproving} onClick={() => handleApprove()}>
-										{t('pages:position:bid:buttons:approve')}
+										{t('positionBid:buttons:approve')}
 									</Button>
 								) : (
 									<Button disabled={amount == 0n} isLoading={isBidding} onClick={() => handleBid()} variant="primary">
-										{t('pages:position:bid:buttons:bid')}
+										{t('positionBid:buttons:bid')}
 									</Button>
 								)}
 							</GuardToAllowedChainBtn>
@@ -153,3 +157,7 @@ export default function ChallengePlaceBid({}) {
 		</>
 	)
 }
+
+const getServerSideProps = withServerSideTranslations(namespaces)
+
+export default ChallengePlaceBid

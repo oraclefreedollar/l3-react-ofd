@@ -22,8 +22,10 @@ import { CoinTicker } from 'meta/coins'
 import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 import { InferGetServerSidePropsType } from 'next'
 
+const namespaces = ['positionOverview', 'challenge']
+
 const PositionDetail: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-	const { t } = useTranslation()
+	const { t } = useTranslation(namespaces)
 
 	const router = useRouter()
 	const { address } = router.query
@@ -180,6 +182,6 @@ const PositionDetail: React.FC = (_props: InferGetServerSidePropsType<typeof get
 	)
 }
 
-export const getServerSideProps = withServerSideTranslations(['positionOverview'])
+export const getServerSideProps = withServerSideTranslations(namespaces)
 
 export default PositionDetail

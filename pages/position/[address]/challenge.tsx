@@ -22,10 +22,12 @@ import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 import { InferGetServerSidePropsType } from 'next'
 import { CoinTicker } from 'meta/coins'
 
+const namespaces = ['challenge']
+
 const PositionChallenge: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const router = useRouter()
 	const { address: positionAddr } = router.query
-	const { t } = useTranslation()
+	const { t } = useTranslation(namespaces)
 
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
@@ -174,6 +176,6 @@ const PositionChallenge: React.FC = (_props: InferGetServerSidePropsType<typeof 
 	)
 }
 
-const getServerSideProps = withServerSideTranslations(['challenge'])
+const getServerSideProps = withServerSideTranslations(namespaces)
 
 export default PositionChallenge
