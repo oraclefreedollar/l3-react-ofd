@@ -31,6 +31,7 @@ module.exports = {
 		'positionAdjust',
 		'positionBorrow',
 		'positionCollaterals',
+		'positionCreate',
 		'positionOverview',
 		'swap',
 	],

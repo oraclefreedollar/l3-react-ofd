@@ -17,7 +17,7 @@ type Props = {
 const PositionProposeCollateral: React.FC<Props> = (props) => {
 	const { userBalanceRefetch, onValidationChange } = props
 
-	const { t } = useTranslation()
+	const { t } = useTranslation(['positionCreate', 'common'])
 
 	const { form, errors, handleChange } = usePositionFormContext()
 	const { collateralAddress, initialCollAmount, minCollAmount } = form
@@ -69,13 +69,13 @@ const PositionProposeCollateral: React.FC<Props> = (props) => {
 
 	return (
 		<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
-			<div className="text-lg font-bold justify-center mt-3 flex">{t('pages:position:create:collateral:title')}</div>
+			<div className="text-lg font-bold justify-center mt-3 flex">{t('positionCreate:collateral:title')}</div>
 
 			<AddressInput
 				error={errors['collateralAddress']}
-				label={t('pages:position:create:collateral:addressLabel')}
+				label={t('positionCreate:collateral:addressLabel')}
 				onChange={(value) => handleChange('collateralAddress', value)}
-				placeholder={t('pages:position:create:collateral:addressPlaceholder')}
+				placeholder={t('positionCreate:collateral:addressPlaceholder')}
 				tooltip={t('common:tooltips:position:create:collateralAddress')}
 				value={collateralAddress}
 			/>
@@ -87,7 +87,7 @@ const PositionProposeCollateral: React.FC<Props> = (props) => {
 					isLoading={approving}
 					onClick={approve}
 				>
-					{t('pages:position:create:collateral:approveButton', {
+					{t('positionCreate:collateral:approveButton', {
 						symbol: collTokenData.symbol == 'NaN' ? '' : 'Handling of ' + collTokenData.symbol,
 					})}
 				</Button>
@@ -96,9 +96,9 @@ const PositionProposeCollateral: React.FC<Props> = (props) => {
 				digit={collTokenData.decimals}
 				error={errors['minCollAmount']}
 				hideMaxLabel
-				label={t('pages:position:create:collateral:minCollateral')}
+				label={t('positionCreate:collateral:minCollateral')}
 				onChange={(value) => onChangeValue('minCollAmount', value)}
-				placeholder={t('pages:position:create:collateral:minCollateralPlaceholder')}
+				placeholder={t('positionCreate:collateral:minCollateralPlaceholder')}
 				symbol={collTokenData.symbol}
 				tooltip={t('common:tooltips:position:create:minCollateral')}
 				value={minCollAmount.toString()}
@@ -106,10 +106,10 @@ const PositionProposeCollateral: React.FC<Props> = (props) => {
 			<TokenInput
 				digit={collTokenData.decimals}
 				error={errors['initialCollAmount']}
-				label={t('pages:position:create:collateral:initialCollateral')}
+				label={t('positionCreate:collateral:initialCollateral')}
 				max={collTokenData.balance}
 				onChange={(value) => onChangeValue('initialCollAmount', value)}
-				placeholder={t('pages:position:create:collateral:initialCollateralPlaceholder')}
+				placeholder={t('positionCreate:collateral:initialCollateralPlaceholder')}
 				symbol={collTokenData.symbol}
 				tooltip={t('common:tooltips:position:create:initialCollateral')}
 				value={initialCollAmount.toString()}

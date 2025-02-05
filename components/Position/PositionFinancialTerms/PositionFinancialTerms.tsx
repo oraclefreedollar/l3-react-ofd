@@ -8,7 +8,7 @@ import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
 const PositionFinancialTerms: React.FC<StepComponentProps> = ({ onValidationChange }) => {
-	const { t } = useTranslation()
+	const { t } = useTranslation(['positionCreate', 'common'])
 
 	const { form, errors, handleChange } = usePositionFormContext()
 	const { interest, limitAmount, maturity } = form
@@ -28,13 +28,13 @@ const PositionFinancialTerms: React.FC<StepComponentProps> = ({ onValidationChan
 
 	return (
 		<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
-			<div className="text-lg font-bold text-center mt-3">{t('pages:position:create:financial:title')}</div>
+			<div className="text-lg font-bold text-center mt-3">{t('positionCreate:financial:title')}</div>
 			<TokenInput
 				error={errors['limitAmount']}
 				hideMaxLabel
-				label={t('pages:position:create:financial:section:limitAmountLabel')}
+				label={t('positionCreate:financial:section:limitAmountLabel')}
 				onChange={(value) => onChangeValue('limitAmount', value)}
-				placeholder={t('pages:position:create:financial:section:limitAmountPlaceholder')}
+				placeholder={t('positionCreate:financial:section:limitAmountPlaceholder')}
 				symbol={CoinTicker.OFD}
 				tooltip={t('common:tooltips:position:create:limitAmount')}
 				value={limitAmount.toString()}
@@ -44,9 +44,9 @@ const PositionFinancialTerms: React.FC<StepComponentProps> = ({ onValidationChan
 					digit={4}
 					error={errors['interest']}
 					hideMaxLabel
-					label={t('pages:position:create:financial:section:interestLabel')}
+					label={t('positionCreate:financial:section:interestLabel')}
 					onChange={(value) => onChangeValue('interest', value)}
-					placeholder={t('pages:position:create:financial:section:interestPlaceholder')}
+					placeholder={t('positionCreate:financial:section:interestPlaceholder')}
 					symbol="%"
 					tooltip={t('common:tooltips:position:create:interest')}
 					value={interest.toString()}
@@ -55,9 +55,9 @@ const PositionFinancialTerms: React.FC<StepComponentProps> = ({ onValidationChan
 					digit={0}
 					error={errors['maturity']}
 					hideMaxLabel
-					label={t('pages:position:create:financial:section:maturityLabel')}
+					label={t('positionCreate:financial:section:maturityLabel')}
 					onChange={(value) => onChangeValue('maturity', value)}
-					placeholder={t('pages:position:create:financial:section:maturityLabel')}
+					placeholder={t('positionCreate:financial:section:maturityLabel')}
 					symbol={t('common:months')}
 					tooltip={t('common:tooltips:position:create:maturity')}
 					value={maturity.toString()}

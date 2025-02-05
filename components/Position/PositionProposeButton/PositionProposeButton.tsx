@@ -40,7 +40,7 @@ const PositionProposeButton: React.FC<{ onSuccess: () => void }> = ({ onSuccess 
 		<div className="max-w-full flex-col">
 			<GuardToAllowedChainBtn>
 				<Button disabled={hasFormError} isLoading={openingPosition} onClick={handleOpenPosition} variant="primary">
-					{t('pages:position:create:buttons:propose')}
+					{t('positionCreate:buttons:propose')}
 				</Button>
 			</GuardToAllowedChainBtn>
 		</div>

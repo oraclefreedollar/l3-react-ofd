@@ -8,38 +8,38 @@ import PositionSummary from 'components/Position/PositionSummary/PositionSummary
 import { useTranslation } from 'next-i18next'
 
 export const usePositionCreateSteps = () => {
-	const { t } = useTranslation()
+	const { t } = useTranslation(['positionCreate', 'common'])
 
 	return useMemo(
 		() => [
 			{
 				id: 'requirements',
-				title: t('pages:position:create:requirements:title'),
+				title: t('positionCreate:requirements:title'),
 				component: PositionRequirements,
 			},
 			{
 				id: 'collateral',
-				title: t('pages:position:create:collateral:title'),
+				title: t('positionCreate:collateral:title'),
 				component: PositionProposeCollateral,
 			},
 			{
 				id: 'initialization',
-				title: t('pages:position:create:initialization:title'),
+				title: t('positionCreate:initialization:title'),
 				component: PositionInitialization,
 			},
 			{
 				id: 'financial',
-				title: t('pages:position:create:financial:title'),
+				title: t('positionCreate:financial:title'),
 				component: PositionFinancialTerms,
 			},
 			{
 				id: 'liquidation',
-				title: t('pages:position:create:liquidation:title'),
+				title: t('positionCreate:liquidation:title'),
 				component: PositionLiquidation,
 			},
 			{
 				id: 'summary',
-				title: t('pages:position:create:summary:title'),
+				title: t('positionCreate:summary:title'),
 				component: PositionSummary,
 			},
 		],

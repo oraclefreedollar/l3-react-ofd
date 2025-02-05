@@ -9,7 +9,7 @@ import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
 const PositionLiquidation: React.FC<StepComponentProps> = ({ onValidationChange }) => {
-	const { t } = useTranslation()
+	const { t } = useTranslation('positionCreate')
 
 	const { collTokenData, form, errors, handleChange } = usePositionFormContext()
 	const { auctionDuration, buffer, liqPrice, minCollAmount } = form
@@ -29,16 +29,16 @@ const PositionLiquidation: React.FC<StepComponentProps> = ({ onValidationChange 
 
 	return (
 		<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
-			<div className="text-lg font-bold text-center mt-3">{t('pages:position:create:liquidation:section:title')}</div>
+			<div className="text-lg font-bold text-center mt-3">{t('positionCreate:liquidation:section:title')}</div>
 			<TokenInput
 				balanceLabel="Pick"
 				digit={36n - collTokenData.decimals}
 				error={errors['liqPrice']}
 				hideMaxLabel={minCollAmount == 0n}
-				label={t('pages:position:create:liquidation:section:liqPriceLabel')}
+				label={t('positionCreate:liquidation:section:liqPriceLabel')}
 				max={minCollAmount == 0n ? 0n : (OPEN_POSITION_FEE + minCollAmount - 1n) / minCollAmount}
 				onChange={(value) => onChangeValue('liqPrice', value)}
-				placeholder={t('pages:position:create:liquidation:section:liqPricePlaceholder')}
+				placeholder={t('positionCreate:liquidation:section:liqPricePlaceholder')}
 				symbol={CoinTicker.OFD}
 				tooltip={t('common:tooltips:position:create:liqPrice')}
 				value={liqPrice.toString()}
@@ -48,9 +48,9 @@ const PositionLiquidation: React.FC<StepComponentProps> = ({ onValidationChange 
 					digit={4}
 					error={errors['buffer']}
 					hideMaxLabel
-					label={t('pages:position:create:liquidation:section:bufferLabel')}
+					label={t('positionCreate:liquidation:section:bufferLabel')}
 					onChange={(value) => onChangeValue('buffer', value)}
-					placeholder={t('pages:position:create:liquidation:section:bufferPlaceholder')}
+					placeholder={t('positionCreate:liquidation:section:bufferPlaceholder')}
 					symbol="%"
 					tooltip={t('common:tooltips:position:create:buffer')}
 					value={buffer.toString()}
@@ -59,9 +59,9 @@ const PositionLiquidation: React.FC<StepComponentProps> = ({ onValidationChange 
 					digit={0}
 					error={errors['auctionDuration']}
 					hideMaxLabel
-					label={t('pages:position:create:liquidation:section:auctionDurationLabel')}
+					label={t('positionCreate:liquidation:section:auctionDurationLabel')}
 					onChange={(value) => onChangeValue('auctionDuration', value)}
-					placeholder={t('pages:position:create:liquidation:section:auctionDurationLabel')}
+					placeholder={t('positionCreate:liquidation:section:auctionDurationLabel')}
 					symbol={t('common:hours')}
 					tooltip={t('common:tooltips:position:create:auctionDuration')}
 					value={auctionDuration.toString()}

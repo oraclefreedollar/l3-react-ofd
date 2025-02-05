@@ -57,11 +57,11 @@ const PositionSuccess: React.FC = () => {
 						<FontAwesomeIcon className="text-green-500" icon={faCircleCheck} size="lg" />
 					</div>
 
-					<h3 className="text-2xl font-bold text-white mb-3">{t('pages:position:create:success:title')}</h3>
+					<h3 className="text-2xl font-bold text-white mb-3">{t('positionCreate:success:title')}</h3>
 
-					<p className="text-gray-300 mb-6">{t('pages:position:create:success:description')}</p>
+					<p className="text-gray-300 mb-6">{t('positionCreate:success:description')}</p>
 
-					<p className="text-gray-300 mb-6">{t('pages:position:create:success:afterApproval')}</p>
+					<p className="text-gray-300 mb-6">{t('positionCreate:success:afterApproval')}</p>
 
 					<div className="space-y-3 w-full">
 						<Button
@@ -69,7 +69,7 @@ const PositionSuccess: React.FC = () => {
 							onClick={() => (window.location.href = '/positions')}
 							variant="primary"
 						>
-							{t('pages:position:create:success:button')}
+							{t('positionCreate:success:button')}
 						</Button>
 					</div>
 				</div>

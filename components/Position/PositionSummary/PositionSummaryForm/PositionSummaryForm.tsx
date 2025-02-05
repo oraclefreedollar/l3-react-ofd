@@ -9,7 +9,7 @@ import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
 const PositionSummaryForm: React.FC = () => {
-	const { t } = useTranslation()
+	const { t } = useTranslation(['positionCreate', 'common'])
 
 	const { collTokenData, form, errors, handleChange } = usePositionFormContext()
 	const { auctionDuration, buffer, initialCollAmount, initPeriod, interest, limitAmount, liqPrice, maturity, minCollAmount } = form
@@ -24,10 +24,10 @@ const PositionSummaryForm: React.FC = () => {
 
 	return (
 		<div className="space-y-2">
-			<SummaryRow label={t('pages:position:create:summary:form:collateral')} value={`${collTokenData.symbol} (${collTokenData.address})`} />
+			<SummaryRow label={t('positionCreate:summary:form:collateral')} value={`${collTokenData.symbol} (${collTokenData.address})`} />
 
 			<SummaryRow
-				label={t('pages:position:create:summary:form:proposalFee')}
+				label={t('positionCreate:summary:form:proposalFee')}
 				tooltip={t('common:tooltips:position:create:proposalFee')}
 				value={`1000 OFD`}
 			/>
@@ -37,9 +37,9 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['minCollAmount']}
 				fieldName={'minCollAmount'}
 				hideMaxLabel
-				label={t('pages:position:create:collateral:minCollateral')}
+				label={t('positionCreate:collateral:minCollateral')}
 				onChangeValue={onChangeValue}
-				placeholder={t('pages:position:create:collateral:minCollateralPlaceholder')}
+				placeholder={t('positionCreate:collateral:minCollateralPlaceholder')}
 				symbol={collTokenData.symbol}
 				tooltip={t('common:tooltips:position:create:minCollateral')}
 				value={minCollAmount}
@@ -49,10 +49,10 @@ const PositionSummaryForm: React.FC = () => {
 				digit={collTokenData.decimals}
 				error={errors['initialCollAmount']}
 				fieldName={'initialCollAmount'}
-				label={t('pages:position:create:collateral:initialCollateral')}
+				label={t('positionCreate:collateral:initialCollateral')}
 				max={collTokenData.balance}
 				onChangeValue={onChangeValue}
-				placeholder={t('pages:position:create:collateral:initialCollateralPlaceholder')}
+				placeholder={t('positionCreate:collateral:initialCollateralPlaceholder')}
 				symbol={collTokenData.symbol}
 				tooltip={t('common:tooltips:position:create:initialCollateral')}
 				value={initialCollAmount}
@@ -63,9 +63,9 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['initPeriod']}
 				fieldName={'initPeriod'}
 				hideMaxLabel
-				label={t('pages:position:create:initialization:section:initPeriodLabel')}
+				label={t('positionCreate:initialization:section:initPeriodLabel')}
 				onChangeValue={onChangeValue}
-				placeholder={t('pages:position:create:initialization:section:initPeriodLabel')}
+				placeholder={t('positionCreate:initialization:section:initPeriodLabel')}
 				symbol={t('common:days')}
 				tooltip={t('common:tooltips:position:create:initPeriod')}
 				value={initPeriod}
@@ -75,9 +75,9 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['limitAmount']}
 				fieldName={'limitAmount'}
 				hideMaxLabel
-				label={t('pages:position:create:financial:section:limitAmountLabel')}
+				label={t('positionCreate:financial:section:limitAmountLabel')}
 				onChangeValue={onChangeValue}
-				placeholder={t('pages:position:create:financial:section:limitAmountPlaceholder')}
+				placeholder={t('positionCreate:financial:section:limitAmountPlaceholder')}
 				symbol={CoinTicker.OFD}
 				tooltip={t('common:tooltips:position:create:limitAmount')}
 				value={limitAmount}
@@ -96,9 +96,9 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['interest']}
 				fieldName={'interest'}
 				hideMaxLabel
-				label={t('pages:position:create:financial:section:interestLabel')}
+				label={t('positionCreate:financial:section:interestLabel')}
 				onChangeValue={onChangeValue}
-				placeholder={t('pages:position:create:financial:section:interestPlaceholder')}
+				placeholder={t('positionCreate:financial:section:interestPlaceholder')}
 				symbol="%"
 				tooltip={t('common:tooltips:position:create:interest')}
 				value={interest}
@@ -109,9 +109,9 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['maturity']}
 				fieldName={'maturity'}
 				hideMaxLabel
-				label={t('pages:position:create:financial:section:maturityLabel')}
+				label={t('positionCreate:financial:section:maturityLabel')}
 				onChangeValue={onChangeValue}
-				placeholder={t('pages:position:create:financial:section:maturityLabel')}
+				placeholder={t('positionCreate:financial:section:maturityLabel')}
 				symbol={t('common:months')}
 				tooltip={t('common:tooltips:position:create:maturity')}
 				value={maturity}
@@ -123,10 +123,10 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['liqPrice']}
 				fieldName={'liqPrice'}
 				hideMaxLabel={minCollAmount == 0n}
-				label={t('pages:position:create:liquidation:section:liqPriceLabel')}
+				label={t('positionCreate:liquidation:section:liqPriceLabel')}
 				max={minCollAmount == 0n ? 0n : (OPEN_POSITION_FEE + minCollAmount - 1n) / minCollAmount}
 				onChangeValue={onChangeValue}
-				placeholder={t('pages:position:create:liquidation:section:liqPricePlaceholder')}
+				placeholder={t('positionCreate:liquidation:section:liqPricePlaceholder')}
 				symbol={CoinTicker.OFD}
 				tooltip={t('common:tooltips:position:create:liqPrice')}
 				value={liqPrice}
@@ -146,9 +146,9 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['buffer']}
 				fieldName={'buffer'}
 				hideMaxLabel
-				label={t('pages:position:create:liquidation:section:bufferLabel')}
+				label={t('positionCreate:liquidation:section:bufferLabel')}
 				onChangeValue={onChangeValue}
-				placeholder={t('pages:position:create:liquidation:section:bufferPlaceholder')}
+				placeholder={t('positionCreate:liquidation:section:bufferPlaceholder')}
 				symbol="%"
 				tooltip={t('common:tooltips:position:create:buffer')}
 				value={buffer}
@@ -159,9 +159,9 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['auctionDuration']}
 				fieldName={'auctionDuration'}
 				hideMaxLabel
-				label={t('pages:position:create:liquidation:section:auctionDurationLabel')}
+				label={t('positionCreate:liquidation:section:auctionDurationLabel')}
 				onChangeValue={onChangeValue}
-				placeholder={t('pages:position:create:liquidation:section:auctionDurationLabel')}
+				placeholder={t('positionCreate:liquidation:section:auctionDurationLabel')}
 				symbol={t('common:hours')}
 				tooltip={t('common:tooltips:position:create:auctionDuration')}
 				value={auctionDuration}
