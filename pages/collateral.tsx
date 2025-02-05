@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import AppPageHeader from 'components/AppPageHeader'
 import { envConfig } from 'app.env.config'
@@ -15,8 +15,10 @@ import { ADDRESS } from 'contracts'
 import { useTokenData } from 'hooks'
 import { useAccount, useChainId } from 'wagmi'
 import { useTranslation } from 'next-i18next'
+import { GetServerSideProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-export default function Overview() {
+const Overview: React.FC = () => {
 	const { t } = useTranslation()
 
 	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
@@ -65,11 +67,11 @@ export default function Overview() {
 
 	const headers: string[] = useMemo(
 		() => [
-			t('pages:collateral:table:collateral'),
-			t('pages:collateral:table:loanToValue'),
-			t('pages:collateral:table:effectiveInterest'),
-			t('pages:collateral:table:liquidationPrice'),
-			t('pages:collateral:table:maturity'),
+			t('collateral:table:collateral'),
+			t('collateral:table:loanToValue'),
+			t('collateral:table:effectiveInterest'),
+			t('collateral:table:liquidationPrice'),
+			t('collateral:table:maturity'),
 		],
 		[t]
 	)
@@ -78,16 +80,16 @@ export default function Overview() {
 		<div>
 			<Head>
 				<title>
-					{envConfig.AppName} - {t('pages:collateral:title')}
+					{envConfig.AppName} - {t('collateral:title')}
 				</title>
 			</Head>
 
-			<AppPageHeader title={t('pages:collateral:headerTitle')} />
+			<AppPageHeader title={t('collateral:headerTitle')} />
 			<Table>
 				<TableHeader actionCol headers={headers} />
 				<TableBody>
 					{list.length === 0 ? (
-						<TableRowEmpty>{t('pages:collateral:noSavings')}</TableRowEmpty>
+						<TableRowEmpty>{t('collateral:noSavings')}</TableRowEmpty>
 					) : (
 						list.map((r) => <BorrowPositionRow item={r} key={r.position} />)
 					)}
@@ -96,3 +98,11 @@ export default function Overview() {
 		</div>
 	)
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
+	props: {
+		...(await serverSideTranslations(locale ?? 'en', ['collateral'])),
+	},
+})
+
+export default Overview

@@ -8,13 +8,14 @@ import { Address } from 'viem'
 import DisplayCollateralBorrowTable from './DisplayCollateralBorrowTable'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
+import { CoinTicker } from 'meta/coins'
 
 interface Props {
 	item: PositionQuery
 }
 
 export default function BorrowPositionRow({ item }: Props) {
-	const { t } = useTranslation()
+	const { t } = useTranslation('collateral')
 
 	const { coingecko } = useSelector((state: RootState) => state.prices)
 	const { rate } = useSelector((state: RootState) => state.savings.savingsInfo)
@@ -37,7 +38,7 @@ export default function BorrowPositionRow({ item }: Props) {
 			<TableRow
 				actionCol={
 					<Link className="btn btn-primary w-full" href={`/position/${item.position}/borrow`}>
-						{t('pages:collateral:table:clone')}
+						{t('collateral:table:clone')}
 					</Link>
 				}
 			>
@@ -59,7 +60,9 @@ export default function BorrowPositionRow({ item }: Props) {
 				</div>
 
 				<div className="flex flex-col gap-2">
-					<div className="col-span-2 text-md">{formatCurrency(price, 2, 2)} OFD</div>
+					<div className="col-span-2 text-md">
+						{formatCurrency(price, 2, 2)} {CoinTicker.OFD}
+					</div>
 				</div>
 
 				<div className="flex flex-col gap-2">
