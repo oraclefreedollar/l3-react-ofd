@@ -22,7 +22,7 @@ const fadeInUp = {
 }
 
 const Home: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-	const { t } = useTranslation(['home', 'common'], { useSuspense: false })
+	const { t } = useTranslation(['home', 'common'])
 
 	const tvlData = useTvl()
 	const homestats = useHomeStats()

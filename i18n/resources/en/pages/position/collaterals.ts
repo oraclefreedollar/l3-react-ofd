@@ -1,9 +1,0 @@
-const collaterals = {
-	status: {
-		danger: 'Danger, blow {{percentage}}% collateralized',
-		safe: 'Safe, blow {{percentage}}% collateralized',
-		warning: 'Warning, blow {{percentage}}% collateralized',
-	},
-}
-
-export default collaterals

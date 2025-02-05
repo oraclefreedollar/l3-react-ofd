@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function PositionTable({ showMyPos }: Props) {
-	const { t } = useTranslation()
+	const { t } = useTranslation('myPositions')
 
 	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
 	const { address } = useAccount()
@@ -35,16 +35,14 @@ export default function PositionTable({ showMyPos }: Props) {
 				<TableHeader
 					actionCol
 					headers={[
-						t('pages:position:list:table:header:collateral'),
-						t('pages:position:list:table:header:liqPrice'),
-						t('pages:position:list:table:header:availableAmount'),
+						t('myPositions:table:header:collateral'),
+						t('myPositions:table:header:liqPrice'),
+						t('myPositions:table:header:availableAmount'),
 					]}
 				/>
 				<TableBody>
 					{matchingPositions.length == 0 ? (
-						<TableRowEmpty>
-							{showMyPos ? t('pages:position:list:table:noPositionsAccount') : t('pages:position:list:table:noPositions')}
-						</TableRowEmpty>
+						<TableRowEmpty>{showMyPos ? t('myPositions:table:noPositionsAccount') : t('myPositions:table:noPositions')}</TableRowEmpty>
 					) : (
 						matchingPositions.map((pos) => <PositionRow key={pos.position} position={pos} />)
 					)}

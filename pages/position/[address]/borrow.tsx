@@ -10,7 +10,7 @@ import { usePositionStats } from 'hooks'
 import { ENABLE_EMERGENCY_MODE, formatBigInt, min, toTimestamp } from 'utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { formatUnits, getAddress, zeroAddress } from 'viem'
 import { useChainId } from 'wagmi'
 import { envConfig } from 'app.env.config'
@@ -18,8 +18,10 @@ import { EmergencyPage } from 'components/EmergencyPage'
 import { useBorrowContractsFunctions } from 'hooks/borrow/useBorrowContractsFunctions'
 import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
+import { InferGetServerSidePropsType } from 'next'
 
-export default function PositionBorrow({}) {
+const PositionBorrow: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const { t } = useTranslation()
 
 	const router = useRouter()
@@ -71,9 +73,9 @@ export default function PositionBorrow({}) {
 			setAmount(valueBigInt)
 			if (valueBigInt > borrowingLimit) {
 				if (availableAmount > userValue) {
-					setError(t('pages:position:borrow:mintingSection:errors:notEnoughCollateral', { symbol: positionStats.collateralSymbol }))
+					setError(t('positionBorrow:mintingSection:errors:notEnoughCollateral', { symbol: positionStats.collateralSymbol }))
 				} else {
-					setError(t('pages:position:borrow:mintingSection:errors:notEnoughOFD'))
+					setError(t('positionBorrow:mintingSection:errors:notEnoughOFD'))
 				}
 			} else {
 				setError('')
@@ -86,7 +88,7 @@ export default function PositionBorrow({}) {
 		(value: string) => {
 			const valueBigInt = (BigInt(value) * positionStats.liqPrice) / BigInt(1e18)
 			if (valueBigInt > borrowingLimit) {
-				setError(t('pages:position:borrow:mintingSection:errors:cannotMintMore', { limit: borrowingLimit, value: valueBigInt }))
+				setError(t('positionBorrow:mintingSection:errors:cannotMintMore', { limit: borrowingLimit, value: valueBigInt }))
 			} else {
 				setError('')
 			}
@@ -103,7 +105,7 @@ export default function PositionBorrow({}) {
 			const uppperLimit = positionStats.expiration
 
 			if (newTimestamp < bottomLimit || newTimestamp > uppperLimit) {
-				setErrorDate(t('pages:position:borrow:mintingSection:expiration:error'))
+				setErrorDate(t('positionBorrow:mintingSection:expiration:error'))
 			} else {
 				setErrorDate('')
 			}
@@ -128,35 +130,31 @@ export default function PositionBorrow({}) {
 		<>
 			<Head>
 				<title>
-					{envConfig.AppName} - {t('pages:position:borrow:title')}
+					{envConfig.AppName} - {t('positionBorrow:title')}
 				</title>
 			</Head>
 			<div>
-				<AppPageHeader
-					backText={t('pages:position:borrow:back')}
-					backTo={`/position/${position}`}
-					title={t('pages:position:borrow:title')}
-				/>
+				<AppPageHeader backText={t('positionBorrow:back')} backTo={`/position/${position}`} title={t('positionBorrow:title')} />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
-						<div className="text-lg font-bold text-center mt-3">{t('pages:position:borrow:mintingSection:title')}</div>
+						<div className="text-lg font-bold text-center mt-3">{t('positionBorrow:mintingSection:title')}</div>
 						<div className="space-y-8">
 							<TokenInput
-								balanceLabel={t('pages:position:borrow:mintingSection:amount:balanceLabel')}
+								balanceLabel={t('positionBorrow:mintingSection:amount:balanceLabel')}
 								error={error}
-								label={t('pages:position:borrow:mintingSection:amount:label')}
+								label={t('positionBorrow:mintingSection:amount:label')}
 								max={availableAmount}
 								onChange={onChangeAmount}
-								placeholder={t('pages:position:borrow:mintingSection:amount:placeholder')}
+								placeholder={t('positionBorrow:mintingSection:amount:placeholder')}
 								symbol={CoinTicker.OFD}
 								value={amount.toString()}
 							/>
 							<TokenInput
-								balanceLabel={t('pages:position:borrow:mintingSection:collateral:balanceLabel')}
+								balanceLabel={t('positionBorrow:mintingSection:collateral:balanceLabel')}
 								digit={positionStats.collateralDecimal}
-								label={t('pages:position:borrow:mintingSection:collateral:label')}
+								label={t('positionBorrow:mintingSection:collateral:label')}
 								max={positionStats.collateralUserBal}
-								note={t('pages:position:borrow:mintingSection:collateral:valueNote', {
+								note={t('positionBorrow:mintingSection:collateral:valueNote', {
 									price: formatBigInt(positionStats.liqPrice, 36 - positionStats.collateralDecimal),
 									minimum: formatBigInt(positionStats.minimumCollateral, Number(positionStats.collateralDecimal)),
 									symbol: positionStats.collateralSymbol,
@@ -167,7 +165,7 @@ export default function PositionBorrow({}) {
 							/>
 							<DateInput
 								error={errorDate}
-								label={t('pages:position:borrow:mintingSection:expiration:label')}
+								label={t('positionBorrow:mintingSection:expiration:label')}
 								max={positionStats.expiration}
 								onChange={onChangeExpiration}
 								value={expirationDate}
@@ -177,14 +175,14 @@ export default function PositionBorrow({}) {
 							<GuardToAllowedChainBtn>
 								{requiredColl > positionStats.collateralAllowance ? (
 									<Button disabled={buttonDisabled} isLoading={isApproving} onClick={() => handleApprove()}>
-										{t('pages:position:borrow:mintingSection:buttons:approve')}
+										{t('positionBorrow:mintingSection:buttons:approve')}
 									</Button>
 								) : (
 									<Button
 										disabled={buttonDisabled}
 										error={
 											requiredColl < positionStats.minimumCollateral
-												? t('pages:position:borrow:mintingSection:buttons:minimumError', {
+												? t('positionBorrow:mintingSection:buttons:minimumError', {
 														minimum: formatBigInt(positionStats.minimumCollateral, Number(positionStats.collateralDecimal)),
 														symbol: positionStats.collateralSymbol,
 													})
@@ -194,7 +192,7 @@ export default function PositionBorrow({}) {
 										onClick={() => handleClone()}
 										variant="primary"
 									>
-										{t('pages:position:borrow:mintingSection:buttons:clone')}
+										{t('positionBorrow:mintingSection:buttons:clone')}
 									</Button>
 								)}
 							</GuardToAllowedChainBtn>
@@ -202,14 +200,14 @@ export default function PositionBorrow({}) {
 					</div>
 					<div>
 						<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
-							<div className="text-lg font-bold text-center mt-3">{t('pages:position:borrow:outcome:title')}</div>
+							<div className="text-lg font-bold text-center mt-3">{t('positionBorrow:outcome:title')}</div>
 							<div className="bg-slate-900 rounded-xl p-4 flex flex-col gap-2">
 								<div className="flex">
-									<div className="flex-1">{t('pages:position:borrow:outcome:sentToWallet')}</div>
+									<div className="flex-1">{t('positionBorrow:outcome:sentToWallet')}</div>
 									<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={paidOutToWallet} currency={CoinTicker.OFD} hideLogo />
 								</div>
 								<div className="flex">
-									<div className="flex-1">{t('pages:position:borrow:outcome:lockedInReserve')}</div>
+									<div className="flex-1">{t('positionBorrow:outcome:lockedInReserve')}</div>
 									<DisplayAmount
 										address={ADDRESS[chainId].oracleFreeDollar}
 										amount={borrowersReserveContribution}
@@ -218,23 +216,23 @@ export default function PositionBorrow({}) {
 									/>
 								</div>
 								<div className="flex">
-									<div className="flex-1">{t('pages:position:borrow:outcome:fees', { percent: formatBigInt(feePercent, 4) })}</div>
+									<div className="flex-1">{t('positionBorrow:outcome:fees', { percent: formatBigInt(feePercent, 4) })}</div>
 									<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={fees} currency={CoinTicker.OFD} hideLogo />
 								</div>
 								<hr className="border-slate-700 border-dashed" />
 								<div className="flex font-bold">
-									<div className="flex-1">{t('pages:position:borrow:outcome:total')}</div>
+									<div className="flex-1">{t('positionBorrow:outcome:total')}</div>
 									<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={amount} currency={CoinTicker.OFD} hideLogo />
 								</div>
 							</div>
 						</div>
 						<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4 mt-4">
-							<div className="text-lg font-bold text-center mt-3">{t('pages:position:borrow:notes:title')}</div>
+							<div className="text-lg font-bold text-center mt-3">{t('positionBorrow:notes:title')}</div>
 							<AppBox className="flex-1 mt-4">
 								<ol className="flex flex-col gap-y-2 pl-6 [&>li]:list-decimal">
-									<li>{t('pages:position:borrow:notes:description1')}</li>
-									<li>{t('pages:position:borrow:notes:description2')}</li>
-									<li>{t('pages:position:borrow:notes:description3')}</li>
+									<li>{t('positionBorrow:notes:description1')}</li>
+									<li>{t('positionBorrow:notes:description2')}</li>
+									<li>{t('positionBorrow:notes:description3')}</li>
 								</ol>
 							</AppBox>
 						</div>
@@ -244,3 +242,7 @@ export default function PositionBorrow({}) {
 		</>
 	)
 }
+
+const getServerSideProps = withServerSideTranslations(['positionBorrow'])
+
+export default PositionBorrow

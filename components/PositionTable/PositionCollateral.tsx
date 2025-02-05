@@ -40,7 +40,7 @@ export type CollateralItem = {
 }
 
 export function PositionCollateralCalculate(): CollateralItem[] {
-	const { t } = useTranslation()
+	const { t } = useTranslation('positionCollaterals')
 	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
 	const { coingecko } = useSelector((state: RootState) => state.prices)
 
@@ -77,10 +77,10 @@ export function PositionCollateralCalculate(): CollateralItem[] {
 		const collateralPriceInOFD = Math.round((collateral.price.usd / mint.price.usd) * 100) / 100
 		const worstStatus =
 			collateralizedPct < 100
-				? t('pages:position:collaterals:status:danger', { percentage: collateralizedPct })
+				? t('positionCollaterals:status:danger', { percentage: collateralizedPct })
 				: collateralizedPct < 150
-					? t('pages:position:collaterals:status:warning', { percentage: collateralizedPct })
-					: t('pages:position:collaterals:status:safe', { percentage: collateralizedPct })
+					? t('positionCollaterals:status:warning', { percentage: collateralizedPct })
+					: t('positionCollaterals:status:safe', { percentage: collateralizedPct })
 		const worstStatusColors = collateralizedPct < 100 ? 'bg-red-500' : collateralizedPct < 150 ? 'bg-orange-400' : 'bg-green-500'
 
 		stats.push({
