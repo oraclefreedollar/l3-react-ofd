@@ -16,9 +16,12 @@ import { useTokenData } from 'hooks'
 import { useAccount, useChainId } from 'wagmi'
 import { useTranslation } from 'next-i18next'
 import { withServerSideTranslations } from 'utils/withServerSideTranslations'
+import { InferGetServerSidePropsType } from 'next'
 
-const Overview: React.FC = () => {
-	const { t } = useTranslation()
+const namespaces = ['collateral']
+
+const Overview: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const { t } = useTranslation(namespaces)
 
 	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
 	const [list, setList] = useState<PositionQuery[]>([])
@@ -98,6 +101,6 @@ const Overview: React.FC = () => {
 	)
 }
 
-export const getServerSideProps = withServerSideTranslations(['collateral'])
+export const getServerSideProps = withServerSideTranslations(namespaces)
 
 export default Overview
