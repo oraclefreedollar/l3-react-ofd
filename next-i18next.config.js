@@ -28,6 +28,7 @@ module.exports = {
 		'common',
 		'home',
 		'myPositions',
+		'positionAdjust',
 		'positionBorrow',
 		'positionCollaterals',
 		'positionOverview',
