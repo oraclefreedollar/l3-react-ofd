@@ -11,41 +11,43 @@ import { useHomeStats, useOfdPrice, useTvl } from 'hooks'
 import { LiaExchangeAltSolid } from 'react-icons/lia'
 import { GrMoney } from 'react-icons/gr'
 import OfficialContractBanner from 'components/OfficialContractBanner'
-import { useTranslation } from 'react-i18next'
-import { useMemo } from 'react'
+import { useTranslation } from 'next-i18next'
+import React, { useMemo } from 'react'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const fadeInUp = {
 	hidden: { opacity: 0, y: 20 },
 	visible: { opacity: 1, y: 0 },
 }
 
-export default function Home() {
+const Home: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const { t } = useTranslation(['home', 'common'], { useSuspense: false })
+
 	const tvlData = useTvl()
 	const homestats = useHomeStats()
 	const ofdPrice = useOfdPrice()
-
-	const { t } = useTranslation()
 
 	const stats = useMemo(
 		() => [
 			{
 				icon: FaDollarSign,
-				title: t('pages:home:stats:price'),
+				title: t('home:stats:price'),
 				value: `$${ofdPrice ? formatBigInt(parseUnits(ofdPrice.toString(), 18), 18, 2) : '0.00'}`,
 			},
 			{
 				icon: TbPigMoney,
-				title: t('pages:home:stats:tvl'),
+				title: t('home:stats:tvl'),
 				value: `$${formatBigInt(parseUnits(tvlData?.toString() || '0', 18), 18, 0)}`,
 			},
 			{
 				icon: BiCoinStack,
-				title: t('pages:home:stats:marketCap'),
+				title: t('home:stats:marketCap'),
 				value: `$${formatBigInt(homestats.equityMarketCap || 0n, 18, 0)}`,
 			},
 			{
 				icon: FaChartLine,
-				title: t('pages:home:stats:totalSupply'),
+				title: t('home:stats:totalSupply'),
 				value: `${formatBigInt(homestats.ofdTotalSupply || 0n, 18, 0)} OFD`,
 			},
 		],
@@ -56,22 +58,22 @@ export default function Home() {
 		...(!ENABLE_EMERGENCY_MODE
 			? [
 					{
-						title: t('pages:home:navigation:swap:title'),
-						description: t('pages:home:navigation:swap:description'),
+						title: t('home:navigation:swap:title'),
+						description: t('home:navigation:swap:description'),
 						href: '/swap',
 						icon: LiaExchangeAltSolid,
 					},
 					{
-						title: t('pages:home:navigation:createPosition:title'),
-						description: t('pages:home:navigation:createPosition:description'),
+						title: t('home:navigation:createPosition:title'),
+						description: t('home:navigation:createPosition:description'),
 						href: '/positions/create',
 						icon: GrMoney,
 					},
 				]
 			: []),
 		{
-			title: t('pages:home:navigation:pool:title'),
-			description: t('pages:home:navigation:pool:description'),
+			title: t('home:navigation:pool:title'),
+			description: t('home:navigation:pool:description'),
 			href: '/pool',
 			icon: MdOutlinePool,
 		},
@@ -81,9 +83,9 @@ export default function Home() {
 		<main className="min-h-screen">
 			<motion.section animate="visible" className="container mx-auto px-4 pt-16 pb-8 text-center" initial="hidden" variants={fadeInUp}>
 				<h1 className="text-6xl md:text-7xl font-bold text-neon-purple-subtle hover:text-neon-pink-subtle transition-all duration-300 ease-in-out mb-4">
-					{t('pages:home:hero:title')}
+					{t('home:hero:title')}
 				</h1>
-				<p className="text-slate-100 text-lg leading-relaxed max-w-3xl mx-auto">{t('pages:home:hero:subtitle')}</p>
+				<p className="text-slate-100 text-lg leading-relaxed max-w-3xl mx-auto">{t('home:hero:subtitle')}</p>
 			</motion.section>
 
 			<motion.div
@@ -141,8 +143,8 @@ export default function Home() {
 			>
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50">
-						<h2 className="text-3xl font-bold mb-4 text-white">{t('pages:home:about:title')}</h2>
-						<p className="text-slate-300 text-lg leading-relaxed">{t('pages:home:about:description')}</p>
+						<h2 className="text-3xl font-bold mb-4 text-white">{t('home:about:title')}</h2>
+						<p className="text-slate-300 text-lg leading-relaxed">{t('home:about:description')}</p>
 					</div>
 					<motion.div
 						className="flex justify-center"
@@ -197,3 +199,11 @@ export default function Home() {
 		</main>
 	)
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
+	props: {
+		...(await serverSideTranslations(locale ?? 'en', ['home', 'common'])),
+	},
+})
+
+export default Home
