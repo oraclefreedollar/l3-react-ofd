@@ -6,8 +6,11 @@ import AppPageHeader from 'components/AppPageHeader'
 import ChallengeTable from 'components/ChallengeTable'
 import { envConfig } from 'app.env.config'
 import { useTranslation } from 'next-i18next'
+import React from 'react'
+import { InferGetServerSidePropsType } from 'next'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 
-export default function Auction({}) {
+const Auction: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const { t } = useTranslation()
 
 	const { address } = useAccount()
@@ -19,24 +22,28 @@ export default function Auction({}) {
 		<>
 			<Head>
 				<title>
-					{envConfig.AppName} - {t('pages:auctions:title')}
+					{envConfig.AppName} - {t('auctions:title')}
 				</title>
 			</Head>
 			<div>
-				<AppPageHeader title={t('pages:auctions:header:yourAuctions')} />
+				<AppPageHeader title={t('auctions:header:yourAuctions')} />
 				<ChallengeTable
 					challenges={challengsData.filter((challenge) => challenge.challenger == account)}
 					loading={loading || queryLoading}
-					noContentText={t('pages:auctions:noContent:yourAuctions')}
+					noContentText={t('auctions:noContent:yourAuctions')}
 				/>
 
-				<AppPageHeader className="mt-8" title={t('pages:auctions:header:allAuctions')} />
+				<AppPageHeader className="mt-8" title={t('auctions:header:allAuctions')} />
 				<ChallengeTable
 					challenges={challengsData.filter((challenge) => challenge.challenger != account)}
 					loading={loading || queryLoading}
-					noContentText={t('pages:auctions:noContent:allAuctions')}
+					noContentText={t('auctions:noContent:allAuctions')}
 				/>
 			</div>
 		</>
 	)
 }
+
+export const getServerSideProps = withServerSideTranslations(['auctions'])
+
+export default Auction

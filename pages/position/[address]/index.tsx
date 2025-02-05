@@ -14,13 +14,15 @@ import { useRouter } from 'next/router'
 import { getAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId, useReadContract } from 'wagmi'
 import { envConfig } from 'app.env.config'
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/redux.store'
 import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
+import { InferGetServerSidePropsType } from 'next'
 
-export default function PositionDetail() {
+const PositionDetail: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const { t } = useTranslation()
 
 	const router = useRouter()
@@ -56,22 +58,22 @@ export default function PositionDetail() {
 		<>
 			<Head>
 				<title>
-					{envConfig.AppName} - {t('pages:position:overview:title')}
+					{envConfig.AppName} - {t('positionOverview:title')}
 				</title>
 			</Head>
 			<div>
 				<AppPageHeader
-					backText={t('pages:position:overview:back')}
+					backText={t('positionOverview:back')}
 					backTo="/positions"
 					link={explorerUrl}
-					title={t('pages:position:overview:subTitle', { address: address && shortenAddress(position) })}
+					title={t('positionOverview:subTitle', { address: address && shortenAddress(position) })}
 				/>
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex border border-purple-500/50 flex-col gap-y-4">
-						<div className="text-lg font-bold text-center">{t('pages:position:overview:section:positionDetails')}</div>
+						<div className="text-lg font-bold text-center">{t('positionOverview:section:positionDetails')}</div>
 						<div className="bg-slate-900 rounded-xl p-4 grid gap-2 grid-cols-2 lg:grid-cols-6">
 							<AppBox className="col-span-3">
-								<DisplayLabel label={t('pages:position:overview:section:mintedTotal')} />
+								<DisplayLabel label={t('positionOverview:section:mintedTotal')} />
 								<DisplayAmount
 									address={ADDRESS[chainId].oracleFreeDollar}
 									amount={positionStats.minted}
@@ -80,7 +82,7 @@ export default function PositionDetail() {
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
-								<DisplayLabel label={t('pages:position:overview:section:collateral')} />
+								<DisplayLabel label={t('positionOverview:section:collateral')} />
 								<DisplayAmount
 									address={positionStats.collateral}
 									amount={positionStats.collateralBal}
@@ -90,7 +92,7 @@ export default function PositionDetail() {
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
-								<DisplayLabel label={t('pages:position:overview:section:liqPrice')} />
+								<DisplayLabel label={t('positionOverview:section:liqPrice')} />
 								<DisplayAmount
 									address={ADDRESS[chainId].oracleFreeDollar}
 									amount={positionStats.liqPrice}
@@ -100,7 +102,7 @@ export default function PositionDetail() {
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
-								<DisplayLabel label={t('pages:position:overview:section:retainedReserve')} />
+								<DisplayLabel label={t('positionOverview:section:retainedReserve')} />
 								<DisplayAmount
 									address={ADDRESS[chainId].oracleFreeDollar}
 									amount={positionAssignedReserve || 0n}
@@ -109,7 +111,7 @@ export default function PositionDetail() {
 								/>
 							</AppBox>
 							<AppBox className="col-span-3">
-								<DisplayLabel label={t('pages:position:overview:section:limit')} />
+								<DisplayLabel label={t('positionOverview:section:limit')} />
 								<DisplayAmount
 									address={ADDRESS[chainId].oracleFreeDollar}
 									amount={positionStats.limit}
@@ -118,29 +120,29 @@ export default function PositionDetail() {
 								/>
 							</AppBox>
 							<AppBox className="col-span-1 sm:col-span-3">
-								<DisplayLabel label={t('pages:position:overview:section:owner')} />
+								<DisplayLabel label={t('positionOverview:section:owner')} />
 								<Link className="flex items-center" href={ownerLink} target="_blank">
 									{shortenAddress(positionStats.owner)}
 									<FontAwesomeIcon className="w-3 ml-2" icon={faArrowUpRightFromSquare} />
 								</Link>
 							</AppBox>
 							<AppBox className="col-span-2 sm:col-span-2">
-								<DisplayLabel label={t('pages:position:overview:section:expirationDate')} />
-								<b>{positionStats.closed ? t('pages:position:overview:section:closed') : formatDate(positionStats.expiration)}</b>
+								<DisplayLabel label={t('positionOverview:section:expirationDate')} />
+								<b>{positionStats.closed ? t('positionOverview:section:closed') : formatDate(positionStats.expiration)}</b>
 							</AppBox>
 							<AppBox className="col-span-1 sm:col-span-2">
-								<DisplayLabel label={t('pages:position:overview:section:reserveRequirement')} />
+								<DisplayLabel label={t('positionOverview:section:reserveRequirement')} />
 								<DisplayAmount amount={positionStats.reserveContribution / 100n} currency={'%'} digits={2} hideLogo />
 							</AppBox>
 							<AppBox className="col-span-2 sm:col-span-2">
-								<DisplayLabel label={t('pages:position:overview:section:annualInterest')} />
+								<DisplayLabel label={t('positionOverview:section:annualInterest')} />
 								<DisplayAmount amount={positionStats.annualInterestPPM / 100n} currency={'%'} digits={2} hideLogo />
 							</AppBox>
 						</div>
 						<div className="mt-4 w-full flex">
 							{positionStats.owner == account ? (
 								<Link className="btn btn-primary w-72 m-auto" href={`/position/${position}/adjust`}>
-									{t('pages:position:overview:buttons:adjust')}
+									{t('positionOverview:buttons:adjust')}
 								</Link>
 							) : (
 								<>
@@ -148,10 +150,10 @@ export default function PositionDetail() {
 										className={`btn btn-primary flex-1 ${isSubjectToCooldown() && 'btn-disabled'}`}
 										href={`/position/${position}/borrow`}
 									>
-										{t('pages:position:overview:buttons:clone')}
+										{t('positionOverview:buttons:clone')}
 									</Link>
 									<Link className="btn btn-primary flex-1 ml-4" href={`/position/${position}/challenge`}>
-										{t('pages:position:overview:buttons:challenge')}
+										{t('positionOverview:buttons:challenge')}
 									</Link>
 								</>
 							)}
@@ -160,16 +162,16 @@ export default function PositionDetail() {
 					<div>
 						{isSubjectToCooldown() && (
 							<div className="bg-slate-950 rounded-xl p-4 flex flex-col mb-4">
-								<div className="text-lg font-bold text-center">{t('pages:position:overview:cooldown:title')}</div>
+								<div className="text-lg font-bold text-center">{t('positionOverview:cooldown:title')}</div>
 								<AppBox className="flex-1 mt-4">
-									<p>{t('pages:position:overview:cooldown:description', { cooldown: formatDate(positionStats.cooldown) })}</p>
+									<p>{t('positionOverview:cooldown:description', { cooldown: formatDate(positionStats.cooldown) })}</p>
 								</AppBox>
 							</div>
 						)}
 						<ChallengeTable
 							challenges={challengsData}
 							loading={loading || queryLoading}
-							noContentText={t('pages:position:overview:challengeTable:noContent')}
+							noContentText={t('positionOverview:challengeTable:noContent')}
 						/>
 					</div>
 				</section>
@@ -177,3 +179,7 @@ export default function PositionDetail() {
 		</>
 	)
 }
+
+export const getServerSideProps = withServerSideTranslations(['positionOverview'])
+
+export default PositionDetail

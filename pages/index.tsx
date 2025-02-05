@@ -13,8 +13,8 @@ import { GrMoney } from 'react-icons/gr'
 import OfficialContractBanner from 'components/OfficialContractBanner'
 import { useTranslation } from 'next-i18next'
 import React, { useMemo } from 'react'
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { InferGetServerSidePropsType } from 'next'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 
 const fadeInUp = {
 	hidden: { opacity: 0, y: 20 },
@@ -200,10 +200,6 @@ const Home: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 	)
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
-	props: {
-		...(await serverSideTranslations(locale ?? 'en', ['home', 'common'])),
-	},
-})
+export const getServerSideProps = withServerSideTranslations(['home', 'common'])
 
 export default Home

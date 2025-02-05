@@ -21,7 +21,7 @@ module.exports = {
 	initAsync: false,
 	/** To avoid issues when deploying to some paas (vercel...) */
 	localePath: typeof window === 'undefined' ? require('path').resolve('./public/locales') : '/locales',
-	ns: ['common', 'collateral', 'home', 'swap'],
+	ns: ['auctions', 'common', 'collateral', 'home', 'positionOverview', 'swap'],
 	partialBundledLanguages: isBrowser,
 	reloadOnPrerender: isDev,
 	use: isBrowser ? [ChainedBackend] : [],

@@ -15,8 +15,7 @@ import { ADDRESS } from 'contracts'
 import { useTokenData } from 'hooks'
 import { useAccount, useChainId } from 'wagmi'
 import { useTranslation } from 'next-i18next'
-import { GetServerSideProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 
 const Overview: React.FC = () => {
 	const { t } = useTranslation()
@@ -99,10 +98,6 @@ const Overview: React.FC = () => {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
-	props: {
-		...(await serverSideTranslations(locale ?? 'en', ['collateral'])),
-	},
-})
+export const getServerSideProps = withServerSideTranslations(['collateral'])
 
 export default Overview

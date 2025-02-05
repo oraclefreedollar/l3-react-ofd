@@ -14,8 +14,8 @@ import { EmergencyPage } from 'components/EmergencyPage'
 import { useSwapContractsFunctions } from 'hooks/swap/useSwapContractsFunctions'
 import { CoinTicker } from 'meta/coins'
 import { useTranslation } from 'next-i18next'
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { InferGetServerSidePropsType } from 'next'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 
 const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const [amount, setAmount] = useState(0n)
@@ -131,10 +131,6 @@ const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 	)
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => ({
-	props: {
-		...(await serverSideTranslations(locale ?? 'en', ['swap'])),
-	},
-})
+export const getServerSideProps = withServerSideTranslations(['swap'])
 
 export default Swap
