@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function OFDPSHolder({ holder, ofdps, votingPower, totalVotingPower }: Props) {
-	const { t } = useTranslation()
+	const { t } = useTranslation('common')
 	return (
 		<AppBox className="hover:bg-slate-700 duration-300 flex grid grid-cols-1 sm:grid-cols-3">
 			<div className="col-span-1">

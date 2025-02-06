@@ -1,0 +1,67 @@
+{
+  "title": "Governance",
+  "delegation": {
+    "title": "Delegation",
+    "form": {
+      "label": "Delegate votes to",
+      "placeholder": "Delegatee's Address",
+      "error": "Please input address in valid EOA address format.",
+      "button": "Set"
+    },
+    "stats": {
+      "delegatedTo": "Delegated To",
+      "yourRawVotes": "Your Raw Votes",
+      "totalVotes": "Total Votes",
+      "yourTotalVotes": "Your Total Votes"
+    }
+  },
+  "delegatingToYou": {
+    "title": "Delegating to You"
+  },
+  "proposals": {
+    "title": "Proposals"
+  },
+  "baseRate": {
+    "title": "Base Rate",
+    "description": "This is the base rate that is applied when minting new OFDs and the rate at which savers continuously accrue interest. Anyone with veto power can propose a change, which can be applied if there is no counter-proposal within seven days."
+  },
+  "topVoters": {
+    "title": "Top Voters"
+  },
+  "minterProposal": {
+    "date": "Date:",
+    "minter": "Minter:",
+    "comment": "Comment:",
+    "fee": "Fee:",
+    "votingPeriod": "Voting Period:",
+    "button": "Veto",
+    "status": {
+      "active": "Active",
+      "expired": "Expired",
+      "passed": "Passed",
+      "ready": "Ready",
+      "vetoed": "Vetoed"
+    }
+  },
+  "leadrate": {
+    "button": "Propose Change",
+    "form": {
+      "label": "Current Base Rate",
+      "placeholder": "Current Leadrate: %",
+      "error": "Please input a valid number.",
+      "button": "Propose"
+    },
+    "table": {
+      "empty": "There are no proposals yet.",
+      "header": {
+        "date": "Date",
+        "proposer": "Proposer",
+        "rate": "Rate",
+        "state": "State"
+      }
+    },
+    "remainingHours": "{{hours}} hours left",
+    "deny": "Deny",
+    "apply": "Apply"
+  }
+}

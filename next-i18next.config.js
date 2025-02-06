@@ -26,6 +26,7 @@ module.exports = {
 		'challenge',
 		'collateral',
 		'common',
+		'governance',
 		'home',
 		'myPositions',
 		'positionAdjust',

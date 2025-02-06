@@ -4,6 +4,7 @@
   "days": "days",
   "hours": "hours",
   "months": "months",
+  "connectWallet": "Please connect your Wallet",
   "equity": {
     "votes": "% Votes"
   },
@@ -23,6 +24,9 @@
     "fork": "Fork of",
     "frankencoin": "Frankencoin",
     "terms": "Terms & Conditions"
+  },
+  "table": {
+    "action": "Action"
   },
   "toasts": {
     "adjust": {
@@ -61,6 +65,35 @@
       "collateral": "Collateral: ",
       "pending": "Minting OFD",
       "success": "Successfully Minted OFD"
+    },
+    "governance": {
+      "delegateTo": "Delegate To:",
+      "pending": "Delegating Votes",
+      "success": "Successfully Delegated Votes",
+      "minterProposal": {
+        "title": "Reason:",
+        "description": "No",
+        "pending": "Vetoing proposal...",
+        "success": "Successfully vetoed proposal"
+      },
+      "leadrate": {
+        "pending": "Proposing rate change...",
+        "success": "Successfully proposed rate change!",
+        "title1": "From: ",
+        "title2": "Proposing to: ",
+        "apply": {
+          "pending": "Applying rate change...",
+          "success": "Successfully applied new rate!",
+          "title1": "From: ",
+          "title2": "Applying to: "
+        },
+        "deny": {
+          "pending": "Denying rate change...",
+          "success": "Successfully denied rate change!",
+          "title1": "Current: ",
+          "title2": "Denying: "
+        }
+      }
     },
     "pool": {
       "invest": {
