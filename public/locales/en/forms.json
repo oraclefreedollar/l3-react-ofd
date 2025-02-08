@@ -1,0 +1,31 @@
+{
+  "positionCreate": {
+    "auctionDuration": "Auction duration must be greater than 1 month.",
+    "buffer": {
+      "max": "Buffer must be less than 100%.",
+      "min": "Buffer must be at least 10%."
+    },
+    "collateralAddress": {
+      "invalid": "Invalid collateral address.",
+      "noData": "Could not obtain token data.",
+      "notSupported": "Token decimals should be less than 24."
+    },
+    "initialCollateral": {
+      "greaterThanZero": "Initial collateral must be greater than 0.",
+      "greaterThanMinimum": "Initial collateral must be greater than the minimum amount."
+    },
+    "initPeriod": {
+      "min": "Initialization period must be greater than 5 days."
+    },
+    "interest": {
+      "min": "Annual Interest Rate should be greater than 0%.",
+      "max": "Annual Interest Rate should be less than 100%."
+    },
+    "liqPrice": {
+      "min": "Liquidation value of the collateral must be at least 3500 OFD."
+    },
+    "maturity": {
+      "min": "Maturity must be greater than 0."
+    }
+  }
+}

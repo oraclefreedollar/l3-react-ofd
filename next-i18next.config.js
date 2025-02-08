@@ -27,6 +27,7 @@ module.exports = {
 		'collateral',
 		'common',
 		'equity',
+		'forms',
 		'governance',
 		'home',
 		'monitoring',
