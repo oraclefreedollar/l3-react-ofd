@@ -24,7 +24,6 @@
       "placeholder": "Collateral Amount"
     },
     "errors": {
-      "insufficientBalance": "Not enough {{symbol}} in your wallet.",
       "tooHighCollateral": "Challenge collateral should be lower than position collateral",
       "tooLowCollateral": "Challenge collateral should be greater than minimum collateral"
     }
@@ -52,4 +51,4 @@
     "zeroPrice": "Zero Price Phase"
   },
   "title": "Position Challenge"
-} 
+}

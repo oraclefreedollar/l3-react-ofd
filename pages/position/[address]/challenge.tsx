@@ -22,7 +22,7 @@ import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 import { InferGetServerSidePropsType } from 'next'
 import { CoinTicker } from 'meta/coins'
 
-const namespaces = ['challenge']
+const namespaces = ['common', 'challenge']
 
 const PositionChallenge: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const router = useRouter()
@@ -48,7 +48,7 @@ const PositionChallenge: React.FC = (_props: InferGetServerSidePropsType<typeof 
 			const valueBigInt = BigInt(value)
 			setAmount(valueBigInt)
 			if (valueBigInt > positionStats.collateralUserBal) {
-				setError(t('challenge:form:errors:insufficientBalance', { symbol: positionStats.collateralSymbol }))
+				setError(t('common:insufficientBalance', { symbol: positionStats.collateralSymbol }))
 			} else if (valueBigInt > positionStats.collateralBal) {
 				setError(t('challenge:form:errors:tooHighCollateral'))
 			} else if (valueBigInt < positionStats.minimumCollateral) {

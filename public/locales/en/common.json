@@ -4,6 +4,7 @@
   "days": "days",
   "hours": "hours",
   "months": "months",
+  "insufficientBalance": "Not enough {{symbol}} in your wallet",
   "connectWallet": "Please connect your Wallet",
   "equity": {
     "votes": "% Votes"

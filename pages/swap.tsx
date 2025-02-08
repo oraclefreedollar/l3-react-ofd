@@ -17,11 +17,14 @@ import { useTranslation } from 'next-i18next'
 import { InferGetServerSidePropsType } from 'next'
 import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 
+const namespaces = ['common', 'swap']
+
 const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const { t } = useTranslation(namespaces)
+
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
 	const [direction, setDirection] = useState(true)
-	const { t } = useTranslation()
 
 	const swapStats = useSwapStats()
 
@@ -51,7 +54,7 @@ const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 			setAmount(valueBigInt)
 
 			if (valueBigInt > fromBalance) {
-				setError(t('swap:errors:insufficientBalance', { symbol: fromSymbol }))
+				setError(t('common:insufficientBalance', { symbol: fromSymbol }))
 			} else if (valueBigInt > swapLimit) {
 				setError(t('swap:errors:insufficientSwapLimit', { symbol: toSymbol }))
 			} else {
@@ -131,6 +134,6 @@ const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 	)
 }
 
-export const getServerSideProps = withServerSideTranslations(['swap'])
+export const getServerSideProps = withServerSideTranslations(namespaces)
 
 export default Swap

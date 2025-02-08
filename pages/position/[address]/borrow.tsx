@@ -21,8 +21,10 @@ import { CoinTicker } from 'meta/coins'
 import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 import { InferGetServerSidePropsType } from 'next'
 
+const namespaces = ['common', 'positionBorrow']
+
 const PositionBorrow: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-	const { t } = useTranslation()
+	const { t } = useTranslation(namespaces)
 
 	const router = useRouter()
 	const { address: positionAddr } = router.query
@@ -73,7 +75,7 @@ const PositionBorrow: React.FC = (_props: InferGetServerSidePropsType<typeof get
 			setAmount(valueBigInt)
 			if (valueBigInt > borrowingLimit) {
 				if (availableAmount > userValue) {
-					setError(t('positionBorrow:mintingSection:errors:notEnoughCollateral', { symbol: positionStats.collateralSymbol }))
+					setError(t('common:insufficientBalance', { symbol: positionStats.collateralSymbol }))
 				} else {
 					setError(t('positionBorrow:mintingSection:errors:notEnoughOFD'))
 				}
@@ -243,6 +245,6 @@ const PositionBorrow: React.FC = (_props: InferGetServerSidePropsType<typeof get
 	)
 }
 
-const getServerSideProps = withServerSideTranslations(['positionBorrow'])
+const getServerSideProps = withServerSideTranslations(namespaces)
 
 export default PositionBorrow

@@ -42,7 +42,6 @@
     "balanceLabel": "Max:",
     "button": "Adjust",
     "label": "Your Savings",
-    "notEnoughBalance": "Not enough {{symbol}} in your wallet.",
     "placeholder": "{{symbol}} Amount",
     "title": "Adjustment"
   },

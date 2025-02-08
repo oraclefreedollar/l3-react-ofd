@@ -97,12 +97,12 @@ const SavingsInteractionCard: React.FC = () => {
 			const valueBigInt = BigInt(value)
 			setAmount(valueBigInt)
 			if (valueBigInt > userBalance + userSavingsBalance + userSavingsInterest) {
-				setError(t('savings:interactionCard:error'))
+				setError(t('common:insufficientBalance', { symbol: fromSymbol }))
 			} else {
 				setError('')
 			}
 		},
-		[t, userBalance, userSavingsBalance, userSavingsInterest]
+		[fromSymbol, t, userBalance, userSavingsBalance, userSavingsInterest]
 	)
 
 	return (

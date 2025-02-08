@@ -23,7 +23,6 @@
       "minimumError": "A position must have at least {{minimum}} {{symbol}}"
     },
     "errors": {
-      "notEnoughCollateral": "Not enough {{symbol}} in your wallet.",
       "notEnoughOFD": "Not enough OFD available for this position.",
       "cannotMintMore": "Cannot mint more than {{limit}}.{{value}}"
     }

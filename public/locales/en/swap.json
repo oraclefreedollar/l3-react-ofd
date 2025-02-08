@@ -5,7 +5,6 @@
     "switchDirection": "Switch swap direction"
   },
   "errors": {
-    "insufficientBalance": "Not enough {{symbol}} in your wallet.",
     "insufficientSwapLimit": "Not enough {{symbol}} available to swap."
   },
   "exchangeRate": "1 {{fromSymbol}} = 1 {{toSymbol}}",

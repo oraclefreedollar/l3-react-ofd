@@ -26,6 +26,7 @@ module.exports = {
 		'challenge',
 		'collateral',
 		'common',
+		'equity',
 		'governance',
 		'home',
 		'myPositions',
