@@ -29,6 +29,7 @@ module.exports = {
 		'equity',
 		'governance',
 		'home',
+		'monitoring',
 		'myPositions',
 		'positionAdjust',
 		'positionBid',

@@ -21,8 +21,10 @@ const fadeInUp = {
 	visible: { opacity: 1, y: 0 },
 }
 
+const namespaces = ['home', 'common']
+
 const Home: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-	const { t } = useTranslation(['home', 'common'])
+	const { t } = useTranslation(namespaces)
 
 	const tvlData = useTvl()
 	const homestats = useHomeStats()
@@ -200,6 +202,6 @@ const Home: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 	)
 }
 
-export const getServerSideProps = withServerSideTranslations(['home', 'common'])
+export const getServerSideProps = withServerSideTranslations(namespaces)
 
 export default Home

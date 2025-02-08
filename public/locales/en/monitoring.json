@@ -1,0 +1,20 @@
+{
+  "challenge": "Challenge",
+  "forceSell": "Force Sell",
+  "maturity": {
+    "days": "{{days}} days",
+    "hours": "{{hours}} hours"
+  },
+  "noActivePositions": "There are no active positions",
+  "status": {
+    "active": "Active",
+    "expired": "Expired"
+  },
+  "table": {
+    "challenged": "Challenged",
+    "collateral": "Collateral",
+    "collateralization": "Collateralization",
+    "expiration": "Expiration"
+  },
+  "title": "Monitoring"
+}
