@@ -31,10 +31,11 @@ import { fetchSavings } from 'redux/slices/savings.slice'
 import AppCard from 'components/AppCard'
 import { useTranslation } from 'next-i18next'
 import { withServerSideTranslations } from 'utils/withServerSideTranslations'
+import { InferGetServerSidePropsType } from 'next'
 
 const namespaces = ['common', 'governance']
 
-const Governance: React.FC = () => {
+const Governance: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const { t } = useTranslation(namespaces)
 
 	const [inputField, setInputField] = useState('')

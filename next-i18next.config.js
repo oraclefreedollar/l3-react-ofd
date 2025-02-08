@@ -35,6 +35,7 @@ module.exports = {
 		'positionCollaterals',
 		'positionCreate',
 		'positionOverview',
+		'savings',
 		'swap',
 	],
 	partialBundledLanguages: isBrowser,

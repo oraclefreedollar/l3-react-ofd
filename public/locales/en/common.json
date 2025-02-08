@@ -109,6 +109,26 @@
         "receive": "Receive: "
       }
     },
+    "savings": {
+      "interest": {
+        "pending": "Claiming Interest...",
+        "success": "Successfully claimed",
+        "title1": "Saved amount: ",
+        "title2": "Claim Interest: "
+      },
+      "save": {
+        "pending": "Increasing savings...",
+        "success": "Savings increased",
+        "title1": "Saving: ",
+        "title2": "Accured Interest: "
+      },
+      "withdraw": {
+        "pending": "Withdrawing from savings...",
+        "success": "Successfully withdrawn",
+        "title1": "Saved amount: ",
+        "title2": "Withdraw: "
+      }
+    },
     "swap": {
       "pending": "Swapping {{fromSymbol}} to {{toSymbol}}",
       "success": "Successfully Swapped {{fromSymbol}} to {{toSymbol}}",

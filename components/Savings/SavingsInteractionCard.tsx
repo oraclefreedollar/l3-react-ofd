@@ -4,7 +4,7 @@ import { ADDRESS, ABIS } from 'contracts'
 import { useAccount, useBlockNumber, useChainId } from 'wagmi'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 import { zeroAddress } from 'viem'
-import { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import SavingsDetailsCard from './SavingsDetailsCard'
 import { readContract } from 'wagmi/actions'
 import { WAGMI_CONFIG } from 'app.config'
@@ -13,12 +13,17 @@ import { RootState } from 'redux/redux.store'
 import SavingsActionInterest from './SavingsActionInterest'
 import SavingsActionSave from './SavingsActionSave'
 import SavingsActionWithdraw from './SavingsActionWithdraw'
+import { CoinTicker } from 'meta/coins'
+import { useTranslation } from 'next-i18next'
 
-export default function SavingsInteractionCard() {
+const namespaces = ['savings']
+
+const SavingsInteractionCard: React.FC = () => {
+	const { t } = useTranslation(namespaces)
+
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
 	const [isLoaded, setLoaded] = useState<boolean>(false)
-
 	const [userBalance, setUserBalance] = useState(0n)
 	const [userSavingsBalance, setUserSavingsBalance] = useState(0n)
 	const [userSavingsInterest, setUserSavingsInterest] = useState(0n)
@@ -32,7 +37,7 @@ export default function SavingsInteractionCard() {
 	const account = address || zeroAddress
 	const ADDR = ADDRESS[chainId]
 
-	const fromSymbol = 'OFD'
+	const fromSymbol = CoinTicker.OFD
 	const change: bigint = amount - (userSavingsBalance + userSavingsInterest)
 	const direction: boolean = amount >= userSavingsBalance + userSavingsInterest
 
@@ -87,29 +92,32 @@ export default function SavingsInteractionCard() {
 
 	// ---------------------------------------------------------------------------
 
-	const onChangeAmount = (value: string) => {
-		const valueBigInt = BigInt(value)
-		setAmount(valueBigInt)
-		if (valueBigInt > userBalance + userSavingsBalance + userSavingsInterest) {
-			setError(`Not enough ${fromSymbol} in your wallet.`)
-		} else {
-			setError('')
-		}
-	}
+	const onChangeAmount = useCallback(
+		(value: string) => {
+			const valueBigInt = BigInt(value)
+			setAmount(valueBigInt)
+			if (valueBigInt > userBalance + userSavingsBalance + userSavingsInterest) {
+				setError(t('savings:interactionCard:error'))
+			} else {
+				setError('')
+			}
+		},
+		[t, userBalance, userSavingsBalance, userSavingsInterest]
+	)
 
 	return (
 		<section className="grid grid-cols-1 md:grid-cols-2 gap-4 mx-auto">
 			<AppCard>
-				<div className="text-lg font-bold text-center">Adjustment</div>
+				<div className="text-lg font-bold text-center">{t('savings:interactionCard:title')}</div>
 
 				<div className="mt-8">
 					<TokenInput
-						balanceLabel="Max:"
+						balanceLabel={t('savings:interactionCard:balanceLabel')}
 						error={error}
-						label="Your savings"
+						label={t('savings:interactionCard:label')}
 						max={userBalance + userSavingsBalance + userSavingsInterest}
 						onChange={onChangeAmount}
-						placeholder={fromSymbol + ' Amount'}
+						placeholder={t('savings:interactionCard:placeholder', { symbol: fromSymbol })}
 						symbol={fromSymbol}
 						value={amount.toString()}
 					/>
@@ -138,3 +146,5 @@ export default function SavingsInteractionCard() {
 		</section>
 	)
 }
+
+export default SavingsInteractionCard
