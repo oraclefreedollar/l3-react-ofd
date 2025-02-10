@@ -88,6 +88,9 @@ const Navbar: React.FC = () => {
 										<li>
 											<NavButton name={t('common:navigation:governance')} to="/governance" />
 										</li>
+										<li>
+											<NavButton name="Monitoring" to="/monitoring" />
+										</li>
 									</menu>
 								</div>
 							</div>
