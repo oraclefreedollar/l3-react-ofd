@@ -73,9 +73,10 @@ type updateDetailsResponse = {
 type FetchFunction = () => Promise<void>
 
 export const fetchExternalPrices: Record<Address, FetchFunction> = {
-	'0x2F30D9EC8Fec8612DBCD54C4C2604Ffc972E8a8d': () => Contracts.Prices.dsc(fetchedERC20Infos, fetchedPrices),
-	'0x8f73610Dd60185189657c826Df315Cc980ca4A0e': () => Contracts.Prices.oprs(fetchedERC20Infos, fetchedPrices),
-	'0x09A1aD50Ac7B8ddD40bAfa819847Ab1Ea6974a4f': () => Contracts.Prices.swissDLT(fetchedERC20Infos, fetchedPrices),
+	'0xd9B8CF9f4FD8055c0454389dD6aAB1FDcE2E8781': () => Contracts.Prices.dgc(fetchedERC20Infos, fetchedPrices), // Denario Gold Coin
+	'0x2F30D9EC8Fec8612DBCD54C4C2604Ffc972E8a8d': () => Contracts.Prices.dsc(fetchedERC20Infos, fetchedPrices), // Denario Silver Coin
+	'0x8f73610Dd60185189657c826Df315Cc980ca4A0e': () => Contracts.Prices.oprs(fetchedERC20Infos, fetchedPrices), // Operal
+	'0x09A1aD50Ac7B8ddD40bAfa819847Ab1Ea6974a4f': () => Contracts.Prices.swissDLT(fetchedERC20Infos, fetchedPrices), // SwissDLT
 }
 
 export async function updateDetails(): Promise<updateDetailsResponse> {
