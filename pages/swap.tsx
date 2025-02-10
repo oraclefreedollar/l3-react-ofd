@@ -2,181 +2,40 @@ import AppPageHeader from 'components/AppPageHeader'
 import Button from 'components/Button'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 import TokenInput from 'components/Input/TokenInput'
-import { TxToast, renderErrorToast } from 'components/TxToast'
-import { ABIS, ADDRESS } from 'contracts'
 import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSwapStats } from 'hooks'
-import { ENABLE_EMERGENCY_MODE, formatBigInt, shortenAddress } from 'utils'
+import { ENABLE_EMERGENCY_MODE } from 'utils'
 import Head from 'next/head'
 import { useCallback, useMemo, useState } from 'react'
-import { toast } from 'react-toastify'
-import { erc20Abi, formatUnits } from 'viem'
-import { useChainId } from 'wagmi'
-import { waitForTransactionReceipt, writeContract } from 'wagmi/actions'
+import { formatUnits } from 'viem'
 import { envConfig } from 'app.env.config'
-import { WAGMI_CONFIG } from 'app.config'
 import { EmergencyPage } from 'components/EmergencyPage'
+import { useSwapContractsFunctions } from 'hooks/swap/useSwapContractsFunctions'
+import { CoinTicker } from 'meta/coins'
 
 export default function Swap() {
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
 	const [direction, setDirection] = useState(true)
-	const [isApproving, setApproving] = useState(false)
-	const [isMinting, setMinting] = useState(false)
-	const [isBurning, setBurning] = useState(false)
 
-	const chainId = useChainId()
 	const swapStats = useSwapStats()
 
 	const fromBalance = useMemo(() => (direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats])
 	const toBalance = useMemo(() => (!direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats])
-	const fromSymbol = useMemo(() => (direction ? 'USDT' : 'OFD'), [direction])
-	const toSymbol = useMemo(() => (!direction ? 'USDT' : 'OFD'), [direction])
+	const fromSymbol = useMemo(() => (direction ? CoinTicker.USDT : CoinTicker.OFD), [direction])
+	const toSymbol = useMemo(() => (!direction ? CoinTicker.USDT : CoinTicker.OFD), [direction])
 	const swapLimit = useMemo(
 		() => (direction ? swapStats.bridgeLimit - swapStats.usdtBridgeBal : swapStats.usdtBridgeBal),
 		[direction, swapStats]
 	)
-	const formattedAmount = useMemo(() => Number(amount / BigInt(10 ** 18)), [amount])
 
-	const handleApprove = useCallback(async () => {
-		try {
-			setApproving(true)
-			const approveWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].usdt!,
-				abi: erc20Abi,
-				functionName: 'approve',
-				args: [ADDRESS[chainId].bridge, amount],
-			})
-
-			const toastContent = [
-				{
-					title: 'Amount:',
-					value: `${formattedAmount}`,
-				},
-				{
-					title: 'Spender: ',
-					value: shortenAddress(ADDRESS[chainId].bridge),
-				},
-				{
-					title: 'Transaction:',
-					hash: approveWriteHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: approveWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title="Approving USDT" />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title="Successfully Approved USDT" />,
-				},
-				error: {
-					render(error: any) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} catch (e) {
-			console.log(e)
-		} finally {
-			swapStats.refetch()
-			setApproving(false)
-		}
-	}, [amount, chainId, formattedAmount, swapStats])
-
-	const handleMint = useCallback(async () => {
-		try {
-			setMinting(true)
-
-			const mintWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].bridge,
-				abi: ABIS.StablecoinBridgeABI,
-				functionName: 'mint',
-				args: [amount],
-			})
-
-			const toastContent = [
-				{
-					title: `${fromSymbol} Amount: `,
-					value: formatBigInt(amount) + ' ' + fromSymbol,
-				},
-				{
-					title: `${toSymbol} Amount: `,
-					value: formatBigInt(amount) + ' ' + toSymbol,
-				},
-				{
-					title: 'Transaction:',
-					hash: mintWriteHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: mintWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Swapping ${fromSymbol} to ${toSymbol}`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title={`Successfully Swapped ${fromSymbol} to ${toSymbol}`} />,
-				},
-				error: {
-					render(error: any) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} catch (e) {
-			console.log(e)
-		} finally {
-			swapStats.refetch()
-			setMinting(false)
-		}
-	}, [amount, chainId, fromSymbol, swapStats, toSymbol])
-
-	const handleBurn = useCallback(async () => {
-		try {
-			setBurning(true)
-			const burnWriteHash = await writeContract(WAGMI_CONFIG, {
-				address: ADDRESS[chainId].bridge,
-				abi: ABIS.StablecoinBridgeABI,
-				functionName: 'burn',
-				args: [amount],
-			})
-
-			const toastContent = [
-				{
-					title: `${fromSymbol} Amount: `,
-					value: formatBigInt(amount) + ' ' + fromSymbol,
-				},
-				{
-					title: `${toSymbol} Amount: `,
-					value: formatBigInt(amount) + ' ' + toSymbol,
-				},
-				{
-					title: 'Transaction:',
-					hash: burnWriteHash,
-				},
-			]
-
-			await toast.promise(waitForTransactionReceipt(WAGMI_CONFIG, { hash: burnWriteHash, confirmations: 1 }), {
-				pending: {
-					render: <TxToast rows={toastContent} title={`Swapping ${fromSymbol} to ${toSymbol}`} />,
-				},
-				success: {
-					render: <TxToast rows={toastContent} title={`Successfully Swapped ${fromSymbol} to ${toSymbol}`} />,
-				},
-				error: {
-					render(error: any) {
-						return renderErrorToast(error)
-					},
-				},
-			})
-		} catch (e) {
-			console.log(e)
-		} finally {
-			swapStats.refetch()
-			setBurning(false)
-		}
-	}, [amount, chainId, fromSymbol, swapStats, toSymbol])
+	const { handleApprove, handleBurn, handleMint, isApproving, isBurning, isMinting } = useSwapContractsFunctions({
+		amount,
+		fromSymbol,
+		swapStats,
+		toSymbol,
+	})
 
 	const onChangeDirection = useCallback(() => {
 		setDirection(!direction)

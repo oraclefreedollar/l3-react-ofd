@@ -2,22 +2,9 @@ import { ABIS, ADDRESS } from 'contracts'
 import { decodeBigIntCall } from 'utils'
 import { zeroAddress } from 'viem'
 import { useAccount, useChainId, useReadContracts } from 'wagmi'
+import { EquityPoolStats } from 'meta/equity'
 
-export const usePoolStats: () => {
-	equityUserVotes: bigint
-	ofdMinterReserve: bigint
-	equityHoldingDuration: bigint
-	equityBalance: bigint
-	equityCanRedeem: boolean
-	refetch: any
-	ofdTotalReserve: bigint
-	ofdAllowance: bigint
-	ofdEquity: bigint
-	equityTotalVotes: bigint
-	equityPrice: bigint
-	equitySupply: bigint
-	ofdBalance: bigint
-} = () => {
+export const usePoolStats = (): EquityPoolStats => {
 	const chainId = useChainId()
 	const { address } = useAccount()
 	const account = address || zeroAddress
