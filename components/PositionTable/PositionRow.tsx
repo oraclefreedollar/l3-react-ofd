@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux'
 import { zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { ADDRESS } from 'contracts/address'
-import { RootState } from 'redux/redux.store'
-import { PositionQuery } from 'redux/slices/positions.types'
+import { PositionQuery } from 'store/slices/positions.types'
 import DisplayAmount from '../DisplayAmount'
 import TableRow from '../Table/TableRow'
 import { useMemo } from 'react'
+import { RootState } from 'store/types'
 
 interface Props {
 	position: PositionQuery

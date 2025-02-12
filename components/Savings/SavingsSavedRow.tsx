@@ -1,6 +1,6 @@
 import { AddressLabelSimple, TxLabelSimple } from 'components/AddressLabel'
 import TableRow from 'components/Table/TableRow'
-import { SavingsSavedQuery } from 'redux/slices/savings.types'
+import { SavingsSavedQuery } from 'store/slices/savings.types'
 import { formatCurrency } from 'utils/format'
 import { formatUnits, Hash } from 'viem'
 

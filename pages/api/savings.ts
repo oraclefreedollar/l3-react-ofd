@@ -7,7 +7,7 @@ import {
 	SavingsWithdrawQuery,
 	LeadrateRateQuery,
 	LeadrateProposed,
-} from 'redux/slices/savings.types'
+} from 'store/slices/savings.types'
 
 // Query for savings rates and proposals
 const SAVINGS_RATES_QUERY = gql`

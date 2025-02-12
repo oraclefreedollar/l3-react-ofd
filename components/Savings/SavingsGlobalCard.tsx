@@ -1,7 +1,6 @@
 import AppBox from 'components/AppBox'
 import AppCard from 'components/AppCard'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../redux/redux.store'
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ADDRESS } from 'contracts'
@@ -11,6 +10,7 @@ import { shortenAddress } from 'utils'
 import Link from 'next/link'
 import DisplayLabel from 'components/DisplayLabel'
 import DisplayAmount from 'components/DisplayAmount'
+import { RootState } from 'store/types'
 
 export default function SavingsGlobalCard() {
 	const { totalBalance, rate } = useSelector((state: RootState) => state.savings.savingsInfo)

@@ -3,8 +3,8 @@ import TableBody from '../Table/TableBody'
 import Table from '../Table'
 import TableRowEmpty from '../Table/TableRowEmpty'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../redux/redux.store'
 import SavingsWithdrawnRow from './SavingsWithdrawnRow'
+import { RootState } from 'store/types'
 
 export default function SavingsWithdrawnTable() {
 	const headers: string[] = ['Date', 'Saver', 'Amount', 'Balance']
@@ -25,4 +25,3 @@ export default function SavingsWithdrawnTable() {
 		</Table>
 	)
 }
-

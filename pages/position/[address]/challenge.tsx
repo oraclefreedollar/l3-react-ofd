@@ -15,8 +15,8 @@ import { getAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { envConfig } from 'app.env.config'
 import { useSelector } from 'react-redux'
-import { RootState } from 'redux/redux.store'
 import { useChallengeContractsFunctions } from 'hooks/challenge/useChallengeContractsFunctions'
+import { RootState } from 'store/types'
 
 export default function PositionChallenge() {
 	const router = useRouter()

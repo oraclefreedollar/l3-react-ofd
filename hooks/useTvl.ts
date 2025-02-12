@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux'
-import { RootState } from 'redux/redux.store'
-import { PositionQuery } from 'redux/slices/positions.types'
+import { PositionQuery } from 'store/slices/positions.types'
 import { useMemo } from 'react'
 import { useSwapStats } from 'hooks/useSwapStats'
+import { RootState } from 'store/types'
 
 export const useTvl = (): number => {
 	const { usdtBridgeBal } = useSwapStats()

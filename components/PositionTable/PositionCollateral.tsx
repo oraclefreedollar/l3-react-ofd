@@ -1,10 +1,10 @@
 import TokenLogo from 'components/TokenLogo'
 import { useSelector } from 'react-redux'
 import { Address } from 'viem'
-import { RootState } from 'redux/redux.store'
-import { PositionQuery } from 'redux/slices/positions.types'
+import { PositionQuery } from 'store/slices/positions.types'
 import { formatCurrency } from 'utils/format'
 import { Fragment } from 'react'
+import { RootState } from 'store/types'
 
 export type CollateralItem = {
 	collateral: {

@@ -9,10 +9,10 @@ import SavingsDetailsCard from './SavingsDetailsCard'
 import { readContract } from 'wagmi/actions'
 import { WAGMI_CONFIG } from 'app.config'
 import { useSelector } from 'react-redux'
-import { RootState } from 'redux/redux.store'
 import SavingsActionInterest from './SavingsActionInterest'
 import SavingsActionSave from './SavingsActionSave'
 import SavingsActionWithdraw from './SavingsActionWithdraw'
+import { RootState } from 'store/types'
 
 export default function SavingsInteractionCard() {
 	const [amount, setAmount] = useState(0n)
