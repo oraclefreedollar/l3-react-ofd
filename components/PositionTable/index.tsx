@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux'
 import { zeroAddress } from 'viem'
 import { useAccount } from 'wagmi'
-import { RootState } from 'redux/redux.store'
-import { PositionQuery } from 'redux/slices/positions.types'
+import { PositionQuery } from 'store/slices/positions.types'
 import Table from '../Table'
 import TableBody from '../Table/TableBody'
 import TableHeader from '../Table/TableHead'
 import TableRowEmpty from '../Table/TableRowEmpty'
 import PositionRow from './PositionRow'
+import { RootState } from 'store/types'
 
 interface Props {
 	showMyPos?: boolean
@@ -32,7 +32,7 @@ export default function PositionTable({ showMyPos }: Props) {
 	// console.log({ matchingPositions, showMyPos });
 
 	return (
-		<div id='positions-table'>
+		<div id="positions-table">
 			<Table>
 				<TableHeader actionCol headers={['Collateral', 'Liquidation Price', 'Available Amount']} />
 				<TableBody>

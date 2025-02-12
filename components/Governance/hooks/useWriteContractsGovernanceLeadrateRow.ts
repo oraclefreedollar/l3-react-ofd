@@ -3,7 +3,7 @@ import { ABIS, ADDRESS } from 'contracts'
 import { useChainId } from 'wagmi'
 import { useMemo } from 'react'
 import { formatCurrency } from 'utils'
-import { ApiLeadrateInfo, LeadrateProposed } from 'redux/slices/savings.types'
+import { ApiLeadrateInfo, LeadrateProposed } from 'store/slices/savings.types'
 
 type Props = { info: ApiLeadrateInfo; proposal: LeadrateProposed }
 type Returned = {

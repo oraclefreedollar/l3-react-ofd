@@ -1,9 +1,9 @@
 import { createSlice, Dispatch } from '@reduxjs/toolkit'
 import { Address } from 'viem'
 import { URI_APP_SELECTED } from 'app.config'
-import { RootState } from '../redux.store'
 import { ERC20Info } from './positions.types'
 import { DispatchBoolean, DispatchPriceQueryObjectArray, PriceQuery, PriceQueryObjectArray, PricesState } from './prices.types'
+import { RootState } from 'store/types'
 
 // --------------------------------------------------------------------------------
 

@@ -26,8 +26,8 @@ import { envConfig } from 'app.env.config'
 import { useVotingPowers } from 'hooks/useVotingPowers'
 import GovernanceLeadrateCurrent from 'components/Governance/GovernanceLeadrateCurrent'
 import GovernanceLeadrateTable from 'components/Governance/GovernanceLeadrateTable'
-import { store } from 'redux/redux.store'
-import { fetchSavings } from 'redux/slices/savings.slice'
+import { store } from 'store'
+import { fetchSavings } from 'store/slices/savings.slice'
 import AppCard from 'components/AppCard'
 
 export default function Governance() {

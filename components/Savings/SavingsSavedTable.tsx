@@ -3,15 +3,14 @@ import TableBody from '../Table/TableBody'
 import Table from '../Table'
 import TableRowEmpty from '../Table/TableRowEmpty'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../redux/redux.store'
 import SavingsSavedRow from './SavingsSavedRow'
+import { RootState } from 'store/types'
 
 export default function SavingsSavedTable() {
 	const headers: string[] = ['Date', 'Saver', 'Amount', 'Balance']
 
 	const { save } = useSelector((state: RootState) => state.savings.savingsAllUserTable)
 	if (!save) return null
-
 
 	return (
 		<Table>
@@ -26,7 +25,3 @@ export default function SavingsSavedTable() {
 		</Table>
 	)
 }
-
-
-
-

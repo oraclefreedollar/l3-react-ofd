@@ -1,16 +1,16 @@
 import { Address, formatUnits, zeroAddress } from 'viem'
 import TableRow from '../Table/TableRow'
-import { RootState } from '../../redux/redux.store'
 import { useSelector } from 'react-redux'
 import { formatCurrency } from '../../utils/format'
 import { useRouter as useNavigation } from 'next/navigation'
 
 import { useContractUrl } from 'hooks/useContractUrl'
-import { ChallengesQueryItem } from 'redux/slices/challenges.types'
+import { ChallengesQueryItem } from 'store/slices/challenges.types'
 import TokenLogo from 'components/TokenLogo'
 import Button from 'components/Button'
 import AppBox from 'components/AppBox'
-import { PositionQuery } from 'redux/slices/positions.types'
+import { PositionQuery } from 'store/slices/positions.types'
+import { RootState } from 'store/types'
 interface Props {
 	position: PositionQuery
 }

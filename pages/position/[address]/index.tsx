@@ -16,7 +16,8 @@ import { useAccount, useChainId, useReadContract } from 'wagmi'
 import { envConfig } from 'app.env.config'
 import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from 'redux/redux.store'
+
+import { RootState } from 'store/types'
 
 export default function PositionDetail() {
 	const router = useRouter()

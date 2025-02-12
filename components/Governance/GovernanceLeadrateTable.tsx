@@ -3,8 +3,8 @@ import TableBody from '../Table/TableBody'
 import Table from '../Table'
 import TableRowEmpty from '../Table/TableRowEmpty'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../redux/redux.store'
 import GovernanceLeadrateRow from './GovernanceLeadrateRow'
+import { RootState } from 'store/types'
 
 export default function GovernanceLeadrateTable() {
 	const headers: string[] = ['Date', 'Proposer', 'Rate', 'State']

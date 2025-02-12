@@ -4,12 +4,12 @@ import Button from 'components/Button'
 import NormalInput from 'components/Input/NormalInput'
 import AppCard from 'components/AppCard'
 import { useSelector } from 'react-redux'
-import { RootState } from 'redux/redux.store'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAccount, useChainId } from 'wagmi'
 import { ADDRESS, ABIS } from 'contracts'
 import { useWriteContractWithToast } from 'hooks'
 import { toast } from 'react-toastify'
+import { RootState } from 'store/types'
 
 interface Props {}
 

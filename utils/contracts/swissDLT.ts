@@ -1,5 +1,5 @@
-import { ERC20Info } from 'redux/slices/positions.types'
-import { PriceQueryObjectArray } from 'redux/slices/prices.types'
+import { ERC20Info } from 'store/slices/positions.types'
+import { PriceQueryObjectArray } from 'store/slices/prices.types'
 import { formatCurrency } from 'utils'
 import { THE_GRAPH_KEY } from 'app.config'
 

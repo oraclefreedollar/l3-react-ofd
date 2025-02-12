@@ -2,7 +2,7 @@ import { Hash } from 'viem'
 import TableRow from '../Table/TableRow'
 import { AddressLabelSimple, TxLabelSimple } from 'components/AddressLabel'
 import { useCallback, useState } from 'react'
-import { ApiLeadrateInfo, LeadrateProposed } from 'redux/slices/savings.types'
+import { ApiLeadrateInfo, LeadrateProposed } from 'store/slices/savings.types'
 import Button from 'components/Button'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 

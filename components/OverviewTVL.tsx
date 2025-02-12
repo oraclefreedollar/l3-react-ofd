@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux'
 import { Address } from 'viem'
-import { RootState } from 'redux/redux.store'
-import { PositionQuery } from 'redux/slices/positions.types'
-import { PriceQueryObjectArray } from 'redux/slices/prices.types'
+import { PositionQuery } from 'store/slices/positions.types'
+import { PriceQueryObjectArray } from 'store/slices/prices.types'
 import { formatCurrency } from 'utils/format'
 import TokenLogo from './TokenLogo'
+import { RootState } from 'store/types'
 
 export function calcOverviewStats(listByCollateral: PositionQuery[][], prices: PriceQueryObjectArray) {
 	const stats = []
