@@ -11,6 +11,7 @@ import Button from 'components/Button'
 import AppBox from 'components/AppBox'
 import { PositionQuery } from 'store/slices/positions.types'
 import { RootState } from 'store/types'
+import { useCoingeckoPrices } from 'store/prices'
 interface Props {
 	position: PositionQuery
 }
@@ -18,7 +19,7 @@ interface Props {
 export default function MonitoringRow({ position }: Props) {
 	const navigate = useNavigation()
 
-	const prices = useSelector((state: RootState) => state.prices.coingecko)
+	const prices = useCoingeckoPrices()
 	const challenges = useSelector((state: RootState) => state.challenges.positions)
 	const url = useContractUrl(position.collateral || zeroAddress)
 	const collTokenPrice = prices[position.collateral.toLowerCase() as Address]?.price?.usd || 1

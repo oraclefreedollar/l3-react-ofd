@@ -3,12 +3,13 @@ import { PositionQuery } from 'store/slices/positions.types'
 import { useMemo } from 'react'
 import { useSwapStats } from 'hooks/useSwapStats'
 import { RootState } from 'store/types'
+import { useCoingeckoPrices } from 'store/prices'
 
 export const useTvl = (): number => {
 	const { usdtBridgeBal } = useSwapStats()
 
 	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
-	const prices = useSelector((state: RootState) => state.prices.coingecko)
+	const prices = useCoingeckoPrices()
 
 	const openPositions = useMemo<Array<PositionQuery>>(() => {
 		return openPositionsByCollateral.reduce((acc, positions) => {

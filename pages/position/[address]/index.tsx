@@ -15,9 +15,8 @@ import { getAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId, useReadContract } from 'wagmi'
 import { envConfig } from 'app.env.config'
 import { useCallback } from 'react'
-import { useSelector } from 'react-redux'
 
-import { RootState } from 'store/types'
+import { useCoingeckoPrices } from 'store/prices'
 
 export default function PositionDetail() {
 	const router = useRouter()
@@ -32,7 +31,7 @@ export default function PositionDetail() {
 	const { challenges, loading: queryLoading } = useChallengeLists({ position })
 	const { challengsData, loading } = useChallengeListStats(challenges)
 
-	const prices = useSelector((state: RootState) => state.prices.coingecko)
+	const prices = useCoingeckoPrices()
 	const collateralPrice = prices[positionStats.collateral?.toLowerCase() || zeroAddress]?.price?.usd
 
 	const ofdPrice = useOfdPrice()

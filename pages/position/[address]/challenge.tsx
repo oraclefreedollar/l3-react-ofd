@@ -14,9 +14,8 @@ import { useState } from 'react'
 import { getAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { envConfig } from 'app.env.config'
-import { useSelector } from 'react-redux'
 import { useChallengeContractsFunctions } from 'hooks/challenge/useChallengeContractsFunctions'
-import { RootState } from 'store/types'
+import { useCoingeckoPrices } from 'store/prices'
 
 export default function PositionChallenge() {
 	const router = useRouter()
@@ -30,7 +29,7 @@ export default function PositionChallenge() {
 	const account = address || zeroAddress
 	const position = getAddress(String(positionAddr || zeroAddress))
 	const positionStats = usePositionStats(position)
-	const prices = useSelector((state: RootState) => state.prices.coingecko)
+	const prices = useCoingeckoPrices()
 	const collateralPrice = prices[positionStats.collateral?.toLowerCase() ?? zeroAddress]?.price?.usd
 	const ofdPrice = useOfdPrice()
 

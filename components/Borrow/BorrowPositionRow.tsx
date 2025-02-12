@@ -7,13 +7,14 @@ import { Address } from 'viem'
 import DisplayCollateralBorrowTable from './DisplayCollateralBorrowTable'
 import Link from 'next/link'
 import { RootState } from 'store/types'
+import { useCoingeckoPrices } from 'store/prices'
 
 interface Props {
 	item: PositionQuery
 }
 
 export default function BorrowPositionRow({ item }: Props) {
-	const { coingecko } = useSelector((state: RootState) => state.prices)
+	const coingecko = useCoingeckoPrices()
 	const { rate } = useSelector((state: RootState) => state.savings.savingsInfo)
 	const collTokenPrice = coingecko[item.collateral.toLowerCase() as Address]?.price?.usd
 	const ofdPrice = coingecko[item.ofd.toLowerCase() as Address]?.price?.usd

@@ -5,6 +5,7 @@ import { PositionQuery } from 'store/slices/positions.types'
 import { formatCurrency } from 'utils/format'
 import { Fragment } from 'react'
 import { RootState } from 'store/types'
+import { useCoingeckoPrices } from 'store/prices'
 
 export type CollateralItem = {
 	collateral: {
@@ -40,7 +41,7 @@ export type CollateralItem = {
 
 export function PositionCollateralCalculate(): CollateralItem[] {
 	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
-	const { coingecko } = useSelector((state: RootState) => state.prices)
+	const coingecko = useCoingeckoPrices()
 
 	const stats: CollateralItem[] = []
 
