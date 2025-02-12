@@ -11,46 +11,48 @@ export default function Navbar() {
 
 	return (
 		<div className="fixed top-0 left-0 right-0 z-10 backdrop-blur border-b border-gray-400">
-			<header className="flex items-center p-2 sm:gap-x-4 md:p-4 relative w-full">
-				<Link className="" href="/">
-					<picture>
-						<img alt="Logo" className="h-9 transition" src="/assets/ofd-white.png" />
-					</picture>
-				</Link>
+			<header className="flex items-center justify-between p-2 sm:gap-x-4 md:p-4 relative w-full">
+				<div className="justify-left flex items-center">
+					<Link className="" href="/">
+						<picture>
+							<img alt="Logo" className="h-9 transition" src="/assets/ofd-white.png" />
+						</picture>
+					</Link>
 
-				<ul className="justify-left hidden flex-1 gap-2 md:flex lg:gap-3 xl:w-1/2">
-					{!ENABLE_EMERGENCY_MODE && (
+					<ul className="justify-left hidden flex-1 gap-2 md:flex lg:gap-3 xl:w-1/2">
+						{!ENABLE_EMERGENCY_MODE && (
+							<li>
+								<NavButton name="Swap" to="/swap" />
+							</li>
+						)}
 						<li>
-							<NavButton name="Swap" to="/swap" />
+							<NavButton name="Borrow" to="/collateral" />
 						</li>
-					)}
-					<li>
-						<NavButton name="Borrow" to="/collateral" />
-					</li>
-					<li>
-						<NavButton name="My Positions" to="/positions" />
-					</li>
-					<li>
-						<NavButton name="Auctions" to="/auctions" />
-					</li>
-					<li>
-						<NavButton name="Equity" to="/pool" />
-					</li>
-					<li>
-						<NavButton name="Savings" to="/savings" />
-					</li>
-					<li>
-						<NavButton name="Governance" to="/governance" />
-					</li>
-					<li>
-						<NavButton name="Monitoring" to="/monitoring" />
-					</li>
-					{chainId == 97 && (
 						<li>
-							<NavButton name="Faucet" to="/faucet" />
+							<NavButton name="My Positions" to="/positions" />
 						</li>
-					)}
-				</ul>
+						<li>
+							<NavButton name="Auctions" to="/auctions" />
+						</li>
+						<li>
+							<NavButton name="Equity" to="/pool" />
+						</li>
+						<li>
+							<NavButton name="Savings" to="/savings" />
+						</li>
+						<li>
+							<NavButton name="Governance" to="/governance" />
+						</li>
+						<li>
+							<NavButton name="Monitoring" to="/monitoring" />
+						</li>
+						{chainId == 97 && (
+							<li>
+								<NavButton name="Faucet" to="/faucet" />
+							</li>
+						)}
+					</ul>
+				</div>
 				<div className="flex flex-1 justify-end items-center">
 					<WalletConnect />
 				</div>
