@@ -21,11 +21,6 @@ const Navbar: React.FC = () => {
 					</Link>
 
 					<ul className="justify-left hidden flex-1 gap-2 md:flex lg:gap-3 xl:w-1/2">
-						{!ENABLE_EMERGENCY_MODE && (
-							<li>
-								<NavButton name="Swap" to="/swap" />
-							</li>
-						)}
 						<li>
 							<NavButton name={t('common:navigation:swap')} to="/swap" />
 						</li>
