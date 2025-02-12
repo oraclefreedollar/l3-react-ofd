@@ -27,35 +27,33 @@ const Navbar: React.FC = () => {
 							</li>
 						)}
 						<li>
-
 							<NavButton name={t('common:navigation:swap')} to="/swap" />
 						</li>
-					)}
-					<li>
-						<NavButton name={t('common:navigation:borrow')} to="/collateral" />
-					</li>
-					<li>
-						<NavButton name={t('common:navigation:myPositions')} to="/positions" />
-					</li>
-					<li>
-						<NavButton name={t('common:navigation:auctions')} to="/auctions" />
-					</li>
-					<li>
-						<NavButton name={t('common:navigation:equity')} to="/pool" />
-					</li>
-					<li>
-						<NavButton name={t('common:navigation:savings')} to="/savings" />
-					</li>
-					<li>
-						<NavButton name={t('common:navigation:governance')} to="/governance" />
-					</li>
-					<li>
-						<NavButton name={t('common:navigation:monitoring')} to="/monitoring" />
-					</li>
-					{chainId == 97 && (
 						<li>
-							<NavButton name={t('common:navigation:faucet')} to="/faucet" />
+							<NavButton name={t('common:navigation:borrow')} to="/collateral" />
 						</li>
+						<li>
+							<NavButton name={t('common:navigation:myPositions')} to="/positions" />
+						</li>
+						<li>
+							<NavButton name={t('common:navigation:auctions')} to="/auctions" />
+						</li>
+						<li>
+							<NavButton name={t('common:navigation:equity')} to="/pool" />
+						</li>
+						<li>
+							<NavButton name={t('common:navigation:savings')} to="/savings" />
+						</li>
+						<li>
+							<NavButton name={t('common:navigation:governance')} to="/governance" />
+						</li>
+						<li>
+							<NavButton name={t('common:navigation:monitoring')} to="/monitoring" />
+						</li>
+						{chainId == 97 && (
+							<li>
+								<NavButton name={t('common:navigation:faucet')} to="/faucet" />
+							</li>
 						)}
 					</ul>
 				</div>
