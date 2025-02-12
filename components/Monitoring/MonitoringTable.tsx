@@ -9,12 +9,13 @@ import { useMemo } from 'react'
 import { ChallengesQueryItem } from 'store/slices/challenges.types'
 import { PositionQuery } from 'store/slices/positions.types'
 import { RootState } from 'store/types'
+import { useCoingeckoPrices } from 'store/prices'
 export default function MonitoringTable() {
 	const headers: string[] = ['Collateral', 'Collateralization', 'Expiration', 'Challenged']
 
 	const { openPositions } = useSelector((state: RootState) => state.positions)
 	const challenges = useSelector((state: RootState) => state.challenges.positions)
-	const { coingecko } = useSelector((state: RootState) => state.prices)
+	const coingecko = useCoingeckoPrices()
 
 	// Combine position data with challenges data
 	const enrichedPositions = useMemo(() => {

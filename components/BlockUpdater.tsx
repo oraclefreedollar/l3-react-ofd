@@ -3,14 +3,13 @@ import { useSelector } from 'react-redux'
 import { useBlockNumber } from 'wagmi'
 
 import { envConfig } from 'app.env.config'
-import { store } from 'store'
 import { fetchPositionsList } from 'store/slices/positions.slice'
 import { ERC20Info } from 'store/slices/positions.types'
-import { fetchPricesList } from 'store/slices/prices.slice'
 import { useIsConnectedToCorrectChain } from 'hooks/useWalletConnectStats'
 import { WAGMI_CHAIN } from 'app.config'
 import { RootState } from 'store/types'
 import { useAppDispatch } from 'store/hooks'
+import { PricesActions, useIsPricesLoaded } from 'store/prices'
 
 let initializing: boolean = false
 let loading: boolean = false
@@ -28,7 +27,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 	const [latestConnectedToChain, setLatestConnectedToChain] = useState<boolean>(false)
 
 	const loadedPositions: boolean = useSelector((state: RootState) => state.positions && state.positions.loaded)
-	const loadedPrices: boolean = useSelector((state: RootState) => state.prices && state.prices.loaded)
+	const loadedPrices: boolean = useIsPricesLoaded()
 	const { mintERC20Infos, collateralERC20Infos } = useSelector((state: RootState) => state.positions)
 
 	// --------------------------------------------------------------------------------
@@ -39,7 +38,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		initializing = true
 
 		dispatch(fetchPositionsList())
-		dispatch(fetchPricesList(store.getState()))
+		dispatch(PricesActions.update())
 	}, [dispatch, initialized])
 
 	// --------------------------------------------------------------------------------
@@ -73,13 +72,13 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		// Block update policy: EACH 10 BLOCKS
 		if (fetchedLatestHeight % 10 === 0) {
 			// console.log(`Policy [BlockUpdater]: EACH 10 BLOCKS ${fetchedLatestHeight}`);
-			// dispatch(fetchPricesList(store.getState()));
+			// dispatch(PricesActions.update());
 		}
 
 		// Block update policy: EACH 100 BLOCKS
 		if (fetchedLatestHeight % 100 === 0) {
 			// console.log(`Policy [BlockUpdater]: EACH 100 BLOCKS ${fetchedLatestHeight}`);
-			// dispatch(fetchPricesList());
+			// dispatch(PricesActions.update());
 		}
 
 		// Unlock block updates
@@ -94,7 +93,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		if (mintERC20Infos.length != latestMintERC20Infos.length) setLatestMintERC20Infos(mintERC20Infos)
 		if (collateralERC20Infos.length != latestCollateralERC20Infos.length) setLatestCollateralERC20Infos(collateralERC20Infos)
 
-		dispatch(fetchPricesList(store.getState()))
+		dispatch(PricesActions.update())
 	}, [mintERC20Infos, collateralERC20Infos, latestMintERC20Infos, latestCollateralERC20Infos, dispatch])
 
 	// --------------------------------------------------------------------------------

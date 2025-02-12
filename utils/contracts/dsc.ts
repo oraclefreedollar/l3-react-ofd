@@ -1,6 +1,7 @@
 import { ERC20Info } from 'store/slices/positions.types'
-import { PriceQueryObjectArray } from 'store/slices/prices.types'
 import { formatCurrency } from 'utils'
+
+import { PriceQueryObjectArray } from 'meta/prices'
 
 type DSCPRice = {
 	priceAsk: string
