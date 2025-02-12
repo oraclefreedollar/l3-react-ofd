@@ -12,16 +12,22 @@ const Navbar: React.FC = () => {
 
 	return (
 		<div className="fixed top-0 left-0 right-0 z-10 backdrop-blur border-b border-gray-400">
-			<header className="flex items-center p-2 sm:gap-x-4 md:p-4 relative w-full">
-				<Link className="" href="/">
-					<picture>
-						<img alt="Logo" className="h-9 transition" src="/assets/ofd-white.png" />
-					</picture>
-				</Link>
+			<header className="flex items-center justify-between p-2 sm:gap-x-4 md:p-4 relative w-full">
+				<div className="justify-left flex items-center">
+					<Link className="" href="/">
+						<picture>
+							<img alt="Logo" className="h-9 transition" src="/assets/ofd-white.png" />
+						</picture>
+					</Link>
 
-				<ul className="justify-left hidden flex-1 gap-2 md:flex lg:gap-3 xl:w-1/2">
-					{!ENABLE_EMERGENCY_MODE && (
+					<ul className="justify-left hidden flex-1 gap-2 md:flex lg:gap-3 xl:w-1/2">
+						{!ENABLE_EMERGENCY_MODE && (
+							<li>
+								<NavButton name="Swap" to="/swap" />
+							</li>
+						)}
 						<li>
+
 							<NavButton name={t('common:navigation:swap')} to="/swap" />
 						</li>
 					)}
@@ -50,8 +56,9 @@ const Navbar: React.FC = () => {
 						<li>
 							<NavButton name={t('common:navigation:faucet')} to="/faucet" />
 						</li>
-					)}
-				</ul>
+						)}
+					</ul>
+				</div>
 				<div className="flex flex-1 justify-end items-center">
 					<WalletConnect />
 				</div>

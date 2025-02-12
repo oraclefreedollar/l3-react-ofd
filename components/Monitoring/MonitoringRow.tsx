@@ -13,6 +13,7 @@ import AppBox from 'components/AppBox'
 import { PositionQuery } from 'redux/slices/positions.types'
 import { useTranslation } from 'next-i18next'
 import React, { useMemo } from 'react'
+
 interface Props {
 	position: PositionQuery
 }
@@ -36,7 +37,7 @@ const MonitoringRow: React.FC<Props> = ({ position }: Props) => {
 	const balanceOFD: number = Math.round(((balance * collTokenPrice) / ofdPrice) * 100) / 100
 
 	const liquidationOFD: number = Math.round((parseInt(position.price) / 10 ** (36 - position.collateralDecimals)) * 100) / 100
-	const liquidationPct: number = Math.round((balanceOFD / (liquidationOFD * balanceOFD)) * 10000) / 100
+	const liquidationPct: number = Math.round((balanceOFD / (liquidationOFD * balance)) * 10000) / 100
 
 	const digits: number = position.collateralDecimals
 	const positionChallenges = useMemo(() => challenges.map[position.position.toLowerCase() as Address] ?? [], [challenges, position])

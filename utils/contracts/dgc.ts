@@ -1,6 +1,5 @@
 import { ERC20Info } from 'redux/slices/positions.types'
 import { PriceQueryObjectArray } from 'redux/slices/prices.types'
-import { formatCurrency } from 'utils'
 
 type DSCPRice = {
 	priceAsk: string
@@ -21,7 +20,7 @@ export const dgc = async (fetchedERC20Infos: Array<ERC20Info>, fetchedPrices: Pr
 	const data = await fetch('https://staging.price.denario.swiss/api/goldcoins/latest', options)
 	const response = await data.json()
 	const dscPriceUsd = response.find((o: DSCPRice) => o.currency === 'USD')
-	const price = formatCurrency(String(dscPriceUsd?.priceAsk))
+	const price = dscPriceUsd?.priceAsk
 	const erc = fetchedERC20Infos.find((i) => i.address?.toLowerCase() == contract)
 
 	if (!erc) return
