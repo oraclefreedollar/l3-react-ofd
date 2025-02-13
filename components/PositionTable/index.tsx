@@ -1,20 +1,19 @@
-import { useSelector } from 'react-redux'
 import { zeroAddress } from 'viem'
 import { useAccount } from 'wagmi'
-import { PositionQuery } from 'store/slices/positions.types'
 import Table from '../Table'
 import TableBody from '../Table/TableBody'
 import TableHeader from '../Table/TableHead'
 import TableRowEmpty from '../Table/TableRowEmpty'
 import PositionRow from './PositionRow'
-import { RootState } from 'store/types'
+import { useOpenPositionsByCollateral } from 'store/positions'
+import { PositionQuery } from 'meta/positions'
 
 interface Props {
 	showMyPos?: boolean
 }
 
 export default function PositionTable({ showMyPos }: Props) {
-	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
+	const openPositionsByCollateral = useOpenPositionsByCollateral()
 	// console.log({ openPositionsByCollateral });
 	const { address } = useAccount()
 	const account = address || zeroAddress

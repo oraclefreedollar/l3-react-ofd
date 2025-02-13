@@ -1,8 +1,8 @@
-import { ERC20Info } from 'store/slices/positions.types'
 import { formatCurrency } from 'utils'
 import { THE_GRAPH_KEY } from 'app.config'
 
 import { PriceQueryObjectArray } from 'meta/prices'
+import { ERC20Info } from 'meta/positions'
 
 // Sushiswap subgraph endpoint (for Polygon)
 const SUSHISWAP_SUBGRAPH_URL = `https://gateway.thegraph.com/api/${THE_GRAPH_KEY}/subgraphs/id/G1Q6dviDfMm6hVLvCqbfeB19kLmvs7qrnBvXeFndjhaU`

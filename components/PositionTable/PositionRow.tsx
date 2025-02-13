@@ -3,11 +3,11 @@ import Link from 'next/link'
 import { zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { ADDRESS } from 'contracts/address'
-import { PositionQuery } from 'store/slices/positions.types'
 import DisplayAmount from '../DisplayAmount'
 import TableRow from '../Table/TableRow'
 import { useMemo } from 'react'
 import { useCoingeckoPrices } from 'store/prices'
+import { PositionQuery } from 'meta/positions'
 
 interface Props {
 	position: PositionQuery

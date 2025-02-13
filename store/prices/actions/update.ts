@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { ThunkConfig } from 'store/types'
-import { ERC20Info } from 'store/slices/positions.types'
 import { URI_APP_SELECTED } from 'app.config'
 
 import { PriceQueryObjectArray } from 'meta/prices'
+import { ERC20Info } from 'meta/positions'
 
 export const update = createAsyncThunk<PriceQueryObjectArray | undefined, void, ThunkConfig>('prices/fetch', async (_, { getState }) => {
 	const state = getState()

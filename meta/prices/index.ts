@@ -1,4 +1,4 @@
-import { ERC20Info } from 'store/slices/positions.types'
+import { ERC20Info } from 'meta/positions'
 
 export type PriceQueryCurrencies = {
 	usd: number

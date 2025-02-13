@@ -1,13 +1,13 @@
 import AppBox from 'components/AppBox'
 import TableRow from 'components/Table/TableRow'
 import { useSelector } from 'react-redux'
-import { PositionQuery } from 'store/slices/positions.types'
 import { formatCurrency } from 'utils/format'
 import { Address } from 'viem'
 import DisplayCollateralBorrowTable from './DisplayCollateralBorrowTable'
 import Link from 'next/link'
 import { RootState } from 'store/types'
 import { useCoingeckoPrices } from 'store/prices'
+import { PositionQuery } from 'meta/positions'
 
 interface Props {
 	item: PositionQuery
