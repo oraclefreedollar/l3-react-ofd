@@ -1,12 +1,13 @@
 import { Hash } from 'viem'
 import TableRow from '../Table/TableRow'
 import { AddressLabelSimple, TxLabelSimple } from 'components/AddressLabel'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { ApiLeadrateInfo, LeadrateProposed } from 'redux/slices/savings.types'
 import Button from 'components/Button'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 
 import { useWriteContractsGovernanceLeadrateRow } from './hooks/useWriteContractsGovernanceLeadrateRow'
+import { useTranslation } from 'next-i18next'
 
 interface Props {
 	info: ApiLeadrateInfo
@@ -14,12 +15,16 @@ interface Props {
 	currentProposal: boolean
 }
 
+const namespaces = ['common', 'governance']
 export default function GovernanceLeadrateRow({ info, proposal, currentProposal }: Props) {
+	const { t } = useTranslation(namespaces)
+
 	const [isHidden, setHidden] = useState<boolean>(false)
 
 	const vetoUntil = proposal.nextChange * 1000
 	const hoursUntil: number = (vetoUntil - Date.now()) / 1000 / 60 / 60
-	const stateStr: string = `${Math.round(hoursUntil)} hours left`
+
+	const stateStr: string = useMemo(() => t('governance:leadrate:remainingHours', { hours: Math.round(hoursUntil) }), [hoursUntil, t])
 
 	const dateArr: string[] = new Date(proposal.created * 1000).toDateString().split(' ')
 	const dateStr: string = `${dateArr[2]} ${dateArr[1]} ${dateArr[3]}`
@@ -44,13 +49,13 @@ export default function GovernanceLeadrateRow({ info, proposal, currentProposal 
 						info.isPending && info.isProposal ? (
 							<GuardToAllowedChainBtn>
 								<Button className="h-10" disabled={!info.isPending || !info.isProposal || isHidden} isLoading={isDenying} onClick={onDeny}>
-									Deny
+									{t('governance:leadrate:deny')}
 								</Button>
 							</GuardToAllowedChainBtn>
 						) : (
 							<GuardToAllowedChainBtn>
 								<Button className="h-10" disabled={!info.isProposal || isHidden} isLoading={isApplying} onClick={onApply}>
-									Apply
+									{t('governance:leadrate:apply')}
 								</Button>
 							</GuardToAllowedChainBtn>
 						)
@@ -70,7 +75,13 @@ export default function GovernanceLeadrateRow({ info, proposal, currentProposal 
 				<div className={`flex flex-col ${currentProposal && info.isProposal ? 'font-semibold' : ''}`}>{proposal.nextRate / 10_000} %</div>
 
 				<div className="flex flex-col">
-					{currentProposal ? (hoursUntil > 0 ? stateStr : info.rate != proposal.nextRate ? 'Ready' : 'Passed') : 'Expired'}
+					{currentProposal
+						? hoursUntil > 0
+							? stateStr
+							: info.rate != proposal.nextRate
+								? t('governance:minterProposal:status:ready')
+								: t('governance:minterProposal:status:passed')
+						: t('governance:minterProposal:status:expired')}
 				</div>
 			</TableRow>
 		</>

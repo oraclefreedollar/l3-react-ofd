@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /faucet
+
+# Host
+Host: https://app.oraclefreedollar.org
+
+# Sitemaps
+Sitemap: https://app.oraclefreedollar.org/sitemap.xml
+Sitemap: https://app.oraclefreedollar.org/sitemap-0.xml

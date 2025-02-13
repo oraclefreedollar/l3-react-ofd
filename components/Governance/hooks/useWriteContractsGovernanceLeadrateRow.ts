@@ -4,6 +4,7 @@ import { useChainId } from 'wagmi'
 import { useMemo } from 'react'
 import { formatCurrency } from 'utils'
 import { ApiLeadrateInfo, LeadrateProposed } from 'redux/slices/savings.types'
+import { useTranslation } from 'next-i18next'
 
 type Props = { info: ApiLeadrateInfo; proposal: LeadrateProposed }
 type Returned = {
@@ -13,9 +14,11 @@ type Returned = {
 	isDenying: boolean
 }
 
+const namespaces = ['common']
 export const useWriteContractsGovernanceLeadrateRow = (props: Props): Returned => {
 	const { info, proposal } = props
 
+	const { t } = useTranslation(namespaces)
 	const chainId = useChainId()
 
 	const currentRateFormatted = useMemo(() => formatCurrency(info.rate / 10000), [info.rate])
@@ -24,15 +27,15 @@ export const useWriteContractsGovernanceLeadrateRow = (props: Props): Returned =
 	const toastContentApply = useMemo(
 		() => [
 			{
-				title: `From: `,
+				title: t('common:toasts:governance:leadrate:apply:title1'),
 				value: `${currentRateFormatted}%`,
 			},
 			{
-				title: `Applying to: `,
+				title: t('common:toasts:governance:leadrate:apply:title2'),
 				value: `${proposedRateFormatted}%`,
 			},
 		],
-		[currentRateFormatted, proposedRateFormatted]
+		[currentRateFormatted, proposedRateFormatted, t]
 	)
 
 	const { loading: isApplying, writeFunction: handleOnApply } = useWriteContractWithToast({
@@ -43,11 +46,11 @@ export const useWriteContractsGovernanceLeadrateRow = (props: Props): Returned =
 			args: [],
 		},
 		toastPending: {
-			title: `Applying new rate...`,
+			title: t('common:toasts:governance:leadrate:apply:pending'),
 			rows: toastContentApply,
 		},
 		toastSuccess: {
-			title: 'Successfully applied new rate',
+			title: t('common:toasts:governance:leadrate:apply:success'),
 			rows: toastContentApply,
 		},
 	})
@@ -55,15 +58,15 @@ export const useWriteContractsGovernanceLeadrateRow = (props: Props): Returned =
 	const toastContentDeny = useMemo(
 		() => [
 			{
-				title: `Current: `,
+				title: t('common:toasts:governance:leadrate:deny:title1'),
 				value: `${currentRateFormatted}%`,
 			},
 			{
-				title: `Denying: `,
+				title: t('common:toasts:governance:leadrate:deny:title2'),
 				value: `${proposedRateFormatted}%`,
 			},
 		],
-		[currentRateFormatted, proposedRateFormatted]
+		[currentRateFormatted, proposedRateFormatted, t]
 	)
 
 	const { loading: isDenying, writeFunction: handleOnDeny } = useWriteContractWithToast({
@@ -74,11 +77,11 @@ export const useWriteContractsGovernanceLeadrateRow = (props: Props): Returned =
 			args: [info.rate, []],
 		},
 		toastPending: {
-			title: `Denying new rate...`,
+			title: t('common:toasts:governance:leadrate:deny:pending'),
 			rows: toastContentDeny,
 		},
 		toastSuccess: {
-			title: 'Successfully denied new rate',
+			title: t('common:toasts:governance:leadrate:deny:success'),
 			rows: toastContentDeny,
 		},
 	})

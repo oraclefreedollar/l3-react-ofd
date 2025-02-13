@@ -4,8 +4,12 @@ import NormalInput from 'components/Input/NormalInput'
 import { usePositionFormContext } from 'contexts/position'
 import { PositionCreateFormState } from 'contexts/position/types'
 import { StepComponentProps } from 'pages/positions/create'
+import { useTranslation } from 'next-i18next'
+import { CoinTicker } from 'meta/coins'
 
 const PositionFinancialTerms: React.FC<StepComponentProps> = ({ onValidationChange }) => {
+	const { t } = useTranslation(['positionCreate', 'common'])
+
 	const { form, errors, handleChange } = usePositionFormContext()
 	const { interest, limitAmount, maturity } = form
 
@@ -24,15 +28,15 @@ const PositionFinancialTerms: React.FC<StepComponentProps> = ({ onValidationChan
 
 	return (
 		<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
-			<div className="text-lg font-bold text-center mt-3">Financial Terms</div>
+			<div className="text-lg font-bold text-center mt-3">{t('positionCreate:financial:title')}</div>
 			<TokenInput
 				error={errors['limitAmount']}
 				hideMaxLabel
-				label="Minting Limit"
+				label={t('positionCreate:financial:section:limitAmountLabel')}
 				onChange={(value) => onChangeValue('limitAmount', value)}
-				placeholder="Limit Amount"
-				symbol="OFD"
-				tooltip="The minting limit refers to the maximum amount of Oracle Free Dollar (OFD) that can be minted against this position and its clones. When you open a new position, this limit is set based on the collateral you provide and the parameters of the position."
+				placeholder={t('positionCreate:financial:section:limitAmountPlaceholder')}
+				symbol={CoinTicker.OFD}
+				tooltip={t('common:tooltips:position:create:limitAmount')}
 				value={limitAmount.toString()}
 			/>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -40,22 +44,22 @@ const PositionFinancialTerms: React.FC<StepComponentProps> = ({ onValidationChan
 					digit={4}
 					error={errors['interest']}
 					hideMaxLabel
-					label="Annual Interest"
+					label={t('positionCreate:financial:section:interestLabel')}
 					onChange={(value) => onChangeValue('interest', value)}
-					placeholder="Annual Interest Percent"
+					placeholder={t('positionCreate:financial:section:interestPlaceholder')}
 					symbol="%"
-					tooltip="The annual interest is the fee charged upfront when you open a new position to mint Oracle Free Dollar (OFD). This interest is calculated based on the amount you wish to mint and is typically set by the user. The fee is paid for the entire duration of the position, which can be adjusted based on the maturity period you choose (e.g., 6 months, 12 months)."
+					tooltip={t('common:tooltips:position:create:interest')}
 					value={interest.toString()}
 				/>
 				<NormalInput
 					digit={0}
 					error={errors['maturity']}
 					hideMaxLabel
-					label="Maturity"
+					label={t('positionCreate:financial:section:maturityLabel')}
 					onChange={(value) => onChangeValue('maturity', value)}
-					placeholder="Maturity"
-					symbol="months"
-					tooltip="The maturity refers to the duration for which the position is set when opening a new position to mint Oracle Free Dollar (OFD). It defines the time period until the position expires, which can be set between today and the limit date (one year from the date the parent position was minted).The maturity period affects the annual interest charged, as shorter maturities will result in a different final interest amount."
+					placeholder={t('positionCreate:financial:section:maturityLabel')}
+					symbol={t('common:months')}
+					tooltip={t('common:tooltips:position:create:maturity')}
 					value={maturity.toString()}
 				/>
 			</div>

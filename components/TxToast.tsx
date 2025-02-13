@@ -3,17 +3,18 @@ import { useAccount } from 'wagmi'
 import { shortenHash, transactionLink } from 'utils'
 import { Hash } from 'viem'
 
-export const renderErrorToast = (error: any) => {
+export const renderErrorToast = (error: any, title: string) => {
 	const errorLines: string[] = error.message.split('\n')
+
 	return (
 		<TxToast
-			rows={errorLines.slice(0, errorLines.length - 3).map((line) => {
-				return {
+			rows={[
+				{
 					title: '',
-					value: line,
-				}
-			})}
-			title="Transaction Failed!"
+					value: errorLines[0],
+				},
+			]}
+			title={title}
 		/>
 	)
 }

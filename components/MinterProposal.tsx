@@ -6,6 +6,9 @@ import { Address } from 'viem'
 import { useChainId } from 'wagmi'
 import AppBox from './AppBox'
 import Button from './Button'
+import { useTranslation } from 'next-i18next'
+import React, { useMemo } from 'react'
+import { CoinTicker } from 'meta/coins'
 
 type Props = {
 	minter: Minter
@@ -25,14 +28,28 @@ type Minter = {
 	vetor: string
 }
 
-export default function MinterProposal({ minter, helpers }: Props) {
-	const minterUrl = useContractUrl(minter.minter)
-	const isVotingFinished = isDateExpired(BigInt(minter.applyDate) + BigInt(minter.applicationPeriod))
-	const status = !minter.vetor ? (isVotingFinished ? 'Passed' : 'Active') : 'Vetoed'
+const namespaces = ['common', 'governance']
 
+const MinterProposal: React.FC<Props> = ({ minter, helpers }: Props) => {
+	const { t } = useTranslation(namespaces)
 	const chainId = useChainId()
 
-	const toastContent = [{ title: 'Reason:', value: 'No' }]
+	const minterUrl = useContractUrl(minter.minter)
+	const isVotingFinished = isDateExpired(BigInt(minter.applyDate) + BigInt(minter.applicationPeriod))
+	const status = useMemo(
+		() =>
+			!minter.vetor
+				? isVotingFinished
+					? t('governance:minterProposal:status:passed')
+					: t('governance:minterProposal:status:active')
+				: t('governance:minterProposal:status:vetoed'),
+		[isVotingFinished, minter.vetor, t]
+	)
+
+	const toastContent = useMemo(
+		() => [{ title: t('common:toasts:governance:minterProposal:title'), value: t('common:toasts:governance:minterProposal:description') }],
+		[t]
+	)
 
 	const { loading: isConfirming, writeFunction: handleVeto } = useWriteContractWithToast({
 		contractParams: {
@@ -42,11 +59,11 @@ export default function MinterProposal({ minter, helpers }: Props) {
 			args: [minter.minter, helpers, 'No'],
 		},
 		toastPending: {
-			title: 'Vetoing proposal...',
+			title: t('common:toasts:governance:minterProposal:pending'),
 			rows: toastContent,
 		},
 		toastSuccess: {
-			title: 'Successfully vetoed',
+			title: t('common:toasts:governance:minterProposal:success'),
 			rows: toastContent,
 		},
 	})
@@ -55,25 +72,27 @@ export default function MinterProposal({ minter, helpers }: Props) {
 		<AppBox className="grid grid-cols-6 hover:bg-slate-700 duration-300">
 			<div className="col-span-6 sm:col-span-5 pr-4">
 				<div className="flex">
-					<div>Date:</div>
+					<div>{t('governance:minterProposal:date')}</div>
 					<div className="ml-auto">{formatDate(minter.applyDate)}</div>
 				</div>
 				<div className="flex">
-					<div>Minter:</div>
+					<div>{t('governance:minterProposal:minter')}</div>
 					<Link className="underline ml-auto" href={minterUrl} rel="noreferrer" target="_blank">
 						{shortenAddress(minter.minter)}
 					</Link>
 				</div>
 				<div className="flex">
-					<div>Comment:</div>
+					<div>{t('governance:minterProposal:comment')}</div>
 					<div className="ml-auto font-bold">{minter.applyMessage}</div>
 				</div>
 				<div className="flex">
-					<div>Fee:</div>
-					<div className="ml-auto">{formatBigInt(minter.applicationFee, 18)} OFD</div>
+					<div>{t('governance:minterProposal:fee')}</div>
+					<div className="ml-auto">
+						{formatBigInt(minter.applicationFee, 18)} {CoinTicker.OFD}
+					</div>
 				</div>
 				<div className="flex">
-					<div>Voting Period:</div>
+					<div>{t('governance:minterProposal:votingPeriod')}</div>
 					<div className="ml-auto">{formatDuration(minter.applicationPeriod)}</div>
 				</div>
 			</div>
@@ -87,10 +106,12 @@ export default function MinterProposal({ minter, helpers }: Props) {
 				</div>
 				{status == 'Active' && (
 					<Button className="mt-auto" isLoading={isConfirming} onClick={() => handleVeto()}>
-						Veto
+						{t('governance:minterProposal:button')}
 					</Button>
 				)}
 			</div>
 		</AppBox>
 	)
 }
+
+export default MinterProposal

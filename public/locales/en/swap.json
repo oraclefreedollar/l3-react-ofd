@@ -1,0 +1,16 @@
+{
+  "buttons": {
+    "approve": "Approve",
+    "swap": "Swap",
+    "switchDirection": "Switch swap direction"
+  },
+  "errors": {
+    "insufficientSwapLimit": "Not enough {{symbol}} available to swap."
+  },
+  "exchangeRate": "1 {{fromSymbol}} = 1 {{toSymbol}}",
+  "header": "Swap USDT and OFD",
+  "receive": "Receive",
+  "swapAmount": "Swap Amount",
+  "swapLimit": "Swap limit",
+  "title": "Swap"
+}
