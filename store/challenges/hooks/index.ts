@@ -1,1 +1,1 @@
-export { usePositionsChallenge } from './positions'
+export { useChallengePositions } from './positions'
