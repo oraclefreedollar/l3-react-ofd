@@ -169,7 +169,7 @@ export async function fetchSavingsUserData(account?: string): Promise<SavingsUse
 			...(account && { account: account.toLowerCase() }),
 		},
 	})
-	console.log(data)
+
 	if (!data) {
 		return {
 			save: [],
