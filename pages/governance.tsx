@@ -26,11 +26,13 @@ import { envConfig } from 'app.env.config'
 import { useVotingPowers } from 'hooks/useVotingPowers'
 import GovernanceLeadrateCurrent from 'components/Governance/GovernanceLeadrateCurrent'
 import GovernanceLeadrateTable from 'components/Governance/GovernanceLeadrateTable'
-import { store } from 'store'
-import { fetchSavings } from 'store/slices/savings.slice'
+import { useAppDispatch } from 'store'
 import AppCard from 'components/AppCard'
+import { SavingsActions } from 'store/savings'
 
 export default function Governance() {
+	const dispatch = useAppDispatch()
+
 	const [inputField, setInputField] = useState('')
 	const [delegator, setDelegator] = useState(zeroAddress)
 	const [error, setError] = useState('')
@@ -52,9 +54,10 @@ export default function Governance() {
 		delegationStats.totalVotes === 0n ? 0n : (delegationStats.userTotalVotes * 10000n) / delegationStats.totalVotes
 
 	const { totalSupply } = useTokenData(ADDRESS[chainId].oracleFreeDollar)
+
 	useEffect(() => {
-		store.dispatch(fetchSavings(address, totalSupply))
-	}, [address, totalSupply])
+		dispatch(SavingsActions.getAll({ account: address, totalOFDSupply: totalSupply }))
+	}, [address, dispatch, totalSupply])
 
 	const onChangeDelegatee = (e: any) => {
 		setInputField(e.target.value)

@@ -8,11 +8,10 @@ import { useEffect, useState } from 'react'
 import SavingsDetailsCard from './SavingsDetailsCard'
 import { readContract } from 'wagmi/actions'
 import { WAGMI_CONFIG } from 'app.config'
-import { useSelector } from 'react-redux'
 import SavingsActionInterest from './SavingsActionInterest'
 import SavingsActionSave from './SavingsActionSave'
 import SavingsActionWithdraw from './SavingsActionWithdraw'
-import { RootState } from 'store/types'
+import { useSavingsInfo } from 'store/savings'
 
 export default function SavingsInteractionCard() {
 	const [amount, setAmount] = useState(0n)
@@ -24,7 +23,7 @@ export default function SavingsInteractionCard() {
 	const [userSavingsInterest, setUserSavingsInterest] = useState(0n)
 	const [userSavingsLocktime, setUserSavingsLocktime] = useState(0n)
 
-	const leadrate = useSelector((state: RootState) => state.savings.savingsInfo.rate)
+	const { rate: leadrate } = useSavingsInfo()
 
 	const { data } = useBlockNumber({ watch: true })
 	const { address } = useAccount()

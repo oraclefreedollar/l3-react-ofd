@@ -5,23 +5,25 @@ import SavingsSavedTable from 'components/Savings/SavingsSavedTable'
 import SavingsWithdrawnTable from 'components/Savings/SavingsWithdrawnTable'
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { store } from 'store'
+import { useAppDispatch } from 'store'
 import { useAccount, useChainId } from 'wagmi'
-import { fetchSavings } from 'store/slices/savings.slice'
 import AppTitle from 'components/AppTitle'
 import AppPageHeader from 'components/AppPageHeader'
 import { envConfig } from 'app.env.config'
 import { useTokenData } from 'hooks/useTokenData'
 import { ADDRESS } from 'contracts/address'
+import { SavingsActions } from 'store/savings'
 
 export default function SavingsPage() {
+	const dispatch = useAppDispatch()
+
 	const { address } = useAccount()
 	const chainId = useChainId()
 	const { totalSupply } = useTokenData(ADDRESS[chainId].oracleFreeDollar)
 
 	useEffect(() => {
-		store.dispatch(fetchSavings(address, totalSupply))
-	}, [address, totalSupply])
+		dispatch(SavingsActions.getAll({ account: address, totalOFDSupply: totalSupply }))
+	}, [address, dispatch, totalSupply])
 
 	return (
 		<>

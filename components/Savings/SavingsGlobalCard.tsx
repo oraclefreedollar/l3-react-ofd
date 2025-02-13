@@ -1,6 +1,5 @@
 import AppBox from 'components/AppBox'
 import AppCard from 'components/AppCard'
-import { useSelector } from 'react-redux'
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ADDRESS } from 'contracts'
@@ -10,10 +9,10 @@ import { shortenAddress } from 'utils'
 import Link from 'next/link'
 import DisplayLabel from 'components/DisplayLabel'
 import DisplayAmount from 'components/DisplayAmount'
-import { RootState } from 'store/types'
+import { useSavingsInfo } from 'store/savings'
 
 export default function SavingsGlobalCard() {
-	const { totalBalance, rate } = useSelector((state: RootState) => state.savings.savingsInfo)
+	const { totalBalance, rate } = useSavingsInfo()
 
 	const moduleAddress = ADDRESS[useChainId()].savings
 	const url = useContractUrl(moduleAddress)

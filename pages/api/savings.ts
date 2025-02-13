@@ -2,12 +2,14 @@ import { gql } from '@apollo/client'
 import { getAddress } from 'viem'
 import { clientPonder } from 'app.config'
 import {
-	SavingsSavedQuery,
-	SavingsInterestQuery,
-	SavingsWithdrawQuery,
-	LeadrateRateQuery,
 	LeadrateProposed,
-} from 'store/slices/savings.types'
+	LeadrateRateQuery,
+	SavingsInterestQuery,
+	SavingsRates,
+	SavingsSavedQuery,
+	SavingsUserData,
+	SavingsWithdrawQuery,
+} from 'meta/savings'
 
 // Query for savings rates and proposals
 const SAVINGS_RATES_QUERY = gql`
@@ -124,7 +126,7 @@ const SAVINGS_USER_QUERY = gql`
 	}
 `
 
-export async function fetchSavingsRates() {
+export async function fetchSavingsRates(): Promise<SavingsRates> {
 	const { data } = await clientPonder.query({
 		query: SAVINGS_RATES_QUERY,
 	})
@@ -160,14 +162,14 @@ export async function fetchSavingsRates() {
 	}
 }
 
-export async function fetchSavingsUserData(account?: string) {
+export async function fetchSavingsUserData(account?: string): Promise<SavingsUserData> {
 	const { data } = await clientPonder.query({
 		query: account ? SAVINGS_USER_QUERY : SAVINGS_USER_QUERY_ALL,
 		variables: {
 			...(account && { account: account.toLowerCase() }),
 		},
 	})
-
+	console.log(data)
 	if (!data) {
 		return {
 			save: [],
@@ -176,7 +178,7 @@ export async function fetchSavingsUserData(account?: string) {
 		}
 	}
 
-	const saved: SavingsSavedQuery[] = data.savingsSaveds.items.map((save: any) => ({
+	const saved: Array<SavingsSavedQuery> = data.savingsSaveds.items.map((save: any) => ({
 		id: save.id,
 		created: Number(save.created),
 		blockheight: Number(save.blockheight),
@@ -188,7 +190,7 @@ export async function fetchSavingsUserData(account?: string) {
 		balance: save.balance,
 	}))
 
-	const interest: SavingsInterestQuery[] = data.savingsInterests.items.map((int: any) => ({
+	const interest: Array<SavingsInterestQuery> = data.savingsInterests.items.map((int: any) => ({
 		id: int.id,
 		created: Number(int.created),
 		blockheight: Number(int.blockheight),
@@ -200,7 +202,7 @@ export async function fetchSavingsUserData(account?: string) {
 		balance: int.balance,
 	}))
 
-	const withdrawn: SavingsWithdrawQuery[] = data.savingsWithdrawns.items.map((withdraw: any) => ({
+	const withdrawn: Array<SavingsWithdrawQuery> = data.savingsWithdrawns.items.map((withdraw: any) => ({
 		id: withdraw.id,
 		created: Number(withdraw.created),
 		blockheight: Number(withdraw.blockheight),

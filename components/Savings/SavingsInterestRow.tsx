@@ -1,8 +1,8 @@
 import { AddressLabelSimple, TxLabelSimple } from 'components/AddressLabel'
 import TableRow from 'components/Table/TableRow'
-import { SavingsInterestQuery } from 'store/slices/savings.types'
 import { formatCurrency } from 'utils/format'
 import { formatUnits, Hash } from 'viem'
+import { SavingsInterestQuery } from 'meta/savings'
 
 interface Props {
 	item: SavingsInterestQuery

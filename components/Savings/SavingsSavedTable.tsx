@@ -2,14 +2,13 @@ import TableHeader from '../Table/TableHead'
 import TableBody from '../Table/TableBody'
 import Table from '../Table'
 import TableRowEmpty from '../Table/TableRowEmpty'
-import { useSelector } from 'react-redux'
 import SavingsSavedRow from './SavingsSavedRow'
-import { RootState } from 'store/types'
+import { useSavingsAllUserTable } from 'store/savings'
 
 export default function SavingsSavedTable() {
 	const headers: string[] = ['Date', 'Saver', 'Amount', 'Balance']
 
-	const { save } = useSelector((state: RootState) => state.savings.savingsAllUserTable)
+	const { save } = useSavingsAllUserTable()
 	if (!save) return null
 
 	return (

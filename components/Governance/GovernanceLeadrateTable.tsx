@@ -2,16 +2,15 @@ import TableHeader from '../Table/TableHead'
 import TableBody from '../Table/TableBody'
 import Table from '../Table'
 import TableRowEmpty from '../Table/TableRowEmpty'
-import { useSelector } from 'react-redux'
 import GovernanceLeadrateRow from './GovernanceLeadrateRow'
-import { RootState } from 'store/types'
+import { useLeadrateInfo, useLeadrateProposed, useLeadrateRate } from 'store/savings'
 
 export default function GovernanceLeadrateTable() {
 	const headers: string[] = ['Date', 'Proposer', 'Rate', 'State']
 
-	const info = useSelector((state: RootState) => state.savings.leadrateInfo)
-	const proposals = useSelector((state: RootState) => state.savings.leadrateProposed)
-	const rates = useSelector((state: RootState) => state.savings.leadrateRate)
+	const info = useLeadrateInfo()
+	const proposals = useLeadrateProposed()
+	const rates = useLeadrateRate()
 	if (!info || !proposals || !rates) return null
 
 	const currentProposal = proposals.list.length > 0 ? proposals.list[0] : undefined
