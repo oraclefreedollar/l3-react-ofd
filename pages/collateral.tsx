@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
 import AppPageHeader from 'components/AppPageHeader'
 import { envConfig } from 'app.env.config'
 import Table from 'components/Table'
@@ -9,15 +8,15 @@ import TableHeader from 'components/Table/TableHead'
 import TableRowEmpty from 'components/Table/TableRowEmpty'
 import BorrowPositionRow from 'components/Borrow/BorrowPositionRow'
 import { store } from 'store'
-import { PositionQuery } from 'store/slices/positions.types'
 import { fetchSavings } from 'store/slices/savings.slice'
 import { ADDRESS } from 'contracts'
 import { useTokenData } from 'hooks'
 import { useAccount, useChainId } from 'wagmi'
-import { RootState } from 'store/types'
+import { useOpenPositionsByCollateral } from 'store/positions'
+import { PositionQuery } from 'meta/positions'
 
 export default function Overview() {
-	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
+	const openPositionsByCollateral = useOpenPositionsByCollateral()
 	const [list, setList] = useState<PositionQuery[]>([])
 	const { address } = useAccount()
 	const chainId = useChainId()

@@ -2,19 +2,20 @@ import TableHeader from '../Table/TableHead'
 import TableBody from '../Table/TableBody'
 import Table from '../Table'
 import TableRowEmpty from '../Table/TableRowEmpty'
-import { useSelector } from 'react-redux'
 import { Address, formatUnits } from 'viem'
 import MonitoringRow from './MonitoringRow'
 import { useMemo } from 'react'
-import { PositionQuery } from 'store/slices/positions.types'
-import { RootState } from 'store/types'
 import { useCoingeckoPrices } from 'store/prices'
 import { ChallengesQueryItem } from 'meta/challenges'
+import { useOpenPositions } from 'store/positions'
+import { useChallengePositions } from 'store/challenges'
+import { PositionQuery } from 'meta/positions'
+
 export default function MonitoringTable() {
 	const headers: string[] = ['Collateral', 'Collateralization', 'Expiration', 'Challenged']
 
-	const { openPositions } = useSelector((state: RootState) => state.positions)
-	const challenges = useSelector((state: RootState) => state.challenges.positions)
+	const openPositions = useOpenPositions()
+	const challenges = useChallengePositions()
 	const coingecko = useCoingeckoPrices()
 
 	// Combine position data with challenges data

@@ -1,7 +1,7 @@
 import { formatCurrency } from 'utils'
-import { ERC20Info } from 'store/slices/positions.types'
 
 import { PriceQueryObjectArray } from 'meta/prices'
+import { ERC20Info } from 'meta/positions'
 
 export const oprs = async (fetchedERC20Infos: Array<ERC20Info>, fetchedPrices: PriceQueryObjectArray) => {
 	const contract = '0x8f73610Dd60185189657c826Df315Cc980ca4A0e'.toLowerCase()

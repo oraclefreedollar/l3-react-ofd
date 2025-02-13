@@ -7,10 +7,10 @@ import { useContractUrl } from 'hooks/useContractUrl'
 import TokenLogo from 'components/TokenLogo'
 import Button from 'components/Button'
 import AppBox from 'components/AppBox'
-import { PositionQuery } from 'store/slices/positions.types'
 import { useCoingeckoPrices } from 'store/prices'
 import { useChallengePositions } from 'store/challenges'
 import { ChallengesQueryItem } from 'meta/challenges'
+import { PositionQuery } from 'meta/positions'
 interface Props {
 	position: PositionQuery
 }

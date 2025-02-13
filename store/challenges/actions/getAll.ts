@@ -35,7 +35,6 @@ const fetchChallenges = async (): Promise<ChallengesQueryItem[]> => {
 						filledSize
 						acquiredCollateral
 						status
-						price
 					}
 				}
 			}

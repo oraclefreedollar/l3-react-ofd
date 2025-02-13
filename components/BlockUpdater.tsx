@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useBlockNumber } from 'wagmi'
 
 import { envConfig } from 'app.env.config'
-import { fetchPositionsList } from 'store/slices/positions.slice'
-import { ERC20Info } from 'store/slices/positions.types'
 import { useIsConnectedToCorrectChain } from 'hooks/useWalletConnectStats'
 import { WAGMI_CHAIN } from 'app.config'
-import { RootState } from 'store/types'
 import { useAppDispatch } from 'store/hooks'
 import { PricesActions, useIsPricesLoaded } from 'store/prices'
+import { PositionsActions, useCollateralERC20Infos, useIsPositionsLoaded, useMintERC20Infos } from 'store/positions'
+import { ERC20Info } from 'meta/positions'
 
 let initializing: boolean = false
 let loading: boolean = false
@@ -26,9 +24,10 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 	const [latestCollateralERC20Infos, setLatestCollateralERC20Infos] = useState<ERC20Info[]>([])
 	const [latestConnectedToChain, setLatestConnectedToChain] = useState<boolean>(false)
 
-	const loadedPositions: boolean = useSelector((state: RootState) => state.positions && state.positions.loaded)
+	const loadedPositions: boolean = useIsPositionsLoaded()
 	const loadedPrices: boolean = useIsPricesLoaded()
-	const { mintERC20Infos, collateralERC20Infos } = useSelector((state: RootState) => state.positions)
+	const mintERC20Infos = useMintERC20Infos()
+	const collateralERC20Infos = useCollateralERC20Infos()
 
 	// --------------------------------------------------------------------------------
 	// Init
@@ -37,7 +36,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		if (initializing) return
 		initializing = true
 
-		dispatch(fetchPositionsList())
+		dispatch(PositionsActions.getAll())
 		dispatch(PricesActions.update())
 	}, [dispatch, initialized])
 
@@ -67,7 +66,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 
 		// Block update policy: EACH BLOCK
 		// console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
-		dispatch(fetchPositionsList())
+		dispatch(PositionsActions.getAll())
 
 		// Block update policy: EACH 10 BLOCKS
 		if (fetchedLatestHeight % 10 === 0) {

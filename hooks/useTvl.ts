@@ -1,14 +1,13 @@
-import { useSelector } from 'react-redux'
-import { PositionQuery } from 'store/slices/positions.types'
 import { useMemo } from 'react'
 import { useSwapStats } from 'hooks/useSwapStats'
-import { RootState } from 'store/types'
 import { useCoingeckoPrices } from 'store/prices'
+import { useOpenPositionsByCollateral } from 'store/positions'
+import { PositionQuery } from 'meta/positions'
 
 export const useTvl = (): number => {
 	const { usdtBridgeBal } = useSwapStats()
 
-	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
+	const openPositionsByCollateral = useOpenPositionsByCollateral()
 	const prices = useCoingeckoPrices()
 
 	const openPositions = useMemo<Array<PositionQuery>>(() => {
