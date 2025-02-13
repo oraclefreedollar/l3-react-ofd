@@ -4,15 +4,28 @@ import Table from '../Table'
 import TableRowEmpty from '../Table/TableRowEmpty'
 import { Address, formatUnits } from 'viem'
 import MonitoringRow from './MonitoringRow'
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useCoingeckoPrices } from 'store/prices'
+import { useTranslation } from 'next-i18next'
 import { ChallengesQueryItem } from 'meta/challenges'
 import { useOpenPositions } from 'store/positions'
 import { useChallengePositions } from 'store/challenges'
 import { PositionQuery } from 'meta/positions'
 
-export default function MonitoringTable() {
-	const headers: string[] = ['Collateral', 'Collateralization', 'Expiration', 'Challenged']
+const namespaces = ['monitoring']
+
+const MonitoringTable: React.FC = () => {
+	const { t } = useTranslation(namespaces)
+
+	const headers: string[] = useMemo(
+		() => [
+			t('monitoring:table:collateral'),
+			t('monitoring:table:collateralization'),
+			t('monitoring:table:expiration'),
+			t('monitoring:table:challenged'),
+		],
+		[t]
+	)
 
 	const openPositions = useOpenPositions()
 	const challenges = useChallengePositions()
@@ -23,7 +36,7 @@ export default function MonitoringTable() {
 		return openPositions.map((position: PositionQuery) => {
 			// Get active challenges for this position
 			const positionChallenges: ChallengesQueryItem[] =
-				challenges.map[position.position.toLowerCase() as Address]?.filter((c) => c.status === 'Active') || []
+				challenges.map[position.position.toLowerCase() as Address]?.filter((c) => c.status === t('monitoring:status:active')) || []
 
 			// Calculate total challenge size
 			const totalChallengeSize = positionChallenges.reduce((total, challenge) => {
@@ -45,14 +58,14 @@ export default function MonitoringTable() {
 				collateralValue,
 			}
 		})
-	}, [openPositions, challenges.map, coingecko])
+	}, [openPositions, challenges.map, coingecko, t])
 
 	return (
 		<Table>
 			<TableHeader actionCol={true} headers={headers} />
 			<TableBody>
 				{enrichedPositions.length === 0 ? (
-					<TableRowEmpty>{'There are no active positions.'}</TableRowEmpty>
+					<TableRowEmpty>{t('monitoring:noActivePositions')}</TableRowEmpty>
 				) : (
 					enrichedPositions.map((pos) => <MonitoringRow key={pos.position} position={pos as PositionQuery} />)
 				)}
@@ -60,3 +73,5 @@ export default function MonitoringTable() {
 		</Table>
 	)
 }
+
+export default MonitoringTable

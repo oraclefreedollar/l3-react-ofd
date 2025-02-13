@@ -4,9 +4,23 @@ import Table from '../Table'
 import TableRowEmpty from '../Table/TableRowEmpty'
 import SavingsSavedRow from './SavingsSavedRow'
 import { useSavingsAllUserTable } from 'store/savings'
+import { useTranslation } from 'next-i18next'
+import { useMemo } from 'react'
+
+const namespaces = ['savings']
 
 export default function SavingsSavedTable() {
-	const headers: string[] = ['Date', 'Saver', 'Amount', 'Balance']
+	const { t } = useTranslation(namespaces)
+
+	const headers: string[] = useMemo(
+		() => [
+			t('savings:sections:deposits:table:date'),
+			t('savings:sections:deposits:table:saver'),
+			t('savings:sections:deposits:table:amount'),
+			t('savings:sections:deposits:table:balance'),
+		],
+		[t]
+	)
 
 	const { save } = useSavingsAllUserTable()
 	if (!save) return null
@@ -16,7 +30,7 @@ export default function SavingsSavedTable() {
 			<TableHeader headers={headers} />
 			<TableBody>
 				{save.length == 0 ? (
-					<TableRowEmpty>{'There are no savings yet.'}</TableRowEmpty>
+					<TableRowEmpty>{t('savings:sections:deposits:noSavings')}</TableRowEmpty>
 				) : (
 					save.map((r) => <SavingsSavedRow item={r} key={r.id} />)
 				)}

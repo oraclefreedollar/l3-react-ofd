@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import AppPageHeader from 'components/AppPageHeader'
 import { envConfig } from 'app.env.config'
 import Table from 'components/Table'
@@ -11,11 +11,18 @@ import { useAppDispatch } from 'store'
 import { ADDRESS } from 'contracts'
 import { useTokenData } from 'hooks'
 import { useAccount, useChainId } from 'wagmi'
+import { useTranslation } from 'next-i18next'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
+import { InferGetServerSidePropsType } from 'next'
 import { useOpenPositionsByCollateral } from 'store/positions'
 import { PositionQuery } from 'meta/positions'
 import { SavingsActions } from 'store/savings'
 
-export default function Overview() {
+const namespaces = ['collateral']
+
+const Overview: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const { t } = useTranslation(namespaces)
+
 	const dispatch = useAppDispatch()
 
 	const openPositionsByCollateral = useOpenPositionsByCollateral()
@@ -52,11 +59,7 @@ export default function Overview() {
 				return false
 			} else if (position.cooldown * 1000 > Date.now()) {
 				return false // under cooldown
-			} else if (BigInt(position.isOriginal ? position.availableForClones : position.availableForMinting) === 0n) {
-				return false
-			} else {
-				return true
-			}
+			} else return BigInt(position.isOriginal ? position.availableForClones : position.availableForMinting) !== 0n
 		})
 
 		return makeUnique(filteredPositions)
@@ -66,20 +69,31 @@ export default function Overview() {
 		setList(matchingPositions)
 	}, [matchingPositions])
 
-	const headers: string[] = ['Collateral', 'Loan-to-Value', 'Effective Interest', 'Liquidation Price', 'Maturity', 'Action']
+	const headers: string[] = useMemo(
+		() => [
+			t('collateral:table:collateral'),
+			t('collateral:table:loanToValue'),
+			t('collateral:table:effectiveInterest'),
+			t('collateral:table:liquidationPrice'),
+			t('collateral:table:maturity'),
+		],
+		[t]
+	)
 
 	return (
 		<div>
 			<Head>
-				<title>{envConfig.AppName} - Collateral</title>
+				<title>
+					{envConfig.AppName} - {t('collateral:title')}
+				</title>
 			</Head>
 
-			<AppPageHeader title="Mint fresh OFD" />
+			<AppPageHeader title={t('collateral:headerTitle')} />
 			<Table>
-				<TableHeader headers={headers} />
+				<TableHeader actionCol headers={headers} />
 				<TableBody>
 					{list.length === 0 ? (
-						<TableRowEmpty>{'There are no savings yet.'}</TableRowEmpty>
+						<TableRowEmpty>{t('collateral:noSavings')}</TableRowEmpty>
 					) : (
 						list.map((r) => <BorrowPositionRow item={r} key={r.position} />)
 					)}
@@ -88,3 +102,7 @@ export default function Overview() {
 		</div>
 	)
 }
+
+export const getServerSideProps = withServerSideTranslations(namespaces)
+
+export default Overview

@@ -1,0 +1,18 @@
+{
+  "title": "Positions",
+  "myPositions": "My Positions",
+  "otherPositions": "Other Positions",
+  "table": {
+    "adjust": "Adjust",
+    "clone": "Clone & Mint",
+    "closed": "Closed",
+    "denied": "Denied",
+    "header": {
+      "collateral": "Collateral",
+      "liqPrice": "Liquidation Price",
+      "availableAmount": "Available Amount"
+    },
+    "noPositions": "There are no other positions yet.",
+    "noPositionsAccount": "You don’t have any positions."
+  }
+}

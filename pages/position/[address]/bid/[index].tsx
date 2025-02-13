@@ -12,12 +12,20 @@ import { formatDate, formatDuration, min, shortenAddress } from 'utils'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useChainId } from 'wagmi'
 import { envConfig } from 'app.env.config'
 import { useWriteContractsBid } from 'hooks/bid/useWriteContractsBid'
+import { useTranslation } from 'next-i18next'
+import { CoinTicker } from 'meta/coins'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
+import { InferGetServerSidePropsType } from 'next'
 
-export default function ChallengePlaceBid({}) {
+const namespaces = ['positionBid']
+
+const ChallengePlaceBid: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const { t } = useTranslation(namespaces)
+
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
 
@@ -48,53 +56,58 @@ export default function ChallengePlaceBid({}) {
 
 	const { isApproving, handleApprove, isBidding, handleBid } = useWriteContractsBid({ amount, challenge, expectedOFD, positionStats })
 
-	const onChangeAmount = (value: string) => {
-		const valueBigInt = BigInt(value)
-		setAmount(valueBigInt)
+	const onChangeAmount = useCallback(
+		(value: string) => {
+			const valueBigInt = BigInt(value)
+			setAmount(valueBigInt)
 
-		if (valueBigInt > positionStats.collateralUserBal) {
-			setError('Not enough balance in your wallet.')
-		} else if (valueBigInt > remainingCol) {
-			setError('Expected winning collateral should be lower than remaining collateral.')
-		} else {
-			setError('')
-		}
-	}
+			if (valueBigInt > positionStats.collateralUserBal) {
+				setError(t('positionBid:errors:noEnoughBalance'))
+			} else if (valueBigInt > remainingCol) {
+				setError(t('positionBid:errors:expectedWinningCollateral'))
+			} else {
+				setError('')
+			}
+		},
+		[positionStats.collateralUserBal, remainingCol, t]
+	)
 
 	return (
 		<>
 			<Head>
-				<title>{envConfig.AppName} - Place Bid</title>
+				<title>
+					{envConfig.AppName} - {t('positionBid:title')}
+				</title>
 			</Head>
 			<div>
-				<AppPageHeader backText="Back to position" backTo={`/position/${address}`} title="Place your bid" />
+				<AppPageHeader backText={t('positionBid:back')} backTo={`/position/${address}`} title={t('positionBid:title')} />
 				<section className="mx-auto max-w-2xl sm:px-8">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50 gap-y-4">
-						<div className="text-lg font-bold text-center mt-3">Bid Details</div>
+						<div className="text-lg font-bold text-center mt-3">{t('positionBid:details:title')}</div>
 						<div className="space-y-12">
 							<div className="space-y-4">
 								<TokenInput
 									digit={positionStats.collateralDecimal}
 									error={error}
-									label="You are buying"
+									label={t('positionBid:details:challengeLabel')}
 									max={min(positionStats.collateralUserBal, remainingCol)}
 									onChange={onChangeAmount}
-									placeholder="Collateral Amount"
+									placeholder={t('positionBid:details:challengePlaceholder')}
 									symbol={positionStats.collateralSymbol}
 									value={amount.toString()}
 								/>
 								<div className="flex flex-col gap-1">
-									<span>Expected total price: {formatUnits(expectedOFD(), 18)} OFD</span>
+									<span>{t('positionBid:details:expectedPrice', { amount: formatUnits(expectedOFD(), 18) })}</span>
 								</div>
 							</div>
 						</div>
 						<div className="bg-slate-900 rounded-xl p-4 grid grid-cols-1 md:grid-cols-2 gap-2 lg:col-span-2">
 							<AppBox>
-								<DisplayLabel label="Remaining Collateral" />
+								<DisplayLabel label={t('positionBid:details:remainingCollateral')} />
 								<DisplayAmount address={positionStats.collateral} amount={remainingCol} currency={positionStats.collateralSymbol} />
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Original Size" />
+								<DisplayLabel label={t('positionBid:details:originalSize')} />
 								<DisplayAmount
 									address={positionStats.collateral}
 									amount={challenge?.size || 0n}
@@ -102,20 +115,20 @@ export default function ChallengePlaceBid({}) {
 								/>
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Price per Unit" />
+								<DisplayLabel label={t('positionBid:details:pricePerUnit')} />
 								<DisplayAmount
 									address={ADDRESS[chainId].oracleFreeDollar}
 									amount={buyNowPrice}
-									currency={'OFD'}
+									currency={CoinTicker.OFD}
 									digits={36 - positionStats.collateralDecimal}
 								/>
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Reaching Zero at" />
+								<DisplayLabel label={t('positionBid:details:reachingZero')} />
 								{formatDate(challenge?.auctionEnd || 0)}
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Phase Duration" />
+								<DisplayLabel label={t('positionBid:details:phaseDuration')} />
 								<div>{formatDuration(positionStats.challengePeriod)}</div>
 							</AppBox>
 							<AppBox>
@@ -129,11 +142,11 @@ export default function ChallengePlaceBid({}) {
 							<GuardToAllowedChainBtn>
 								{expectedOFD() > positionStats.ofdAllowance ? (
 									<Button isLoading={isApproving} onClick={() => handleApprove()}>
-										Approve
+										{t('positionBid:buttons:approve')}
 									</Button>
 								) : (
 									<Button disabled={amount == 0n} isLoading={isBidding} onClick={() => handleBid()} variant="primary">
-										Place Bid
+										{t('positionBid:buttons:bid')}
 									</Button>
 								)}
 							</GuardToAllowedChainBtn>
@@ -144,3 +157,7 @@ export default function ChallengePlaceBid({}) {
 		</>
 	)
 }
+
+const getServerSideProps = withServerSideTranslations(namespaces)
+
+export default ChallengePlaceBid

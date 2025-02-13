@@ -7,12 +7,16 @@ import Link from 'next/link'
 import { useCoingeckoPrices } from 'store/prices'
 import { PositionQuery } from 'meta/positions'
 import { useSavingsInfo } from 'store/savings'
+import { useTranslation } from 'next-i18next'
+import { CoinTicker } from 'meta/coins'
 
 interface Props {
 	item: PositionQuery
 }
 
 export default function BorrowPositionRow({ item }: Props) {
+	const { t } = useTranslation('collateral')
+
 	const coingecko = useCoingeckoPrices()
 	const { rate } = useSavingsInfo()
 	const collTokenPrice = coingecko[item.collateral.toLowerCase() as Address]?.price?.usd
@@ -34,7 +38,7 @@ export default function BorrowPositionRow({ item }: Props) {
 			<TableRow
 				actionCol={
 					<Link className="btn btn-primary w-full" href={`/position/${item.position}/borrow`}>
-						Clone & Mint
+						{t('collateral:table:clone')}
 					</Link>
 				}
 			>
@@ -56,7 +60,9 @@ export default function BorrowPositionRow({ item }: Props) {
 				</div>
 
 				<div className="flex flex-col gap-2">
-					<div className="col-span-2 text-md">{formatCurrency(price, 2, 2)} OFD</div>
+					<div className="col-span-2 text-md">
+						{formatCurrency(price, 2, 2)} {CoinTicker.OFD}
+					</div>
 				</div>
 
 				<div className="flex flex-col gap-2">

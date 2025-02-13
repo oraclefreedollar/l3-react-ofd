@@ -1,0 +1,58 @@
+{
+  "title": "Savings",
+  "sections": {
+    "deposits": {
+      "noSavings": "There are no savings yet.",
+      "title":"Recent Deposits",
+      "table": {
+        "amount": "Amount",
+        "balance": "Balance",
+        "date": "Date",
+        "saver": "Saver"
+      }
+    },
+    "interest": {
+      "noInterest": "There are no interest claims yet.",
+      "title": "Recent Interest Claims",
+      "table": {
+        "balance": "Balance",
+        "date": "Date",
+        "interest": "Interest",
+        "saver": "Saver"
+      }
+    },
+    "withdrawals": {
+      "noWithdrawals": "There are no withdrawals yet.",
+      "title":"Recent Withdrawals",
+      "table": {
+        "amount": "Amount",
+        "balance": "Balance",
+        "date": "Date",
+        "saver": "Saver"
+      }
+    }
+  },
+
+  "infoCard": {
+    "currentRate": "Current Interest Rate",
+    "moduleContract": "Module Contract",
+    "totalSavings": "Total Savings"
+  },
+  "interactionCard": {
+    "balanceLabel": "Max:",
+    "button": "Adjust",
+    "label": "Your Savings",
+    "placeholder": "{{symbol}} Amount",
+    "title": "Adjustment"
+  },
+  "outcome": {
+    "addToYourWallet": "To be added from your wallet",
+    "balance": "Your current balance",
+    "interest": "Interest to be collected",
+    "locktime": "When saving additional funds, your balance will be locked until interest starts accruing, which can take up to three days. This rule serves to disincentivize the saving of funds held for transactional purposes.",
+    "locktime2": "Your funds are still locked for {{hours}} hours.",
+    "resultingBalance": "Resulting balance",
+    "title": "Outcome",
+    "withdrawFromWallet": "Withdraw from your wallet"
+  }
+}

@@ -7,14 +7,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSwapStats } from 'hooks'
 import { ENABLE_EMERGENCY_MODE } from 'utils'
 import Head from 'next/head'
-import { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { formatUnits } from 'viem'
 import { envConfig } from 'app.env.config'
 import { EmergencyPage } from 'components/EmergencyPage'
 import { useSwapContractsFunctions } from 'hooks/swap/useSwapContractsFunctions'
 import { CoinTicker } from 'meta/coins'
+import { useTranslation } from 'next-i18next'
+import { InferGetServerSidePropsType } from 'next'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 
-export default function Swap() {
+const namespaces = ['common', 'swap']
+
+const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const { t } = useTranslation(namespaces)
+
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
 	const [direction, setDirection] = useState(true)
@@ -47,14 +54,14 @@ export default function Swap() {
 			setAmount(valueBigInt)
 
 			if (valueBigInt > fromBalance) {
-				setError(`Not enough ${fromSymbol} in your wallet.`)
+				setError(t('common:insufficientBalance', { symbol: fromSymbol }))
 			} else if (valueBigInt > swapLimit) {
-				setError(`Not enough ${toSymbol} available to swap.`)
+				setError(t('swap:errors:insufficientSwapLimit', { symbol: toSymbol }))
 			} else {
 				setError('')
 			}
 		},
-		[fromBalance, fromSymbol, swapLimit, toSymbol]
+		[fromBalance, fromSymbol, swapLimit, toSymbol, t]
 	)
 
 	if (ENABLE_EMERGENCY_MODE) {
@@ -64,25 +71,28 @@ export default function Swap() {
 	return (
 		<>
 			<Head>
-				<title>{envConfig.AppName} - Swap</title>
+				<title>
+					{envConfig.AppName} - {t('swap:title')}
+				</title>
 			</Head>
 			<div>
-				<AppPageHeader title="Swap USDT and OFD" />
+				<AppPageHeader title={t('swap:header')} />
 				<section className="mx-auto flex max-w-2xl flex-col gap-y-4 px-4 sm:px-8">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50">
 						<TokenInput
 							error={error}
 							limit={swapLimit}
-							limitLabel="Swap limit"
+							limitLabel={t('swap:swapLimit')}
 							max={fromBalance}
 							onChange={onChangeAmount}
-							placeholder={'Swap Amount'}
+							placeholder={t('swap:swapAmount')}
 							symbol={fromSymbol}
 							value={amount.toString()}
 						/>
 
 						<div className="py-4 text-center">
 							<button
+								aria-label={t('swap:buttons:switchDirection')}
 								className={`btn btn-secondary text-slate-800 w-14 h-14 rounded-full transition ${direction && 'rotate-180'}`}
 								onClick={onChangeDirection}
 							>
@@ -91,9 +101,9 @@ export default function Swap() {
 						</div>
 
 						<TokenInput
-							label="Receive"
+							label={t('swap:receive')}
 							max={toBalance}
-							note={`1 ${fromSymbol} = 1 ${toSymbol}`}
+							note={t('swap:exchangeRate', { fromSymbol, toSymbol })}
 							output={formatUnits(amount, 18)}
 							symbol={toSymbol}
 						/>
@@ -103,38 +113,27 @@ export default function Swap() {
 								{direction ? (
 									amount > swapStats.usdtUserAllowance ? (
 										<Button isLoading={isApproving} onClick={() => handleApprove()}>
-											Approve
+											{t('swap:buttons:approve')}
 										</Button>
 									) : (
 										<Button disabled={amount == 0n || !!error} isLoading={isMinting} onClick={() => handleMint()}>
-											Swap
+											{t('swap:buttons:swap')}
 										</Button>
 									)
 								) : (
 									<Button disabled={amount == 0n || !!error} isLoading={isBurning} onClick={() => handleBurn()}>
-										Swap
+										{t('swap:buttons:swap')}
 									</Button>
 								)}
 							</GuardToAllowedChainBtn>
 						</div>
-
-						{/* <div className="mx-auto mt-8">
-							<a
-								href={SOCIAL.Uniswap_Mainnet}
-								target="_blank"
-								rel="noreferrer"
-								className="flex items-center justify-center underline"
-							>
-								Also available on
-								<picture>
-									<img src="/assets/uniswap.svg" alt="logo" className="w-6 mb-2 mx-1" />
-								</picture>
-								Uniswap.
-							</a>
-						</div> */}
 					</div>
 				</section>
 			</div>
 		</>
 	)
 }
+
+export const getServerSideProps = withServerSideTranslations(namespaces)
+
+export default Swap

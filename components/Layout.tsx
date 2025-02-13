@@ -3,16 +3,21 @@ import React, { ReactNode } from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { envConfig } from 'app.env.config'
+import { useTranslation } from 'next-i18next'
 
 type LayoutProps = {
 	children: NonNullable<ReactNode>
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+	const { t } = useTranslation()
+
 	return (
 		<>
 			<Head>
-				<title>{envConfig.AppName} - Home</title>
+				<title>
+					{envConfig.AppName} - {t('home:title')}
+				</title>
 			</Head>
 			<Navbar />
 			<div className="h-main overflow-scroll no-scrollbar pt-24">

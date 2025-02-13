@@ -8,13 +8,19 @@ import { usePositionStats } from 'hooks'
 import { abs } from 'utils'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { formatUnits, getAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { envConfig } from 'app.env.config'
 import { useAdjustContractsFunctions } from 'hooks/adjust/useAdjustContractsFunctions'
+import { CoinTicker } from 'meta/coins'
+import { useTranslation } from 'next-i18next'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
+import { InferGetServerSidePropsType } from 'next'
 
-export default function PositionAdjust() {
+const PositionAdjust: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const { t } = useTranslation('positionAdjust')
+
 	const router = useRouter()
 	const { address: positionAddr } = router.query
 	const { address } = useAccount()
@@ -26,8 +32,14 @@ export default function PositionAdjust() {
 	const [collateralAmount, setCollateralAmount] = useState<bigint>(positionStats.collateralBal)
 	const [liqPrice, setLiqPrice] = useState(positionStats.liqPrice)
 
-	const maxRepayable = (1_000_000n * positionStats.ofdBalance) / (1_000_000n - positionStats.reserveContribution)
-	const repayPosition = maxRepayable > positionStats.minted ? 0n : positionStats.minted - maxRepayable
+	const maxRepayable = useMemo(
+		() => (1_000_000n * positionStats.ofdBalance) / (1_000_000n - positionStats.reserveContribution),
+		[positionStats.ofdBalance, positionStats.reserveContribution]
+	)
+	const repayPosition = useMemo(
+		() => (maxRepayable > positionStats.minted ? 0n : positionStats.minted - maxRepayable),
+		[maxRepayable, positionStats.minted]
+	)
 
 	const { isApproving, handleApprove, isAdjusting, handleAdjust } = useAdjustContractsFunctions({
 		amount,
@@ -37,28 +49,29 @@ export default function PositionAdjust() {
 		positionStats,
 	})
 
-	const paidOutAmount = () => {
+	const returnFromReserve = useCallback(() => {
+		return (positionStats.reserveContribution * (amount - positionStats.minted)) / 1_000_000n
+	}, [amount, positionStats.minted, positionStats.reserveContribution])
+
+	const paidOutAmount = useCallback(() => {
 		if (amount > positionStats.minted) {
 			return ((amount - positionStats.minted) * (1_000_000n - positionStats.reserveContribution - positionStats.mintingFee)) / 1_000_000n
 		} else {
 			return amount - positionStats.minted - returnFromReserve()
 		}
-	}
+	}, [amount, positionStats.minted, positionStats.mintingFee, positionStats.reserveContribution, returnFromReserve])
 
-	const returnFromReserve = () => {
-		return (positionStats.reserveContribution * (amount - positionStats.minted)) / 1_000_000n
-	}
+	const collateralNote = useMemo(() => {
+		const amountToSend = `${formatUnits(abs(collateralAmount - positionStats.collateralBal), positionStats.collateralDecimal)} ${
+			positionStats.collateralSymbol
+		}`
 
-	const collateralNote =
-		collateralAmount < positionStats.collateralBal
-			? `${formatUnits(abs(collateralAmount - positionStats.collateralBal), positionStats.collateralDecimal)} ${
-					positionStats.collateralSymbol
-				} sent back to your wallet`
+		return collateralAmount < positionStats.collateralBal
+			? t('positionAdjust:variables:collateralSent', { amount: amountToSend })
 			: collateralAmount > positionStats.collateralBal
-				? `${formatUnits(abs(collateralAmount - positionStats.collateralBal), positionStats.collateralDecimal)} ${
-						positionStats.collateralSymbol
-					} taken from your wallet`
+				? t('positionAdjust:variables:collateralTaken', { amount: amountToSend })
 				: ''
+	}, [collateralAmount, positionStats.collateralBal, positionStats.collateralDecimal, positionStats.collateralSymbol, t])
 
 	const onChangeAmount = (value: string) => {
 		setAmount(BigInt(value))
@@ -68,32 +81,32 @@ export default function PositionAdjust() {
 		setCollateralAmount(BigInt(value))
 	}
 
-	function getCollateralError() {
+	const getCollateralError = useCallback(() => {
 		if (collateralAmount - positionStats.collateralBal > positionStats.collateralUserBal) {
-			return `Insufficient ${positionStats.collateralSymbol} in your wallet.`
+			return t('positionAdjust:variables:insufficientCollateral', { collateralSymbol: positionStats.collateralSymbol })
 		} else if (liqPrice * collateralAmount < amount * 10n ** 18n) {
-			return 'Not enough collateral for the given price and mint amount.'
+			return t('positionAdjust:variables:noEnoughCollateral')
 		}
-	}
+	}, [amount, collateralAmount, liqPrice, positionStats.collateralBal, positionStats.collateralSymbol, positionStats.collateralUserBal, t])
 
 	/* <div
             className={`flex gap-2 items-center cursor-pointer`}
             onClick={() => setAmount(positionStats.limit)}
           >This position is limited to {formatUnits(positionStats.limit, 18)} OFD </div>)
  */
-	function getAmountError() {
+	const getAmountError = useCallback(() => {
 		if (amount > positionStats.limit) {
-			return `This position is limited to ${formatUnits(positionStats.limit, 18)} OFD`
+			return t('positionAdjust:variables:errors:limitExceeded', { limit: formatUnits(positionStats.limit, 18) })
 		} else if (-paidOutAmount() > positionStats.ofdBalance) {
-			return 'Insufficient OFD in wallet'
+			return t('positionAdjust:variables:errors:insufficientBalance')
 		} else if (liqPrice * collateralAmount < amount * 10n ** 18n) {
-			return `Can mint at most ${formatUnits((collateralAmount * liqPrice) / 10n ** 36n, 0)} OFD given price and collateral.`
+			return t('positionAdjust:variables:errors:maxMint', { maxMint: formatUnits((collateralAmount * liqPrice) / 10n ** 36n, 0) })
 		} else if (positionStats.liqPrice * collateralAmount < amount * 10n ** 18n) {
-			return 'Amount can only be increased after new price has gone through cooldown.'
+			return t('positionAdjust:variables:errors:increaseAfterCooldown')
 		} else {
 			return ''
 		}
-	}
+	}, [amount, collateralAmount, liqPrice, paidOutAmount, positionStats.limit, positionStats.liqPrice, positionStats.ofdBalance, t])
 
 	const onChangeLiqAmount = (value: string) => {
 		const valueBigInt = BigInt(value)
@@ -103,51 +116,53 @@ export default function PositionAdjust() {
 	return (
 		<>
 			<Head>
-				<title>{envConfig.AppName} - Adjust Position</title>
+				<title>
+					{envConfig.AppName} - {t('positionAdjust:title')}
+				</title>
 			</Head>
 			<div>
-				<AppPageHeader backText="Back to position" backTo={`/position/${positionAddr}`} title="Adjust Position" />
+				<AppPageHeader backText={t('positionAdjust:back')} backTo={`/position/${positionAddr}`} title={t('positionAdjust:title')} />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50 gap-2">
-						<div className="text-lg font-bold text-center">Variables</div>
+						<div className="text-lg font-bold text-center">{t('positionAdjust:variables:title')}</div>
 						<TokenInput
-							balanceLabel="Min:"
+							balanceLabel={t('positionAdjust:variables:amountBalanceLabel')}
 							error={getAmountError()}
-							label="Amount"
+							label={t('positionAdjust:variables:amount')}
 							max={repayPosition}
 							onChange={onChangeAmount}
 							output={positionStats.closed ? '0' : ''}
-							placeholder="Loan Amount"
-							symbol="OFD"
+							placeholder={t('positionAdjust:variables:amountPlaceholder')}
+							symbol={CoinTicker.OFD}
 							value={amount.toString()}
 						/>
 						<TokenInput
-							balanceLabel="Max:"
+							balanceLabel={t('positionAdjust:variables:collateralBalanceLabel')}
 							digit={positionStats.collateralDecimal}
 							error={getCollateralError()}
-							label="Collateral"
+							label={t('positionAdjust:variables:collateral')}
 							max={positionStats.collateralUserBal + positionStats.collateralBal}
 							note={collateralNote}
 							onChange={onChangeCollAmount}
-							placeholder="Collateral Amount"
+							placeholder={t('positionAdjust:variables:collateralPlaceholder')}
 							symbol={positionStats.collateralSymbol}
 							value={collateralAmount.toString()}
 						/>
 						<TokenInput
-							balanceLabel="Current Value"
+							balanceLabel={t('positionAdjust:variables:liqPriceBalanceLabel')}
 							digit={36 - positionStats.collateralDecimal}
-							label="Liquidation Price"
+							label={t('positionAdjust:variables:liqPrice')}
 							max={positionStats.liqPrice}
 							onChange={onChangeLiqAmount}
-							placeholder="Liquidation Price"
-							symbol={'OFD'}
+							placeholder={t('positionAdjust:variables:liqPrice')}
+							symbol={CoinTicker.OFD}
 							value={liqPrice.toString()}
 						/>
 						<div className="mx-auto mt-8 w-72 max-w-full flex-col">
 							<GuardToAllowedChainBtn>
 								{collateralAmount - positionStats.collateralBal > positionStats.collateralPosAllowance ? (
 									<Button isLoading={isApproving} onClick={() => handleApprove()}>
-										Approve Collateral
+										{t('positionAdjust:variables:buttons:approve')}
 									</Button>
 								) : (
 									<Button
@@ -158,44 +173,48 @@ export default function PositionAdjust() {
 											!!getAmountError() ||
 											!!getCollateralError()
 										}
-										error={positionStats.owner != address ? 'You can only adjust your own position' : ''}
+										error={positionStats.owner != address ? t('positionAdjust:variables:buttons:adjustError') : ''}
 										isLoading={isAdjusting}
 										onClick={() => handleAdjust()}
 										variant="primary"
 									>
-										Adjust Position
+										{t('positionAdjust:variables:buttons:adjust')}
 									</Button>
 								)}
 							</GuardToAllowedChainBtn>
 						</div>
 					</div>
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50 gap-2">
-						<div className="text-lg font-bold text-center">Outcome</div>
+						<div className="text-lg font-bold text-center">{t('positionAdjust:outcome:title')}</div>
 						<div className="bg-slate-900 rounded-xl p-4 flex flex-col gap-2">
 							<div className="flex">
-								<div className="flex-1">Current minted amount</div>
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={positionStats.minted} currency={'OFD'} />
+								<div className="flex-1">{t('positionAdjust:outcome:minted')}</div>
+								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={positionStats.minted} currency={CoinTicker.OFD} />
 							</div>
 							<div className="flex">
-								<div className="flex-1">{amount >= positionStats.minted ? 'You receive' : 'You return'}</div>
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={paidOutAmount()} currency={'OFD'} />
+								<div className="flex-1">
+									{amount >= positionStats.minted ? t('positionAdjust:outcome:receive') : t('positionAdjust:outcome:return')}
+								</div>
+								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={paidOutAmount()} currency={CoinTicker.OFD} />
 							</div>
 							<div className="flex">
-								<div className="flex-1">{amount >= positionStats.minted ? 'Added to reserve on your behalf' : 'Returned from reserve'}</div>
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={returnFromReserve()} currency={'OFD'} />
+								<div className="flex-1">
+									{amount >= positionStats.minted ? t('positionAdjust:outcome:reserve') : t('positionAdjust:outcome:returnFromReserve')}
+								</div>
+								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={returnFromReserve()} currency={CoinTicker.OFD} />
 							</div>
 							<div className="flex">
-								<div className="flex-1">Minting fee (interest)</div>
+								<div className="flex-1">{t('positionAdjust:outcome:mintingFee')}</div>
 								<DisplayAmount
 									address={ADDRESS[chainId].oracleFreeDollar}
 									amount={amount > positionStats.minted ? ((amount - positionStats.minted) * positionStats.mintingFee) / 1_000_000n : 0n}
-									currency={'OFD'}
+									currency={CoinTicker.OFD}
 								/>
 							</div>
 							<hr className="border-slate-700 border-dashed" />
 							<div className="flex font-bold">
-								<div className="flex-1">Future minted amount</div>
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={amount} currency={'OFD'} />
+								<div className="flex-1">{t('positionAdjust:outcome:futureMintedAmount')}</div>
+								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={amount} currency={CoinTicker.OFD} />
 							</div>
 						</div>
 					</div>
@@ -204,3 +223,7 @@ export default function PositionAdjust() {
 		</>
 	)
 }
+
+const getServerSideProps = withServerSideTranslations(['positionAdjust'])
+
+export default PositionAdjust

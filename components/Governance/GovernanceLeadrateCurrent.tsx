@@ -3,16 +3,19 @@ import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 import Button from 'components/Button'
 import NormalInput from 'components/Input/NormalInput'
 import AppCard from 'components/AppCard'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAccount, useChainId } from 'wagmi'
 import { ADDRESS, ABIS } from 'contracts'
 import { useWriteContractWithToast } from 'hooks'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'next-i18next'
 import { useLeadrateInfo } from 'store/savings'
 
-interface Props {}
+const namespaces = ['common', 'governance']
 
-export default function GovernanceLeadrateCurrent({}: Props) {
+const GovernanceLeadrateCurrent: React.FC = () => {
+	const { t } = useTranslation(namespaces)
+
 	const account = useAccount()
 	const chainId = useChainId()
 	const info = useLeadrateInfo()
@@ -24,15 +27,15 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 	const toastContent = useMemo(
 		() => [
 			{
-				title: `From: `,
+				title: t('common:toasts:governance:leadrate:title1'),
 				value: `${formatCurrency(info.rate / 10000)}%`,
 			},
 			{
-				title: `Proposing to: `,
+				title: t('common:toasts:governance:leadrate:title2'),
 				value: `${formatCurrency(newRate / 10000)}%`,
 			},
 		],
-		[info.rate, newRate]
+		[info.rate, newRate, t]
 	)
 
 	const { loading: isHandling, writeFunction: handleOnClick } = useWriteContractWithToast({
@@ -43,24 +46,24 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 			functionName: 'proposeChange',
 		},
 		toastPending: {
-			title: 'Proposing rate change...',
+			title: t('common:toasts:governance:leadrate:pending'),
 			rows: toastContent,
 		},
 		toastSuccess: {
-			title: 'Successfully proposed',
+			title: t('common:toasts:governance:leadrate:success'),
 			rows: toastContent,
 		},
 	})
 
 	const onClick = useCallback(async () => {
 		if (!account.address) {
-			toast.error('Please connect your wallet')
+			toast.error(t('common:connectWallet'))
 			return
 		}
 
 		const success = await handleOnClick()
 		setHidden(success)
-	}, [account.address, handleOnClick])
+	}, [account.address, handleOnClick, t])
 
 	const changeNewRate = useCallback((value: string) => {
 		// Handle empty or invalid input
@@ -91,9 +94,9 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 				<div className="flex flex-col gap-4">
 					<NormalInput
 						digit={4}
-						label="Current value"
+						label={t('governance:leadrate:form:label')}
 						onChange={(v) => changeNewRate(v)}
-						placeholder={`Current Leadrate: %`}
+						placeholder={t('governance:leadrate:form:placeholder')}
 						symbol="%"
 						value={newRate === 0 ? '' : newRate.toString()}
 					/>
@@ -102,7 +105,7 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 				<div className="md:mt-8 md:px-16">
 					<GuardToAllowedChainBtn>
 						<Button className="max-md:h-10 md:h-12" disabled={isDisabled || isHidden} isLoading={isHandling} onClick={onClick}>
-							Propose Change
+							{t('governance:leadrate:button')}
 						</Button>
 					</GuardToAllowedChainBtn>
 				</div>
@@ -110,3 +113,5 @@ export default function GovernanceLeadrateCurrent({}: Props) {
 		</AppCard>
 	)
 }
+
+export default GovernanceLeadrateCurrent

@@ -6,6 +6,8 @@ import { formatUnits } from 'viem'
 import { ADDRESS, ABIS } from 'contracts'
 import { useWriteContractWithToast } from 'hooks'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'next-i18next'
+import { CoinTicker } from 'meta/coins'
 
 interface Props {
 	amount: bigint
@@ -14,7 +16,11 @@ interface Props {
 	setLoaded?: (val: boolean) => Dispatch<SetStateAction<boolean>>
 }
 
+const namespaces = ['common', 'savings']
+
 export default function SavingsActionSave({ amount, interest, disabled, setLoaded }: Props) {
+	const { t } = useTranslation(namespaces)
+
 	const [isHidden, setHidden] = useState<boolean>(false)
 	const account = useAccount()
 	const chainId = useChainId()
@@ -22,15 +28,15 @@ export default function SavingsActionSave({ amount, interest, disabled, setLoade
 	const toastContent = useMemo(
 		() => [
 			{
-				title: `Saving: `,
-				value: `${formatCurrency(formatUnits(amount, 18))} OFD`,
+				title: t('common:toasts:savings:save:title1'),
+				value: `${formatCurrency(formatUnits(amount, 18))} ${CoinTicker.OFD}`,
 			},
 			{
-				title: `Accured Interest: `,
-				value: `${formatCurrency(formatUnits(interest, 18))} OFD`,
+				title: t('common:toasts:savings:save:title2'),
+				value: `${formatCurrency(formatUnits(interest, 18))} ${CoinTicker.OFD}`,
 			},
 		],
-		[amount, interest]
+		[amount, interest, t]
 	)
 
 	const { loading: isAction, writeFunction: handleOnClick } = useWriteContractWithToast({
@@ -41,29 +47,29 @@ export default function SavingsActionSave({ amount, interest, disabled, setLoade
 			args: [amount],
 		},
 		toastPending: {
-			title: 'Increasing savings...',
+			title: t('common:toasts:savings:save:pending'),
 			rows: toastContent,
 		},
 		toastSuccess: {
-			title: 'Savings increased',
+			title: t('common:toasts:savings:save:success'),
 			rows: toastContent,
 		},
 	})
 
 	const onClick = useCallback(async () => {
 		if (!account.address) {
-			toast.error('Please connect your wallet')
+			toast.error(t('common:connectWallet'))
 			return
 		}
 
 		const success = await handleOnClick()
 		if (setLoaded != undefined) setLoaded(false)
 		setHidden(success)
-	}, [account.address, handleOnClick, setLoaded])
+	}, [account.address, handleOnClick, setLoaded, t])
 
 	return (
 		<Button className="h-10" disabled={isHidden || disabled} isLoading={isAction} onClick={onClick}>
-			Adjust
+			{t('savings:interactionCard:button')}
 		</Button>
 	)
 }

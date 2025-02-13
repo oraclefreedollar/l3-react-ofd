@@ -19,7 +19,7 @@ import {
 import { shortenAddress } from 'utils'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { isAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { envConfig } from 'app.env.config'
@@ -29,9 +29,15 @@ import GovernanceLeadrateTable from 'components/Governance/GovernanceLeadrateTab
 import { useAppDispatch } from 'store'
 import AppCard from 'components/AppCard'
 import { SavingsActions } from 'store/savings'
+import { useTranslation } from 'next-i18next'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
+import { InferGetServerSidePropsType } from 'next'
 
-export default function Governance() {
+const namespaces = ['common', 'governance']
+
+const Governance: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const dispatch = useAppDispatch()
+	const { t } = useTranslation(namespaces)
 
 	const [inputField, setInputField] = useState('')
 	const [delegator, setDelegator] = useState(zeroAddress)
@@ -59,25 +65,28 @@ export default function Governance() {
 		dispatch(SavingsActions.getAll({ account: address, totalOFDSupply: totalSupply }))
 	}, [address, dispatch, totalSupply])
 
-	const onChangeDelegatee = (e: any) => {
-		setInputField(e.target.value)
+	const onChangeDelegatee = useCallback(
+		(e: any) => {
+			setInputField(e.target.value)
 
-		if (isAddress(e.target.value)) {
-			setError('')
-			setDelegator(e.target.value)
-		} else {
-			setError('Please input address in valid EOA address format.')
-		}
-	}
+			if (isAddress(e.target.value)) {
+				setError('')
+				setDelegator(e.target.value)
+			} else {
+				setError(t('governance:delegation:form:error'))
+			}
+		},
+		[t]
+	)
 
 	const toastContent = useMemo(
 		() => [
 			{
-				title: 'Delegate To:',
+				title: t('common:toasts:governance:delegateTo'),
 				value: delegator,
 			},
 		],
-		[delegator]
+		[delegator, t]
 	)
 
 	const { loading: isConfirming, writeFunction: handleDelegate } = useWriteContractWithToast({
@@ -88,11 +97,11 @@ export default function Governance() {
 			functionName: 'delegateVoteTo',
 		},
 		toastSuccess: {
-			title: 'Successfully Delegated Votes',
+			title: t('common:toasts:governance:success'),
 			rows: toastContent,
 		},
 		toastPending: {
-			title: 'Delegating Votes',
+			title: t('common:toasts:governance:pending'),
 			rows: toastContent,
 		},
 		refetchFunctions: [delegationStats.refetch],
@@ -101,15 +110,17 @@ export default function Governance() {
 	return (
 		<>
 			<Head>
-				<title>{envConfig.AppName} - Governance</title>
+				<title>
+					{envConfig.AppName} - {t('governance:title')}
+				</title>
 			</Head>
 			<div>
 				<AppPageHeader link={equityUrl} title="Governance" />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4 container mx-auto">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 border border-purple-500/50 flex flex-col">
-						<div className="text-lg font-bold text-center">Delegation</div>
+						<div className="text-lg font-bold text-center">{t('governance:delegation:title')}</div>
 						<div className="mt-5">
-							<div className="px-1 flex-1">Delegate votes to</div>
+							<div className="px-1 flex-1">{t('governance:delegation:form:label')}</div>
 							<div className="flex-1 gap-2 items-center rounded-lg bg-slate-800 p-2">
 								<div
 									className={`flex-1 gap-1 rounded-lg text-white p-1 bg-slate-600 border-2 ${
@@ -119,14 +130,14 @@ export default function Governance() {
 									<input
 										className="w-full flex-1 rounded-lg bg-transparent px-2 py-1 text-lg"
 										onChange={onChangeDelegatee}
-										placeholder="Delegatee's Address"
+										placeholder={t('governance:delegation:form:placeholder')}
 										value={inputField}
 									/>
 								</div>
 								<div className="mx-auto mt-2 max-w-full flex-col">
 									<GuardToAllowedChainBtn>
 										<Button disabled={delegator == zeroAddress || !!error} isLoading={isConfirming} onClick={() => handleDelegate()}>
-											Set
+											{t('governance:delegation:form:button')}
 										</Button>
 									</GuardToAllowedChainBtn>
 								</div>
@@ -150,19 +161,19 @@ export default function Governance() {
 								)}
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Your Raw Votes" />
+								<DisplayLabel label={t('governance:delegation:stats:yourRawVotes')} />
 								{(Number(userRawVotesPercent) / 100).toFixed(2)} %
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Total Votes" />
+								<DisplayLabel label={t('governance:delegation:stats:totalVotes')} />
 								<DisplayAmount amount={delegationStats.totalVotes} digits={24} />
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Your Total Votes" />
+								<DisplayLabel label={t('governance:delegation:stats:yourTotalVotes')} />
 								{(Number(userTotalVotesPercent) / 100).toFixed(2)} %
 							</AppBox>
 						</div>
-						<div className="mt-4 text-lg font-bold text-center">Delegating to You</div>
+						<div className="mt-4 text-lg font-bold text-center">{t('governance:delegatingToYou:title')}</div>
 						{delegationStats.delegatedFrom.length > 0 && (
 							<div className="bg-slate-900 rounded-xl p-4 grid grid-cols-1 gap-2">
 								{delegationStats.delegatedFrom.map((from) => {
@@ -183,7 +194,7 @@ export default function Governance() {
 						)}
 					</div>
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8">
-						<div className="mt-4 text-lg font-bold text-center">Proposals</div>
+						<div className="mt-4 text-lg font-bold text-center">{t('governance:proposals:title')}</div>
 						<div className="bg-slate-900 rounded-xl p-4 flex flex-col gap-2">
 							{minters.map((minter: any) => (
 								<MinterProposal helpers={delegationStats.delegatedFrom.map((e) => e.owner)} key={minter.id} minter={minter} />
@@ -193,12 +204,9 @@ export default function Governance() {
 				</section>
 
 				<section className="flex flex-col gap-3">
-					<AppPageHeader link={equityUrl} title="Base Rate" />
+					<AppPageHeader link={equityUrl} title={t('governance:baseRate:title')} />
 					<AppCard className="p-4 mb-2">
-						<div>
-							This is the base rate that is applied when minting new OFDs and the rate at which savers continuously accrue interest. Anyone
-							with veto power can propose a change, which can be applied if there is no counter-proposal within seven days.
-						</div>
+						<div>{t('governance:baseRate:description')}</div>
 					</AppCard>
 
 					<GovernanceLeadrateCurrent />
@@ -206,7 +214,7 @@ export default function Governance() {
 					<GovernanceLeadrateTable />
 				</section>
 				<section className="mt-4">
-					<AppPageHeader link={equityUrl} title="Top Voters" />
+					<AppPageHeader link={equityUrl} title={t('governance:topVoters:title')} />
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8">
 						<div className="bg-slate-900 rounded-xl p-4 flex flex-col gap-2">
 							{votingPowers.votesData.map((power) => (
@@ -225,3 +233,7 @@ export default function Governance() {
 		</>
 	)
 }
+
+export const getServerSideProps = withServerSideTranslations(namespaces)
+
+export default Governance

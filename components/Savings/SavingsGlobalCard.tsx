@@ -10,8 +10,15 @@ import Link from 'next/link'
 import DisplayLabel from 'components/DisplayLabel'
 import DisplayAmount from 'components/DisplayAmount'
 import { useSavingsInfo } from 'store/savings'
+import React from 'react'
+import { useTranslation } from 'next-i18next'
+import { CoinTicker } from 'meta/coins'
 
-export default function SavingsGlobalCard() {
+const namespaces = ['savings']
+
+const SavingsGlobalCard: React.FC = () => {
+	const { t } = useTranslation(namespaces)
+
 	const { totalBalance, rate } = useSavingsInfo()
 
 	const moduleAddress = ADDRESS[useChainId()].savings
@@ -21,15 +28,15 @@ export default function SavingsGlobalCard() {
 		<AppCard>
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-2">
 				<AppBox>
-					<DisplayLabel label="Current Interest Rate" />
+					<DisplayLabel label={t('savings:infoCard:currentRate')} />
 					<DisplayAmount amount={rate / 10_000} className="mt-1" currency="%" hideLogo />
 				</AppBox>
 				<AppBox>
-					<DisplayLabel label="Total Savings" />
-					<DisplayAmount amount={totalBalance / 10 ** 18} className="mt-1" currency="OFD" hideLogo />
+					<DisplayLabel label={t('savings:infoCard:totalSavings')} />
+					<DisplayAmount amount={totalBalance / 10 ** 18} className="mt-1" currency={CoinTicker.OFD} hideLogo />
 				</AppBox>
 				<AppBox>
-					<DisplayLabel label="Module Contract" />
+					<DisplayLabel label={t('savings:infoCard:moduleContract')} />
 					<Link href={url} target="_blank">
 						<div className="mt-1">
 							{shortenAddress(moduleAddress)}
@@ -41,3 +48,5 @@ export default function SavingsGlobalCard() {
 		</AppCard>
 	)
 }
+
+export default SavingsGlobalCard
