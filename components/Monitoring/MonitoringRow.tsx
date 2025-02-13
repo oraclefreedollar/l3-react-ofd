@@ -1,17 +1,16 @@
 import { Address, formatUnits, zeroAddress } from 'viem'
 import TableRow from '../Table/TableRow'
-import { useSelector } from 'react-redux'
 import { formatCurrency } from '../../utils/format'
 import { useRouter as useNavigation } from 'next/navigation'
 
 import { useContractUrl } from 'hooks/useContractUrl'
-import { ChallengesQueryItem } from 'store/slices/challenges.types'
 import TokenLogo from 'components/TokenLogo'
 import Button from 'components/Button'
 import AppBox from 'components/AppBox'
 import { PositionQuery } from 'store/slices/positions.types'
-import { RootState } from 'store/types'
 import { useCoingeckoPrices } from 'store/prices'
+import { useChallengePositions } from 'store/challenges'
+import { ChallengesQueryItem } from 'meta/challenges'
 interface Props {
 	position: PositionQuery
 }
@@ -20,7 +19,7 @@ export default function MonitoringRow({ position }: Props) {
 	const navigate = useNavigation()
 
 	const prices = useCoingeckoPrices()
-	const challenges = useSelector((state: RootState) => state.challenges.positions)
+	const challenges = useChallengePositions()
 	const url = useContractUrl(position.collateral || zeroAddress)
 	const collTokenPrice = prices[position.collateral.toLowerCase() as Address]?.price?.usd || 1
 	const ofdPrice = prices[position.ofd.toLowerCase() as Address]?.price?.usd || 1

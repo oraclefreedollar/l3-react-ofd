@@ -1,15 +1,17 @@
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { store } from 'store'
+import { store, useAppDispatch } from 'store'
 import { fetchPositionsList } from 'store/slices/positions.slice'
-import { fetchChallengesList } from 'store/slices/challenges.slice'
 import MonitoringTable from 'components/Monitoring/MonitoringTable'
 import AppPageHeader from 'components/AppPageHeader'
+import { ChallengesActions } from 'store/challenges'
 export default function Positions() {
+	const dispatch = useAppDispatch()
+
 	useEffect(() => {
 		store.dispatch(fetchPositionsList())
-		store.dispatch(fetchChallengesList())
-	}, [])
+		dispatch(ChallengesActions.getAll())
+	}, [dispatch])
 
 	return (
 		<>
