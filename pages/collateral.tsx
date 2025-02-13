@@ -7,15 +7,17 @@ import TableBody from 'components/Table/TableBody'
 import TableHeader from 'components/Table/TableHead'
 import TableRowEmpty from 'components/Table/TableRowEmpty'
 import BorrowPositionRow from 'components/Borrow/BorrowPositionRow'
-import { store } from 'store'
-import { fetchSavings } from 'store/slices/savings.slice'
+import { useAppDispatch } from 'store'
 import { ADDRESS } from 'contracts'
 import { useTokenData } from 'hooks'
 import { useAccount, useChainId } from 'wagmi'
 import { useOpenPositionsByCollateral } from 'store/positions'
 import { PositionQuery } from 'meta/positions'
+import { SavingsActions } from 'store/savings'
 
 export default function Overview() {
+	const dispatch = useAppDispatch()
+
 	const openPositionsByCollateral = useOpenPositionsByCollateral()
 	const [list, setList] = useState<PositionQuery[]>([])
 	const { address } = useAccount()
@@ -23,8 +25,8 @@ export default function Overview() {
 	const { totalSupply } = useTokenData(ADDRESS[chainId].oracleFreeDollar)
 
 	useEffect(() => {
-		store.dispatch(fetchSavings(address, totalSupply))
-	}, [address, totalSupply])
+		dispatch(SavingsActions.getAll({ account: address, totalOFDSupply: totalSupply }))
+	}, [address, dispatch, totalSupply])
 
 	const openPositions = useMemo(() => openPositionsByCollateral.flat(1), [openPositionsByCollateral])
 

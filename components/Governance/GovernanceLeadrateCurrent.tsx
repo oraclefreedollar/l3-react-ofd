@@ -3,20 +3,19 @@ import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 import Button from 'components/Button'
 import NormalInput from 'components/Input/NormalInput'
 import AppCard from 'components/AppCard'
-import { useSelector } from 'react-redux'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAccount, useChainId } from 'wagmi'
 import { ADDRESS, ABIS } from 'contracts'
 import { useWriteContractWithToast } from 'hooks'
 import { toast } from 'react-toastify'
-import { RootState } from 'store/types'
+import { useLeadrateInfo } from 'store/savings'
 
 interface Props {}
 
 export default function GovernanceLeadrateCurrent({}: Props) {
 	const account = useAccount()
 	const chainId = useChainId()
-	const info = useSelector((state: RootState) => state.savings.leadrateInfo)
+	const info = useLeadrateInfo()
 
 	const [newRate, setNewRate] = useState<number>(info.rate || 0)
 	const [isHidden, setHidden] = useState<boolean>(false)

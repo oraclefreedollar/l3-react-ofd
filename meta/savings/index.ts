@@ -12,7 +12,6 @@ export type SavingsSavedQuery = {
 	total: string
 	balance: string
 }
-
 export type SavingsIdInterest = `${Address}-${number}`
 export type SavingsInterestQuery = {
 	id: SavingsIdInterest
@@ -25,7 +24,6 @@ export type SavingsInterestQuery = {
 	total: string
 	balance: string
 }
-
 export type SavingsIdWithdraw = `${Address}-${number}`
 export type SavingsWithdrawQuery = {
 	id: SavingsIdWithdraw
@@ -38,7 +36,6 @@ export type SavingsWithdrawQuery = {
 	total: string
 	balance: string
 }
-
 export type ApiSavingsInfo = {
 	totalSaved: number
 	totalWithdrawn: number
@@ -47,13 +44,11 @@ export type ApiSavingsInfo = {
 	rate: number
 	ratioOfSupply: number
 }
-
 export type ApiSavingsUserTable = {
 	save: SavingsSavedQuery[]
 	interest: SavingsInterestQuery[]
 	withdraw: SavingsWithdrawQuery[]
 }
-
 export type LeadrateRateQuery = {
 	id: string
 	created: number
@@ -61,7 +56,6 @@ export type LeadrateRateQuery = {
 	txHash: string
 	approvedRate: number
 }
-
 export type LeadrateProposed = {
 	id: string
 	created: number
@@ -71,7 +65,6 @@ export type LeadrateProposed = {
 	nextRate: number
 	nextChange: number
 }
-
 export type ApiLeadrateInfo = {
 	rate: number
 	nextRate: number
@@ -79,7 +72,6 @@ export type ApiLeadrateInfo = {
 	isProposal: boolean
 	isPending: boolean
 }
-
 export type ApiLeadrateRate = {
 	created: number
 	blockheight: number
@@ -87,7 +79,6 @@ export type ApiLeadrateRate = {
 	num: number
 	list: LeadrateRateQuery[]
 }
-
 export type ApiLeadrateProposed = {
 	created: number
 	blockheight: number
@@ -96,7 +87,6 @@ export type ApiLeadrateProposed = {
 	num: number
 	list: LeadrateProposed[]
 }
-
 // --------------------------------------------------------------------------------
 export type SavingsState = {
 	error: string | null
@@ -111,34 +101,12 @@ export type SavingsState = {
 	savingsUserTable: ApiSavingsUserTable
 	savingsAllUserTable: ApiSavingsUserTable
 }
-
-// --------------------------------------------------------------------------------
-export type DispatchBoolean = {
-	type: string
-	payload: Boolean
+export type SavingsUserData = {
+	save: Array<SavingsSavedQuery>
+	interest: Array<SavingsInterestQuery>
+	withdraw: Array<SavingsWithdrawQuery>
 }
-
-export type DispatchApiLeadrateInfo = {
-	type: string
-	payload: ApiLeadrateInfo
-}
-
-export type DispatchApiLeadrateProposed = {
-	type: string
-	payload: ApiLeadrateProposed
-}
-
-export type DispatchApiLeadrateRate = {
-	type: string
-	payload: ApiLeadrateRate
-}
-
-export type DispatchApiSavingsInfo = {
-	type: string
-	payload: ApiSavingsInfo
-}
-
-export type DispatchApiSavingsUserTable = {
-	type: string
-	payload: ApiSavingsUserTable
+export type SavingsRates = {
+	rates: Array<LeadrateRateQuery>
+	proposals: Array<LeadrateProposed>
 }
