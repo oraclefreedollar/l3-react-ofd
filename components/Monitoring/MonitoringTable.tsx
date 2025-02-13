@@ -6,10 +6,10 @@ import { useSelector } from 'react-redux'
 import { Address, formatUnits } from 'viem'
 import MonitoringRow from './MonitoringRow'
 import { useMemo } from 'react'
-import { ChallengesQueryItem } from 'store/slices/challenges.types'
 import { PositionQuery } from 'store/slices/positions.types'
 import { RootState } from 'store/types'
 import { useCoingeckoPrices } from 'store/prices'
+import { ChallengesQueryItem } from 'meta/challenges'
 export default function MonitoringTable() {
 	const headers: string[] = ['Collateral', 'Collateralization', 'Expiration', 'Challenged']
 
