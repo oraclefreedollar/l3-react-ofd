@@ -2,11 +2,11 @@ import { Hash } from 'viem'
 import TableRow from '../Table/TableRow'
 import { AddressLabelSimple, TxLabelSimple } from 'components/AddressLabel'
 import { useCallback, useMemo, useState } from 'react'
-import { ApiLeadrateInfo, LeadrateProposed } from 'redux/slices/savings.types'
 import Button from 'components/Button'
 import GuardToAllowedChainBtn from 'components/Guards/GuardToAllowedChainBtn'
 
 import { useWriteContractsGovernanceLeadrateRow } from './hooks/useWriteContractsGovernanceLeadrateRow'
+import { ApiLeadrateInfo, LeadrateProposed } from 'meta/savings'
 import { useTranslation } from 'next-i18next'
 
 interface Props {

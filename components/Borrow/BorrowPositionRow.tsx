@@ -1,12 +1,12 @@
 import AppBox from 'components/AppBox'
 import TableRow from 'components/Table/TableRow'
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/redux.store'
-import { PositionQuery } from 'redux/slices/positions.types'
 import { formatCurrency } from 'utils/format'
 import { Address } from 'viem'
 import DisplayCollateralBorrowTable from './DisplayCollateralBorrowTable'
 import Link from 'next/link'
+import { useCoingeckoPrices } from 'store/prices'
+import { PositionQuery } from 'meta/positions'
+import { useSavingsInfo } from 'store/savings'
 import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
@@ -17,8 +17,8 @@ interface Props {
 export default function BorrowPositionRow({ item }: Props) {
 	const { t } = useTranslation('collateral')
 
-	const { coingecko } = useSelector((state: RootState) => state.prices)
-	const { rate } = useSelector((state: RootState) => state.savings.savingsInfo)
+	const coingecko = useCoingeckoPrices()
+	const { rate } = useSavingsInfo()
 	const collTokenPrice = coingecko[item.collateral.toLowerCase() as Address]?.price?.usd
 	const ofdPrice = coingecko[item.ofd.toLowerCase() as Address]?.price?.usd
 	if (!collTokenPrice || !ofdPrice) return null

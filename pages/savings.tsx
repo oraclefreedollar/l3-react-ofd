@@ -5,9 +5,8 @@ import SavingsSavedTable from 'components/Savings/SavingsSavedTable'
 import SavingsWithdrawnTable from 'components/Savings/SavingsWithdrawnTable'
 import Head from 'next/head'
 import React, { useEffect } from 'react'
-import { store } from '../redux/redux.store'
+import { useAppDispatch } from 'store'
 import { useAccount, useChainId } from 'wagmi'
-import { fetchSavings } from 'redux/slices/savings.slice'
 import AppTitle from 'components/AppTitle'
 import AppPageHeader from 'components/AppPageHeader'
 import { envConfig } from 'app.env.config'
@@ -17,10 +16,12 @@ import { CoinTicker } from 'meta/coins'
 import { useTranslation } from 'next-i18next'
 import { InferGetServerSidePropsType } from 'next'
 import { withServerSideTranslations } from 'utils/withServerSideTranslations'
+import { SavingsActions } from 'store/savings'
 
 const namespaces = ['savings']
 
 const SavingsPage: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const dispatch = useAppDispatch()
 	const { t } = useTranslation(namespaces)
 
 	const { address } = useAccount()
@@ -28,8 +29,8 @@ const SavingsPage: React.FC = (_props: InferGetServerSidePropsType<typeof getSer
 	const { totalSupply } = useTokenData(ADDRESS[chainId].oracleFreeDollar)
 
 	useEffect(() => {
-		store.dispatch(fetchSavings(address, totalSupply))
-	}, [address, totalSupply])
+		dispatch(SavingsActions.getAll({ account: address, totalOFDSupply: totalSupply }))
+	}, [address, dispatch, totalSupply])
 
 	return (
 		<>

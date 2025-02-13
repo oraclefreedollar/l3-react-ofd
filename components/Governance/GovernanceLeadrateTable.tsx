@@ -2,9 +2,8 @@ import TableHeader from '../Table/TableHead'
 import TableBody from '../Table/TableBody'
 import Table from '../Table'
 import TableRowEmpty from '../Table/TableRowEmpty'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../redux/redux.store'
 import GovernanceLeadrateRow from './GovernanceLeadrateRow'
+import { useLeadrateInfo, useLeadrateProposed, useLeadrateRate } from 'store/savings'
 import { useTranslation } from 'next-i18next'
 import React, { useMemo } from 'react'
 
@@ -23,9 +22,9 @@ const GovernanceLeadrateTable: React.FC = () => {
 		[t]
 	)
 
-	const info = useSelector((state: RootState) => state.savings.leadrateInfo)
-	const proposals = useSelector((state: RootState) => state.savings.leadrateProposed)
-	const rates = useSelector((state: RootState) => state.savings.leadrateRate)
+	const info = useLeadrateInfo()
+	const proposals = useLeadrateProposed()
+	const rates = useLeadrateRate()
 	if (!info || !proposals || !rates) return null
 
 	const currentProposal = proposals.list.length > 0 ? proposals.list[0] : undefined

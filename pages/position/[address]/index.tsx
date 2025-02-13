@@ -15,8 +15,8 @@ import { getAddress, zeroAddress } from 'viem'
 import { useAccount, useChainId, useReadContract } from 'wagmi'
 import { envConfig } from 'app.env.config'
 import React, { useCallback } from 'react'
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/redux.store'
+
+import { useCoingeckoPrices } from 'store/prices'
 import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 import { withServerSideTranslations } from 'utils/withServerSideTranslations'
@@ -39,7 +39,7 @@ const PositionDetail: React.FC = (_props: InferGetServerSidePropsType<typeof get
 	const { challenges, loading: queryLoading } = useChallengeLists({ position })
 	const { challengsData, loading } = useChallengeListStats(challenges)
 
-	const prices = useSelector((state: RootState) => state.prices.coingecko)
+	const prices = useCoingeckoPrices()
 	const collateralPrice = prices[positionStats.collateral?.toLowerCase() || zeroAddress]?.price?.usd
 
 	const ofdPrice = useOfdPrice()

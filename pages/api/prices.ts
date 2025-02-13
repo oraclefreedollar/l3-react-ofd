@@ -1,13 +1,14 @@
 import type { NextApiResponse } from 'next'
 import { Address } from 'viem'
 import { clientCoingecko, WAGMI_CHAIN } from 'app.config'
-import { ERC20Info, PositionQuery } from 'redux/slices/positions.types'
-import { PriceQueryCurrencies, PriceQueryObjectArray } from 'redux/slices/prices.types'
 import { uniqueValues } from 'utils/format-array'
 import { fetchPositions } from './positions'
 import { Contracts } from 'utils'
 import { bsc, bscTestnet } from 'viem/chains'
 import { ADDRESS } from 'contracts'
+
+import { PriceQueryObjectArray, PriceQueryCurrencies } from 'meta/prices'
+import { ERC20Info, PositionQuery } from 'meta/positions'
 
 // forced init caching of ERC20Infos
 // solves development mode caching issue with coingecko free plan

@@ -1,7 +1,5 @@
 import AppBox from 'components/AppBox'
 import AppCard from 'components/AppCard'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../redux/redux.store'
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ADDRESS } from 'contracts'
@@ -11,6 +9,7 @@ import { shortenAddress } from 'utils'
 import Link from 'next/link'
 import DisplayLabel from 'components/DisplayLabel'
 import DisplayAmount from 'components/DisplayAmount'
+import { useSavingsInfo } from 'store/savings'
 import React from 'react'
 import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
@@ -20,7 +19,7 @@ const namespaces = ['savings']
 const SavingsGlobalCard: React.FC = () => {
 	const { t } = useTranslation(namespaces)
 
-	const { totalBalance, rate } = useSelector((state: RootState) => state.savings.savingsInfo)
+	const { totalBalance, rate } = useSavingsInfo()
 
 	const moduleAddress = ADDRESS[useChainId()].savings
 	const url = useContractUrl(moduleAddress)

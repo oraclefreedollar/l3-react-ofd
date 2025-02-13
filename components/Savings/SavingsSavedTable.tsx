@@ -2,9 +2,8 @@ import TableHeader from '../Table/TableHead'
 import TableBody from '../Table/TableBody'
 import Table from '../Table'
 import TableRowEmpty from '../Table/TableRowEmpty'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../redux/redux.store'
 import SavingsSavedRow from './SavingsSavedRow'
+import { useSavingsAllUserTable } from 'store/savings'
 import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react'
 
@@ -23,7 +22,7 @@ export default function SavingsSavedTable() {
 		[t]
 	)
 
-	const { save } = useSelector((state: RootState) => state.savings.savingsAllUserTable)
+	const { save } = useSavingsAllUserTable()
 	if (!save) return null
 
 	return (

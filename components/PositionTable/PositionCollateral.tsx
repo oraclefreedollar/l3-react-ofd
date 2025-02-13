@@ -1,9 +1,9 @@
 import TokenLogo from 'components/TokenLogo'
-import { useSelector } from 'react-redux'
 import { Address } from 'viem'
-import { RootState } from 'redux/redux.store'
-import { PositionQuery } from 'redux/slices/positions.types'
 import { formatCurrency } from 'utils/format'
+import { useCoingeckoPrices } from 'store/prices'
+import { useOpenPositionsByCollateral } from 'store/positions'
+import { PositionQuery } from 'meta/positions'
 import React, { Fragment } from 'react'
 import { useTranslation } from 'next-i18next'
 
@@ -41,8 +41,8 @@ export type CollateralItem = {
 
 export function PositionCollateralCalculate(): CollateralItem[] {
 	const { t } = useTranslation('positionCollaterals')
-	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
-	const { coingecko } = useSelector((state: RootState) => state.prices)
+	const openPositionsByCollateral = useOpenPositionsByCollateral()
+	const coingecko = useCoingeckoPrices()
 
 	const stats: CollateralItem[] = []
 

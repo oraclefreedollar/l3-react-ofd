@@ -1,6 +1,7 @@
-import { ERC20Info } from 'redux/slices/positions.types'
-import { PriceQueryObjectArray } from 'redux/slices/prices.types'
 import { formatCurrency } from 'utils'
+
+import { PriceQueryObjectArray } from 'meta/prices'
+import { ERC20Info } from 'meta/positions'
 
 type DSCPRice = {
 	priceAsk: string

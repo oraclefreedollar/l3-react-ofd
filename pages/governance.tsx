@@ -26,9 +26,9 @@ import { envConfig } from 'app.env.config'
 import { useVotingPowers } from 'hooks/useVotingPowers'
 import GovernanceLeadrateCurrent from 'components/Governance/GovernanceLeadrateCurrent'
 import GovernanceLeadrateTable from 'components/Governance/GovernanceLeadrateTable'
-import { store } from 'redux/redux.store'
-import { fetchSavings } from 'redux/slices/savings.slice'
+import { useAppDispatch } from 'store'
 import AppCard from 'components/AppCard'
+import { SavingsActions } from 'store/savings'
 import { useTranslation } from 'next-i18next'
 import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 import { InferGetServerSidePropsType } from 'next'
@@ -36,6 +36,7 @@ import { InferGetServerSidePropsType } from 'next'
 const namespaces = ['common', 'governance']
 
 const Governance: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const dispatch = useAppDispatch()
 	const { t } = useTranslation(namespaces)
 
 	const [inputField, setInputField] = useState('')
@@ -59,9 +60,10 @@ const Governance: React.FC = (_props: InferGetServerSidePropsType<typeof getServ
 		delegationStats.totalVotes === 0n ? 0n : (delegationStats.userTotalVotes * 10000n) / delegationStats.totalVotes
 
 	const { totalSupply } = useTokenData(ADDRESS[chainId].oracleFreeDollar)
+
 	useEffect(() => {
-		store.dispatch(fetchSavings(address, totalSupply))
-	}, [address, totalSupply])
+		dispatch(SavingsActions.getAll({ account: address, totalOFDSupply: totalSupply }))
+	}, [address, dispatch, totalSupply])
 
 	const onChangeDelegatee = useCallback(
 		(e: any) => {

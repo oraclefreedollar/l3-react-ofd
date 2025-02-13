@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
 import AppPageHeader from 'components/AppPageHeader'
 import { envConfig } from 'app.env.config'
 import Table from 'components/Table'
@@ -8,30 +7,33 @@ import TableBody from 'components/Table/TableBody'
 import TableHeader from 'components/Table/TableHead'
 import TableRowEmpty from 'components/Table/TableRowEmpty'
 import BorrowPositionRow from 'components/Borrow/BorrowPositionRow'
-import { RootState, store } from 'redux/redux.store'
-import { PositionQuery } from 'redux/slices/positions.types'
-import { fetchSavings } from 'redux/slices/savings.slice'
+import { useAppDispatch } from 'store'
 import { ADDRESS } from 'contracts'
 import { useTokenData } from 'hooks'
 import { useAccount, useChainId } from 'wagmi'
 import { useTranslation } from 'next-i18next'
 import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 import { InferGetServerSidePropsType } from 'next'
+import { useOpenPositionsByCollateral } from 'store/positions'
+import { PositionQuery } from 'meta/positions'
+import { SavingsActions } from 'store/savings'
 
 const namespaces = ['collateral']
 
 const Overview: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const { t } = useTranslation(namespaces)
 
-	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
+	const dispatch = useAppDispatch()
+
+	const openPositionsByCollateral = useOpenPositionsByCollateral()
 	const [list, setList] = useState<PositionQuery[]>([])
 	const { address } = useAccount()
 	const chainId = useChainId()
 	const { totalSupply } = useTokenData(ADDRESS[chainId].oracleFreeDollar)
 
 	useEffect(() => {
-		store.dispatch(fetchSavings(address, totalSupply))
-	}, [address, totalSupply])
+		dispatch(SavingsActions.getAll({ account: address, totalOFDSupply: totalSupply }))
+	}, [address, dispatch, totalSupply])
 
 	const openPositions = useMemo(() => openPositionsByCollateral.flat(1), [openPositionsByCollateral])
 

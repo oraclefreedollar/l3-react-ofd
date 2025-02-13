@@ -1,16 +1,16 @@
 import { Address, formatUnits, zeroAddress } from 'viem'
 import TableRow from '../Table/TableRow'
-import { RootState } from '../../redux/redux.store'
-import { useSelector } from 'react-redux'
 import { formatCurrency } from '../../utils/format'
 import { useRouter as useNavigation } from 'next/navigation'
 
 import { useContractUrl } from 'hooks/useContractUrl'
-import { ChallengesQueryItem } from 'redux/slices/challenges.types'
 import TokenLogo from 'components/TokenLogo'
 import Button from 'components/Button'
 import AppBox from 'components/AppBox'
-import { PositionQuery } from 'redux/slices/positions.types'
+import { useCoingeckoPrices } from 'store/prices'
+import { useChallengePositions } from 'store/challenges'
+import { ChallengesQueryItem } from 'meta/challenges'
+import { PositionQuery } from 'meta/positions'
 import { useTranslation } from 'next-i18next'
 import React, { useMemo } from 'react'
 
@@ -25,8 +25,8 @@ const MonitoringRow: React.FC<Props> = ({ position }: Props) => {
 
 	const navigate = useNavigation()
 
-	const prices = useSelector((state: RootState) => state.prices.coingecko)
-	const challenges = useSelector((state: RootState) => state.challenges.positions)
+	const prices = useCoingeckoPrices()
+	const challenges = useChallengePositions()
 	const url = useContractUrl(position.collateral || zeroAddress)
 	const collTokenPrice = prices[position.collateral.toLowerCase() as Address]?.price?.usd || 1
 	const ofdPrice = prices[position.ofd.toLowerCase() as Address]?.price?.usd || 1

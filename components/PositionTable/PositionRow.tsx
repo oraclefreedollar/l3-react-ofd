@@ -1,14 +1,13 @@
 import { Badge } from 'flowbite-react'
 import Link from 'next/link'
-import { useSelector } from 'react-redux'
 import { zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { ADDRESS } from 'contracts/address'
-import { RootState } from 'redux/redux.store'
-import { PositionQuery } from 'redux/slices/positions.types'
 import DisplayAmount from '../DisplayAmount'
 import TableRow from '../Table/TableRow'
 import { useMemo } from 'react'
+import { useCoingeckoPrices } from 'store/prices'
+import { PositionQuery } from 'meta/positions'
 import { useTranslation } from 'next-i18next'
 import { CoinTicker } from 'meta/coins'
 
@@ -21,7 +20,7 @@ export default function PositionRow({ position }: Props) {
 
 	const { address } = useAccount()
 	const chainId = useChainId()
-	const prices = useSelector((state: RootState) => state.prices.coingecko)
+	const prices = useCoingeckoPrices()
 	// this price is actually the price of the OracleFreeDollar
 
 	const collTokenPrice = prices[position.collateral.toLowerCase()]?.price?.usd

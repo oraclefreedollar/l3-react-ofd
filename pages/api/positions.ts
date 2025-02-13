@@ -2,7 +2,8 @@ import { gql } from '@apollo/client'
 import { NextApiResponse } from 'next'
 import { getAddress } from 'viem'
 import { clientPonder } from 'app.config'
-import { PositionQuery } from 'redux/slices/positions.types'
+
+import { PositionQuery } from 'meta/positions'
 
 export async function fetchPositions(): Promise<PositionQuery[]> {
 	const { data } = await clientPonder.query({

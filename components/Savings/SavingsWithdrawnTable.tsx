@@ -2,9 +2,8 @@ import TableHeader from '../Table/TableHead'
 import TableBody from '../Table/TableBody'
 import Table from '../Table'
 import TableRowEmpty from '../Table/TableRowEmpty'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../redux/redux.store'
 import SavingsWithdrawnRow from './SavingsWithdrawnRow'
+import { useSavingsAllUserTable } from 'store/savings'
 import { useTranslation } from 'next-i18next'
 import { useMemo } from 'react'
 
@@ -23,7 +22,7 @@ export default function SavingsWithdrawnTable() {
 		[t]
 	)
 
-	const { withdraw } = useSelector((state: RootState) => state.savings.savingsAllUserTable)
+	const { withdraw } = useSavingsAllUserTable()
 	if (!withdraw) return null
 
 	return (
