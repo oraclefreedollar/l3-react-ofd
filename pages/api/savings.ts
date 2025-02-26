@@ -132,7 +132,7 @@ export async function fetchSavingsRates(): Promise<SavingsRates> {
 
 	const { data } = await clientPonder.query({
 		query: SAVINGS_RATES_QUERY,
-		variables: { chainId: chainId.toString() },
+		variables: { chainId: chainId?.toString() },
 	})
 
 	if (!data) {
@@ -172,7 +172,7 @@ export async function fetchSavingsUserData(account?: string): Promise<SavingsUse
 		query: account ? SAVINGS_USER_QUERY : SAVINGS_USER_QUERY_ALL,
 		variables: {
 			...(account && { account: account.toLowerCase() }),
-			chainId: chainId.toString(),
+			chainId: chainId?.toString(),
 		},
 	})
 
