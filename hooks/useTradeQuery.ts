@@ -55,7 +55,6 @@ export const useTradeQueryOld = (): {
 	refetch: any
 	oldTrades: TradeChart[]
 } => {
-	const chainId = useChainId()
 	const { data, loading, refetch } = useQuery(
 		gql`
 			query {
