@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://app.oraclefreedollar.org</loc><lastmod>2025-02-05T16:35:44.797Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://app.oraclefreedollar.org/auctions</loc><lastmod>2025-02-05T16:35:44.797Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://app.oraclefreedollar.org/collateral</loc><lastmod>2025-02-05T16:35:44.797Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://app.oraclefreedollar.org/governance</loc><lastmod>2025-02-05T16:35:44.797Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://app.oraclefreedollar.org/monitoring</loc><lastmod>2025-02-05T16:35:44.797Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://app.oraclefreedollar.org/pool</loc><lastmod>2025-02-05T16:35:44.797Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://app.oraclefreedollar.org/positions</loc><lastmod>2025-02-05T16:35:44.797Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://app.oraclefreedollar.org/positions/create</loc><lastmod>2025-02-05T16:35:44.797Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://app.oraclefreedollar.org/savings</loc><lastmod>2025-02-05T16:35:44.797Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://app.oraclefreedollar.org/swap</loc><lastmod>2025-02-05T16:35:44.797Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://app.oraclefreedollar.org/terms</loc><lastmod>2025-02-05T16:35:44.798Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://app.oraclefreedollar.org</loc><lastmod>2025-02-26T14:42:42.616Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://app.oraclefreedollar.org/auctions</loc><lastmod>2025-02-26T14:42:42.617Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://app.oraclefreedollar.org/collateral</loc><lastmod>2025-02-26T14:42:42.617Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://app.oraclefreedollar.org/governance</loc><lastmod>2025-02-26T14:42:42.617Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://app.oraclefreedollar.org/monitoring</loc><lastmod>2025-02-26T14:42:42.617Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://app.oraclefreedollar.org/pool</loc><lastmod>2025-02-26T14:42:42.617Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://app.oraclefreedollar.org/positions</loc><lastmod>2025-02-26T14:42:42.617Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://app.oraclefreedollar.org/positions/create</loc><lastmod>2025-02-26T14:42:42.617Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://app.oraclefreedollar.org/savings</loc><lastmod>2025-02-26T14:42:42.617Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://app.oraclefreedollar.org/swap</loc><lastmod>2025-02-26T14:42:42.617Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://app.oraclefreedollar.org/terms</loc><lastmod>2025-02-26T14:42:42.617Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>
