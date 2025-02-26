@@ -13,7 +13,7 @@ import { useMemo } from 'react'
 import { Address, parseUnits, zeroAddress } from 'viem'
 import { useAccount } from 'wagmi'
 import { WAGMI_CHAIN } from 'app.config'
-import { bsc } from 'viem/chains'
+import { bscTestnet } from 'viem/chains'
 
 interface RowProps {
 	addr: Address
@@ -87,7 +87,7 @@ export function FaucetRow({ name, symbol, balance, decimal, addr }: RowProps) {
 
 export default function Faucet() {
 	const faucetStats = useFaucetStats()
-	if ((WAGMI_CHAIN.id as number) === (bsc.id as number)) return <></>
+	if ((WAGMI_CHAIN.id as number) !== (bscTestnet.id as number)) return <></>
 
 	return (
 		<>

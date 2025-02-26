@@ -45,15 +45,15 @@ const SavingsPage: React.FC = (_props: InferGetServerSidePropsType<typeof getSer
 
 			<SavingsInteractionCard />
 
-			<AppTitle title={t('savings:sections:title:deposits')} />
+			<AppTitle title={t('savings:sections:deposits:title')} />
 
 			<SavingsSavedTable />
 
-			<AppTitle title={t('savings:sections:title:interest')} />
+			<AppTitle title={t('savings:sections:interest:title')} />
 
 			<SavingsInterestTable />
 
-			<AppTitle title={t('savings:sections:title:withdrawals')} />
+			<AppTitle title={t('savings:sections:withdrawals:title')} />
 
 			<SavingsWithdrawnTable />
 		</>

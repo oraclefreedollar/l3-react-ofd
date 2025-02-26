@@ -33,7 +33,7 @@ const Overview: React.FC = (_props: InferGetServerSidePropsType<typeof getServer
 
 	useEffect(() => {
 		dispatch(SavingsActions.getAll({ account: address, totalOFDSupply: totalSupply }))
-	}, [address, dispatch, totalSupply])
+	}, [address, chainId, dispatch, totalSupply])
 
 	const openPositions = useMemo(() => openPositionsByCollateral.flat(1), [openPositionsByCollateral])
 

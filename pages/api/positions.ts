@@ -5,11 +5,15 @@ import { clientPonder } from 'app.config'
 
 import { PositionQuery } from 'meta/positions'
 
-export async function fetchPositions(): Promise<PositionQuery[]> {
+type HandlerParams = { chainId: number }
+
+export async function fetchPositions(props: HandlerParams): Promise<PositionQuery[]> {
+	const { chainId } = props
+
 	const { data } = await clientPonder.query({
 		query: gql`
 			query {
-				positions(orderBy: "availableForClones", orderDirection: "desc") {
+				positions(orderBy: "availableForClones", orderDirection: "desc", where: { chainId: "${chainId}" }) {
 					items {
 						position
 						owner
@@ -104,6 +108,6 @@ export async function fetchPositions(): Promise<PositionQuery[]> {
 	return list
 }
 
-export default async function handler(_: never, res: NextApiResponse<Array<PositionQuery>>) {
-	res.status(200).json(await fetchPositions())
+export default async function handler(props: HandlerParams, res: NextApiResponse<Array<PositionQuery>>) {
+	res.status(200).json(await fetchPositions(props))
 }

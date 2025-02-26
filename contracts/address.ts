@@ -1,5 +1,5 @@
 import { Address } from 'viem'
-import { bsc, bscTestnet } from 'wagmi/chains'
+import { bsc, bscTestnet, mainnet } from 'wagmi/chains'
 
 export interface ProtocolAddress {
 	bridge: Address
@@ -36,5 +36,14 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 		usdt: '0x55d398326f99059ff775485246999027b3197955',
 		// positionFactory: 0x4096831dC711C1A20aC011FBf0AA90A6c56dcF55
 		// wFPS: "null", //need to change the address
+	},
+	[mainnet.id]: {
+		bridge: '0x77007bd7fc9311180d7b4c6532e15d0feae5703e',
+		equity: '0x0619f152892c9dd014086a02516c2545d6f6f747',
+		mintingHub: '0xca8d28d62d863f52795c9fdcae73c6eeb0ff504c',
+		oracleFreeDollar: '0x591cf237452497335a9850f49f747d95569eb3b1',
+		positionRoller: '0x47db60de931cdc550a04db3f1dec079b9c77fd23',
+		savings: '0x07c9ed9a7f18d166e25a47a2ac321ad4db5c6b36',
+		usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
 	},
 }

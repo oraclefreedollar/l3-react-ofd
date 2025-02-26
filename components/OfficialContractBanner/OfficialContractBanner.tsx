@@ -2,6 +2,8 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
+import { useChainId } from 'wagmi'
+import { ADDRESS } from 'contracts'
 
 const fadeInUp = {
 	hidden: { opacity: 0, y: 20 },
@@ -10,6 +12,7 @@ const fadeInUp = {
 
 const OfficialContractBanner: React.FC = () => {
 	const { t } = useTranslation('home', { useSuspense: false })
+	const chainId = useChainId()
 
 	return (
 		<motion.div
@@ -28,7 +31,7 @@ const OfficialContractBanner: React.FC = () => {
 								<div className="flex flex-col md:flex-row items-center justify-between gap-4">
 									<div className="flex flex-col gap-1">
 										<span className="text-purple-400 font-semibold">{t('home:officialContracts:ofd:title')}</span>
-										<code className="text-xs sm:text-sm text-slate-300">0x969D3B762c543909d6ADDC1b7330BDfdc6cc60e6</code>
+										<code className="text-xs sm:text-sm text-slate-300">{ADDRESS[chainId].oracleFreeDollar}</code>
 									</div>
 									<button
 										className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105"
@@ -38,7 +41,7 @@ const OfficialContractBanner: React.FC = () => {
 												params: {
 													type: 'ERC20',
 													options: {
-														address: '0x969D3B762c543909d6ADDC1b7330BDfdc6cc60e6',
+														address: ADDRESS[chainId].oracleFreeDollar,
 														symbol: 'OFD',
 														decimals: 18,
 													},
@@ -56,7 +59,7 @@ const OfficialContractBanner: React.FC = () => {
 								<div className="flex flex-col md:flex-row items-center justify-between gap-4">
 									<div className="flex flex-col gap-1">
 										<span className="text-purple-400 font-semibold">{t('home:officialContracts:ofdps:title')}</span>
-										<code className="text-xs sm:text-sm text-slate-300">0xc3f061175aDc0992290ec0FF4E28B59b364f3F61</code>
+										<code className="text-xs sm:text-sm text-slate-300">{ADDRESS[chainId].equity}</code>
 									</div>
 									<button
 										className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:scale-105"
@@ -66,7 +69,7 @@ const OfficialContractBanner: React.FC = () => {
 												params: {
 													type: 'ERC20',
 													options: {
-														address: '0xc3f061175aDc0992290ec0FF4E28B59b364f3F61',
+														address: ADDRESS[chainId].equity,
 														symbol: 'OFDPS',
 														decimals: 18,
 													},

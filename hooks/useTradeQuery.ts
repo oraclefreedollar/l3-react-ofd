@@ -1,4 +1,5 @@
 import { ApolloClient, InMemoryCache, gql, useQuery } from '@apollo/client'
+import { useChainId } from 'wagmi'
 
 interface TradeChart {
 	id: string
@@ -17,17 +18,21 @@ export const useTradeQuery = (): {
 	refetch: any
 	trades: TradeChart[]
 } => {
-	const { data, loading, refetch } = useQuery(gql`
-		query {
-			tradeCharts(orderDirection: "desc", orderBy: "time", limit: 100) {
-				items {
-					id
-					lastPrice
-					time
+	const chainId = useChainId()
+	const { data, loading, refetch } = useQuery(
+		gql`
+			query GetTradeCharts($chainId: String!) {
+				tradeCharts(orderDirection: "desc", orderBy: "time", where: { chainId: $chainId }, limit: 100) {
+					items {
+						id
+						lastPrice
+						time
+					}
 				}
 			}
-		}
-	`)
+		`,
+		{ variables: { chainId: chainId.toString() } }
+	)
 
 	if (!data || !data.tradeCharts) {
 		return {
@@ -50,6 +55,7 @@ export const useTradeQueryOld = (): {
 	refetch: any
 	oldTrades: TradeChart[]
 } => {
+	const chainId = useChainId()
 	const { data, loading, refetch } = useQuery(
 		gql`
 			query {

@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import { Address } from 'viem'
+import { useChainId } from 'wagmi'
 
 export interface OFDPSHolder {
 	id: string
@@ -11,9 +12,11 @@ export const useOFDPSHolders = (): {
 	loading: boolean
 	holders: OFDPSHolder[]
 } => {
+	const chainId = useChainId()
+
 	const { data, loading } = useQuery(gql`
 		query {
-			votingPowers(orderBy: "votingPower", orderDirection: "desc", limit: 25) {
+			votingPowers(orderBy: "votingPower", orderDirection: "desc", limit: 25, where: { chainId: "${chainId}" }) {
 				items {
 					id
 					address

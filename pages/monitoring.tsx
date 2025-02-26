@@ -9,17 +9,19 @@ import { useTranslation } from 'next-i18next'
 import { envConfig } from 'app.env.config'
 import { ChallengesActions } from 'store/challenges'
 import { PositionsActions } from 'store/positions'
+import { useChainId } from 'wagmi'
 
 const namespaces = ['monitoring']
 
 const Monitoring: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const dispatch = useAppDispatch()
 	const { t } = useTranslation(namespaces)
+	const chainId = useChainId()
 
 	useEffect(() => {
-		dispatch(PositionsActions.getAll())
+		dispatch(PositionsActions.getAll({ chainId }))
 		dispatch(ChallengesActions.getAll())
-	}, [dispatch])
+	}, [dispatch, chainId])
 
 	return (
 		<>

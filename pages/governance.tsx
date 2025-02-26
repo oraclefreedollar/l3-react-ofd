@@ -63,7 +63,7 @@ const Governance: React.FC = (_props: InferGetServerSidePropsType<typeof getServ
 
 	useEffect(() => {
 		dispatch(SavingsActions.getAll({ account: address, totalOFDSupply: totalSupply }))
-	}, [address, dispatch, totalSupply])
+	}, [address, chainId, dispatch, totalSupply])
 
 	const onChangeDelegatee = useCallback(
 		(e: any) => {

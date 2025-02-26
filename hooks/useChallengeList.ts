@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import { Address, getAddress } from 'viem'
+import { useChainId } from 'wagmi'
 
 export interface ChallengeQuery {
 	position: Address
@@ -20,11 +21,14 @@ interface Props {
 }
 
 export const useChallengeLists = ({ position }: Props) => {
+	const chainId = useChainId()
+
 	const { data, loading } = useQuery(
-		gql`query {
+		gql`query GetChallenges($chainId: String!) {
       challenges (
         orderBy: "status",
         where: {
+        	chainId: $chainId,
           ${position ? `position: "${position}",` : ''}
         }
       ) {
@@ -44,6 +48,7 @@ export const useChallengeLists = ({ position }: Props) => {
       }
     }`,
 		{
+			variables: { chainId: chainId.toString() },
 			fetchPolicy: 'no-cache',
 		}
 	)

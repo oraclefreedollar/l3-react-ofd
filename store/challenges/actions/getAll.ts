@@ -14,13 +14,16 @@ import {
 	ChallengesQueryItemMapping,
 	ChallengesStatus,
 } from 'meta/challenges'
+import { Chain } from 'utils/chain'
 
 const fetchChallenges = async (): Promise<ChallengesQueryItem[]> => {
+	const chainId = Chain.getId()
+
 	const challenges = await clientPonder.query({
 		fetchPolicy: 'no-cache',
 		query: gql`
 			query {
-				challenges(orderBy: "status", orderDirection: "asc", limit: 1000) {
+				challenges(orderBy: "status", orderDirection: "asc", limit: 1000, where: { chainId: "${chainId}" }) {
 					items {
 						id
 						position
