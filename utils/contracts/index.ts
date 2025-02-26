@@ -6,6 +6,7 @@ import { dgc } from './dgc'
 
 const coingeckoPlatforms: Record<Address, string> = {
 	'0x90685e300a4c4532efcefe91202dfe1dfd572f47': 'ethereum', // CTA
+	'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2': 'ethereum', // WETH
 }
 
 const toBridgedContract: Record<Address, Address> = {

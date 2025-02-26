@@ -1,24 +1,31 @@
 import { gql, useQuery } from '@apollo/client'
+import { useChainId } from 'wagmi'
 
 export const useMinterQuery = () => {
-	const { data, loading } = useQuery(gql`
-		query {
-			minters(orderBy: "applyDate", orderDirection: "desc") {
-				items {
-					id
-					minter
-					applicationPeriod
-					applicationFee
-					applyMessage
-					applyDate
-					suggestor
-					denyMessage
-					denyDate
-					vetor
+	const chainId = useChainId()
+	const { data, loading } = useQuery(
+		gql`
+			query GetMinter($chainId: String!) {
+				minters(orderBy: "applyDate", orderDirection: "desc", where: { chainId: $chainId }) {
+					items {
+						id
+						minter
+						applicationPeriod
+						applicationFee
+						applyMessage
+						applyDate
+						suggestor
+						denyMessage
+						denyDate
+						vetor
+					}
 				}
 			}
+		`,
+		{
+			variables: { chainId: chainId.toString() },
 		}
-	`)
+	)
 
 	if (!data || !data.minters) {
 		return {

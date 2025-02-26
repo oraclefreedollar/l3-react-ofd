@@ -1,21 +1,24 @@
 import { useEffect, useState } from 'react'
-import { useBlockNumber } from 'wagmi'
+import { useBlockNumber, useChainId } from 'wagmi'
 
 import { envConfig } from 'app.env.config'
 import { useIsConnectedToCorrectChain } from 'hooks/useWalletConnectStats'
-import { WAGMI_CHAIN } from 'app.config'
 import { useAppDispatch } from 'store/hooks'
 import { PricesActions, useIsPricesLoaded } from 'store/prices'
 import { PositionsActions, useCollateralERC20Infos, useIsPositionsLoaded, useMintERC20Infos } from 'store/positions'
 import { ERC20Info } from 'meta/positions'
+import { useChainSwitchListener } from 'hooks/useChainSwitchListener'
 
 let initializing: boolean = false
 let loading: boolean = false
 
 export default function BockUpdater({ children }: { children?: React.ReactElement | React.ReactElement[] }) {
 	const dispatch = useAppDispatch()
+	const chainId = useChainId()
 
-	const { error, data } = useBlockNumber({ chainId: WAGMI_CHAIN.id, watch: true })
+	useChainSwitchListener()
+
+	const { error, data } = useBlockNumber({ chainId, watch: true })
 	const isConnectedToCorrectChain = useIsConnectedToCorrectChain()
 
 	const [initialized, setInitialized] = useState<boolean>(false)
@@ -36,9 +39,9 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		if (initializing) return
 		initializing = true
 
-		dispatch(PositionsActions.getAll())
-		dispatch(PricesActions.update())
-	}, [dispatch, initialized])
+		dispatch(PositionsActions.getAll({ chainId }))
+		dispatch(PricesActions.update({ chainId }))
+	}, [dispatch, chainId, initialized])
 
 	// --------------------------------------------------------------------------------
 	// Init done
@@ -66,7 +69,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 
 		// Block update policy: EACH BLOCK
 		// console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
-		dispatch(PositionsActions.getAll())
+		dispatch(PositionsActions.getAll({ chainId }))
 
 		// Block update policy: EACH 10 BLOCKS
 		if (fetchedLatestHeight % 10 === 0) {
@@ -82,7 +85,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 
 		// Unlock block updates
 		loading = false
-	}, [initialized, error, data, latestHeight, dispatch])
+	}, [initialized, error, data, latestHeight, dispatch, chainId])
 
 	// --------------------------------------------------------------------------------
 	// ERC20 Info changes
@@ -92,8 +95,8 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		if (mintERC20Infos.length != latestMintERC20Infos.length) setLatestMintERC20Infos(mintERC20Infos)
 		if (collateralERC20Infos.length != latestCollateralERC20Infos.length) setLatestCollateralERC20Infos(collateralERC20Infos)
 
-		dispatch(PricesActions.update())
-	}, [mintERC20Infos, collateralERC20Infos, latestMintERC20Infos, latestCollateralERC20Infos, dispatch])
+		dispatch(PricesActions.update({ chainId }))
+	}, [chainId, mintERC20Infos, collateralERC20Infos, latestMintERC20Infos, latestCollateralERC20Infos, dispatch])
 
 	// --------------------------------------------------------------------------------
 	// Connected to correct chain changes

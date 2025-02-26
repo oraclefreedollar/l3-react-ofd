@@ -16,8 +16,10 @@ type Returned = {
 	originalPositions: Array<PositionQuery>
 }
 
-export const getAll = createAsyncThunk<Returned, void>('positions/getAll', async () => {
-	const list = await fetchPositions()
+export const getAll = createAsyncThunk<Returned, { chainId: number }>('positions/getAll', async (props) => {
+	const { chainId } = props
+
+	const list = await fetchPositions({ chainId })
 
 	const openPositions = list.filter((position) => !position.denied && !position.closed)
 	const collateralAddresses = openPositions.map((position) => position.collateral).filter(uniqueValues)

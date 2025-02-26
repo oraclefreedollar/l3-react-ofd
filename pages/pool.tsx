@@ -21,18 +21,21 @@ import { CoinTicker } from 'meta/coins'
 import { useTranslation } from 'next-i18next'
 import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 import { InferGetServerSidePropsType } from 'next'
+import { bsc } from 'viem/chains'
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 const namespaces = ['common', 'equity']
 
 const Pool: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const { t } = useTranslation(namespaces)
+	const chainId = useChainId()
 
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
 	const [direction, setDirection] = useState(true)
 
-	const chainId = useChainId()
+	const showChartDescription = useMemo(() => chainId === bsc.id, [chainId])
+
 	const poolStats = usePoolStats()
 	const equityUrl = useContractUrl(ADDRESS[chainId].equity)
 	const { profit, loss } = useOFDPSQuery(ADDRESS[chainId].oracleFreeDollar)
@@ -54,8 +57,8 @@ const Pool: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 	})
 
 	const combinedTrades = useMemo(
-		() => [...factoredTrades, ...filteredTrades].sort((a: any, b: any) => Number(a.time) - Number(b.time)),
-		[factoredTrades, filteredTrades]
+		() => [...(chainId === bsc.id ? factoredTrades : []), ...filteredTrades].sort((a: any, b: any) => Number(a.time) - Number(b.time)),
+		[chainId, factoredTrades, filteredTrades]
 	)
 
 	const { data: ofdpsResult, isLoading: shareLoading } = useReadContract({
@@ -314,7 +317,9 @@ const Pool: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 								]}
 								type="area"
 							/>
-							<p className="text-xs text-gray-400 mb-2 italic opacity-75">{t('equity:details:chart:description')}</p>
+							{showChartDescription && (
+								<p className="text-xs text-gray-400 mb-2 italic opacity-75">{t('equity:details:chart:description')}</p>
+							)}
 						</div>
 						<div className="bg-black/40 backdrop-blur-sm rounded-xl p-4 grid grid-cols-1 md:grid-cols-2 gap-2 border border-cyan-500/30">
 							<AppBox>
