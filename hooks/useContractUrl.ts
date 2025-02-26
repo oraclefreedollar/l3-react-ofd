@@ -1,14 +1,20 @@
 import { Hash } from 'viem'
-import { bsc } from 'viem/chains'
-import { useAccount } from 'wagmi'
+import { bsc, mainnet } from 'viem/chains'
+import { useChainId } from 'wagmi'
 
-export const useContractUrl = (address: string, chain: any = bsc) => {
-	const explorerLink = chain.blockExplorers.default.url || 'https://bscscan.io'
+const chainToLinkMapper: { [key: number]: string } = {
+	[bsc.id]: 'https://bscscan.com',
+	[mainnet.id]: 'https://etherscan.io',
+}
+
+export const useContractUrl = (address: string) => {
+	const chainId = useChainId()
+	const explorerLink = chainToLinkMapper[chainId]
 	return explorerLink + '/address/' + address
 }
 
 export const useTxUrl = (hash: Hash) => {
-	const { chain } = useAccount()
-	const explorerLink = chain?.blockExplorers?.default.url || 'https://bscscan.io'
+	const chainId = useChainId()
+	const explorerLink = chainToLinkMapper[chainId]
 	return explorerLink + '/tx/' + hash
 }

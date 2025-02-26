@@ -4,6 +4,7 @@ import { PositionStats } from 'meta/positions'
 import { useMemo } from 'react'
 import { formatBigInt, shortenAddress } from 'utils'
 import { ABIS } from 'contracts'
+import { useTranslation } from 'next-i18next'
 
 type Props = {
 	amount: bigint
@@ -21,6 +22,7 @@ type Returned = {
 
 export const useAdjustContractsFunctions = (props: Props): Returned => {
 	const { amount, collateralAmount, liqPrice, position, positionStats } = props
+	const { t } = useTranslation('common')
 
 	const formattedCollateralAmount = useMemo(
 		() => Number(collateralAmount / BigInt(10 ** positionStats.collateralDecimal)),
@@ -30,15 +32,15 @@ export const useAdjustContractsFunctions = (props: Props): Returned => {
 	const toastContentApprove = useMemo(
 		() => [
 			{
-				title: 'Amount:',
+				title: t('common:toasts:approve:amount'),
 				value: `${formattedCollateralAmount} ${positionStats.collateralSymbol}`,
 			},
 			{
-				title: 'Spender: ',
+				title: t('common:toasts:approve:spender'),
 				value: shortenAddress(position),
 			},
 		],
-		[formattedCollateralAmount, position, positionStats.collateralSymbol]
+		[formattedCollateralAmount, position, positionStats.collateralSymbol, t]
 	)
 
 	const { loading: isApproving, writeFunction: handleApprove } = useWriteContractWithToast({
@@ -49,11 +51,11 @@ export const useAdjustContractsFunctions = (props: Props): Returned => {
 			args: [position, collateralAmount],
 		},
 		toastSuccess: {
-			title: `Successfully Approved ${positionStats.collateralSymbol}`,
+			title: t('common:toasts:approve:success', { symbol: positionStats.collateralSymbol }),
 			rows: toastContentApprove,
 		},
 		toastPending: {
-			title: `Approving ${positionStats.collateralSymbol}`,
+			title: t('common:toasts:approve:pending', { symbol: positionStats.collateralSymbol }),
 			rows: toastContentApprove,
 		},
 	})
@@ -61,7 +63,7 @@ export const useAdjustContractsFunctions = (props: Props): Returned => {
 	const toastContentAdjust = useMemo(
 		() => [
 			{
-				title: 'Amount:',
+				title: t('common:toasts:approve:amount'),
 				value: formatBigInt(amount),
 			},
 			{
@@ -73,7 +75,7 @@ export const useAdjustContractsFunctions = (props: Props): Returned => {
 				value: formatBigInt(liqPrice, 36 - positionStats.collateralDecimal),
 			},
 		],
-		[amount, collateralAmount, liqPrice, positionStats.collateralDecimal]
+		[amount, collateralAmount, liqPrice, positionStats.collateralDecimal, t]
 	)
 
 	const { loading: isAdjusting, writeFunction: handleAdjust } = useWriteContractWithToast({

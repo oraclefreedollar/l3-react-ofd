@@ -1,13 +1,14 @@
-import type { NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { Address } from 'viem'
 import { clientCoingecko, WAGMI_CHAIN } from 'app.config'
-import { ERC20Info, PositionQuery } from 'redux/slices/positions.types'
-import { PriceQueryCurrencies, PriceQueryObjectArray } from 'redux/slices/prices.types'
 import { uniqueValues } from 'utils/format-array'
-import { fetchPositions } from './positions'
+import { fetchPositions } from 'pages/api/positions'
 import { Contracts } from 'utils'
-import { bsc, bscTestnet } from 'viem/chains'
+import { bsc, bscTestnet, mainnet } from 'viem/chains'
 import { ADDRESS } from 'contracts'
+
+import { PriceQueryObjectArray, PriceQueryCurrencies } from 'meta/prices'
+import { ERC20Info, PositionQuery } from 'meta/positions'
 
 // forced init caching of ERC20Infos
 // solves development mode caching issue with coingecko free plan
@@ -31,9 +32,19 @@ let fetchedERC20Infos: ERC20Info[] = [
 	},
 ]
 const fetchedPrices: PriceQueryObjectArray = {
+	[ADDRESS[mainnet.id].oracleFreeDollar]: {
+		address: ADDRESS[mainnet.id].oracleFreeDollar,
+		name: 'OracleFreeDollar',
+		symbol: 'OFD',
+		decimals: 18,
+		timestamp: 1716389270047,
+		price: {
+			usd: 1.0,
+		},
+	},
 	[ADDRESS[bsc.id].oracleFreeDollar]: {
 		address: ADDRESS[bsc.id].oracleFreeDollar,
-		name: 'oracleFreeDollar',
+		name: 'OracleFreeDollar',
 		symbol: 'OFD',
 		decimals: 18,
 		timestamp: 1716389270047,
@@ -79,8 +90,12 @@ export const fetchExternalPrices: Record<Address, FetchFunction> = {
 	'0x09A1aD50Ac7B8ddD40bAfa819847Ab1Ea6974a4f': () => Contracts.Prices.swissDLT(fetchedERC20Infos, fetchedPrices), // SwissDLT
 }
 
-export async function updateDetails(): Promise<updateDetailsResponse> {
-	const tmp = await fetchPositions()
+type Props = { chainId: number }
+
+export async function updateDetails(props: Props): Promise<updateDetailsResponse> {
+	const { chainId } = props
+
+	const tmp = await fetchPositions({ chainId })
 
 	if (tmp.length === 0)
 		return {
@@ -140,7 +155,7 @@ export async function updateDetails(): Promise<updateDetailsResponse> {
 	}
 
 	// MAINNET ONLY: fetch prices from external resources
-	if (WAGMI_CHAIN === bsc) {
+	if (WAGMI_CHAIN !== bscTestnet) {
 		await Promise.allSettled(
 			fetchedAddresses.map(async (c) => fetchExternalPrices[c]?.() ?? (await fetchCoinGecko(c.toLowerCase() as Address)))
 		)
@@ -153,8 +168,10 @@ export async function updateDetails(): Promise<updateDetailsResponse> {
 	}
 }
 
-export default async function handler(_: never, res: NextApiResponse<updateDetailsResponse>) {
-	if (fetchedPositions.length == 0) await updateDetails()
+export default async function handler(props: NextApiRequest, res: NextApiResponse<updateDetailsResponse>) {
+	const chainId = parseInt(props.query.chainId as string)
+
+	await updateDetails({ chainId })
 	res.status(200).json({
 		prices: fetchedPrices,
 		addresses: fetchedAddresses,

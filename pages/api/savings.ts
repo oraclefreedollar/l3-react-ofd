@@ -2,17 +2,20 @@ import { gql } from '@apollo/client'
 import { getAddress } from 'viem'
 import { clientPonder } from 'app.config'
 import {
-	SavingsSavedQuery,
-	SavingsInterestQuery,
-	SavingsWithdrawQuery,
-	LeadrateRateQuery,
 	LeadrateProposed,
-} from 'redux/slices/savings.types'
+	LeadrateRateQuery,
+	SavingsInterestQuery,
+	SavingsRates,
+	SavingsSavedQuery,
+	SavingsUserData,
+	SavingsWithdrawQuery,
+} from 'meta/savings'
+import { Chain } from 'utils/chain'
 
 // Query for savings rates and proposals
 const SAVINGS_RATES_QUERY = gql`
-	query GetSavingsRates {
-		savingsRateChangeds(orderBy: "created", orderDirection: "desc") {
+	query GetSavingsRates($chainId: String!) {
+		savingsRateChangeds(orderBy: "created", orderDirection: "desc", where: { chainId: $chainId }) {
 			items {
 				id
 				created
@@ -21,7 +24,7 @@ const SAVINGS_RATES_QUERY = gql`
 				approvedRate
 			}
 		}
-		savingsRateProposeds(orderBy: "created", orderDirection: "desc") {
+		savingsRateProposeds(orderBy: "created", orderDirection: "desc", where: { chainId: $chainId }) {
 			items {
 				id
 				created
@@ -36,8 +39,8 @@ const SAVINGS_RATES_QUERY = gql`
 `
 
 const SAVINGS_USER_QUERY_ALL = gql`
-	query GetSavingsUser {
-		savingsSaveds(orderBy: "created", orderDirection: "desc") {
+	query GetSavingsUser($chainId: String!) {
+		savingsSaveds(orderBy: "created", orderDirection: "desc", where: { chainId: $chainId }) {
 			items {
 				id
 				created
@@ -50,7 +53,7 @@ const SAVINGS_USER_QUERY_ALL = gql`
 				balance
 			}
 		}
-		savingsInterests(orderBy: "created", orderDirection: "desc") {
+		savingsInterests(orderBy: "created", orderDirection: "desc", where: { chainId: $chainId }) {
 			items {
 				id
 				created
@@ -63,7 +66,7 @@ const SAVINGS_USER_QUERY_ALL = gql`
 				balance
 			}
 		}
-		savingsWithdrawns(orderBy: "created", orderDirection: "desc") {
+		savingsWithdrawns(orderBy: "created", orderDirection: "desc", where: { chainId: $chainId }) {
 			items {
 				id
 				created
@@ -81,8 +84,8 @@ const SAVINGS_USER_QUERY_ALL = gql`
 
 // Query for user savings data
 const SAVINGS_USER_QUERY = gql`
-	query GetSavingsUser($account: String!) {
-		savingsSaveds(where: { account: $account }, orderBy: "created", orderDirection: "desc") {
+	query GetSavingsUser($account: String!, $chainId: String!) {
+		savingsSaveds(where: { account: $account, chainId: $chainId }, orderBy: "created", orderDirection: "desc") {
 			items {
 				id
 				created
@@ -95,7 +98,7 @@ const SAVINGS_USER_QUERY = gql`
 				balance
 			}
 		}
-		savingsInterests(where: { account: $account }, orderBy: "created", orderDirection: "desc") {
+		savingsInterests(where: { account: $account, chainId: $chainId }, orderBy: "created", orderDirection: "desc") {
 			items {
 				id
 				created
@@ -108,7 +111,7 @@ const SAVINGS_USER_QUERY = gql`
 				balance
 			}
 		}
-		savingsWithdrawns(where: { account: $account }, orderBy: "created", orderDirection: "desc") {
+		savingsWithdrawns(where: { account: $account, chainId: $chainId }, orderBy: "created", orderDirection: "desc") {
 			items {
 				id
 				created
@@ -124,9 +127,12 @@ const SAVINGS_USER_QUERY = gql`
 	}
 `
 
-export async function fetchSavingsRates() {
+export async function fetchSavingsRates(): Promise<SavingsRates> {
+	const chainId = Chain.getId()
+
 	const { data } = await clientPonder.query({
 		query: SAVINGS_RATES_QUERY,
+		variables: { chainId: chainId?.toString() },
 	})
 
 	if (!data) {
@@ -160,11 +166,13 @@ export async function fetchSavingsRates() {
 	}
 }
 
-export async function fetchSavingsUserData(account?: string) {
+export async function fetchSavingsUserData(account?: string): Promise<SavingsUserData> {
+	const chainId = Chain.getId()
 	const { data } = await clientPonder.query({
 		query: account ? SAVINGS_USER_QUERY : SAVINGS_USER_QUERY_ALL,
 		variables: {
 			...(account && { account: account.toLowerCase() }),
+			chainId: chainId?.toString(),
 		},
 	})
 
@@ -176,7 +184,7 @@ export async function fetchSavingsUserData(account?: string) {
 		}
 	}
 
-	const saved: SavingsSavedQuery[] = data.savingsSaveds.items.map((save: any) => ({
+	const saved: Array<SavingsSavedQuery> = data.savingsSaveds.items.map((save: any) => ({
 		id: save.id,
 		created: Number(save.created),
 		blockheight: Number(save.blockheight),
@@ -188,7 +196,7 @@ export async function fetchSavingsUserData(account?: string) {
 		balance: save.balance,
 	}))
 
-	const interest: SavingsInterestQuery[] = data.savingsInterests.items.map((int: any) => ({
+	const interest: Array<SavingsInterestQuery> = data.savingsInterests.items.map((int: any) => ({
 		id: int.id,
 		created: Number(int.created),
 		blockheight: Number(int.blockheight),
@@ -200,7 +208,7 @@ export async function fetchSavingsUserData(account?: string) {
 		balance: int.balance,
 	}))
 
-	const withdrawn: SavingsWithdrawQuery[] = data.savingsWithdrawns.items.map((withdraw: any) => ({
+	const withdrawn: Array<SavingsWithdrawQuery> = data.savingsWithdrawns.items.map((withdraw: any) => ({
 		id: withdraw.id,
 		created: Number(withdraw.created),
 		blockheight: Number(withdraw.blockheight),

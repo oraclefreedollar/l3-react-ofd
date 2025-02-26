@@ -1,10 +1,10 @@
-import { useSelector } from 'react-redux'
 import { Address } from 'viem'
-import { RootState } from 'redux/redux.store'
-import { PositionQuery } from 'redux/slices/positions.types'
-import { PriceQueryObjectArray } from 'redux/slices/prices.types'
 import { formatCurrency } from 'utils/format'
 import TokenLogo from './TokenLogo'
+import { useCoingeckoPrices } from 'store/prices'
+import { PriceQueryObjectArray } from 'meta/prices'
+import { useOpenPositionsByCollateral } from 'store/positions'
+import { PositionQuery } from 'meta/positions'
 
 export function calcOverviewStats(listByCollateral: PositionQuery[][], prices: PriceQueryObjectArray) {
 	const stats = []
@@ -68,8 +68,8 @@ export function calcOverviewStats(listByCollateral: PositionQuery[][], prices: P
 }
 
 export default function OverviewTVL() {
-	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
-	const { coingecko } = useSelector((state: RootState) => state.prices)
+	const openPositionsByCollateral = useOpenPositionsByCollateral()
+	const coingecko = useCoingeckoPrices()
 	const stats = calcOverviewStats(openPositionsByCollateral, coingecko)
 
 	return (

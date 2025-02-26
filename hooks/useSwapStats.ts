@@ -1,12 +1,11 @@
 import { ABIS, ADDRESS } from 'contracts'
 import { decodeBigIntCall } from 'utils'
-import { useAccount, useReadContracts } from 'wagmi'
+import { useAccount, useChainId, useReadContracts } from 'wagmi'
 import { erc20Abi } from 'viem'
-import { WAGMI_CHAIN } from 'app.config'
 import { SwapStats } from 'meta/swap'
 
 export const useSwapStats = (): SwapStats => {
-	const chainId = WAGMI_CHAIN.id
+	const chainId = useChainId()
 	const { address } = useAccount()
 	const account = address || '0x0'
 

@@ -1,10 +1,12 @@
 import { gql, useQuery } from '@apollo/client'
+import { useChainId } from 'wagmi'
 
 export const useOFDPSQuery = (id: string) => {
+	const chainId = useChainId()
 	const { data } = useQuery(
 		gql`
       query {
-        oFDPS(id: "${id}") {
+        oFDPS(id: "${id}", where: { chainId: "${chainId}" }) {
           id
           profits
           loss

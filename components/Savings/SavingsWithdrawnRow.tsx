@@ -1,8 +1,9 @@
 import { AddressLabelSimple, TxLabelSimple } from 'components/AddressLabel'
 import TableRow from 'components/Table/TableRow'
-import { SavingsWithdrawQuery } from 'redux/slices/savings.types'
 import { formatCurrency } from 'utils/format'
 import { formatUnits, Hash } from 'viem'
+import { SavingsWithdrawQuery } from 'meta/savings'
+import { CoinTicker } from 'meta/coins'
 
 interface Props {
 	item: SavingsWithdrawQuery
@@ -23,8 +24,12 @@ export default function SavingsWithdrawnRow({ item }: Props) {
 					<AddressLabelSimple address={item.account} showLink />
 				</div>
 
-				<div className="flex flex-col">{formatCurrency(formatUnits(BigInt(item.amount), 18))} OFD</div>
-				<div className="flex flex-col">{formatCurrency(formatUnits(BigInt(item.balance), 18))} OFD</div>
+				<div className="flex flex-col">
+					{formatCurrency(formatUnits(BigInt(item.amount), 18))} {CoinTicker.OFD}
+				</div>
+				<div className="flex flex-col">
+					{formatCurrency(formatUnits(BigInt(item.balance), 18))} {CoinTicker.OFD}
+				</div>
 			</TableRow>
 		</>
 	)

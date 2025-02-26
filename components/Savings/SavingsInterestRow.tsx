@@ -1,8 +1,9 @@
 import { AddressLabelSimple, TxLabelSimple } from 'components/AddressLabel'
 import TableRow from 'components/Table/TableRow'
-import { SavingsInterestQuery } from 'redux/slices/savings.types'
 import { formatCurrency } from 'utils/format'
 import { formatUnits, Hash } from 'viem'
+import { SavingsInterestQuery } from 'meta/savings'
+import { CoinTicker } from 'meta/coins'
 
 interface Props {
 	item: SavingsInterestQuery
@@ -23,9 +24,13 @@ export default function SavingsInterestRow({ item }: Props) {
 					<AddressLabelSimple address={item.account} showLink />
 				</div>
 
-				<div className="flex flex-col">{formatCurrency(formatUnits(BigInt(item.amount), 18))} OFD</div>
+				<div className="flex flex-col">
+					{formatCurrency(formatUnits(BigInt(item.amount), 18))} {CoinTicker.OFD}
+				</div>
 
-				<div className="flex flex-col">{formatCurrency(formatUnits(BigInt(item.balance), 18))} OFD</div>
+				<div className="flex flex-col">
+					{formatCurrency(formatUnits(BigInt(item.balance), 18))} {CoinTicker.OFD}
+				</div>
 			</TableRow>
 		</>
 	)

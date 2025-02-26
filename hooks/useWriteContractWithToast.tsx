@@ -5,6 +5,7 @@ import { renderErrorToast, TxToast } from 'components/TxToast'
 import { Hash, SimulateContractParameters } from 'viem'
 import { useCallback, useState } from 'react'
 import { RefetchType } from 'utils'
+import { useTranslation } from 'next-i18next'
 
 type WriteContractCustomProps = {
 	contractParams: SimulateContractParameters
@@ -20,6 +21,7 @@ type Returned = {
 
 export const useWriteContractWithToast = (props: WriteContractCustomProps): Returned => {
 	const { contractParams, refetchFunctions, toastPending, toastSuccess } = props
+	const { t } = useTranslation(['common'])
 	const [loading, setLoading] = useState<boolean>(false)
 
 	const writeFunction = useCallback(async (): Promise<boolean> => {
@@ -31,7 +33,7 @@ export const useWriteContractWithToast = (props: WriteContractCustomProps): Retu
 			const pendingRows = [
 				...toastPending.rows,
 				{
-					title: 'Transaction:',
+					title: t('common:toasts:transaction'),
 					hash: writeHash,
 				},
 			]
@@ -39,7 +41,7 @@ export const useWriteContractWithToast = (props: WriteContractCustomProps): Retu
 			const successRows = [
 				...toastSuccess.rows,
 				{
-					title: 'Transaction:',
+					title: t('common:toasts:transaction'),
 					hash: writeHash,
 				},
 			]
@@ -53,20 +55,20 @@ export const useWriteContractWithToast = (props: WriteContractCustomProps): Retu
 				},
 				error: {
 					render(error: unknown) {
-						return renderErrorToast(error)
+						return renderErrorToast(error, t('common:toasts:transaction:error'))
 					},
 				},
 			})
 			return true
 		} catch (e) {
 			console.log(e)
-			toast.error(renderErrorToast(e))
+			toast.error(renderErrorToast(e, t('common:toasts:transaction:error')))
 			return false
 		} finally {
 			refetchFunctions?.map(async (refetch) => await refetch())
 			setLoading(false)
 		}
-	}, [contractParams, refetchFunctions, toastPending.rows, toastPending.title, toastSuccess.rows, toastSuccess.title])
+	}, [contractParams, refetchFunctions, t, toastPending.rows, toastPending.title, toastSuccess.rows, toastSuccess.title])
 
 	return { loading, writeFunction }
 }

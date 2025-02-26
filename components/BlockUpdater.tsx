@@ -1,36 +1,36 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useAccount, useBlockNumber } from 'wagmi'
-import { Address } from 'viem'
+import { useBlockNumber, useChainId } from 'wagmi'
 
 import { envConfig } from 'app.env.config'
-import { RootState, store } from 'redux/redux.store'
-import { fetchAccount, actions as accountActions } from 'redux/slices/account.slice'
-import { fetchPositionsList } from 'redux/slices/positions.slice'
-import { ERC20Info } from 'redux/slices/positions.types'
-import { fetchPricesList } from 'redux/slices/prices.slice'
 import { useIsConnectedToCorrectChain } from 'hooks/useWalletConnectStats'
-import { WAGMI_CHAIN } from 'app.config'
+import { useAppDispatch } from 'store/hooks'
+import { PricesActions, useIsPricesLoaded } from 'store/prices'
+import { PositionsActions, useCollateralERC20Infos, useIsPositionsLoaded, useMintERC20Infos } from 'store/positions'
+import { ERC20Info } from 'meta/positions'
+import { useChainSwitchListener } from 'hooks/useChainSwitchListener'
 
 let initializing: boolean = false
 let loading: boolean = false
 
 export default function BockUpdater({ children }: { children?: React.ReactElement | React.ReactElement[] }) {
-	const { error, data } = useBlockNumber({ chainId: WAGMI_CHAIN.id, watch: true })
-	const { address } = useAccount()
+	const dispatch = useAppDispatch()
+	const chainId = useChainId()
+
+	useChainSwitchListener()
+
+	const { error, data } = useBlockNumber({ chainId, watch: true })
 	const isConnectedToCorrectChain = useIsConnectedToCorrectChain()
 
-	// const [initStart, setInitStart] = useState<number>(0)
 	const [initialized, setInitialized] = useState<boolean>(false)
 	const [latestHeight, setLatestHeight] = useState<number>(0)
 	const [latestMintERC20Infos, setLatestMintERC20Infos] = useState<ERC20Info[]>([])
 	const [latestCollateralERC20Infos, setLatestCollateralERC20Infos] = useState<ERC20Info[]>([])
 	const [latestConnectedToChain, setLatestConnectedToChain] = useState<boolean>(false)
-	const [latestAddress, setLatestAddress] = useState<Address | undefined>(undefined)
 
-	const loadedPositions: boolean = useSelector((state: RootState) => state.positions && state.positions.loaded)
-	const loadedPrices: boolean = useSelector((state: RootState) => state.prices && state.prices.loaded)
-	const { mintERC20Infos, collateralERC20Infos } = useSelector((state: RootState) => state.positions)
+	const loadedPositions: boolean = useIsPositionsLoaded()
+	const loadedPrices: boolean = useIsPricesLoaded()
+	const mintERC20Infos = useMintERC20Infos()
+	const collateralERC20Infos = useCollateralERC20Infos()
 
 	// --------------------------------------------------------------------------------
 	// Init
@@ -39,18 +39,15 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		if (initializing) return
 		initializing = true
 
-		// setInitStart(Date.now())
-		// console.log(`Init [BlockUpdater]: Start loading application data... ${initStart}`);
-		store.dispatch(fetchPositionsList())
-		store.dispatch(fetchPricesList(store.getState()))
-	}, [initialized])
+		dispatch(PositionsActions.getAll({ chainId }))
+		dispatch(PricesActions.update({ chainId }))
+	}, [dispatch, chainId, initialized])
 
 	// --------------------------------------------------------------------------------
 	// Init done
 	useEffect(() => {
 		if (initialized) return
 		if (loadedPositions && loadedPrices) {
-			// console.log(`Init [BlockUpdater]: Done. ${Date.now() - initStart} ms`);
 			setInitialized(true)
 		}
 	}, [initialized, loadedPositions, loadedPrices])
@@ -72,25 +69,23 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 
 		// Block update policy: EACH BLOCK
 		// console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
-		store.dispatch(fetchPositionsList())
-		// TODO: check if needed
-		if (latestAddress) store.dispatch(fetchAccount())
+		dispatch(PositionsActions.getAll({ chainId }))
 
 		// Block update policy: EACH 10 BLOCKS
 		if (fetchedLatestHeight % 10 === 0) {
 			// console.log(`Policy [BlockUpdater]: EACH 10 BLOCKS ${fetchedLatestHeight}`);
-			// store.dispatch(fetchPricesList(store.getState()));
+			// dispatch(PricesActions.update());
 		}
 
 		// Block update policy: EACH 100 BLOCKS
 		if (fetchedLatestHeight % 100 === 0) {
 			// console.log(`Policy [BlockUpdater]: EACH 100 BLOCKS ${fetchedLatestHeight}`);
-			// store.dispatch(fetchPricesList());
+			// dispatch(PricesActions.update());
 		}
 
 		// Unlock block updates
 		loading = false
-	}, [initialized, error, data, latestHeight, latestAddress])
+	}, [initialized, error, data, latestHeight, dispatch, chainId])
 
 	// --------------------------------------------------------------------------------
 	// ERC20 Info changes
@@ -100,35 +95,17 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		if (mintERC20Infos.length != latestMintERC20Infos.length) setLatestMintERC20Infos(mintERC20Infos)
 		if (collateralERC20Infos.length != latestCollateralERC20Infos.length) setLatestCollateralERC20Infos(collateralERC20Infos)
 
-		// console.log(`Policy [BlockUpdater]: ERC20 Info changed`);
-		store.dispatch(fetchPricesList(store.getState()))
-	}, [mintERC20Infos, collateralERC20Infos, latestMintERC20Infos, latestCollateralERC20Infos])
+		dispatch(PricesActions.update({ chainId }))
+	}, [chainId, mintERC20Infos, collateralERC20Infos, latestMintERC20Infos, latestCollateralERC20Infos, dispatch])
 
 	// --------------------------------------------------------------------------------
 	// Connected to correct chain changes
 	useEffect(() => {
 		if (isConnectedToCorrectChain !== latestConnectedToChain) {
-			console.log(`Policy [BlockUpdater]: Connected to correct chain changed: ${isConnectedToCorrectChain}`)
 			setLatestConnectedToChain(isConnectedToCorrectChain)
 		}
 	}, [isConnectedToCorrectChain, latestConnectedToChain])
 
-	// Address / User changes
-	useEffect(() => {
-		if (!address && latestAddress) {
-			setLatestAddress(undefined)
-			console.log(`Policy [BlockUpdater]: Address reset`)
-			store.dispatch(accountActions.resetAccountState())
-		} else if (address && !latestAddress) {
-			setLatestAddress(address)
-			console.log(`Policy [BlockUpdater]: Address changed to: ${address}`)
-			// TODO: check if needed
-			store.dispatch(fetchAccount())
-		}
-	}, [address, latestAddress])
-
-	// --------------------------------------------------------------------------------
-	// Loading Guard
 	if (initialized) {
 		return <>{children}</>
 	} else {

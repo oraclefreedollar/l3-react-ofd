@@ -12,19 +12,30 @@ import { useContractUrl, useOFDPSQuery, usePoolStats, useTradeQuery, useTradeQue
 import { formatDuration } from 'utils'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import { useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { formatUnits } from 'viem'
 import { useChainId, useReadContract } from 'wagmi'
 import { envConfig } from 'app.env.config'
 import { useEquityContractsFunctions } from 'hooks/pool/useEquityContractsFunctions'
+import { CoinTicker } from 'meta/coins'
+import { useTranslation } from 'next-i18next'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
+import { InferGetServerSidePropsType } from 'next'
+import { bsc } from 'viem/chains'
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
-export default function Pool() {
+const namespaces = ['common', 'equity']
+
+const Pool: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const { t } = useTranslation(namespaces)
+	const chainId = useChainId()
+
 	const [amount, setAmount] = useState(0n)
 	const [error, setError] = useState('')
 	const [direction, setDirection] = useState(true)
 
-	const chainId = useChainId()
+	const showChartDescription = useMemo(() => chainId === bsc.id, [chainId])
+
 	const poolStats = usePoolStats()
 	const equityUrl = useContractUrl(ADDRESS[chainId].equity)
 	const { profit, loss } = useOFDPSQuery(ADDRESS[chainId].oracleFreeDollar)
@@ -45,7 +56,10 @@ export default function Pool() {
 		}
 	})
 
-	const combinedTrades = [...factoredTrades, ...filteredTrades].sort((a: any, b: any) => Number(a.time) - Number(b.time))
+	const combinedTrades = useMemo(
+		() => [...(chainId === bsc.id ? factoredTrades : []), ...filteredTrades].sort((a: any, b: any) => Number(a.time) - Number(b.time)),
+		[chainId, factoredTrades, filteredTrades]
+	)
 
 	const { data: ofdpsResult, isLoading: shareLoading } = useReadContract({
 		address: ADDRESS[chainId].equity,
@@ -61,11 +75,14 @@ export default function Pool() {
 		args: [amount],
 	})
 
-	const fromBalance = direction ? poolStats.ofdBalance : poolStats.equityBalance
-	const result = (direction ? ofdpsResult : ofdResult) || 0n
-	const fromSymbol = direction ? 'OFD' : 'OFDPS'
-	const toSymbol = !direction ? 'OFD' : 'OFDPS'
-	const redeemLeft = 86400n * 90n - (poolStats.equityBalance ? poolStats.equityUserVotes / poolStats.equityBalance / 2n ** 20n : 0n)
+	const fromBalance = useMemo(() => (direction ? poolStats.ofdBalance : poolStats.equityBalance), [direction, poolStats])
+	const result = useMemo(() => (direction ? ofdpsResult : ofdResult) || 0n, [ofdpsResult, ofdResult])
+	const fromSymbol = useMemo(() => (direction ? CoinTicker.OFD : CoinTicker.OFDPS), [direction])
+	const toSymbol = useMemo(() => (!direction ? CoinTicker.OFD : CoinTicker.OFDPS), [direction])
+	const redeemLeft = useMemo(
+		() => 86400n * 90n - (poolStats.equityBalance ? poolStats.equityUserVotes / poolStats.equityBalance / 2n ** 20n : 0n),
+		[poolStats]
+	)
 
 	const { handleApprove, handleInvest, handleRedeem, isApproving, isInvesting, isRedeeming } = useEquityContractsFunctions({
 		amount,
@@ -74,41 +91,46 @@ export default function Pool() {
 		result,
 	})
 
-	const onChangeAmount = (value: string) => {
-		const valueBigInt = BigInt(value)
-		setAmount(valueBigInt)
-		if (valueBigInt > fromBalance) {
-			setError(`Not enough ${fromSymbol} in your wallet.`)
-		} else {
-			setError('')
-		}
-	}
+	const onChangeAmount = useCallback(
+		(value: string) => {
+			const valueBigInt = BigInt(value)
+			setAmount(valueBigInt)
+			if (valueBigInt > fromBalance) {
+				setError(t('common:insufficientBalance', { symbol: fromSymbol }))
+			} else {
+				setError('')
+			}
+		},
+		[fromBalance, fromSymbol, t]
+	)
 
-	const conversionNote = () => {
+	const conversionNote = useCallback(() => {
 		if (amount != 0n && result != 0n) {
 			const ratio = (result * BigInt(1e18)) / amount
 			return `1 ${fromSymbol} = ${formatUnits(ratio, 18)} ${toSymbol}`
 		} else {
-			return `${toSymbol} price is calculated dynamically.\n`
+			return t('equity:details:conversionNote', { symbol: toSymbol })
 		}
-	}
+	}, [amount, fromSymbol, result, t, toSymbol])
 
 	return (
 		<>
 			<Head>
-				<title>{envConfig.AppName} - Equity</title>
+				<title>
+					{envConfig.AppName} - {t('equity:title')}
+				</title>
 			</Head>
 			<div>
-				<AppPageHeader link={equityUrl} title={`${envConfig.AppName} Pool Shares (OFDPS)`} />
+				<AppPageHeader link={equityUrl} title={t('equity:subTitle', { name: envConfig.AppName })} />
 				<section className="grid grid-cols-1 md:grid-cols-2 gap-4 container mx-auto">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50">
-						<div className="text-xl font-bold text-center text-white">Pool Details</div>
+						<div className="text-xl font-bold text-center text-white">{t('equity:details:title')}</div>
 						<div className="p-4 mt-5">
 							<TokenInput
 								error={error}
 								max={fromBalance}
 								onChange={onChangeAmount}
-								placeholder={fromSymbol + ' Amount'}
+								placeholder={t('equity:details:placeholder', { symbol: fromSymbol })}
 								symbol={fromSymbol}
 								value={amount.toString()}
 							/>
@@ -120,11 +142,11 @@ export default function Pool() {
 									<FontAwesomeIcon className="rotate-90 w-6 h-6" icon={faArrowRightArrowLeft} />
 								</button>
 							</div>
-							<TokenInput hideMaxLabel label="Receive" output={formatUnits(result, 18)} symbol={toSymbol} />
+							<TokenInput hideMaxLabel label={t('equity:details:receiveLabel')} output={formatUnits(result, 18)} symbol={toSymbol} />
 							<div className={`mt-2 px-1 transition-opacity ${(shareLoading || proceedLoading) && 'opacity-50'}`}>
 								{conversionNote()}
 								<br />
-								{!direction && 'Redemption requires a 90 days holding period.'}
+								{!direction && t('equity:details:redemption')}
 							</div>
 
 							<div className="mx-auto mt-8 w-72 max-w-full flex-col">
@@ -132,11 +154,11 @@ export default function Pool() {
 									{direction ? (
 										amount > poolStats.ofdAllowance ? (
 											<Button disabled={amount == 0n || !!error} isLoading={isApproving} onClick={() => handleApprove()}>
-												Approve
+												{t('equity:details:approve')}
 											</Button>
 										) : (
 											<Button disabled={amount == 0n || !!error} isLoading={isInvesting} onClick={() => handleInvest()} variant="primary">
-												Invest
+												{t('equity:details:invest')}
 											</Button>
 										)
 									) : (
@@ -146,7 +168,7 @@ export default function Pool() {
 											onClick={() => handleRedeem()}
 											variant="primary"
 										>
-											Redeem
+											{t('equity:details:redeem')}
 										</Button>
 									)}
 								</GuardToAllowedChainBtn>
@@ -154,23 +176,23 @@ export default function Pool() {
 						</div>
 						<div className="mt-5 bg-slate-900 rounded-xl p-4 grid grid-cols-1 md:grid-cols-2 gap-2">
 							<AppBox>
-								<DisplayLabel label="Your Balance" />
-								<DisplayAmount address={ADDRESS[chainId].equity} amount={poolStats.equityBalance} currency="OFDPS" />
+								<DisplayLabel label={t('equity:details:yourBalance')} />
+								<DisplayAmount address={ADDRESS[chainId].equity} amount={poolStats.equityBalance} currency={CoinTicker.OFDPS} />
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Value at Current Price" />
+								<DisplayLabel label={t('equity:details:currentPrice')} />
 								<DisplayAmount
 									address={ADDRESS[chainId].oracleFreeDollar}
 									amount={(poolStats.equityPrice * poolStats.equityBalance) / BigInt(1e18)}
-									currency="OFD"
+									currency={CoinTicker.OFD}
 								/>
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Holding Duration" />
+								<DisplayLabel label={t('equity:details:holdingPeriod')} />
 								{poolStats.equityBalance > 0 ? formatDuration(poolStats.equityHoldingDuration) : '-'}
 							</AppBox>
 							<AppBox className="flex-1">
-								<DisplayLabel label="Can redeem after" />
+								<DisplayLabel label={t('equity:details:canRedeem')} />
 								{formatDuration(redeemLeft)}
 							</AppBox>
 						</div>
@@ -193,12 +215,12 @@ export default function Pool() {
 						<div id="chart-timeline">
 							<div className="flex justify-between">
 								<div>
-									<DisplayLabel label="OFDPS Price" />
-									<DisplayAmount amount={poolStats.equityPrice} currency="OFD" />
+									<DisplayLabel label={t('equity:details:chart:price', { symbol: CoinTicker.OFDPS })} />
+									<DisplayAmount amount={poolStats.equityPrice} currency={CoinTicker.OFD} />
 								</div>
 								<div className="text-right">
-									<DisplayLabel label="Supply" />
-									<DisplayAmount amount={poolStats.equitySupply} currency="OFDPS" />
+									<DisplayLabel label={t('equity:details:chart:supply')} />
+									<DisplayAmount amount={poolStats.equitySupply} currency={CoinTicker.OFDPS} />
 								</div>
 							</div>
 							<ApexChart
@@ -287,7 +309,7 @@ export default function Pool() {
 								}}
 								series={[
 									{
-										name: 'OFDPS Price',
+										name: t('equity:details:chart:series:ofdpsPrice'),
 										data: combinedTrades.map((trade) => {
 											return [parseFloat(trade.time) * 1000, Math.round(Number(trade.lastPrice) / 10 ** 16) / 100]
 										}),
@@ -295,32 +317,44 @@ export default function Pool() {
 								]}
 								type="area"
 							/>
-							<p className="text-xs text-gray-400 mb-2 italic opacity-75">Chart includes v1 factorized trades</p>
+							{showChartDescription && (
+								<p className="text-xs text-gray-400 mb-2 italic opacity-75">{t('equity:details:chart:description')}</p>
+							)}
 						</div>
 						<div className="bg-black/40 backdrop-blur-sm rounded-xl p-4 grid grid-cols-1 md:grid-cols-2 gap-2 border border-cyan-500/30">
 							<AppBox>
-								<DisplayLabel label="Market Cap" />
-								<DisplayAmount amount={(poolStats.equitySupply * poolStats.equityPrice) / BigInt(1e18)} currency="OFD" />
+								<DisplayLabel label={t('equity:details:chart:marketCap')} />
+								<DisplayAmount amount={(poolStats.equitySupply * poolStats.equityPrice) / BigInt(1e18)} currency={CoinTicker.OFD} />
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Total Reserve" />
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={poolStats.ofdTotalReserve} currency="OFD" />
+								<DisplayLabel label={t('equity:details:chart:totalReserve')} />
+								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={poolStats.ofdTotalReserve} currency={CoinTicker.OFD} />
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Equity Capital" />
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={poolStats.ofdEquity} currency="OFD" />
+								<DisplayLabel label={t('equity:details:chart:equityCapital')} />
+								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={poolStats.ofdEquity} currency={CoinTicker.OFD} />
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Minter Reserve" />
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={poolStats.ofdMinterReserve} currency="OFD" />
+								<DisplayLabel label={t('equity:details:chart:minterReserve')} />
+								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={poolStats.ofdMinterReserve} currency={CoinTicker.OFD} />
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Total Income" />
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={profit} className="text-green-300" currency="OFD" />
+								<DisplayLabel label={t('equity:details:chart:totalIncome')} />
+								<DisplayAmount
+									address={ADDRESS[chainId].oracleFreeDollar}
+									amount={profit}
+									className="text-green-300"
+									currency={CoinTicker.OFD}
+								/>
 							</AppBox>
 							<AppBox>
-								<DisplayLabel label="Total Losses" />
-								<DisplayAmount address={ADDRESS[chainId].oracleFreeDollar} amount={loss} className="text-rose-400" currency="OFD" />
+								<DisplayLabel label={t('equity:details:chart:totalLosses')} />
+								<DisplayAmount
+									address={ADDRESS[chainId].oracleFreeDollar}
+									amount={loss}
+									className="text-rose-400"
+									currency={CoinTicker.OFD}
+								/>
 							</AppBox>
 						</div>
 					</div>
@@ -329,3 +363,7 @@ export default function Pool() {
 		</>
 	)
 }
+
+export const getServerSideProps = withServerSideTranslations(namespaces)
+
+export default Pool

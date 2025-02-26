@@ -7,6 +7,7 @@ import { useApproveCollateral } from './hooks/useApproveCollateral'
 import { usePositionFormContext } from 'contexts/position'
 import { useTokenData } from 'hooks'
 import { PositionCreateFormState } from 'contexts/position/types'
+import { useTranslation } from 'next-i18next'
 
 type Props = {
 	userBalanceRefetch: RefetchType
@@ -15,6 +16,8 @@ type Props = {
 
 const PositionProposeCollateral: React.FC<Props> = (props) => {
 	const { userBalanceRefetch, onValidationChange } = props
+
+	const { t } = useTranslation(['positionCreate', 'common'])
 
 	const { form, errors, handleChange } = usePositionFormContext()
 	const { collateralAddress, initialCollAmount, minCollAmount } = form
@@ -66,14 +69,14 @@ const PositionProposeCollateral: React.FC<Props> = (props) => {
 
 	return (
 		<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50 gap-y-4">
-			<div className="text-lg font-bold justify-center mt-3 flex">Collateral</div>
+			<div className="text-lg font-bold justify-center mt-3 flex">{t('positionCreate:collateral:title')}</div>
 
 			<AddressInput
 				error={errors['collateralAddress']}
-				label="Which token do you want to use as collateral?"
+				label={t('positionCreate:collateral:addressLabel')}
 				onChange={(value) => handleChange('collateralAddress', value)}
-				placeholder="Token contract address"
-				tooltip="The token contract address of the collateral is inserted here"
+				placeholder={t('positionCreate:collateral:addressPlaceholder')}
+				tooltip={t('common:tooltips:position:create:collateralAddress')}
 				value={collateralAddress}
 			/>
 			{showApproveButton && (
@@ -84,29 +87,31 @@ const PositionProposeCollateral: React.FC<Props> = (props) => {
 					isLoading={approving}
 					onClick={approve}
 				>
-					Approve {collTokenData.symbol == 'NaN' ? '' : 'Handling of ' + collTokenData.symbol}
+					{t('positionCreate:collateral:approveButton', {
+						symbol: collTokenData.symbol == 'NaN' ? '' : 'Handling of ' + collTokenData.symbol,
+					})}
 				</Button>
 			)}
 			<TokenInput
 				digit={collTokenData.decimals}
 				error={errors['minCollAmount']}
 				hideMaxLabel
-				label="Minimum Collateral"
+				label={t('positionCreate:collateral:minCollateral')}
 				onChange={(value) => onChangeValue('minCollAmount', value)}
-				placeholder="Minimum Collateral Amount"
+				placeholder={t('positionCreate:collateral:minCollateralPlaceholder')}
 				symbol={collTokenData.symbol}
-				tooltip="The minimum amount of collateral that must be deposited. If the amount is less than this, the position will not be created."
+				tooltip={t('common:tooltips:position:create:minCollateral')}
 				value={minCollAmount.toString()}
 			/>
 			<TokenInput
 				digit={collTokenData.decimals}
 				error={errors['initialCollAmount']}
-				label="Initial Collateral"
+				label={t('positionCreate:collateral:initialCollateral')}
 				max={collTokenData.balance}
 				onChange={(value) => onChangeValue('initialCollAmount', value)}
-				placeholder="Initial Collateral Amount"
+				placeholder={t('positionCreate:collateral:initialCollateralPlaceholder')}
 				symbol={collTokenData.symbol}
-				tooltip="The amount of collateral that you want to deposit into the position. This amount must be greater than the minimum collateral amount."
+				tooltip={t('common:tooltips:position:create:initialCollateral')}
 				value={initialCollAmount.toString()}
 			/>
 		</div>

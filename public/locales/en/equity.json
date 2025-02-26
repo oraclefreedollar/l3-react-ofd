@@ -1,0 +1,32 @@
+{
+  "details": {
+    "approve": "Approve",
+    "canRedeem": "Can Redeem after",
+    "chart": {
+      "description": "Chart includes v1 factorized trades",
+      "equityCapital": "Equity Capital",
+      "marketCap": "Market Cap",
+      "minterReserve": "Minter Reserve",
+      "price": "{{symbol}} Price",
+      "supply": "Supply",
+      "series": {
+        "ofdpsPrice": "OFDPS Price"
+      },
+      "totalIncome": "Total Income",
+      "totalLosses": "Total Losses",
+      "totalReserve": "Total Reserve"
+    },
+    "conversionNote": "{{symbol}} price is calculated dynamically.\n",
+    "currentPrice": "Current Price",
+    "holdingPeriod": "Holding Period",
+    "invest": "Invest",
+    "placeholder": "{{symbol}} Amount",
+    "receiveLabel": "Receive",
+    "redeem": "Redeem",
+    "redemption": "Redemption requires a 90 days holding period.",
+    "title": "Pool Details",
+    "yourBalance": "Your Balance"
+  },
+  "subTitle": "{{name}} Pool Shares (OFDPS)",
+  "title": "Equity"
+}

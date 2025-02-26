@@ -1,23 +1,26 @@
 import { Badge } from 'flowbite-react'
 import Link from 'next/link'
-import { useSelector } from 'react-redux'
 import { zeroAddress } from 'viem'
 import { useAccount, useChainId } from 'wagmi'
 import { ADDRESS } from 'contracts/address'
-import { RootState } from 'redux/redux.store'
-import { PositionQuery } from 'redux/slices/positions.types'
 import DisplayAmount from '../DisplayAmount'
 import TableRow from '../Table/TableRow'
 import { useMemo } from 'react'
+import { useCoingeckoPrices } from 'store/prices'
+import { PositionQuery } from 'meta/positions'
+import { useTranslation } from 'next-i18next'
+import { CoinTicker } from 'meta/coins'
 
 interface Props {
 	position: PositionQuery
 }
 
 export default function PositionRow({ position }: Props) {
+	const { t } = useTranslation('myPositions')
+
 	const { address } = useAccount()
 	const chainId = useChainId()
-	const prices = useSelector((state: RootState) => state.prices.coingecko)
+	const prices = useCoingeckoPrices()
 	// this price is actually the price of the OracleFreeDollar
 
 	const collTokenPrice = prices[position.collateral.toLowerCase()]?.price?.usd
@@ -47,11 +50,11 @@ export default function PositionRow({ position }: Props) {
 			actionCol={
 				isMine ? (
 					<Link className="btn btn-primary w-full" href={`/position/${position.position}/adjust`}>
-						Adjust
+						{t('myPositions:table:adjust')}
 					</Link>
 				) : positionAvailableForClone ? (
 					<Link className="btn btn-primary w-full" href={`/position/${position.position}/borrow`}>
-						Clone & Mint
+						{t('myPositions:table:clone')}
 					</Link>
 				) : (
 					<></>
@@ -73,7 +76,7 @@ export default function PositionRow({ position }: Props) {
 					// bold={positionStats.cooldown * 1000n > Date.now()}
 					address={ADDRESS[chainId].oracleFreeDollar}
 					amount={BigInt(position.price)}
-					currency={'OFD'}
+					currency={CoinTicker.OFD}
 					digits={36 - position.collateralDecimals}
 					hideLogo
 					usdPrice={ofdPrice}
@@ -86,14 +89,14 @@ export default function PositionRow({ position }: Props) {
 
 			<div className="flex items-center">
 				{position.denied ? (
-					<Badge color="dark">Denied</Badge>
+					<Badge color="dark">{t('myPositions:table:denied')}</Badge>
 				) : BigInt(position.collateralBalance) == 0n ? (
-					<Badge color="dark">Closed</Badge>
+					<Badge color="dark">{t('myPositions:table:closed')}</Badge>
 				) : (
 					<DisplayAmount
 						address={ADDRESS[chainId].oracleFreeDollar}
 						amount={BigInt(position.availableForClones)}
-						currency={'OFD'}
+						currency={CoinTicker.OFD}
 						hideLogo
 						usdPrice={ofdPrice}
 					/>

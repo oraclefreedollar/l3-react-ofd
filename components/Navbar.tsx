@@ -1,13 +1,14 @@
 import Link from 'next/link'
-import { useAccount } from 'wagmi'
+import { useChainId } from 'wagmi'
 import NavButton from './NavButton'
 import WalletConnect from './WalletConnect'
 import { ENABLE_EMERGENCY_MODE } from 'utils'
+import { useTranslation } from 'next-i18next'
+import React from 'react'
 
-export default function Navbar() {
-	const network = useAccount()
-	const chainId = network.chain?.id
-	// console.log(chainId);
+const Navbar: React.FC = () => {
+	const { t } = useTranslation(['common'])
+	const chainId = useChainId()
 
 	return (
 		<div className="fixed top-0 left-0 right-0 z-10 backdrop-blur border-b border-gray-400">
@@ -20,35 +21,33 @@ export default function Navbar() {
 					</Link>
 
 					<ul className="justify-left hidden flex-1 gap-2 md:flex lg:gap-3 xl:w-1/2">
-						{!ENABLE_EMERGENCY_MODE && (
-							<li>
-								<NavButton name="Swap" to="/swap" />
-							</li>
-						)}
 						<li>
-							<NavButton name="Borrow" to="/collateral" />
+							<NavButton name={t('common:navigation:swap')} to="/swap" />
 						</li>
 						<li>
-							<NavButton name="My Positions" to="/positions" />
+							<NavButton name={t('common:navigation:borrow')} to="/collateral" />
 						</li>
 						<li>
-							<NavButton name="Auctions" to="/auctions" />
+							<NavButton name={t('common:navigation:myPositions')} to="/positions" />
 						</li>
 						<li>
-							<NavButton name="Equity" to="/pool" />
+							<NavButton name={t('common:navigation:auctions')} to="/auctions" />
 						</li>
 						<li>
-							<NavButton name="Savings" to="/savings" />
+							<NavButton name={t('common:navigation:equity')} to="/pool" />
 						</li>
 						<li>
-							<NavButton name="Governance" to="/governance" />
+							<NavButton name={t('common:navigation:savings')} to="/savings" />
 						</li>
 						<li>
-							<NavButton name="Monitoring" to="/monitoring" />
+							<NavButton name={t('common:navigation:governance')} to="/governance" />
+						</li>
+						<li>
+							<NavButton name={t('common:navigation:monitoring')} to="/monitoring" />
 						</li>
 						{chainId == 97 && (
 							<li>
-								<NavButton name="Faucet" to="/faucet" />
+								<NavButton name={t('common:navigation:faucet')} to="/faucet" />
 							</li>
 						)}
 					</ul>
@@ -68,29 +67,29 @@ export default function Navbar() {
 									<menu className="mt-8 mb-8 flex flex-col text-heading">
 										{!ENABLE_EMERGENCY_MODE && (
 											<li>
-												<NavButton name="Swap" to="/swap" />
+												<NavButton name={t('common:navigation:swap')} to="/swap" />
 											</li>
 										)}
 										<li>
-											<NavButton name="Borrow" to="/collateral" />
+											<NavButton name={t('common:navigation:borrow')} to="/collateral" />
 										</li>
 										<li>
-											<NavButton name="My Positions" to="/positions" />
+											<NavButton name={t('common:navigation:myPositions')} to="/positions" />
 										</li>
 										<li>
-											<NavButton name="Auctions" to="/auctions" />
+											<NavButton name={t('common:navigation:auctions')} to="/auctions" />
 										</li>
 										<li>
-											<NavButton name="Equity" to="/pool" />
+											<NavButton name={t('common:navigation:equity')} to="/pool" />
 										</li>
 										<li>
-											<NavButton name="Savings" to="/savings" />
+											<NavButton name={t('common:navigation:savings')} to="/savings" />
 										</li>
 										<li>
-											<NavButton name="Governance" to="/governance" />
+											<NavButton name={t('common:navigation:governance')} to="/governance" />
 										</li>
 										<li>
-											<NavButton name="Monitoring" to="/monitoring" />
+											<NavButton name={t('common:navigation:monitoring')} to="/monitoring" />
 										</li>
 									</menu>
 								</div>
@@ -145,3 +144,5 @@ export default function Navbar() {
 		</div>
 	)
 }
+
+export default Navbar

@@ -6,6 +6,7 @@ import { erc20Abi } from 'viem'
 import { useChainId } from 'wagmi'
 import { SwapStats } from 'meta/swap'
 import { CoinTicker } from 'meta/coins'
+import { useTranslation } from 'next-i18next'
 
 type Props = { amount: bigint; fromSymbol: CoinTicker; swapStats: SwapStats; toSymbol: CoinTicker }
 
@@ -20,6 +21,7 @@ type Returned = {
 
 export const useSwapContractsFunctions = (props: Props): Returned => {
 	const { amount, fromSymbol, swapStats, toSymbol } = props
+	const { t } = useTranslation('common')
 
 	const chainId = useChainId()
 	const formattedAmount = useMemo(() => Number(amount / BigInt(10 ** 18)), [amount])
@@ -27,15 +29,15 @@ export const useSwapContractsFunctions = (props: Props): Returned => {
 	const approveToastContent = useMemo(
 		() => [
 			{
-				title: 'Amount:',
+				title: t('common:toasts:approve:amount'),
 				value: `${formattedAmount}`,
 			},
 			{
-				title: 'Spender: ',
+				title: t('common:toasts:approve:spender'),
 				value: shortenAddress(ADDRESS[chainId].bridge),
 			},
 		],
-		[chainId, formattedAmount]
+		[chainId, formattedAmount, t]
 	)
 
 	const { loading: isApproving, writeFunction: handleApprove } = useWriteContractWithToast({
@@ -46,11 +48,11 @@ export const useSwapContractsFunctions = (props: Props): Returned => {
 			functionName: 'approve',
 		},
 		toastPending: {
-			title: 'Approving USDT',
+			title: t('common:toasts:approve:pending', { symbol: CoinTicker.USDT }),
 			rows: approveToastContent,
 		},
 		toastSuccess: {
-			title: 'Successfully Approved USDT',
+			title: t('common:toasts:approve:success', { symbol: CoinTicker.USDT }),
 			rows: approveToastContent,
 		},
 		refetchFunctions: [swapStats.refetch],
@@ -59,15 +61,15 @@ export const useSwapContractsFunctions = (props: Props): Returned => {
 	const mintBurnToastContent = useMemo(
 		() => [
 			{
-				title: `${fromSymbol} Amount: `,
+				title: t('common:toasts:swap:amount:from', { symbol: fromSymbol }),
 				value: formatBigInt(amount) + ' ' + fromSymbol,
 			},
 			{
-				title: `${toSymbol} Amount: `,
+				title: t('common:toasts:swap:amount:to', { symbol: toSymbol }),
 				value: formatBigInt(amount) + ' ' + toSymbol,
 			},
 		],
-		[amount, fromSymbol, toSymbol]
+		[amount, fromSymbol, toSymbol, t]
 	)
 
 	const { loading: isMinting, writeFunction: handleMint } = useWriteContractWithToast({
@@ -78,11 +80,11 @@ export const useSwapContractsFunctions = (props: Props): Returned => {
 			functionName: 'mint',
 		},
 		toastPending: {
-			title: `Swapping ${fromSymbol} to ${toSymbol}`,
+			title: t('common:toasts:swap:pending', { fromSymbol, toSymbol }),
 			rows: mintBurnToastContent,
 		},
 		toastSuccess: {
-			title: `Successfully Swapped ${fromSymbol} to ${toSymbol}`,
+			title: t('common:toasts:swap:success', { fromSymbol, toSymbol }),
 			rows: mintBurnToastContent,
 		},
 		refetchFunctions: [swapStats.refetch],
@@ -96,11 +98,11 @@ export const useSwapContractsFunctions = (props: Props): Returned => {
 			functionName: 'burn',
 		},
 		toastPending: {
-			title: `Swapping ${fromSymbol} to ${toSymbol}`,
+			title: t('common:toasts:swap:pending', { fromSymbol, toSymbol }),
 			rows: mintBurnToastContent,
 		},
 		toastSuccess: {
-			title: `Successfully Swapped ${fromSymbol} to ${toSymbol}`,
+			title: t('common:toasts:swap:success', { fromSymbol, toSymbol }),
 			rows: mintBurnToastContent,
 		},
 		refetchFunctions: [swapStats.refetch],

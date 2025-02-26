@@ -1,25 +1,32 @@
 import { Address, formatUnits, zeroAddress } from 'viem'
 import TableRow from '../Table/TableRow'
-import { RootState } from '../../redux/redux.store'
-import { useSelector } from 'react-redux'
 import { formatCurrency } from '../../utils/format'
 import { useRouter as useNavigation } from 'next/navigation'
 
 import { useContractUrl } from 'hooks/useContractUrl'
-import { ChallengesQueryItem } from 'redux/slices/challenges.types'
 import TokenLogo from 'components/TokenLogo'
 import Button from 'components/Button'
 import AppBox from 'components/AppBox'
-import { PositionQuery } from 'redux/slices/positions.types'
+import { useCoingeckoPrices } from 'store/prices'
+import { useChallengePositions } from 'store/challenges'
+import { ChallengesQueryItem } from 'meta/challenges'
+import { PositionQuery } from 'meta/positions'
+import { useTranslation } from 'next-i18next'
+import React, { useMemo } from 'react'
+
 interface Props {
 	position: PositionQuery
 }
 
-export default function MonitoringRow({ position }: Props) {
+const namespaces = ['monitoring']
+
+const MonitoringRow: React.FC<Props> = ({ position }: Props) => {
+	const { t } = useTranslation(namespaces)
+
 	const navigate = useNavigation()
 
-	const prices = useSelector((state: RootState) => state.prices.coingecko)
-	const challenges = useSelector((state: RootState) => state.challenges.positions)
+	const prices = useCoingeckoPrices()
+	const challenges = useChallengePositions()
 	const url = useContractUrl(position.collateral || zeroAddress)
 	const collTokenPrice = prices[position.collateral.toLowerCase() as Address]?.price?.usd || 1
 	const ofdPrice = prices[position.ofd.toLowerCase() as Address]?.price?.usd || 1
@@ -33,8 +40,11 @@ export default function MonitoringRow({ position }: Props) {
 	const liquidationPct: number = Math.round((balanceOFD / (liquidationOFD * balance)) * 10000) / 100
 
 	const digits: number = position.collateralDecimals
-	const positionChallenges = challenges.map[position.position.toLowerCase() as Address] ?? []
-	const positionChallengesActive = positionChallenges.filter((ch: ChallengesQueryItem) => ch.status == 'Active') ?? []
+	const positionChallenges = useMemo(() => challenges.map[position.position.toLowerCase() as Address] ?? [], [challenges, position])
+	const positionChallengesActive = useMemo(
+		() => positionChallenges.filter((ch: ChallengesQueryItem) => ch.status == t('monitoring:status:active')) ?? [],
+		[positionChallenges, t]
+	)
 	const positionChallengesActiveCollateral =
 		positionChallengesActive.reduce<number>((acc, c) => {
 			return acc + parseInt(formatUnits(c.size, digits - 2)) - parseInt(formatUnits(c.filledSize, digits - 2))
@@ -51,7 +61,7 @@ export default function MonitoringRow({ position }: Props) {
 		<TableRow
 			actionCol={
 				<Button className="h-10" onClick={() => navigate.push(`/position/${position.position}/challenge`)}>
-					{maturity <= 0 ? 'Force Sell' : 'Challenge'}
+					{maturity <= 0 ? t('monitoring:forceSell') : t('monitoring:challenge')}
 				</Button>
 			}
 			link={`/position/${position.position}`}
@@ -80,7 +90,11 @@ export default function MonitoringRow({ position }: Props) {
 
 			<div className="flex flex-col gap-2">
 				<div className={`col-span-2 text-md ${maturity < 7 ? 'text-text-warning font-bold' : ''}`}>
-					{maturity < 3 ? (maturity > 0 ? `${formatCurrency(maturity * 24)} hours` : 'Expired') : `${Math.round(maturity)} days`}
+					{maturity < 3
+						? maturity > 0
+							? t('monitoring:maturity:hours', { hours: formatCurrency(maturity * 24) })
+							: t('monitoring:status:expired')
+						: t('monitoring:maturity:days', { days: Math.round(maturity) })}
 				</div>
 			</div>
 
@@ -90,3 +104,5 @@ export default function MonitoringRow({ position }: Props) {
 		</TableRow>
 	)
 }
+
+export default MonitoringRow

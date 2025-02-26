@@ -1,10 +1,11 @@
 import TokenLogo from 'components/TokenLogo'
-import { useSelector } from 'react-redux'
 import { Address } from 'viem'
-import { RootState } from 'redux/redux.store'
-import { PositionQuery } from 'redux/slices/positions.types'
 import { formatCurrency } from 'utils/format'
-import { Fragment } from 'react'
+import { useCoingeckoPrices } from 'store/prices'
+import { useOpenPositionsByCollateral } from 'store/positions'
+import { PositionQuery } from 'meta/positions'
+import React, { Fragment } from 'react'
+import { useTranslation } from 'next-i18next'
 
 export type CollateralItem = {
 	collateral: {
@@ -39,8 +40,9 @@ export type CollateralItem = {
 }
 
 export function PositionCollateralCalculate(): CollateralItem[] {
-	const { openPositionsByCollateral } = useSelector((state: RootState) => state.positions)
-	const { coingecko } = useSelector((state: RootState) => state.prices)
+	const { t } = useTranslation('positionCollaterals')
+	const openPositionsByCollateral = useOpenPositionsByCollateral()
+	const coingecko = useCoingeckoPrices()
 
 	const stats: CollateralItem[] = []
 
@@ -75,10 +77,10 @@ export function PositionCollateralCalculate(): CollateralItem[] {
 		const collateralPriceInOFD = Math.round((collateral.price.usd / mint.price.usd) * 100) / 100
 		const worstStatus =
 			collateralizedPct < 100
-				? `Danger, blow ${collateralizedPct}% collaterized`
+				? t('positionCollaterals:status:danger', { percentage: collateralizedPct })
 				: collateralizedPct < 150
-					? `Warning, ${collateralizedPct}% collaterized`
-					: `Safe, ${collateralizedPct}% collaterized`
+					? t('positionCollaterals:status:warning', { percentage: collateralizedPct })
+					: t('positionCollaterals:status:safe', { percentage: collateralizedPct })
 		const worstStatusColors = collateralizedPct < 100 ? 'bg-red-500' : collateralizedPct < 150 ? 'bg-orange-400' : 'bg-green-500'
 
 		stats.push({

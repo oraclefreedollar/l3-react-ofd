@@ -1,4 +1,3 @@
-import React from 'react'
 import { TbPigMoney } from 'react-icons/tb'
 import { BiCoinStack } from 'react-icons/bi'
 import { FaChartLine, FaDollarSign, FaTwitter, FaGithub, FaTelegram } from 'react-icons/fa'
@@ -12,60 +11,71 @@ import { useHomeStats, useOfdPrice, useTvl } from 'hooks'
 import { LiaExchangeAltSolid } from 'react-icons/lia'
 import { GrMoney } from 'react-icons/gr'
 import OfficialContractBanner from 'components/OfficialContractBanner'
+import { useTranslation } from 'next-i18next'
+import React, { useMemo } from 'react'
+import { InferGetServerSidePropsType } from 'next'
+import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 
 const fadeInUp = {
 	hidden: { opacity: 0, y: 20 },
 	visible: { opacity: 1, y: 0 },
 }
 
-export default function Home() {
+const namespaces = ['home', 'common']
+
+const Home: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+	const { t } = useTranslation(namespaces)
+
 	const tvlData = useTvl()
 	const homestats = useHomeStats()
 	const ofdPrice = useOfdPrice()
 
-	const stats = [
-		{
-			icon: FaDollarSign,
-			title: 'Price',
-			value: `$${ofdPrice ? formatBigInt(parseUnits(ofdPrice.toString(), 18), 18, 2) : '0.00'}`,
-		},
-		{
-			icon: TbPigMoney,
-			title: 'Total Value Locked',
-			value: `$${formatBigInt(parseUnits(tvlData?.toString() || '0', 18), 18, 0)}`,
-		},
-		{
-			icon: BiCoinStack,
-			title: 'Market Cap',
-			value: `$${formatBigInt(homestats.equityMarketCap || 0n, 18, 0)}`,
-		},
-		{
-			icon: FaChartLine,
-			title: 'Total Supply',
-			value: `${formatBigInt(homestats.ofdTotalSupply || 0n, 18, 0)} OFD`,
-		},
-	]
+	const stats = useMemo(
+		() => [
+			{
+				icon: FaDollarSign,
+				title: t('home:stats:price'),
+				value: `$${ofdPrice ? formatBigInt(parseUnits(ofdPrice.toString(), 18), 18, 2) : '0.00'}`,
+			},
+			{
+				icon: TbPigMoney,
+				title: t('home:stats:tvl'),
+				value: `$${formatBigInt(parseUnits(tvlData?.toString() || '0', 18), 18, 0)}`,
+			},
+			{
+				icon: BiCoinStack,
+				title: t('home:stats:marketCap'),
+				value: `$${formatBigInt(homestats.equityMarketCap || 0n, 18, 0)}`,
+			},
+			{
+				icon: FaChartLine,
+				title: t('home:stats:totalSupply'),
+				value: `${formatBigInt(homestats.ofdTotalSupply || 0n, 18, 0)} OFD`,
+			},
+		],
+		[homestats?.equityMarketCap, homestats?.ofdTotalSupply, ofdPrice, tvlData, t]
+	)
 
 	const navigationLinks = [
 		...(!ENABLE_EMERGENCY_MODE
 			? [
 					{
-						title: 'Swap OFD',
-						description: 'Invest in Oracle Free Dollar by swapping USDT',
+						title: t('home:navigation:swap:title'),
+						description: t('home:navigation:swap:description'),
 						href: '/swap',
 						icon: LiaExchangeAltSolid,
 					},
 					{
-						title: 'Create Position',
-						description: 'Open a new collateral position and mint OFD',
+						title: t('home:navigation:createPosition:title'),
+						description: t('home:navigation:createPosition:description'),
 						href: '/positions/create',
 						icon: GrMoney,
 					},
 				]
 			: []),
 		{
-			title: 'OFDPs / Equity',
-			description: 'Explore OFD pool shares representing equity',
+			title: t('home:navigation:pool:title'),
+			description: t('home:navigation:pool:description'),
 			href: '/pool',
 			icon: MdOutlinePool,
 		},
@@ -75,11 +85,9 @@ export default function Home() {
 		<main className="min-h-screen">
 			<motion.section animate="visible" className="container mx-auto px-4 pt-16 pb-8 text-center" initial="hidden" variants={fadeInUp}>
 				<h1 className="text-6xl md:text-7xl font-bold text-neon-purple-subtle hover:text-neon-pink-subtle transition-all duration-300 ease-in-out mb-4">
-					Oracle Free Dollar
+					{t('home:hero:title')}
 				</h1>
-				<p className="text-slate-100 text-lg leading-relaxed max-w-3xl mx-auto">
-					A decentralized, collateralized stablecoin that tracks the US Dollar without relying on oracles
-				</p>
+				<p className="text-slate-100 text-lg leading-relaxed max-w-3xl mx-auto">{t('home:hero:subtitle')}</p>
 			</motion.section>
 
 			<motion.div
@@ -137,12 +145,8 @@ export default function Home() {
 			>
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-4 flex flex-col border border-purple-500/50">
-						<h2 className="text-3xl font-bold mb-4 text-white">Decentralized Stability</h2>
-						<p className="text-slate-300 text-lg leading-relaxed">
-							Oracle Free Dollar (OFD) is a revolutionary stablecoin that maintains its peg to the US Dollar through a unique, decentralized
-							mechanism. Our auction-based liquidation system ensures stability without relying on external price feeds, making OFD one of
-							the most robust and trustless stablecoins in the market.
-						</p>
+						<h2 className="text-3xl font-bold mb-4 text-white">{t('home:about:title')}</h2>
+						<p className="text-slate-300 text-lg leading-relaxed">{t('home:about:description')}</p>
 					</div>
 					<motion.div
 						className="flex justify-center"
@@ -155,7 +159,6 @@ export default function Home() {
 					</motion.div>
 				</div>
 
-				{/* TODO: restore previous style when v2 ready */}
 				<div className={`gap-6 mt-12 ${!ENABLE_EMERGENCY_MODE ? 'grid grid-cols-1 md:grid-cols-3' : 'flex justify-center md:grid-cols-3'}`}>
 					{navigationLinks.map((link, index) => (
 						<motion.div
@@ -198,3 +201,7 @@ export default function Home() {
 		</main>
 	)
 }
+
+export const getServerSideProps = withServerSideTranslations(namespaces)
+
+export default Home

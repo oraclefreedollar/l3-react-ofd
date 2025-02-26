@@ -1,7 +1,7 @@
 import React, { Context, createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react'
 import { useOnUpdate, useTokenData } from 'hooks'
 import { initialFormState, PositionCreateFormState } from './types'
-import { validationRules } from './validations'
+import { useValidationRules } from './validations'
 import { PositionCollateralTokenData } from 'meta/positions'
 
 type PositionFormContextType = {
@@ -17,9 +17,11 @@ const PositionFormContext = createContext<PositionFormContextType | null>(null)
 export const usePositionFormContext = () => useContext<PositionFormContextType>(PositionFormContext as Context<PositionFormContextType>)
 
 export const PositionCreateProvider: React.FC<PropsWithChildren> = ({ children }) => {
-	const [form, setForm] = useState<PositionCreateFormState>(initialFormState)
+	const validationRules = useValidationRules()
 
+	const [form, setForm] = useState<PositionCreateFormState>(initialFormState)
 	const [errors, setErrors] = useState({})
+
 	const collTokenData = useTokenData(form.collateralAddress)
 
 	const handleChange = useCallback((field: keyof PositionCreateFormState, value: string | bigint) => {

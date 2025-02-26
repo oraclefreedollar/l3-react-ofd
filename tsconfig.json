@@ -12,6 +12,7 @@
     "baseUrl": "./",
     "isolatedModules": true,
     "jsx": "preserve",
+    "jsxImportSource": "react",
     "lib": [
       "ESNext",
       "DOM",
@@ -51,5 +52,9 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
+    "types": [
+      "react",
+      "react-dom"
+    ]
   }
 }

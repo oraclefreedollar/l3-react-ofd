@@ -5,8 +5,12 @@ import SummaryRowTokenInput from 'components/Position/PositionSummary/SummaryRow
 import SummaryRowNormalInput from 'components/Position/PositionSummary/SummaryRowNormalInput'
 import { OPEN_POSITION_FEE } from 'utils'
 import { SummaryRow } from 'components/Position/PositionSummary/SummaryRow/SummaryRow'
+import { useTranslation } from 'next-i18next'
+import { CoinTicker } from 'meta/coins'
 
 const PositionSummaryForm: React.FC = () => {
+	const { t } = useTranslation(['positionCreate', 'common'])
+
 	const { collTokenData, form, errors, handleChange } = usePositionFormContext()
 	const { auctionDuration, buffer, initialCollAmount, initPeriod, interest, limitAmount, liqPrice, maturity, minCollAmount } = form
 
@@ -20,11 +24,11 @@ const PositionSummaryForm: React.FC = () => {
 
 	return (
 		<div className="space-y-2">
-			<SummaryRow label="Collateral Token" value={`${collTokenData.symbol} (${collTokenData.address})`} />
+			<SummaryRow label={t('positionCreate:summary:form:collateral')} value={`${collTokenData.symbol} (${collTokenData.address})`} />
 
 			<SummaryRow
-				label="Proposal Fee"
-				tooltip={`Opening a new position requires 1000 OFD to be paid one time as fee. This amount is sent into the reserve for ecosystem's health`}
+				label={t('positionCreate:summary:form:proposalFee')}
+				tooltip={t('common:tooltips:position:create:proposalFee')}
 				value={`1000 OFD`}
 			/>
 
@@ -33,11 +37,11 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['minCollAmount']}
 				fieldName={'minCollAmount'}
 				hideMaxLabel
-				label="Minimum Collateral"
+				label={t('positionCreate:collateral:minCollateral')}
 				onChangeValue={onChangeValue}
-				placeholder="Minimum Collateral Amount"
+				placeholder={t('positionCreate:collateral:minCollateralPlaceholder')}
 				symbol={collTokenData.symbol}
-				tooltip="The minimum amount of collateral that must be deposited. If the amount is less than this, the position will not be created."
+				tooltip={t('common:tooltips:position:create:minCollateral')}
 				value={minCollAmount}
 			/>
 
@@ -45,12 +49,12 @@ const PositionSummaryForm: React.FC = () => {
 				digit={collTokenData.decimals}
 				error={errors['initialCollAmount']}
 				fieldName={'initialCollAmount'}
-				label="Initial Collateral"
+				label={t('positionCreate:collateral:initialCollateral')}
 				max={collTokenData.balance}
 				onChangeValue={onChangeValue}
-				placeholder="Initial Collateral Amount"
+				placeholder={t('positionCreate:collateral:initialCollateralPlaceholder')}
 				symbol={collTokenData.symbol}
-				tooltip="The amount of collateral that you want to deposit into the position. This amount must be greater than the minimum collateral amount."
+				tooltip={t('common:tooltips:position:create:initialCollateral')}
 				value={initialCollAmount}
 			/>
 
@@ -59,11 +63,11 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['initPeriod']}
 				fieldName={'initPeriod'}
 				hideMaxLabel
-				label="Initialization Period"
+				label={t('positionCreate:initialization:section:initPeriodLabel')}
 				onChangeValue={onChangeValue}
-				placeholder="Initialization Period"
-				symbol="days"
-				tooltip="A proposal (a new position) can be vetoed in the first five days. The minimum period for the community to veto is 5 days. If you want, you can extend the period during which a proposal can be vetoed"
+				placeholder={t('positionCreate:initialization:section:initPeriodLabel')}
+				symbol={t('common:days')}
+				tooltip={t('common:tooltips:position:create:initPeriod')}
 				value={initPeriod}
 			/>
 
@@ -71,11 +75,11 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['limitAmount']}
 				fieldName={'limitAmount'}
 				hideMaxLabel
-				label="Minting Limit"
+				label={t('positionCreate:financial:section:limitAmountLabel')}
 				onChangeValue={onChangeValue}
-				placeholder="Limit Amount"
-				symbol="OFD"
-				tooltip="The minting limit refers to the maximum amount of Oracle Free Dollar (OFD) that can be minted against this position and its clones. When you open a new position, this limit is set based on the collateral you provide and the parameters of the position."
+				placeholder={t('positionCreate:financial:section:limitAmountPlaceholder')}
+				symbol={CoinTicker.OFD}
+				tooltip={t('common:tooltips:position:create:limitAmount')}
 				value={limitAmount}
 			/>
 
@@ -92,11 +96,11 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['interest']}
 				fieldName={'interest'}
 				hideMaxLabel
-				label="Annual Interest Rate"
+				label={t('positionCreate:financial:section:interestLabel')}
 				onChangeValue={onChangeValue}
-				placeholder="Annual Interest Rate"
+				placeholder={t('positionCreate:financial:section:interestPlaceholder')}
 				symbol="%"
-				tooltip="The annual interest is the fee charged upfront when you open a new position to mint Oracle Free Dollar (OFD). This interest is calculated based on the amount you wish to mint and is typically set by the user. The fee is paid for the entire duration of the position, which can be adjusted based on the maturity period you choose (e.g., 6 months, 12 months)."
+				tooltip={t('common:tooltips:position:create:interest')}
 				value={interest}
 			/>
 
@@ -105,11 +109,11 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['maturity']}
 				fieldName={'maturity'}
 				hideMaxLabel
-				label="Maturity Period"
+				label={t('positionCreate:financial:section:maturityLabel')}
 				onChangeValue={onChangeValue}
-				placeholder="Maturity Period"
-				symbol="months"
-				tooltip="The maturity refers to the duration for which the position is set when opening a new position to mint Oracle Free Dollar (OFD). It defines the time period until the position expires, which can be set between today and the limit date (one year from the date the parent position was minted).The maturity period affects the annual interest charged, as shorter maturities will result in a different final interest amount."
+				placeholder={t('positionCreate:financial:section:maturityLabel')}
+				symbol={t('common:months')}
+				tooltip={t('common:tooltips:position:create:maturity')}
 				value={maturity}
 			/>
 
@@ -119,12 +123,12 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['liqPrice']}
 				fieldName={'liqPrice'}
 				hideMaxLabel={minCollAmount == 0n}
-				label="Liquidation Price"
+				label={t('positionCreate:liquidation:section:liqPriceLabel')}
 				max={minCollAmount == 0n ? 0n : (OPEN_POSITION_FEE + minCollAmount - 1n) / minCollAmount}
 				onChangeValue={onChangeValue}
-				placeholder="Price"
-				symbol="OFD"
-				tooltip="The liquidation price is the threshold value at which a position will be liquidated if the market price of the collateral falls below it. When opening a new position to mint Oracle Free Dollar (OFD), you can set the liquidation price freely, but it must ensure that the position can be liquidated for at least a minimum amount (e.g., 3,500 OFD).This price is crucial as it helps protect the system from losses by ensuring that the collateral can cover the minted OFD in case of a market downturn."
+				placeholder={t('positionCreate:liquidation:section:liqPricePlaceholder')}
+				symbol={CoinTicker.OFD}
+				tooltip={t('common:tooltips:position:create:liqPrice')}
 				value={liqPrice}
 			/>
 
@@ -142,11 +146,11 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['buffer']}
 				fieldName={'buffer'}
 				hideMaxLabel
-				label="Retained Reserve"
+				label={t('positionCreate:liquidation:section:bufferLabel')}
 				onChangeValue={onChangeValue}
-				placeholder="Percent"
+				placeholder={t('positionCreate:liquidation:section:bufferPlaceholder')}
 				symbol="%"
-				tooltip="The retained reserve is the portion of the collateral that is set aside to ensure the stability of the position and the overall system. When opening a new position to mint Oracle Free Dollar (OFD), the retained reserve acts as a safety net to cover potential losses and mitigate risks associated with market volatility.This reserve is calculated based on the reserve requirement and is important for maintaining confidence in the system, especially during challenges or liquidations. It helps ensure that there are sufficient funds available to manage any adverse situations that may arise."
+				tooltip={t('common:tooltips:position:create:buffer')}
 				value={buffer}
 			/>
 
@@ -155,11 +159,11 @@ const PositionSummaryForm: React.FC = () => {
 				error={errors['auctionDuration']}
 				fieldName={'auctionDuration'}
 				hideMaxLabel
-				label="Auction Duration"
+				label={t('positionCreate:liquidation:section:auctionDurationLabel')}
 				onChangeValue={onChangeValue}
-				placeholder="Auction Duration"
-				symbol="hours"
-				tooltip="The auction duration refers to the length of time that an auction will run when a position is challenged. It determines how long bidders have to place their bids on the collateral associated with the position."
+				placeholder={t('positionCreate:liquidation:section:auctionDurationLabel')}
+				symbol={t('common:hours')}
+				tooltip={t('common:tooltips:position:create:auctionDuration')}
 				value={auctionDuration}
 			/>
 		</div>
