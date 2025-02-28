@@ -15,7 +15,7 @@ export const useChainSwitchListener = () => {
 		if (currentId !== chainId) {
 			Chain.setId(chainId)
 			dispatch(PositionsActions.getAll({ chainId }))
-			dispatch(PricesActions.update({ chainId }))
+			dispatch(PricesActions.update({ chainId, forceRefresh: true }))
 			dispatch(ChallengesActions.getAll())
 		}
 	}, [chainId, currentId, dispatch])
