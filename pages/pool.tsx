@@ -38,7 +38,7 @@ const Pool: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 
 	const poolStats = usePoolStats()
 	const equityUrl = useContractUrl(ADDRESS[chainId].equity)
-	const { profit, loss } = useOFDPSQuery(ADDRESS[chainId].oracleFreeDollar)
+	const { profit, loss } = useOFDPSQuery()
 	const { trades, refetch: refetchTrades } = useTradeQuery()
 	const { oldTrades } = useTradeQueryOld()
 
