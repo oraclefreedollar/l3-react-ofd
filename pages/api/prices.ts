@@ -170,8 +170,9 @@ export async function updateDetails(props: Props): Promise<updateDetailsResponse
 
 export default async function handler(props: NextApiRequest, res: NextApiResponse<updateDetailsResponse>) {
 	const chainId = parseInt(props.query.chainId as string)
+	const forceRefresh = props.query?.forceRefresh === 'true'
 
-	await updateDetails({ chainId })
+	if (fetchedPositions.length == 0 || forceRefresh) await updateDetails({ chainId })
 	res.status(200).json({
 		prices: fetchedPrices,
 		addresses: fetchedAddresses,
