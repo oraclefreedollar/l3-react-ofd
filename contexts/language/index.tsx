@@ -1,7 +1,7 @@
 // contexts/LanguageContext.js
 import React, { Context, createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'next-i18next'
-import { LanguageCode } from 'meta/languages'
+import { LanguageCode, availableLanguages } from 'meta/languages'
 import cookies from 'js-cookie'
 
 type LanguageContextType = {
@@ -28,10 +28,40 @@ export const LanguageProvider: React.FC<PropsWithChildren> = (props) => {
 	)
 
 	useEffect(() => {
-		// Get initial language from cookie if available
-		const storedLanguage = (cookies.get('language') || 'en') as LanguageCode
-		changeLanguage(storedLanguage)
-	}, [changeLanguage])
+		// Function to get the best matching language from browser
+		const detectBrowserLanguage = (): string => {
+			// First, check if we have a stored preference
+			const storedLanguage = cookies.get('language')
+			if (storedLanguage) {
+				return storedLanguage
+			}
+
+			// Get browser languages
+			const browserLangs = navigator.languages || [navigator.language || (navigator as any).userLanguage || 'en']
+
+			// Find the first match in our supported languages
+			for (const browserLang of browserLangs) {
+				// Get the base language code (e.g., 'en' from 'en-US')
+				const baseLang = browserLang.split('-')[0].toLowerCase()
+
+				// Check if this language is supported
+				const match = availableLanguages.find((lang) => lang.code === baseLang || lang.code === browserLang.toLowerCase())
+
+				if (match) {
+					return match.code
+				}
+			}
+
+			// Fallback to English
+			return 'en'
+		}
+
+		// Detect and set the language
+		const detectedLang = detectBrowserLanguage()
+		setLanguage(detectedLang)
+		cookies.set('language', detectedLang)
+		i18n.changeLanguage(detectedLang)
+	}, [i18n])
 
 	return <LanguageContext.Provider value={{ language, changeLanguage }}>{children}</LanguageContext.Provider>
 }

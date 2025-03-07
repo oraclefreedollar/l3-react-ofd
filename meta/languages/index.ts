@@ -7,7 +7,7 @@ export enum LanguageCode {
 	pl = 'pl',
 }
 
-export const languages = [
+export const availableLanguages = [
 	{ code: LanguageCode.en, name: 'English' },
 	{ code: LanguageCode.de, name: 'Deutsch' },
 	{ code: LanguageCode.es, name: 'Español' },
