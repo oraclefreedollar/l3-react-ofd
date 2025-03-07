@@ -1,0 +1,32 @@
+{
+  "details": {
+    "approve": "Genehmigen",
+    "canRedeem": "Kann einlösen nach",
+    "chart": {
+      "description": "Diagramm enthält v1 faktorisierte Geschäfte",
+      "equityCapital": "Eigenkapital",
+      "marketCap": "Marktkapitalisierung",
+      "minterReserve": "Präger-Reserve",
+      "price": "{{symbol}} Preis",
+      "supply": "Angebot",
+      "series": {
+        "ofdpsPrice": "OFDPS Preis"
+      },
+      "totalIncome": "Gesamteinkommen",
+      "totalLosses": "Gesamtverluste",
+      "totalReserve": "Gesamtreserve"
+    },
+    "conversionNote": "{{symbol}} Preis wird dynamisch berechnet.\n",
+    "currentPrice": "Aktueller Preis",
+    "holdingPeriod": "Halteperiode",
+    "invest": "Investieren",
+    "placeholder": "{{symbol}} Betrag",
+    "receiveLabel": "Erhalten",
+    "redeem": "Einlösen",
+    "redemption": "Einlösung erfordert eine Halteperiode von 90 Tagen.",
+    "title": "Pool-Details",
+    "yourBalance": "Ihr Guthaben"
+  },
+  "subTitle": "{{name}} Pool-Anteile (OFDPS)",
+  "title": "Eigenkapital"
+}

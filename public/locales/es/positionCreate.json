@@ -1,0 +1,94 @@
+{
+  "buttons": {
+    "back": "Atrás",
+    "next": "Siguiente",
+    "propose": "Proponer Posición",
+    "submit": "Enviar"
+  },
+  "header": {
+    "backText": "Volver a posiciones",
+    "title": "Proponer Nuevo Tipo de Posición"
+  },
+  "stepCounter": "Paso {{current}} de {{total}}",
+  "title": "Proponer Posición",
+  "collateral": {
+    "title": "Garantía",
+    "addressLabel": "¿Qué token desea utilizar como garantía?",
+    "addressPlaceholder": "Dirección del contrato del token",
+    "amountLabel": "Cantidad de Garantía",
+    "approveButton": "Aprobar {{symbol}}",
+    "minCollateral": "Garantía Mínima",
+    "minCollateralPlaceholder": "Cantidad Mínima de Garantía",
+    "initialCollateral": "Garantía Inicial",
+    "initialCollateralPlaceholder": "Cantidad de Garantía Inicial"
+  },
+  "financial": {
+    "title": "Términos Financieros",
+    "section": {
+      "interestLabel": "Interés Anual",
+      "interestPlaceholder": "Interés Anual",
+      "interestTooltip": "El interés anual es la comisión que se cobra por adelantado cuando abre una nueva posición para acuñar Oracle Free Dollar (OFD). Este interés se calcula en base a la cantidad que desea acuñar y normalmente es establecido por el usuario. La comisión se paga por toda la duración de la posición, que puede ajustarse en función del período de vencimiento que elija (por ejemplo, 6 meses, 12 meses).",
+      "limitAmountLabel": "Límite de Acuñación",
+      "limitAmountPlaceholder": "Cantidad Límite",
+      "maturityLabel": "Vencimiento"
+    }
+  },
+  "initialization": {
+    "title": "Detalles de la Posición",
+    "section": {
+      "title": "Inicialización",
+      "proposalFeeLabel": "Tarifa de Propuesta",
+      "proposalFeeError": "No hay suficiente OFD",
+      "initPeriodLabel": "Período de Inicialización",
+      "discuss": {
+        "title": "Discutir",
+        "description1": "Se recomienda ",
+        "description2": " nuevas posiciones antes de iniciarlas para aumentar la probabilidad de pasar el proceso de gobernanza descentralizado."
+      }
+    }
+  },
+  "liquidation": {
+    "title": "Configuración de Liquidación",
+    "section": {
+      "title": "Liquidación",
+      "liqPriceLabel": "Precio de Liquidación",
+      "liqPricePlaceholder": "Precio",
+      "bufferLabel": "Reserva Retenida",
+      "bufferPlaceholder": "Porcentaje",
+      "auctionDurationLabel": "Duración de la Subasta"
+    }
+  },
+  "requirements": {
+    "title": "Requisitos",
+    "section": {
+      "title": "¿Listo para abrir una Posición?",
+      "walletBalance": {
+        "title": "Saldo de la Cartera:",
+        "description": "1000 OFD listos en su cartera – esta cantidad es necesaria para cubrir el costo de abrir una posición.",
+        "sufficientOFDBalance": "Saldo de OFD suficiente",
+        "notEnoughOFD": "No hay suficiente OFD. Compre OFD con USDT"
+      },
+      "collateral": {
+        "title": "Garantía:",
+        "description": "Se necesita al menos 3,500 OFD de garantía para asegurar su posición. Esta garantía actúa como seguridad para la cantidad que acuñará, permitiéndole apalancar sus activos de manera segura."
+      }
+    }
+  },
+  "success": {
+    "title": "¡Posición Propuesta Exitosamente!",
+    "description": "Su posición ha sido creada y ahora está pendiente de aprobación por la gobernanza.",
+    "afterApproval": "Después de la aprobación, puede convertir su OFD en OFDPS y participar activamente en el protocolo.",
+    "button": "Ver Todas las Posiciones"
+  },
+  "summary": {
+    "title": "Resumen",
+    "section": {
+      "title": "Resumen de la Posición",
+      "note": "Por favor revise todos los detalles cuidadosamente antes de proceder con la creación de la posición."
+    },
+    "form": {
+      "collateral": "Token de Garantía",
+      "proposalFee": "Tarifa de Propuesta"
+    }
+  }
+}

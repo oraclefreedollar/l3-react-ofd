@@ -1,0 +1,58 @@
+{
+  "title": "저축",
+  "sections": {
+    "deposits": {
+      "noSavings": "아직 저축이 없습니다.",
+      "title":"최근 예금",
+      "table": {
+        "amount": "금액",
+        "balance": "잔액",
+        "date": "날짜",
+        "saver": "저축자"
+      }
+    },
+    "interest": {
+      "noInterest": "아직 이자 청구가 없습니다.",
+      "title": "최근 이자 청구",
+      "table": {
+        "balance": "잔액",
+        "date": "날짜",
+        "interest": "이자",
+        "saver": "저축자"
+      }
+    },
+    "withdrawals": {
+      "noWithdrawals": "아직 인출이 없습니다.",
+      "title":"최근 인출",
+      "table": {
+        "amount": "금액",
+        "balance": "잔액",
+        "date": "날짜",
+        "saver": "저축자"
+      }
+    }
+  },
+
+  "infoCard": {
+    "currentRate": "현재 이자율",
+    "moduleContract": "모듈 계약",
+    "totalSavings": "총 저축"
+  },
+  "interactionCard": {
+    "balanceLabel": "최대:",
+    "button": "조정",
+    "label": "귀하의 저축",
+    "placeholder": "{{symbol}} 금액",
+    "title": "조정"
+  },
+  "outcome": {
+    "addToYourWallet": "지갑에서 추가할 금액",
+    "balance": "현재 잔액",
+    "interest": "수령할 이자",
+    "locktime": "추가 자금을 저축할 때, 이자가 발생하기 시작할 때까지 귀하의 잔액이 잠기며, 이는 최대 3일이 걸릴 수 있습니다. 이 규칙은 거래 목적으로 보유된 자금의 저축을 방지하기 위한 것입니다.",
+    "locktime2": "귀하의 자금은 아직 {{hours}}시간 동안 잠겨 있습니다.",
+    "resultingBalance": "결과 잔액",
+    "title": "결과",
+    "withdrawFromWallet": "지갑에서 인출"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "challenge": "Herausfordern",
+  "forceSell": "Zwangsverkauf",
+  "maturity": {
+    "days": "{{days}} Tage",
+    "hours": "{{hours}} Stunden"
+  },
+  "noActivePositions": "Es gibt keine aktiven Positionen",
+  "status": {
+    "active": "Aktiv",
+    "expired": "Abgelaufen"
+  },
+  "table": {
+    "challenged": "Herausgefordert",
+    "collateral": "Sicherheit",
+    "collateralization": "Besicherung",
+    "expiration": "Ablauf"
+  },
+  "title": "Überwachung"
+}

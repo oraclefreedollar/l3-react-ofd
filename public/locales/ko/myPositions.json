@@ -1,0 +1,18 @@
+{
+  "title": "포지션",
+  "myPositions": "내 포지션",
+  "otherPositions": "다른 포지션",
+  "table": {
+    "adjust": "조정",
+    "clone": "복제 및 발행",
+    "closed": "종료됨",
+    "denied": "거부됨",
+    "header": {
+      "collateral": "담보",
+      "liqPrice": "청산 가격",
+      "availableAmount": "사용 가능 금액"
+    },
+    "noPositions": "아직 다른 포지션이 없습니다.",
+    "noPositionsAccount": "포지션이 없습니다."
+  }
+}

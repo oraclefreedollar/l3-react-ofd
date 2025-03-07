@@ -5,6 +5,7 @@ import WalletConnect from './WalletConnect'
 import { ENABLE_EMERGENCY_MODE } from 'utils'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
+import LanguageSwitcher from 'components/LanguageSwitcher'
 
 const Navbar: React.FC = () => {
 	const { t } = useTranslation(['common'])
@@ -54,6 +55,9 @@ const Navbar: React.FC = () => {
 				</div>
 				<div className="flex flex-1 justify-end items-center">
 					<WalletConnect />
+					<div className="hidden md:flex">
+						<LanguageSwitcher />
+					</div>
 				</div>
 
 				<aside className="flex w-10 h-10 sm:hidden">

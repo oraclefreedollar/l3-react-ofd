@@ -1,0 +1,20 @@
+{
+  "challenge": "Contester",
+  "forceSell": "Vente Forcée",
+  "maturity": {
+    "days": "{{days}} jours",
+    "hours": "{{hours}} heures"
+  },
+  "noActivePositions": "Il n'y a pas de positions actives",
+  "status": {
+    "active": "Actif",
+    "expired": "Expiré"
+  },
+  "table": {
+    "challenged": "Contesté",
+    "collateral": "Garantie",
+    "collateralization": "Collatéralisation",
+    "expiration": "Expiration"
+  },
+  "title": "Surveillance"
+}

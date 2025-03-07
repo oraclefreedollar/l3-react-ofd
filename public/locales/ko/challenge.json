@@ -1,0 +1,54 @@
+{
+  "buttons": {
+    "approve": "승인",
+    "challenge": "챌린지"
+  },
+  "columns": {
+    "auctionPrice": "경매 가격",
+    "cap": "한도",
+    "state": "상태",
+    "progress": "진행 상황"
+  },
+  "details": {
+    "startingPrice": "시작 가격",
+    "maxProceeds": "최대 수익",
+    "collateralInPosition": "포지션 내 담보",
+    "minimumAmount": "최소 금액",
+    "fixedPhase": "고정 가격 단계",
+    "decliningPhase": "하락 가격 단계"
+  },
+  "form": {
+    "title": "챌린지 상세정보",
+    "amount": {
+      "label": "금액",
+      "placeholder": "담보 금액"
+    },
+    "errors": {
+      "tooHighCollateral": "챌린지 담보는 포지션 담보보다 적어야 합니다",
+      "tooLowCollateral": "챌린지 담보는 최소 담보보다 커야 합니다"
+    }
+  },
+  "header": {
+    "title": "챌린지 시작",
+    "backText": "포지션으로 돌아가기"
+  },
+  "info": {
+    "title": "어떻게 작동하나요?",
+    "description": "제공하는 담보 자산의 양은 네덜란드식 경매에서 공개적으로 경매될 것입니다. 경매에는 고정 가격 단계와 하락 가격 단계, 두 단계가 있습니다.",
+    "phases": {
+      "fixed": "고정 가격 단계 동안, 누구나 제공한 {{symbol}}을 청산 가격에 구매할 수 있습니다. 단계가 끝나기 전에 모든 것이 판매되면, 챌린지는 무산되고 제공된 {{symbol}}을 단위당 {{price}} OFD에 입찰자들에게 효과적으로 판매한 것입니다.",
+      "declining": "챌린지가 무산되지 않으면, 고정 가격 단계 이후에 {{symbol}} 토큰을 획득할 수 있는 가격이 0을 향해 선형적으로 감소하는 하락 가격 단계가 이어집니다. 이 경우, 챌린지는 성공한 것으로 간주되며 제공된 {{symbol}} 토큰을 돌려받습니다. 이 단계에서 판매된 토큰은 도전자가 아닌 포지션 소유자로부터 나옵니다. 포지션에서 구매할 수 있는 토큰의 총량은 고정 가격 단계가 끝날 때 챌린지에 남아 있는 양으로 제한됩니다. 성공적인 챌린지를 시작한 보상으로, 판매 수익의 2%를 받습니다."
+    }
+  },
+  "priceInfo": {
+    "startsFalling": "가격이 {{time}} 후에 하락 시작",
+    "reachesZero": "{{time}} 후에 0에 도달",
+    "reachedZero": "{{time}}에 0에 도달함"
+  },
+  "states": {
+    "fixedPrice": "고정 가격 단계",
+    "decliningPrice": "하락 가격 단계",
+    "zeroPrice": "제로 가격 단계"
+  },
+  "title": "포지션 챌린지"
+}

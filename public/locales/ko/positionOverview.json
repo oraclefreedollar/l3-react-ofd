@@ -1,0 +1,32 @@
+{
+  "title": "포지션 개요",
+  "back": "포지션으로 돌아가기",
+  "buttons": {
+    "adjust": "조정",
+    "clone": "포지션 복제",
+    "challenge": "챌린지"
+  },
+  "subTitle": "포지션 개요 {{address}}",
+  "section": {
+    "annualInterest": "연간 이자",
+    "collateral": "담보",
+    "closed": "종료됨",
+    "expirationDate": "만료 날짜",
+    "limit": "한도",
+    "liqPrice": "청산 가격",
+    "mintedTotal": "총 발행량",
+    "owner": "소유자",
+    "positionDetails": "포지션 상세정보",
+    "reserveRequirement": "준비금 요구사항",
+    "retainedReserve": "보유 준비금"
+  },
+  "cooldown": {
+    "title": "쿨다운",
+    "description": "이 포지션은 소유자가 최근에 적용 가능한 청산 가격을 증가시켰기 때문에 {{cooldown}}에 종료되는 쿨다운 기간의 대상입니다. 쿨다운 기간은 추가 oracleFreeDollars가 발행되기 전에 다른 사용자들에게 포지션에 도전할 기회를 제공합니다."
+  },
+  "challengeTable": {
+    "noContent": "이 포지션은 현재 도전받고 있지 않습니다.",
+    "title": "오픈 챌린지",
+    "loading": "챌린지 로딩 중..."
+  }
+}

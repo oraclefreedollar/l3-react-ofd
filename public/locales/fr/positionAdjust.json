@@ -1,0 +1,40 @@
+{
+  "back": "Retour à la position",
+  "title": "Ajuster la Position",
+  "outcome": {
+    "title": "Résultat",
+    "futureMintedAmount": "Montant futur créé",
+    "minted": "Montant actuellement créé",
+    "mintingFee": "Frais de création (intérêt)",
+    "receive": "Vous recevez",
+    "reserve": "Ajouté à la réserve en votre nom",
+    "return": "Vous retournez",
+    "returnFromReserve": "Retourné de la réserve"
+  },
+  "variables": {
+    "title": "Variables",
+    "amount": "Montant",
+    "amountBalanceLabel": "Min :",
+    "amountPlaceholder": "Montant du Prêt",
+    "buttons": {
+      "adjust": "Ajuster la Position",
+      "adjustError": "Vous ne pouvez ajuster que votre propre position",
+      "approve": "Approuver la Garantie"
+    },
+    "collateral": "Garantie",
+    "collateralBalanceLabel": "Max :",
+    "collateralPlaceholder": "Montant de Garantie",
+    "collateralSent": "{{amount}} renvoyé à votre portefeuille",
+    "collateralTaken": "{{amount}} prélevé de votre portefeuille",
+    "errors": {
+      "insufficientBalance": "OFD insuffisant dans le portefeuille",
+      "limitExceeded": "Cette position est limitée à {{limit}} OFD",
+      "maxMint": "Peut créer au maximum {{maxMint}} OFD avec le prix et la garantie donnés",
+      "increaseAfterCooldown": "Le montant ne peut être augmenté qu'après que le nouveau prix soit passé par la période de refroidissement."
+    },
+    "insufficientCollateral": "{{collateralSymbol}} insuffisant dans votre portefeuille",
+    "liqPrice": "Prix de Liquidation",
+    "liqPriceBalanceLabel": "Valeur Actuelle",
+    "noEnoughCollateral": "Pas assez de garantie pour le prix et le montant de création donnés"
+  }
+}

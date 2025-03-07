@@ -1,0 +1,67 @@
+{
+  "title": "Gouvernance",
+  "delegation": {
+    "title": "Délégation",
+    "form": {
+      "label": "Déléguer les votes à",
+      "placeholder": "Adresse du Délégataire",
+      "error": "Veuillez saisir l'adresse au format d'adresse EOA valide.",
+      "button": "Définir"
+    },
+    "stats": {
+      "delegatedTo": "Délégué À",
+      "yourRawVotes": "Vos Votes Bruts",
+      "totalVotes": "Votes Totaux",
+      "yourTotalVotes": "Vos Votes Totaux"
+    }
+  },
+  "delegatingToYou": {
+    "title": "Délégation à Vous"
+  },
+  "proposals": {
+    "title": "Propositions"
+  },
+  "baseRate": {
+    "title": "Taux de Base",
+    "description": "Il s'agit du taux de base qui est appliqué lors de la création de nouveaux OFD et du taux auquel les épargnants accumulent continuellement des intérêts. Toute personne disposant d'un droit de veto peut proposer un changement, qui peut être appliqué s'il n'y a pas de contre-proposition dans les sept jours."
+  },
+  "topVoters": {
+    "title": "Principaux Votants"
+  },
+  "minterProposal": {
+    "date": "Date :",
+    "minter": "Créateur :",
+    "comment": "Commentaire :",
+    "fee": "Frais :",
+    "votingPeriod": "Période de Vote :",
+    "button": "Veto",
+    "status": {
+      "active": "Actif",
+      "expired": "Expiré",
+      "passed": "Approuvé",
+      "ready": "Prêt",
+      "vetoed": "Rejeté"
+    }
+  },
+  "leadrate": {
+    "button": "Proposer un Changement",
+    "form": {
+      "label": "Taux de Base Actuel",
+      "placeholder": "Taux Directeur Actuel : %",
+      "error": "Veuillez saisir un nombre valide.",
+      "button": "Proposer"
+    },
+    "table": {
+      "empty": "Il n'y a pas encore de propositions.",
+      "header": {
+        "date": "Date",
+        "proposer": "Proposant",
+        "rate": "Taux",
+        "state": "État"
+      }
+    },
+    "remainingHours": "{{hours}} heures restantes",
+    "deny": "Refuser",
+    "apply": "Appliquer"
+  }
+}

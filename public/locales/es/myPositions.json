@@ -1,0 +1,18 @@
+{
+  "title": "Posiciones",
+  "myPositions": "Mis Posiciones",
+  "otherPositions": "Otras Posiciones",
+  "table": {
+    "adjust": "Ajustar",
+    "clone": "Clonar y Acuñar",
+    "closed": "Cerrada",
+    "denied": "Denegada",
+    "header": {
+      "collateral": "Garantía",
+      "liqPrice": "Precio de Liquidación",
+      "availableAmount": "Cantidad Disponible"
+    },
+    "noPositions": "No hay otras posiciones aún.",
+    "noPositionsAccount": "No tiene ninguna posición."
+  }
+}

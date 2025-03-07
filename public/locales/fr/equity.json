@@ -1,0 +1,32 @@
+{
+  "details": {
+    "approve": "Approuver",
+    "canRedeem": "Peut racheter après",
+    "chart": {
+      "description": "Le graphique inclut les transactions factorisées v1",
+      "equityCapital": "Capital Propre",
+      "marketCap": "Capitalisation Boursière",
+      "minterReserve": "Réserve du Créateur",
+      "price": "Prix {{symbol}}",
+      "supply": "Offre",
+      "series": {
+        "ofdpsPrice": "Prix OFDPS"
+      },
+      "totalIncome": "Revenus Totaux",
+      "totalLosses": "Pertes Totales",
+      "totalReserve": "Réserve Totale"
+    },
+    "conversionNote": "Le prix de {{symbol}} est calculé dynamiquement.\n",
+    "currentPrice": "Prix Actuel",
+    "holdingPeriod": "Période de Détention",
+    "invest": "Investir",
+    "placeholder": "Montant de {{symbol}}",
+    "receiveLabel": "Recevoir",
+    "redeem": "Racheter",
+    "redemption": "Le rachat nécessite une période de détention de 90 jours.",
+    "title": "Détails du Pool",
+    "yourBalance": "Votre Solde"
+  },
+  "subTitle": "Parts du Pool {{name}} (OFDPS)",
+  "title": "Capital"
+}

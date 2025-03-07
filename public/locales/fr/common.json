@@ -1,0 +1,173 @@
+{
+  "cancel": "Annuler",
+  "confirm": "Confirmer",
+  "days": "jours",
+  "hours": "heures",
+  "months": "mois",
+  "insufficientBalance": "Pas assez de {{symbol}} dans votre portefeuille",
+  "connectWallet": "Veuillez connecter votre portefeuille",
+  "equity": {
+    "votes": "% Votes"
+  },
+  "navigation": {
+    "auctions": "Enchères",
+    "borrow": "Emprunter",
+    "equity": "Capital",
+    "faucet": "Robinet",
+    "governance": "Gouvernance",
+    "home": "Accueil",
+    "monitoring": "Surveillance",
+    "myPositions": "Mes Positions",
+    "savings": "Épargne",
+    "swap": "Échange"
+  },
+  "footer": {
+    "fork": "Fork de",
+    "frankencoin": "Frankencoin",
+    "terms": "Conditions Générales"
+  },
+  "table": {
+    "action": "Action"
+  },
+  "toasts": {
+    "adjust": {
+      "amount": "Montant : ",
+      "collateralAmount": "Montant de Garantie : ",
+      "liquidationPrice": "Prix de Liquidation : ",
+      "success": "Position Ajustée avec Succès",
+      "pending": "Ajustement de la Position"
+    },
+    "approve": {
+      "pending": "Approbation de {{symbol}}",
+      "success": "{{symbol}} Approuvé avec Succès",
+      "amount": "Montant",
+      "spender": "Dépenseur"
+    },
+    "bid": {
+      "pending": "Placement d'une offre",
+      "success": "Offre Placée avec Succès",
+      "bidAmount": "Montant de l'Offre : ",
+      "expectedOFD": "OFD Attendu"
+    },
+    "borrow": {
+      "pending": "Création d'OFD",
+      "success": "OFD Créé avec Succès",
+      "amount": "Montant : ",
+      "collateral": "Garantie : "
+    },
+    "challenge": {
+      "pending": "Lancement d'un défi",
+      "success": "Défi Lancé avec Succès",
+      "size": "Taille : ",
+      "price": "Prix : "
+    },
+    "clone": {
+      "amount": "Montant : ",
+      "collateral": "Garantie : ",
+      "pending": "Création d'OFD",
+      "success": "OFD Créé avec Succès"
+    },
+    "governance": {
+      "delegateTo": "Déléguer À :",
+      "pending": "Délégation des Votes",
+      "success": "Votes Délégués avec Succès",
+      "minterProposal": {
+        "title": "Raison :",
+        "description": "Non",
+        "pending": "Mise en veto de la proposition...",
+        "success": "Proposition mise en veto avec succès"
+      },
+      "leadrate": {
+        "pending": "Proposition de changement de taux...",
+        "success": "Changement de taux proposé avec succès !",
+        "title1": "De : ",
+        "title2": "Proposition à : ",
+        "apply": {
+          "pending": "Application du changement de taux...",
+          "success": "Nouveau taux appliqué avec succès !",
+          "title1": "De : ",
+          "title2": "Application à : "
+        },
+        "deny": {
+          "pending": "Refus du changement de taux...",
+          "success": "Changement de taux refusé avec succès !",
+          "title1": "Actuel : ",
+          "title2": "Refus : "
+        }
+      }
+    },
+    "pool": {
+      "invest": {
+        "pending": "Investissement d'OFD",
+        "success": "OFD Investi avec Succès",
+        "amount": "Montant : ",
+        "shares": "Parts : "
+      },
+      "redeem": {
+        "pending": "Récupération d'OFDPS",
+        "success": "Récupération Réussie",
+        "amount": "Montant : ",
+        "receive": "Recevoir : "
+      }
+    },
+    "savings": {
+      "interest": {
+        "pending": "Réclamation des Intérêts...",
+        "success": "Réclamation réussie",
+        "title1": "Montant épargné : ",
+        "title2": "Réclamer Intérêts : "
+      },
+      "save": {
+        "pending": "Augmentation de l'épargne...",
+        "success": "Épargne augmentée",
+        "title1": "Épargne : ",
+        "title2": "Intérêts accumulés : "
+      },
+      "withdraw": {
+        "pending": "Retrait de l'épargne...",
+        "success": "Retrait réussi",
+        "title1": "Montant épargné : ",
+        "title2": "Retirer : "
+      }
+    },
+    "swap": {
+      "pending": "Échange de {{fromSymbol}} en {{toSymbol}}",
+      "success": "Échange réussi de {{fromSymbol}} en {{toSymbol}}",
+      "amount": {
+        "from": "Montant de {{symbol}}",
+        "to": "Montant de {{symbol}}"
+      }
+    },
+    "transaction": {
+      "error": "Transaction échouée !",
+      "title": "Transaction : "
+    }
+  },
+  "tooltips": {
+    "footer": "Comme Frankencoin, OFD utilise un mécanisme de liquidation basé sur des enchères qui fonctionne sans flux de prix externes, mais suit le Dollar Américain au lieu du Franc Suisse.",
+    "position": {
+      "header": "Proposez une position entièrement nouvelle avec une garantie de votre choix.",
+      "auctionDuration":
+      "La durée de l'enchère fait référence à la durée pendant laquelle une enchère se déroulera lorsqu'une position est contestée. Elle détermine combien de temps les enchérisseurs ont pour placer leurs offres sur la garantie associée à la position.",
+      "buffer":
+      "La réserve retenue est la partie de la garantie qui est mise de côté pour assurer la stabilité de la position et du système global. Lors de l'ouverture d'une nouvelle position pour créer des Oracle Free Dollar (OFD), la réserve retenue agit comme un filet de sécurité pour couvrir les pertes potentielles et atténuer les risques associés à la volatilité du marché. Cette réserve est calculée en fonction de l'exigence de réserve et est importante pour maintenir la confiance dans le système, en particulier pendant les défis ou les liquidations. Elle aide à garantir que des fonds suffisants sont disponibles pour gérer toute situation défavorable qui pourrait survenir.",
+      "collateralAddress": "L'adresse du contrat de jeton de la garantie est insérée ici",
+      "initialCollateral":
+      "Le montant de garantie que vous souhaitez déposer dans la position. Ce montant doit être supérieur au montant minimum de garantie.",
+      "initPeriod":
+      "Une proposition (une nouvelle position) peut être rejetée durant les cinq premiers jours. La période minimale pour que la communauté oppose son veto est de 5 jours. Si vous le souhaitez, vous pouvez prolonger la période pendant laquelle une proposition peut être rejetée",
+      "interest":
+      "L'intérêt annuel est la commission prélevée à l'avance lorsque vous ouvrez une nouvelle position pour créer des Oracle Free Dollar (OFD). Cet intérêt est calculé en fonction du montant que vous souhaitez créer et est généralement fixé par l'utilisateur. La commission est payée pour toute la durée de la position, qui peut être ajustée en fonction de la période d'échéance que vous choisissez (par exemple, 6 mois, 12 mois).",
+      "limitAmount":
+      "La limite de création fait référence au montant maximum d'Oracle Free Dollar (OFD) qui peut être créé contre cette position et ses clones. Lorsque vous ouvrez une nouvelle position, cette limite est fixée en fonction de la garantie que vous fournissez et des paramètres de la position.",
+      "liqPrice":
+      "Le prix de liquidation est la valeur seuil à laquelle une position sera liquidée si le prix du marché de la garantie tombe en dessous. Lors de l'ouverture d'une nouvelle position pour créer des Oracle Free Dollar (OFD), vous pouvez définir librement le prix de liquidation, mais il doit garantir que la position peut être liquidée pour au moins un montant minimum (par exemple, 3 500 OFD). Ce prix est crucial car il aide à protéger le système contre les pertes en veillant à ce que la garantie puisse couvrir les OFD créés en cas de baisse du marché.",
+      "maturity":
+      "L'échéance fait référence à la durée pour laquelle la position est définie lors de l'ouverture d'une nouvelle position pour créer des Oracle Free Dollar (OFD). Elle définit la période jusqu'à l'expiration de la position, qui peut être fixée entre aujourd'hui et la date limite (un an à partir de la date à laquelle la position parente a été créée). La période d'échéance affecte l'intérêt annuel prélevé, car des échéances plus courtes entraîneront un montant d'intérêt final différent.",
+      "minCollateral":
+      "Le montant minimum de garantie qui doit être déposé. Si le montant est inférieur à ce seuil, la position ne sera pas créée.",
+      "proposalFee":
+      "L'ouverture d'une nouvelle position nécessite 1000 OFD à payer une seule fois comme frais. Ce montant est envoyé dans la réserve pour la santé de l'écosystème"
+    }
+  }
+}

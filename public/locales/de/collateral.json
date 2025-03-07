@@ -1,0 +1,13 @@
+{
+  "title": "Sicherheit",
+  "headerTitle": "Frische OFD prägen",
+  "noSavings": "Es gibt noch keine Ersparnisse.",
+  "table": {
+    "collateral": "Sicherheit",
+    "loanToValue": "Kredit-zu-Wert",
+    "effectiveInterest": "Effektiver Zins",
+    "liquidationPrice": "Liquidationspreis",
+    "maturity": "Laufzeit",
+    "clone": "Klonen & Prägen"
+  }
+}

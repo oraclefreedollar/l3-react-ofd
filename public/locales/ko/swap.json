@@ -1,0 +1,16 @@
+{
+  "buttons": {
+    "approve": "승인",
+    "swap": "스왑",
+    "switchDirection": "스왑 방향 전환"
+  },
+  "errors": {
+    "insufficientSwapLimit": "스왑에 사용할 수 있는 {{symbol}}이(가) 충분하지 않습니다."
+  },
+  "exchangeRate": "1 {{fromSymbol}} = 1 {{toSymbol}}",
+  "header": "USDT 및 OFD 스왑",
+  "receive": "수령",
+  "swapAmount": "스왑 금액",
+  "swapLimit": "스왑 한도",
+  "title": "스왑"
+}

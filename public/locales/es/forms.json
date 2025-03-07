@@ -1,0 +1,31 @@
+{
+  "positionCreate": {
+    "auctionDuration": "La duración de la subasta debe ser mayor a 1 mes.",
+    "buffer": {
+      "max": "El búfer debe ser menor al 100%.",
+      "min": "El búfer debe ser al menos del 10%."
+    },
+    "collateralAddress": {
+      "invalid": "Dirección de garantía inválida.",
+      "noData": "No se pudieron obtener datos del token.",
+      "notSupported": "Los decimales del token deben ser menores a 24."
+    },
+    "initialCollateral": {
+      "greaterThanZero": "La garantía inicial debe ser mayor a 0.",
+      "greaterThanMinimum": "La garantía inicial debe ser mayor a la cantidad mínima."
+    },
+    "initPeriod": {
+      "min": "El período de inicialización debe ser mayor a 5 días."
+    },
+    "interest": {
+      "min": "La Tasa de Interés Anual debe ser mayor al 0%.",
+      "max": "La Tasa de Interés Anual debe ser menor al 100%."
+    },
+    "liqPrice": {
+      "min": "El valor de liquidación de la garantía debe ser al menos 3500 OFD."
+    },
+    "maturity": {
+      "min": "El vencimiento debe ser mayor a 0."
+    }
+  }
+}

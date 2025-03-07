@@ -1,0 +1,58 @@
+{
+  "title": "Ahorros",
+  "sections": {
+    "deposits": {
+      "noSavings": "No hay ahorros aún.",
+      "title":"Depósitos Recientes",
+      "table": {
+        "amount": "Cantidad",
+        "balance": "Saldo",
+        "date": "Fecha",
+        "saver": "Ahorrador"
+      }
+    },
+    "interest": {
+      "noInterest": "No hay reclamaciones de interés aún.",
+      "title": "Reclamaciones de Interés Recientes",
+      "table": {
+        "balance": "Saldo",
+        "date": "Fecha",
+        "interest": "Interés",
+        "saver": "Ahorrador"
+      }
+    },
+    "withdrawals": {
+      "noWithdrawals": "No hay retiros aún.",
+      "title":"Retiros Recientes",
+      "table": {
+        "amount": "Cantidad",
+        "balance": "Saldo",
+        "date": "Fecha",
+        "saver": "Ahorrador"
+      }
+    }
+  },
+
+  "infoCard": {
+    "currentRate": "Tasa de Interés Actual",
+    "moduleContract": "Contrato del Módulo",
+    "totalSavings": "Ahorros Totales"
+  },
+  "interactionCard": {
+    "balanceLabel": "Máx:",
+    "button": "Ajustar",
+    "label": "Sus Ahorros",
+    "placeholder": "Cantidad de {{symbol}}",
+    "title": "Ajuste"
+  },
+  "outcome": {
+    "addToYourWallet": "A añadir desde su cartera",
+    "balance": "Su saldo actual",
+    "interest": "Interés a ser cobrado",
+    "locktime": "Al ahorrar fondos adicionales, su saldo quedará bloqueado hasta que comience a acumular intereses, lo que puede tardar hasta tres días. Esta regla sirve para desincentivar el ahorro de fondos mantenidos para fines transaccionales.",
+    "locktime2": "Sus fondos aún están bloqueados por {{hours}} horas.",
+    "resultingBalance": "Saldo resultante",
+    "title": "Resultado",
+    "withdrawFromWallet": "Retirar de su cartera"
+  }
+}

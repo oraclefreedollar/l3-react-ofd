@@ -5,6 +5,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { faBook, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faTelegram, faXTwitter } from '@fortawesome/free-brands-svg-icons'
 import { useTranslation } from 'next-i18next'
+import LanguageSwitcher from 'components/LanguageSwitcher'
 
 interface ButtonProps {
 	link: string
@@ -37,6 +38,9 @@ const Footer = () => {
 
 				{/* Divider for larger screens */}
 				<div className="hidden sm:block text-slate-100">|</div>
+				<div className="md:hidden block">
+					<LanguageSwitcher />
+				</div>
 
 				{/* Right side - Frankencoin reference */}
 				<div className="flex items-center gap-2 text-sm">

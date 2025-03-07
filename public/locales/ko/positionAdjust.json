@@ -1,0 +1,40 @@
+{
+  "back": "포지션으로 돌아가기",
+  "title": "포지션 조정",
+  "outcome": {
+    "title": "결과",
+    "futureMintedAmount": "향후 발행 금액",
+    "minted": "현재 발행 금액",
+    "mintingFee": "발행 수수료(이자)",
+    "receive": "귀하가 받는 금액",
+    "reserve": "귀하를 대신하여 준비금에 추가됨",
+    "return": "귀하가 반환하는 금액",
+    "returnFromReserve": "준비금에서 반환됨"
+  },
+  "variables": {
+    "title": "변수",
+    "amount": "금액",
+    "amountBalanceLabel": "최소:",
+    "amountPlaceholder": "대출 금액",
+    "buttons": {
+      "adjust": "포지션 조정",
+      "adjustError": "자신의 포지션만 조정할 수 있습니다",
+      "approve": "담보 승인"
+    },
+    "collateral": "담보",
+    "collateralBalanceLabel": "최대:",
+    "collateralPlaceholder": "담보 금액",
+    "collateralSent": "{{amount}}이(가) 지갑으로 반환됨",
+    "collateralTaken": "{{amount}}이(가) 지갑에서 인출됨",
+    "errors": {
+      "insufficientBalance": "지갑에 OFD가 부족합니다",
+      "limitExceeded": "이 포지션은 {{limit}} OFD로 제한됩니다",
+      "maxMint": "주어진 가격과 담보로 최대 {{maxMint}} OFD를 발행할 수 있습니다",
+      "increaseAfterCooldown": "새 가격이 쿨다운을 통과한 후에만 금액을 증가시킬 수 있습니다."
+    },
+    "insufficientCollateral": "지갑에 {{collateralSymbol}}이(가) 부족합니다",
+    "liqPrice": "청산 가격",
+    "liqPriceBalanceLabel": "현재 가치",
+    "noEnoughCollateral": "주어진 가격과 발행 금액에 대한 담보가 충분하지 않습니다"
+  }
+}

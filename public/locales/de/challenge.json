@@ -1,0 +1,54 @@
+{
+  "buttons": {
+    "approve": "Genehmigen",
+    "challenge": "Herausfordern"
+  },
+  "columns": {
+    "auctionPrice": "Auktionspreis",
+    "cap": "Obergrenze",
+    "state": "Status",
+    "progress": "Fortschritt"
+  },
+  "details": {
+    "startingPrice": "Startpreis",
+    "maxProceeds": "Maximaler Erlös",
+    "collateralInPosition": "Sicherheit in Position",
+    "minimumAmount": "Mindestbetrag",
+    "fixedPhase": "Festpreisphase",
+    "decliningPhase": "Abnehmende Preisphase"
+  },
+  "form": {
+    "title": "Herausforderungsdetails",
+    "amount": {
+      "label": "Betrag",
+      "placeholder": "Sicherheitsbetrag"
+    },
+    "errors": {
+      "tooHighCollateral": "Herausforderungssicherheit sollte niedriger sein als die Positionssicherheit",
+      "tooLowCollateral": "Herausforderungssicherheit sollte höher sein als die Mindestsicherheit"
+    }
+  },
+  "header": {
+    "title": "Herausforderung starten",
+    "backText": "Zurück zur Position"
+  },
+  "info": {
+    "title": "Wie funktioniert es?",
+    "description": "Die Menge des Sicherheitswertes, die Sie bereitstellen, wird in einer holländischen Auktion öffentlich versteigert. Die Auktion hat zwei Phasen, eine Festpreisphase und eine abnehmende Preisphase.",
+    "phases": {
+      "fixed": "Während der Festpreisphase kann jeder die von Ihnen bereitgestellten {{symbol}} zum Liquidationspreis kaufen. Wenn alles verkauft wird, bevor die Phase endet, wird die Herausforderung abgewehrt, und Sie haben effektiv die bereitgestellten {{symbol}} an die Bieter für {{price}} OFD pro Einheit verkauft.",
+      "declining": "Wenn die Herausforderung nicht abgewehrt wird, folgt auf die Festpreisphase eine abnehmende Preisphase, während der der Preis, zu dem die {{symbol}}-Token erworben werden können, linear gegen Null sinkt. In diesem Fall gilt die Herausforderung als erfolgreich, und Sie erhalten die bereitgestellten {{symbol}}-Token zurück. Die in dieser Phase verkauften Token stammen nicht vom Herausforderer, sondern vom Positionsinhaber. Die Gesamtmenge an Token, die aus der Position gekauft werden können, ist durch die Menge begrenzt, die am Ende der Festpreisphase in der Herausforderung verbleibt. Als Belohnung für das Starten einer erfolgreichen Herausforderung erhalten Sie 2% der Verkaufserlöse."
+    }
+  },
+  "priceInfo": {
+    "startsFalling": "Preis beginnt in {{time}} zu fallen",
+    "reachesZero": "Null wird in {{time}} erreicht",
+    "reachedZero": "Null wurde um {{time}} erreicht"
+  },
+  "states": {
+    "fixedPrice": "Festpreisphase",
+    "decliningPrice": "Abnehmende Preisphase",
+    "zeroPrice": "Nullpreisphase"
+  },
+  "title": "Positionsherausforderung"
+}

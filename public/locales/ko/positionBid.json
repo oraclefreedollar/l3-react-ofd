@@ -1,0 +1,24 @@
+{
+  "title": "입찰하기",
+  "back": "포지션으로 돌아가기",
+  "buttons": {
+    "approve": "승인",
+    "bid": "입찰하기"
+  },
+  "details": {
+    "challengeLabel": "구매 중인 항목",
+    "challengePlaceholder": "챌린지 금액",
+    "challenger": "도전자",
+    "expectedPrice": "예상 총 가격: {{amount}} OFD",
+    "originalSize": "원래 크기",
+    "phaseDuration": "단계 기간",
+    "pricePerUnit": "단위당 가격",
+    "reachingZero": "0에 도달하는 시점",
+    "remainingCollateral": "남은 담보",
+    "title": "입찰 상세정보"
+  },
+  "errors": {
+    "noEnoughBalance": "지갑에 잔액이 충분하지 않습니다",
+    "expectedWinningCollateral": "예상 낙찰 담보는 남은 담보보다 적어야 합니다"
+  }
+}

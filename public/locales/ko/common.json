@@ -1,0 +1,173 @@
+{
+  "cancel": "취소",
+  "confirm": "확인",
+  "days": "일",
+  "hours": "시간",
+  "months": "개월",
+  "insufficientBalance": "지갑에 {{symbol}}이(가) 충분하지 않습니다",
+  "connectWallet": "지갑을 연결해주세요",
+  "equity": {
+    "votes": "% 투표"
+  },
+  "navigation": {
+    "auctions": "경매",
+    "borrow": "대출",
+    "equity": "자본",
+    "faucet": "수도꼭지",
+    "governance": "거버넌스",
+    "home": "홈",
+    "monitoring": "모니터링",
+    "myPositions": "내 포지션",
+    "savings": "저축",
+    "swap": "스왑"
+  },
+  "footer": {
+    "fork": "포크 출처",
+    "frankencoin": "Frankencoin",
+    "terms": "이용약관"
+  },
+  "table": {
+    "action": "작업"
+  },
+  "toasts": {
+    "adjust": {
+      "amount": "금액: ",
+      "collateralAmount": "담보 금액: ",
+      "liquidationPrice": "청산 가격: ",
+      "success": "포지션이 성공적으로 조정되었습니다",
+      "pending": "포지션 조정 중"
+    },
+    "approve": {
+      "pending": "{{symbol}} 승인 중",
+      "success": "{{symbol}} 승인 완료",
+      "amount": "금액",
+      "spender": "지출자"
+    },
+    "bid": {
+      "pending": "입찰 중",
+      "success": "입찰 성공",
+      "bidAmount": "입찰 금액: ",
+      "expectedOFD": "예상 OFD"
+    },
+    "borrow": {
+      "pending": "OFD 발행 중",
+      "success": "OFD 발행 성공",
+      "amount": "금액: ",
+      "collateral": "담보: "
+    },
+    "challenge": {
+      "pending": "챌린지 시작 중",
+      "success": "챌린지 시작 성공",
+      "size": "크기: ",
+      "price": "가격: "
+    },
+    "clone": {
+      "amount": "금액: ",
+      "collateral": "담보: ",
+      "pending": "OFD 발행 중",
+      "success": "OFD 발행 성공"
+    },
+    "governance": {
+      "delegateTo": "위임 대상:",
+      "pending": "투표 위임 중",
+      "success": "투표 위임 성공",
+      "minterProposal": {
+        "title": "이유:",
+        "description": "아니오",
+        "pending": "제안 거부 중...",
+        "success": "제안 거부 성공"
+      },
+      "leadrate": {
+        "pending": "금리 변경 제안 중...",
+        "success": "금리 변경 제안 성공!",
+        "title1": "기존: ",
+        "title2": "제안 대상: ",
+        "apply": {
+          "pending": "금리 변경 적용 중...",
+          "success": "새 금리 적용 성공!",
+          "title1": "기존: ",
+          "title2": "적용 대상: "
+        },
+        "deny": {
+          "pending": "금리 변경 거부 중...",
+          "success": "금리 변경 거부 성공!",
+          "title1": "현재: ",
+          "title2": "거부 대상: "
+        }
+      }
+    },
+    "pool": {
+      "invest": {
+        "pending": "OFD 투자 중",
+        "success": "OFD 투자 성공",
+        "amount": "금액: ",
+        "shares": "지분: "
+      },
+      "redeem": {
+        "pending": "OFDPS 환매 중",
+        "success": "환매 성공",
+        "amount": "금액: ",
+        "receive": "수령: "
+      }
+    },
+    "savings": {
+      "interest": {
+        "pending": "이자 청구 중...",
+        "success": "청구 성공",
+        "title1": "저축 금액: ",
+        "title2": "이자 청구: "
+      },
+      "save": {
+        "pending": "저축 증가 중...",
+        "success": "저축 증가됨",
+        "title1": "저축: ",
+        "title2": "누적 이자: "
+      },
+      "withdraw": {
+        "pending": "저축 인출 중...",
+        "success": "인출 성공",
+        "title1": "저축 금액: ",
+        "title2": "인출: "
+      }
+    },
+    "swap": {
+      "pending": "{{fromSymbol}}에서 {{toSymbol}}(으)로 스왑 중",
+      "success": "{{fromSymbol}}에서 {{toSymbol}}(으)로 스왑 성공",
+      "amount": {
+        "from": "{{symbol}} 금액",
+        "to": "{{symbol}} 금액"
+      }
+    },
+    "transaction": {
+      "error": "거래 실패!",
+      "title": "거래: "
+    }
+  },
+  "tooltips": {
+    "footer": "Frankencoin과 마찬가지로 OFD는 외부 가격 피드 없이 작동하는 경매 기반 청산 메커니즘을 사용하지만, 스위스 프랑 대신 미국 달러를 추적합니다.",
+    "position": {
+      "header": "귀하가 선택한 담보로 완전히 새로운 포지션을 제안하세요.",
+      "auctionDuration":
+      "경매 기간은 포지션이 도전받을 때 경매가 진행되는 시간을 의미합니다. 이는 입찰자들이 포지션과 관련된 담보에 대한 입찰을 할 수 있는 시간을 결정합니다.",
+      "buffer":
+      "보유 준비금은 포지션과 전체 시스템의 안정성을 보장하기 위해 따로 설정된 담보의 일부입니다. Oracle Free Dollar(OFD)를 발행하기 위해 새 포지션을 열 때 보유 준비금은 시장 변동성과 관련된 잠재적 손실을 커버하고 위험을 완화하기 위한 안전망 역할을 합니다. 이 준비금은 준비금 요구사항에 따라 계산되며, 특히 챌린지나 청산 시 시스템에 대한 신뢰를 유지하는 데 중요합니다. 발생할 수 있는 불리한 상황을 관리하기 위한 충분한 자금이 있도록 보장합니다.",
+      "collateralAddress": "담보물의 토큰 계약 주소가 여기에 입력됩니다",
+      "initialCollateral":
+      "포지션에 예치하려는 담보 금액입니다. 이 금액은 최소 담보 금액보다 커야 합니다.",
+      "initPeriod":
+      "제안(새 포지션)은 처음 5일 동안 거부될 수 있습니다. 커뮤니티가 거부할 수 있는 최소 기간은 5일입니다. 원하신다면 제안이 거부될 수 있는 기간을 연장할 수 있습니다",
+      "interest":
+      "연간 이자는 Oracle Free Dollar(OFD)를 발행하기 위해 새 포지션을 열 때 미리 청구되는 수수료입니다. 이 이자는 발행하고자 하는 금액을 기준으로 계산되며 일반적으로 사용자가 설정합니다. 수수료는 포지션의 전체 기간 동안 지불되며, 선택한 만기 기간(예: 6개월, 12개월)에 따라 조정될 수 있습니다.",
+      "limitAmount":
+      "발행 한도는 이 포지션과 그 클론에 대해 발행할 수 있는 최대 Oracle Free Dollar(OFD) 금액을 의미합니다. 새 포지션을 열 때 이 한도는 제공한 담보와 포지션의 매개변수에 따라 설정됩니다.",
+      "liqPrice":
+      "청산 가격은 담보의 시장 가격이 그 이하로 떨어질 경우 포지션이  청산되는 임계값입니다. Oracle Free Dollar(OFD)를 발행하기 위해 새 포지션을 열 때 청산 가격을 자유롭게 설정할 수 있지만, 포지션이 최소 금액(예: 3,500 OFD)으로 청산될 수 있도록 보장해야 합니다. 이 가격은 시장 하락 시 담보가 발행된 OFD를 커버할 수 있도록 보장함으로써 시스템을 손실로부터 보호하는 데 중요합니다.",
+      "maturity":
+      "만기는 Oracle Free Dollar(OFD)를 발행하기 위해 새 포지션을 열 때 설정되는 포지션의 기간을 의미합니다. 이는 포지션이 만료되는 시간을 정의하며, 오늘부터 한도 날짜(부모 포지션이 생성된 날로부터 1년) 사이로 설정할 수 있습니다. 만기 기간은 청구되는 연간 이자에 영향을 미치며, 짧은 만기는 다른 최종 이자 금액을 초래합니다.",
+      "minCollateral":
+      "예치해야 하는 최소 담보 금액입니다. 금액이 이보다 적으면 포지션이 생성되지 않습니다.",
+      "proposalFee":
+      "새 포지션을 개설하려면 1000 OFD를 수수료로 일회성 지불해야 합니다. 이 금액은 생태계 건전성을 위해 준비금으로 보내집니다"
+    }
+  }
+}

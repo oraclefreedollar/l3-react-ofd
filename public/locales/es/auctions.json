@@ -1,0 +1,15 @@
+{
+  "title": "Subastas",
+  "header": {
+    "yourAuctions": "Sus Subastas",
+    "allAuctions": "Todas las Subastas"
+  },
+  "noContent": {
+    "yourAuctions": "No tiene ninguna subasta.",
+    "allAuctions": "No hay subastas aún."
+  },
+  "challengeTable": {
+    "title": "Desafíos Abiertos",
+    "loading": "Cargando..."
+  }
+}
