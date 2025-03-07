@@ -1,0 +1,94 @@
+{
+  "buttons": {
+    "back": "Wstecz",
+    "next": "Dalej",
+    "propose": "Zaproponuj pozycję",
+    "submit": "Wyślij"
+  },
+  "header": {
+    "backText": "Powrót do pozycji",
+    "title": "Zaproponuj nowy typ pozycji"
+  },
+  "stepCounter": "Krok {{current}} z {{total}}",
+  "title": "Zaproponuj pozycję",
+  "collateral": {
+    "title": "Zabezpieczenie",
+    "addressLabel": "Którego tokena chcesz użyć jako zabezpieczenia?",
+    "addressPlaceholder": "Adres kontraktu tokena",
+    "amountLabel": "Kwota zabezpieczenia",
+    "approveButton": "Zatwierdź {{symbol}}",
+    "minCollateral": "Minimalne zabezpieczenie",
+    "minCollateralPlaceholder": "Minimalna kwota zabezpieczenia",
+    "initialCollateral": "Początkowe zabezpieczenie",
+    "initialCollateralPlaceholder": "Początkowa kwota zabezpieczenia"
+  },
+  "financial": {
+    "title": "Warunki finansowe",
+    "section": {
+      "interestLabel": "Roczne odsetki",
+      "interestPlaceholder": "Roczne odsetki",
+      "interestTooltip": "Roczne odsetki to opłata pobierana z góry, gdy otwierasz nową pozycję do tworzenia Oracle Free Dollar (OFD). Te odsetki są obliczane na podstawie kwoty, którą chcesz utworzyć, i zazwyczaj są ustalane przez użytkownika. Opłata jest płacona za cały okres trwania pozycji, który może być dostosowany w zależności od wybranego okresu zapadalności (np. 6 miesięcy, 12 miesięcy).",
+      "limitAmountLabel": "Limit tworzenia",
+      "limitAmountPlaceholder": "Kwota limitu",
+      "maturityLabel": "Zapadalność"
+    }
+  },
+"initialization": {
+    "title": "Szczegóły pozycji",
+    "section": {
+      "title": "Inicjalizacja",
+      "proposalFeeLabel": "Opłata za propozycję",
+      "proposalFeeError": "Niewystarczająca ilość OFD",
+      "initPeriodLabel": "Okres inicjalizacji",
+      "discuss": {
+        "title": "Dyskusja",
+        "description1": "Zaleca się ",
+        "description2": " omówienie nowych pozycji przed ich inicjalizacją, aby zwiększyć prawdopodobieństwo przejścia przez zdecentralizowany proces zarządzania."
+      }
+    }
+  },
+  "liquidation": {
+    "title": "Ustawienia likwidacji",
+    "section": {
+      "title": "Likwidacja",
+      "liqPriceLabel": "Cena likwidacji",
+      "liqPricePlaceholder": "Cena",
+      "bufferLabel": "Zatrzymana rezerwa",
+      "bufferPlaceholder": "Procent",
+      "auctionDurationLabel": "Czas trwania aukcji"
+    }
+  },
+  "requirements": {
+    "title": "Wymagania",
+    "section": {
+      "title": "Gotowy do otwarcia pozycji?",
+      "walletBalance": {
+        "title": "Saldo portfela:",
+        "description": "1000 OFD gotowych w twoim portfelu – ta kwota jest wymagana do pokrycia kosztu otwarcia pozycji.",
+        "sufficientOFDBalance": "Wystarczające saldo OFD",
+        "notEnoughOFD": "Niewystarczająca ilość OFD. Kup OFD za USDT"
+      },
+      "collateral": {
+        "title": "Zabezpieczenie:",
+        "description": "Do zabezpieczenia twojej pozycji potrzebne jest co najmniej 3 500 OFD wartości zabezpieczenia. To zabezpieczenie działa jako zabezpieczenie dla kwoty, którą będziesz tworzyć, pozwalając ci bezpiecznie wykorzystać swoje aktywa."
+      }
+    }
+  },
+  "success": {
+    "title": "Pozycja pomyślnie zaproponowana!",
+    "description": "Twoja pozycja została utworzona i teraz oczekuje na zatwierdzenie przez zarządzanie.",
+    "afterApproval": "Po zatwierdzeniu możesz przekonwertować swoje OFD na OFDPS i aktywnie uczestniczyć w protokole.",
+    "button": "Zobacz wszystkie pozycje"
+  },
+  "summary": {
+    "title": "Podsumowanie",
+    "section": {
+      "title": "Podsumowanie pozycji",
+      "note": "Proszę dokładnie przejrzeć wszystkie szczegóły przed przystąpieniem do tworzenia pozycji."
+    },
+    "form": {
+      "collateral": "Token zabezpieczenia",
+      "proposalFee": "Opłata za propozycję"
+    }
+  }
+}

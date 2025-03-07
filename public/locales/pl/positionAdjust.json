@@ -1,0 +1,40 @@
+{
+  "back": "Powrót do pozycji",
+  "title": "Dostosuj pozycję",
+  "outcome": {
+    "title": "Wynik",
+    "futureMintedAmount": "Przyszła stworzona kwota",
+    "minted": "Aktualnie stworzona kwota",
+    "mintingFee": "Opłata za tworzenie (odsetki)",
+    "receive": "Otrzymujesz",
+    "reserve": "Dodane do rezerwy w twoim imieniu",
+    "return": "Zwracasz",
+    "returnFromReserve": "Zwrócone z rezerwy"
+  },
+  "variables": {
+    "title": "Zmienne",
+    "amount": "Kwota",
+    "amountBalanceLabel": "Min:",
+    "amountPlaceholder": "Kwota pożyczki",
+    "buttons": {
+      "adjust": "Dostosuj pozycję",
+      "adjustError": "Możesz dostosować tylko własną pozycję",
+      "approve": "Zatwierdź zabezpieczenie"
+    },
+    "collateral": "Zabezpieczenie",
+    "collateralBalanceLabel": "Maks:",
+    "collateralPlaceholder": "Kwota zabezpieczenia",
+    "collateralSent": "{{amount}} wysłane z powrotem do twojego portfela",
+    "collateralTaken": "{{amount}} pobrane z twojego portfela",
+    "errors": {
+      "insufficientBalance": "Niewystarczający OFD w portfelu",
+      "limitExceeded": "Ta pozycja jest ograniczona do {{limit}} OFD",
+      "maxMint": "Można utworzyć co najwyżej {{maxMint}} OFD przy danej cenie i zabezpieczeniu",
+      "increaseAfterCooldown": "Kwota może zostać zwiększona dopiero po przejściu nowej ceny przez okres ochłodzenia."
+    },
+    "insufficientCollateral": "Niewystarczająca ilość {{collateralSymbol}} w twoim portfelu",
+    "liqPrice": "Cena likwidacji",
+    "liqPriceBalanceLabel": "Aktualna wartość",
+    "noEnoughCollateral": "Niewystarczające zabezpieczenie dla danej ceny i kwoty tworzenia"
+  }
+}

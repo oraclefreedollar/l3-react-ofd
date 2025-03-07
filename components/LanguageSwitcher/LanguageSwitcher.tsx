@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useLanguage } from 'contexts/language'
-import { languages } from 'meta/languages'
+import { availableLanguages } from 'meta/languages'
 
 // Custom hook for responsive design
 export const useMediaQuery = (query: string): boolean => {
@@ -28,7 +28,7 @@ const LanguageSwitcher: React.FC = () => {
 	const isMobile = useMediaQuery('(max-width: 768px)')
 
 	// Find the current language object
-	const currentLanguage = useMemo(() => languages.find((lang) => lang.code === language) || languages[0], [language])
+	const currentLanguage = useMemo(() => availableLanguages.find((lang) => lang.code === language) || availableLanguages[0], [language])
 
 	// Close dropdown when clicking outside
 	useEffect(() => {
@@ -69,7 +69,7 @@ const LanguageSwitcher: React.FC = () => {
           `}
 				>
 					<div className={`py-1 ${isMobile ? 'grid grid-cols-2 gap-2 p-4' : ''}`}>
-						{languages.map((lang) => (
+						{availableLanguages.map((lang) => (
 							<button
 								className={`
                   ${isMobile ? 'flex justify-center' : 'w-full text-left'} 

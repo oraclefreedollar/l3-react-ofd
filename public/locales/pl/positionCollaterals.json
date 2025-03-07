@@ -1,0 +1,7 @@
+{
+  "status": {
+    "danger": "Niebezpieczeństwo, poniżej {{percentage}}% zabezpieczenia",
+    "safe": "Bezpieczne, poniżej {{percentage}}% zabezpieczenia",
+    "warning": "Ostrzeżenie, poniżej {{percentage}}% zabezpieczenia"
+  }
+}

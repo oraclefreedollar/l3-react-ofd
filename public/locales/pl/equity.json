@@ -1,0 +1,32 @@
+{
+  "details": {
+    "approve": "Zatwierdź",
+    "canRedeem": "Można wykupić po",
+    "chart": {
+      "description": "Wykres zawiera faktury transakcji v1",
+      "equityCapital": "Kapitał własny",
+      "marketCap": "Kapitalizacja rynkowa",
+      "minterReserve": "Rezerwa twórcy",
+      "price": "Cena {{symbol}}",
+      "supply": "Podaż",
+      "series": {
+        "ofdpsPrice": "Cena OFDPS"
+      },
+      "totalIncome": "Całkowity dochód",
+      "totalLosses": "Całkowite straty",
+      "totalReserve": "Całkowita rezerwa"
+    },
+    "conversionNote": "Cena {{symbol}} jest obliczana dynamicznie.\n",
+    "currentPrice": "Obecna cena",
+    "holdingPeriod": "Okres trzymania",
+    "invest": "Inwestuj",
+    "placeholder": "Kwota {{symbol}}",
+    "receiveLabel": "Otrzymaj",
+    "redeem": "Wykup",
+    "redemption": "Wykup wymaga 90-dniowego okresu trzymania.",
+    "title": "Szczegóły puli",
+    "yourBalance": "Twoje saldo"
+  },
+  "subTitle": "Udziały puli {{name}} (OFDPS)",
+  "title": "Kapitał"
+}

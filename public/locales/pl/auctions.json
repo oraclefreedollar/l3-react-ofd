@@ -1,0 +1,15 @@
+{
+  "title": "Aukcje",
+  "header": {
+    "yourAuctions": "Twoje aukcje",
+    "allAuctions": "Wszystkie aukcje"
+  },
+  "noContent": {
+    "yourAuctions": "Nie masz żadnych aukcji.",
+    "allAuctions": "Nie ma jeszcze aukcji."
+  },
+  "challengeTable": {
+    "title": "Otwarte wyzwania",
+    "loading": "Ładowanie..."
+  }
+}

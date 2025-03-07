@@ -1,0 +1,13 @@
+{
+  "title": "Zabezpieczenie",
+  "headerTitle": "Twórz świeże OFD",
+  "noSavings": "Nie ma jeszcze oszczędności.",
+  "table": {
+    "collateral": "Zabezpieczenie",
+    "loanToValue": "Stosunek pożyczki do wartości",
+    "effectiveInterest": "Efektywne odsetki",
+    "liquidationPrice": "Cena likwidacji",
+    "maturity": "Zapadalność",
+    "clone": "Klonuj i twórz"
+  }
+}

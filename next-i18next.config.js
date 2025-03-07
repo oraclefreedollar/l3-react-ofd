@@ -16,7 +16,7 @@ module.exports = {
 	debug: isDev,
 	i18n: {
 		defaultLocale: 'es',
-		locales: ['en', 'es', 'ko', 'fr', 'de'],
+		locales: ['en', 'es', 'ko', 'fr', 'de', 'pl'],
 		localeDetection: false, // This prevents automatic locale detection from URL
 	},
 	initAsync: false,
