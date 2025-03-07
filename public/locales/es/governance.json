@@ -1,0 +1,67 @@
+{
+  "title": "Gobernanza",
+  "delegation": {
+    "title": "Delegación",
+    "form": {
+      "label": "Delegar votos a",
+      "placeholder": "Dirección del Delegado",
+      "error": "Por favor ingrese la dirección en formato de dirección EOA válido.",
+      "button": "Establecer"
+    },
+    "stats": {
+      "delegatedTo": "Delegado A",
+      "yourRawVotes": "Sus Votos Brutos",
+      "totalVotes": "Votos Totales",
+      "yourTotalVotes": "Sus Votos Totales"
+    }
+  },
+  "delegatingToYou": {
+    "title": "Delegando a Usted"
+  },
+  "proposals": {
+    "title": "Propuestas"
+  },
+  "baseRate": {
+    "title": "Tasa Base",
+    "description": "Esta es la tasa base que se aplica al acuñar nuevos OFDs y la tasa a la que los ahorradores acumulan intereses continuamente. Cualquier persona con poder de veto puede proponer un cambio, que puede aplicarse si no hay una contrapropuesta dentro de siete días."
+  },
+  "topVoters": {
+    "title": "Principales Votantes"
+  },
+  "minterProposal": {
+    "date": "Fecha:",
+    "minter": "Acuñador:",
+    "comment": "Comentario:",
+    "fee": "Tarifa:",
+    "votingPeriod": "Período de Votación:",
+    "button": "Vetar",
+    "status": {
+      "active": "Activa",
+      "expired": "Expirada",
+      "passed": "Aprobada",
+      "ready": "Lista",
+      "vetoed": "Vetada"
+    }
+  },
+  "leadrate": {
+    "button": "Proponer Cambio",
+    "form": {
+      "label": "Tasa Base Actual",
+      "placeholder": "Tasa Principal Actual: %",
+      "error": "Por favor ingrese un número válido.",
+      "button": "Proponer"
+    },
+    "table": {
+      "empty": "No hay propuestas aún.",
+      "header": {
+        "date": "Fecha",
+        "proposer": "Proponente",
+        "rate": "Tasa",
+        "state": "Estado"
+      }
+    },
+    "remainingHours": "{{hours}} horas restantes",
+    "deny": "Denegar",
+    "apply": "Aplicar"
+  }
+}

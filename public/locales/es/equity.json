@@ -1,0 +1,32 @@
+{
+  "details": {
+    "approve": "Aprobar",
+    "canRedeem": "Puede Canjear después de",
+    "chart": {
+      "description": "El gráfico incluye operaciones factorizadas v1",
+      "equityCapital": "Capital de Equidad",
+      "marketCap": "Capitalización de Mercado",
+      "minterReserve": "Reserva del Acuñador",
+      "price": "Precio de {{symbol}}",
+      "supply": "Suministro",
+      "series": {
+        "ofdpsPrice": "Precio de OFDPS"
+      },
+      "totalIncome": "Ingresos Totales",
+      "totalLosses": "Pérdidas Totales",
+      "totalReserve": "Reserva Total"
+    },
+    "conversionNote": "El precio de {{symbol}} se calcula dinámicamente.\n",
+    "currentPrice": "Precio Actual",
+    "holdingPeriod": "Período de Retención",
+    "invest": "Invertir",
+    "placeholder": "Cantidad de {{symbol}}",
+    "receiveLabel": "Recibir",
+    "redeem": "Canjear",
+    "redemption": "El canje requiere un período de retención de 90 días.",
+    "title": "Detalles del Fondo",
+    "yourBalance": "Su Saldo"
+  },
+  "subTitle": "Acciones del Fondo {{name}} (OFDPS)",
+  "title": "Capital"
+}

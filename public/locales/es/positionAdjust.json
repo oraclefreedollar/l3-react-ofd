@@ -1,0 +1,40 @@
+{
+  "back": "Volver a la posición",
+  "title": "Ajustar Posición",
+  "outcome": {
+    "title": "Resultado",
+    "futureMintedAmount": "Cantidad futura acuñada",
+    "minted": "Cantidad acuñada actual",
+    "mintingFee": "Tarifa de acuñación (interés)",
+    "receive": "Usted recibe",
+    "reserve": "Añadido a la reserva en su nombre",
+    "return": "Usted devuelve",
+    "returnFromReserve": "Devuelto desde la reserva"
+  },
+  "variables": {
+    "title": "Variables",
+    "amount": "Cantidad",
+    "amountBalanceLabel": "Mín:",
+    "amountPlaceholder": "Cantidad del Préstamo",
+    "buttons": {
+      "adjust": "Ajustar Posición",
+      "adjustError": "Solo puede ajustar su propia posición",
+      "approve": "Aprobar Garantía"
+    },
+    "collateral": "Garantía",
+    "collateralBalanceLabel": "Máx:",
+    "collateralPlaceholder": "Cantidad de Garantía",
+    "collateralSent": "{{amount}} enviado de vuelta a su cartera",
+    "collateralTaken": "{{amount}} tomado de su cartera",
+    "errors": {
+      "insufficientBalance": "OFD insuficiente en la cartera",
+      "limitExceeded": "Esta posición está limitada a {{limit}} OFD",
+      "maxMint": "Se puede acuñar como máximo {{maxMint}} OFD con el precio y la garantía dados",
+      "increaseAfterCooldown": "La cantidad solo puede incrementarse después de que el nuevo precio haya pasado el período de enfriamiento."
+    },
+    "insufficientCollateral": "{{collateralSymbol}} insuficiente en su cartera",
+    "liqPrice": "Precio de Liquidación",
+    "liqPriceBalanceLabel": "Valor Actual",
+    "noEnoughCollateral": "No hay suficiente garantía para el precio y la cantidad a acuñar dados"
+  }
+}

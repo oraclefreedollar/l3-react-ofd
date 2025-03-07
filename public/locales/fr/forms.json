@@ -1,0 +1,31 @@
+{
+  "positionCreate": {
+    "auctionDuration": "La durée de l'enchère doit être supérieure à 1 mois.",
+    "buffer": {
+      "max": "Le tampon doit être inférieur à 100%.",
+      "min": "Le tampon doit être d'au moins 10%."
+    },
+    "collateralAddress": {
+      "invalid": "Adresse de garantie invalide.",
+      "noData": "Impossible d'obtenir les données du jeton.",
+      "notSupported": "Les décimales du jeton doivent être inférieures à 24."
+    },
+    "initialCollateral": {
+      "greaterThanZero": "La garantie initiale doit être supérieure à 0.",
+      "greaterThanMinimum": "La garantie initiale doit être supérieure au montant minimum."
+    },
+    "initPeriod": {
+      "min": "La période d'initialisation doit être supérieure à 5 jours."
+    },
+    "interest": {
+      "min": "Le taux d'intérêt annuel doit être supérieur à 0%.",
+      "max": "Le taux d'intérêt annuel doit être inférieur à 100%."
+    },
+    "liqPrice": {
+      "min": "La valeur de liquidation de la garantie doit être d'au moins 3500 OFD."
+    },
+    "maturity": {
+      "min": "L'échéance doit être supérieure à 0."
+    }
+  }
+}

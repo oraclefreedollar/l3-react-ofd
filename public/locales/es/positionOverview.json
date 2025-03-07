@@ -1,0 +1,32 @@
+{
+  "title": "Vista General de la Posición",
+  "back": "Volver a posiciones",
+  "buttons": {
+    "adjust": "Ajustar",
+    "clone": "Clonar Posición",
+    "challenge": "Desafiar"
+  },
+  "subTitle": "Vista General de la Posición {{address}}",
+  "section": {
+    "annualInterest": "Interés Anual",
+    "collateral": "Garantía",
+    "closed": "Cerrada",
+    "expirationDate": "Fecha de Vencimiento",
+    "limit": "Límite",
+    "liqPrice": "Precio de Liquidación",
+    "mintedTotal": "Total Acuñado",
+    "owner": "Propietario",
+    "positionDetails": "Detalles de la Posición",
+    "reserveRequirement": "Requisito de Reserva",
+    "retainedReserve": "Reserva Retenida"
+  },
+  "cooldown": {
+    "title": "Período de Enfriamiento",
+    "description": "Esta posición está sujeta a un período de enfriamiento que finaliza el {{cooldown}} ya que su propietario ha aumentado recientemente el precio de liquidación aplicable. El período de enfriamiento da a otros usuarios la oportunidad de desafiar la posición antes de que se puedan acuñar oracleFreeDollars adicionales."
+  },
+  "challengeTable": {
+    "noContent": "Esta posición actualmente no está siendo desafiada.",
+    "title": "Desafíos Abiertos",
+    "loading": "Cargando desafíos..."
+  }
+}

@@ -18,22 +18,26 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { appWithTranslation } from 'next-i18next'
 import nextI18nextConfig from '../next-i18next.config'
 
+import { LanguageProvider } from 'contexts/language'
+
 function App({ Component, pageProps }: AppProps) {
 	return (
 		<ReduxProvider store={store}>
 			<Web3ModalProvider>
-				<ApolloProvider client={clientPonder}>
-					<BlockUpdater>
-						<NextSeoProvider />
-						<ToastContainer hideProgressBar={false} position="bottom-right" rtl={false} theme="dark" />
+				<LanguageProvider>
+					<ApolloProvider client={clientPonder}>
+						<BlockUpdater>
+							<NextSeoProvider />
+							<ToastContainer hideProgressBar={false} position="bottom-right" rtl={false} theme="dark" />
 
-						<Layout>
-							<Component {...pageProps} />
-							<Analytics />
-							<SpeedInsights />
-						</Layout>
-					</BlockUpdater>
-				</ApolloProvider>
+							<Layout>
+								<Component {...pageProps} />
+								<Analytics />
+								<SpeedInsights />
+							</Layout>
+						</BlockUpdater>
+					</ApolloProvider>
+				</LanguageProvider>
 			</Web3ModalProvider>
 		</ReduxProvider>
 	)

@@ -1,0 +1,32 @@
+{
+  "details": {
+    "approve": "승인",
+    "canRedeem": "환매 가능 시점",
+    "chart": {
+      "description": "차트에는 v1 거래가 포함됩니다",
+      "equityCapital": "자본금",
+      "marketCap": "시가총액",
+      "minterReserve": "발행자 준비금",
+      "price": "{{symbol}} 가격",
+      "supply": "공급량",
+      "series": {
+        "ofdpsPrice": "OFDPS 가격"
+      },
+      "totalIncome": "총 수입",
+      "totalLosses": "총 손실",
+      "totalReserve": "총 준비금"
+    },
+    "conversionNote": "{{symbol}} 가격은 동적으로 계산됩니다.\n",
+    "currentPrice": "현재 가격",
+    "holdingPeriod": "보유 기간",
+    "invest": "투자",
+    "placeholder": "{{symbol}} 금액",
+    "receiveLabel": "수령",
+    "redeem": "환매",
+    "redemption": "환매에는 90일의 보유 기간이 필요합니다.",
+    "title": "풀 상세정보",
+    "yourBalance": "귀하의 잔액"
+  },
+  "subTitle": "{{name}} 풀 쉐어(OFDPS)",
+  "title": "자본"
+}

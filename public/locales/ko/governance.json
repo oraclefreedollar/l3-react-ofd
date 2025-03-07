@@ -1,0 +1,67 @@
+{
+  "title": "거버넌스",
+  "delegation": {
+    "title": "위임",
+    "form": {
+      "label": "투표 위임 대상",
+      "placeholder": "위임받는 사람의 주소",
+      "error": "유효한 EOA 주소 형식으로 주소를 입력해주세요.",
+      "button": "설정"
+    },
+    "stats": {
+      "delegatedTo": "위임 대상",
+      "yourRawVotes": "귀하의 원시 투표",
+      "totalVotes": "총 투표",
+      "yourTotalVotes": "귀하의 총 투표"
+    }
+  },
+  "delegatingToYou": {
+    "title": "귀하에게 위임"
+  },
+  "proposals": {
+    "title": "제안"
+  },
+  "baseRate": {
+    "title": "기본 금리",
+    "description": "이것은 새로운 OFD를 발행할 때 적용되는 기본 금리이며 저축자가 지속적으로 이자를 누적하는 금리입니다. 거부권을 가진 사람은 누구나 변경을 제안할 수 있으며, 7일 이내에 대응 제안이 없을 경우 적용될 수 있습니다."
+  },
+  "topVoters": {
+    "title": "상위 투표자"
+  },
+  "minterProposal": {
+    "date": "날짜:",
+    "minter": "발행자:",
+    "comment": "댓글:",
+    "fee": "수수료:",
+    "votingPeriod": "투표 기간:",
+    "button": "거부",
+    "status": {
+      "active": "활성",
+      "expired": "만료됨",
+      "passed": "통과됨",
+      "ready": "준비됨",
+      "vetoed": "거부됨"
+    }
+  },
+  "leadrate": {
+    "button": "변경 제안",
+    "form": {
+      "label": "현재 기본 금리",
+      "placeholder": "현재 주요 금리: %",
+      "error": "유효한 숫자를 입력해주세요.",
+      "button": "제안"
+    },
+    "table": {
+      "empty": "아직 제안이 없습니다.",
+      "header": {
+        "date": "날짜",
+        "proposer": "제안자",
+        "rate": "금리",
+        "state": "상태"
+      }
+    },
+    "remainingHours": "{{hours}}시간 남음",
+    "deny": "거부",
+    "apply": "적용"
+  }
+}

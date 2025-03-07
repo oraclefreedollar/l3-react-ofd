@@ -1,0 +1,67 @@
+{
+  "title": "Governance",
+  "delegation": {
+    "title": "Delegation",
+    "form": {
+      "label": "Stimmen delegieren an",
+      "placeholder": "Adresse des Delegierten",
+      "error": "Bitte geben Sie die Adresse im gültigen EOA-Adressformat ein.",
+      "button": "Festlegen"
+    },
+    "stats": {
+      "delegatedTo": "Delegiert an",
+      "yourRawVotes": "Ihre Rohstimmen",
+      "totalVotes": "Gesamtstimmen",
+      "yourTotalVotes": "Ihre Gesamtstimmen"
+    }
+  },
+  "delegatingToYou": {
+    "title": "An Sie delegiert"
+  },
+  "proposals": {
+    "title": "Vorschläge"
+  },
+  "baseRate": {
+    "title": "Basiszinssatz",
+    "description": "Dies ist der Basiszinssatz, der beim Prägen neuer OFDs angewendet wird und mit dem Sparer kontinuierlich Zinsen ansammeln. Jeder mit Vetorecht kann eine Änderung vorschlagen, die angewendet werden kann, wenn es innerhalb von sieben Tagen keinen Gegenvorschlag gibt."
+  },
+  "topVoters": {
+    "title": "Top-Wähler"
+  },
+  "minterProposal": {
+    "date": "Datum:",
+    "minter": "Präger:",
+    "comment": "Kommentar:",
+    "fee": "Gebühr:",
+    "votingPeriod": "Abstimmungszeitraum:",
+    "button": "Veto",
+    "status": {
+      "active": "Aktiv",
+      "expired": "Abgelaufen",
+      "passed": "Angenommen",
+      "ready": "Bereit",
+      "vetoed": "Abgelehnt"
+    }
+  },
+  "leadrate": {
+    "button": "Änderung vorschlagen",
+    "form": {
+      "label": "Aktueller Basiszinssatz",
+      "placeholder": "Aktueller Leitzins: %",
+      "error": "Bitte geben Sie eine gültige Zahl ein.",
+      "button": "Vorschlagen"
+    },
+    "table": {
+      "empty": "Es gibt noch keine Vorschläge.",
+      "header": {
+        "date": "Datum",
+        "proposer": "Vorschlagender",
+        "rate": "Zinssatz",
+        "state": "Status"
+      }
+    },
+    "remainingHours": "{{hours}} Stunden übrig",
+    "deny": "Ablehnen",
+    "apply": "Anwenden"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "title": "Épargne",
+  "sections": {
+    "deposits": {
+      "noSavings": "Il n'y a pas encore d'épargne.",
+      "title":"Dépôts Récents",
+      "table": {
+        "amount": "Montant",
+        "balance": "Solde",
+        "date": "Date",
+        "saver": "Épargnant"
+      }
+    },
+    "interest": {
+      "noInterest": "Il n'y a pas encore de réclamations d'intérêts.",
+      "title": "Réclamations d'Intérêts Récentes",
+      "table": {
+        "balance": "Solde",
+        "date": "Date",
+        "interest": "Intérêt",
+        "saver": "Épargnant"
+      }
+    },
+    "withdrawals": {
+      "noWithdrawals": "Il n'y a pas encore de retraits.",
+      "title":"Retraits Récents",
+      "table": {
+        "amount": "Montant",
+        "balance": "Solde",
+        "date": "Date",
+        "saver": "Épargnant"
+      }
+    }
+  },
+
+  "infoCard": {
+    "currentRate": "Taux d'Intérêt Actuel",
+    "moduleContract": "Contrat de Module",
+    "totalSavings": "Épargne Totale"
+  },
+  "interactionCard": {
+    "balanceLabel": "Max :",
+    "button": "Ajuster",
+    "label": "Votre Épargne",
+    "placeholder": "Montant de {{symbol}}",
+    "title": "Ajustement"
+  },
+  "outcome": {
+    "addToYourWallet": "À ajouter de votre portefeuille",
+    "balance": "Votre solde actuel",
+    "interest": "Intérêts à percevoir",
+    "locktime": "Lors de l'ajout de fonds supplémentaires, votre solde sera verrouillé jusqu'à ce que les intérêts commencent à s'accumuler, ce qui peut prendre jusqu'à trois jours. Cette règle vise à décourager l'épargne de fonds détenus à des fins transactionnelles.",
+    "locktime2": "Vos fonds sont encore verrouillés pour {{hours}} heures.",
+    "resultingBalance": "Solde résultant",
+    "title": "Résultat",
+    "withdrawFromWallet": "Retirer de votre portefeuille"
+  }
+}

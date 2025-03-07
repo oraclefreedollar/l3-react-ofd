@@ -1,0 +1,16 @@
+{
+  "buttons": {
+    "approve": "Genehmigen",
+    "swap": "Tauschen",
+    "switchDirection": "Tauschrichtung ändern"
+  },
+  "errors": {
+    "insufficientSwapLimit": "Nicht genug {{symbol}} zum Tauschen verfügbar."
+  },
+  "exchangeRate": "1 {{fromSymbol}} = 1 {{toSymbol}}",
+  "header": "USDT und OFD tauschen",
+  "receive": "Erhalten",
+  "swapAmount": "Tauschbetrag",
+  "swapLimit": "Tauschlimit",
+  "title": "Tauschen"
+}

@@ -1,0 +1,54 @@
+{
+  "back": "Zurück zur Position",
+  "title": "Frische OracleFreeDollars prägen",
+  "mintingSection": {
+    "title": "Prägebetrag und Sicherheit",
+    "amount": {
+      "label": "Betrag",
+      "balanceLabel": "Limit:",
+      "placeholder": "Gesamtbetrag zum Prägen"
+    },
+    "collateral": {
+      "label": "Erforderliche Sicherheit",
+      "balanceLabel": "Ihr Guthaben:",
+      "valueNote": "Bewertet mit {{price}} OFD, Minimum ist {{minimum}} {{symbol}}"
+    },
+    "expiration": {
+      "label": "Ablaufdatum",
+      "error": "Ablaufdatum sollte zwischen Jetzt und Limit liegen"
+    },
+    "buttons": {
+      "approve": "Genehmigen",
+      "clone": "Position klonen",
+      "minimumError": "Eine Position muss mindestens {{minimum}} {{symbol}} haben"
+    },
+    "errors": {
+      "notEnoughOFD": "Nicht genug OFD für diese Position verfügbar.",
+      "cannotMintMore": "Es können nicht mehr als {{limit}}.{{value}} geprägt werden"
+    }
+  },
+  "outcome": {
+    "title": "Ergebnis",
+    "sentToWallet": "An Ihre Wallet gesendet",
+    "lockedInReserve": "In Kreditnehmerreserve gesperrt",
+    "fees": "Gebühren ({{percent}}%)",
+    "total": "Gesamt"
+  },
+  "notes": {
+    "title": "Hinweise",
+    "description1": "Der geliehene Betrag kann später geändert werden, aber nicht über den ursprünglichen Betrag hinaus erhöht werden.",
+    "description2": "Der Liquidationspreis wird von der übergeordneten Position übernommen, kann aber später angepasst werden. Zum Beispiel könnte der Liquidationspreis verdoppelt und dann die Hälfte der Sicherheit entnommen werden, wenn der neue Liquidationspreis nicht herausgefordert wird.",
+    "description3": "Es ist möglich, teilweise zurückzuzahlen oder vorzeitig zurückzuzahlen, um die Sicherheit zurückzubekommen, aber die Gebühr wird im Voraus bezahlt und nie zurückerstattet."
+  },
+  "options": {
+    "title": "Wie planen Sie zu leihen?",
+    "openNewPosition": {
+      "title": "Neue Position eröffnen (Sicherheit)",
+      "description": "Beginnen Sie ganz neu mit einer neuen Leihposition. Diese Option ermöglicht es Ihnen, Ihre Sicherheit und Bedingungen von Grund auf einzurichten."
+    },
+    "cloneExistingPosition": {
+      "title": "Bestehende Position klonen (Sicherheit)",
+      "description": "Kopieren Sie die Parameter einer bestehenden Position, um schnell eine neue mit ähnlichen Bedingungen und Konditionen einzurichten."
+    }
+  }
+}

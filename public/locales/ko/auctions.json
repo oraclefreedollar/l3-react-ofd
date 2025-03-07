@@ -1,0 +1,15 @@
+{
+  "title": "경매",
+  "header": {
+    "yourAuctions": "귀하의 경매",
+    "allAuctions": "모든 경매"
+  },
+  "noContent": {
+    "yourAuctions": "귀하는 경매가 없습니다.",
+    "allAuctions": "아직 경매가 없습니다."
+  },
+  "challengeTable": {
+    "title": "오픈 챌린지",
+    "loading": "로딩 중..."
+  }
+}

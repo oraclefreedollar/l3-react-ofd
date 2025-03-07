@@ -1,0 +1,20 @@
+{
+  "challenge": "챌린지",
+  "forceSell": "강제 판매",
+  "maturity": {
+    "days": "{{days}}일",
+    "hours": "{{hours}}시간"
+  },
+  "noActivePositions": "활성 포지션이 없습니다",
+  "status": {
+    "active": "활성",
+    "expired": "만료됨"
+  },
+  "table": {
+    "challenged": "도전받음",
+    "collateral": "담보",
+    "collateralization": "담보화 비율",
+    "expiration": "만료"
+  },
+  "title": "모니터링"
+}

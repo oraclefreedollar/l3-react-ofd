@@ -1,0 +1,20 @@
+{
+  "challenge": "Desafiar",
+  "forceSell": "Forzar Venta",
+  "maturity": {
+    "days": "{{days}} días",
+    "hours": "{{hours}} horas"
+  },
+  "noActivePositions": "No hay posiciones activas",
+  "status": {
+    "active": "Activa",
+    "expired": "Expirada"
+  },
+  "table": {
+    "challenged": "Desafiada",
+    "collateral": "Garantía",
+    "collateralization": "Colateralización",
+    "expiration": "Vencimiento"
+  },
+  "title": "Monitorización"
+}

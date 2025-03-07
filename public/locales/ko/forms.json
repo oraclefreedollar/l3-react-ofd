@@ -1,0 +1,31 @@
+{
+  "positionCreate": {
+    "auctionDuration": "경매 기간은 1개월보다 길어야 합니다.",
+    "buffer": {
+      "max": "버퍼는 100% 미만이어야 합니다.",
+      "min": "버퍼는 최소 10%여야 합니다."
+    },
+    "collateralAddress": {
+      "invalid": "유효하지 않은 담보 주소입니다.",
+      "noData": "토큰 데이터를 가져올 수 없습니다.",
+      "notSupported": "토큰 소수점은 24보다 작아야 합니다."
+    },
+    "initialCollateral": {
+      "greaterThanZero": "초기 담보는 0보다 커야 합니다.",
+      "greaterThanMinimum": "초기 담보는 최소 금액보다 커야 합니다."
+    },
+    "initPeriod": {
+      "min": "초기화 기간은 5일보다 길어야 합니다."
+    },
+    "interest": {
+      "min": "연간 이자율은 0%보다 커야 합니다.",
+      "max": "연간 이자율은 100% 미만이어야 합니다."
+    },
+    "liqPrice": {
+      "min": "담보의 청산 가치는 최소 3500 OFD여야 합니다."
+    },
+    "maturity": {
+      "min": "만기는 0보다 커야 합니다."
+    }
+  }
+}

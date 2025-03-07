@@ -1,0 +1,54 @@
+{
+  "back": "Retour à la position",
+  "title": "Créer de Nouveaux OracleFreeDollars",
+  "mintingSection": {
+    "title": "Montant de Création et Garantie",
+    "amount": {
+      "label": "Montant",
+      "balanceLabel": "Limite :",
+      "placeholder": "Montant Total à Créer"
+    },
+    "collateral": {
+      "label": "Garantie Requise",
+      "balanceLabel": "Votre solde :",
+      "valueNote": "Évalué à {{price}} OFD, le minimum est de {{minimum}} {{symbol}}"
+    },
+    "expiration": {
+      "label": "Expiration",
+      "error": "La Date d'Expiration doit être entre Maintenant et la Limite"
+    },
+    "buttons": {
+      "approve": "Approuver",
+      "clone": "Cloner la Position",
+      "minimumError": "Une position doit avoir au moins {{minimum}} {{symbol}}"
+    },
+    "errors": {
+      "notEnoughOFD": "Pas assez d'OFD disponible pour cette position.",
+      "cannotMintMore": "Impossible de créer plus de {{limit}}.{{value}}"
+    }
+  },
+  "outcome": {
+    "title": "Résultat",
+    "sentToWallet": "Envoyé à votre portefeuille",
+    "lockedInReserve": "Verrouillé dans la réserve des emprunteurs",
+    "fees": "Frais ({{percent}}%)",
+    "total": "Total"
+  },
+  "notes": {
+    "title": "Notes",
+    "description1": "Le montant emprunté peut être modifié ultérieurement, mais ne peut pas être augmenté au-delà du montant initial.",
+    "description2": "Le prix de liquidation est hérité de la position parente, mais peut être ajusté ultérieurement. Par exemple, le prix de liquidation pourrait être doublé et ensuite la moitié de la garantie retirée si le nouveau prix de liquidation n'est pas contesté.",
+    "description3": "Il est possible de rembourser partiellement ou de rembourser de manière anticipée afin de récupérer la garantie, mais les frais sont payés à l'avance et ne sont jamais remboursés."
+  },
+  "options": {
+    "title": "Comment prévoyez-vous d'Emprunter ?",
+    "openNewPosition": {
+      "title": "Ouvrir une Nouvelle Position (Garantie)",
+      "description": "Commencez à neuf avec une nouvelle position d'emprunt. Cette option vous permet de configurer votre garantie et vos conditions depuis le début."
+    },
+    "cloneExistingPosition": {
+      "title": "Cloner une Position Existante (Garantie)",
+      "description": "Copiez les paramètres d'une position existante pour configurer rapidement une nouvelle avec des termes et conditions similaires."
+    }
+  }
+}

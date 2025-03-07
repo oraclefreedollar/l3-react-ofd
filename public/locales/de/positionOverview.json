@@ -1,0 +1,32 @@
+{
+  "title": "Positionsübersicht",
+  "back": "Zurück zu Positionen",
+  "buttons": {
+    "adjust": "Anpassen",
+    "clone": "Position klonen",
+    "challenge": "Herausfordern"
+  },
+  "subTitle": "Positionsübersicht {{address}}",
+  "section": {
+    "annualInterest": "Jährlicher Zins",
+    "collateral": "Sicherheit",
+    "closed": "Geschlossen",
+    "expirationDate": "Ablaufdatum",
+    "limit": "Limit",
+    "liqPrice": "Liquidationspreis",
+    "mintedTotal": "Geprägter Gesamtbetrag",
+    "owner": "Eigentümer",
+    "positionDetails": "Positionsdetails",
+    "reserveRequirement": "Reserveanforderung",
+    "retainedReserve": "Zurückbehaltene Reserve"
+  },
+  "cooldown": {
+    "title": "Abkühlungsphase",
+    "description": "Diese Position unterliegt einer Abkühlungsphase, die am {{cooldown}} endet, da ihr Eigentümer kürzlich den anwendbaren Liquidationspreis erhöht hat. Die Abkühlungsphase gibt anderen Benutzern die Möglichkeit, die Position herauszufordern, bevor zusätzliche oracleFreeDollars geprägt werden können."
+  },
+  "challengeTable": {
+    "noContent": "Diese Position wird derzeit nicht herausgefordert.",
+    "title": "Offene Herausforderungen",
+    "loading": "Herausforderungen werden geladen..."
+  }
+}

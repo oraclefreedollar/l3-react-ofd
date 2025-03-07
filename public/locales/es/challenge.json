@@ -1,0 +1,54 @@
+{
+  "buttons": {
+    "approve": "Aprobar",
+    "challenge": "Desafiar"
+  },
+  "columns": {
+    "auctionPrice": "Precio de Subasta",
+    "cap": "Límite",
+    "state": "Estado",
+    "progress": "Progreso"
+  },
+  "details": {
+    "startingPrice": "Precio Inicial",
+    "maxProceeds": "Ingresos Máximos",
+    "collateralInPosition": "Garantía en Posición",
+    "minimumAmount": "Cantidad Mínima",
+    "fixedPhase": "Fase de Precio Fijo",
+    "decliningPhase": "Fase de Precio Decreciente"
+  },
+  "form": {
+    "title": "Detalles del Desafío",
+    "amount": {
+      "label": "Cantidad",
+      "placeholder": "Cantidad de Garantía"
+    },
+    "errors": {
+      "tooHighCollateral": "La garantía del desafío debe ser menor que la garantía de la posición",
+      "tooLowCollateral": "La garantía del desafío debe ser mayor que la garantía mínima"
+    }
+  },
+  "header": {
+    "title": "Lanzar Desafío",
+    "backText": "Volver a la posición"
+  },
+  "info": {
+    "title": "¿Cómo funciona?",
+    "description": "La cantidad del activo de garantía que proporcione será subastada públicamente en una subasta holandesa. La subasta tiene dos fases, una fase de precio fijo y una fase de precio decreciente.",
+    "phases": {
+      "fixed": "Durante la fase de precio fijo, cualquiera puede comprar el {{symbol}} que proporcionó al precio de liquidación. Si todo se vende antes de que termine la fase, el desafío se evita y usted efectivamente ha vendido el {{symbol}} proporcionado a los oferentes por {{price}} OFD por unidad.",
+      "declining": "Si el desafío no se evita, la fase de precio fijo es seguida por una fase de precio decreciente durante la cual el precio al que se pueden obtener los tokens {{symbol}} disminuye linealmente hacia cero. En este caso, el desafío se considera exitoso y usted recupera los tokens {{symbol}} proporcionados. Los tokens vendidos en esta fase no provienen del desafiante, sino del propietario de la posición. La cantidad total de tokens que se pueden comprar de la posición está limitada por la cantidad que queda en el desafío al final de la fase de precio fijo. Como recompensa por iniciar un desafío exitoso, usted obtiene el 2% de los ingresos de las ventas."
+    }
+  },
+  "priceInfo": {
+    "startsFalling": "El precio comienza a caer en {{time}}",
+    "reachesZero": "Se alcanza cero en {{time}}",
+    "reachedZero": "Se alcanzó cero a las {{time}}"
+  },
+  "states": {
+    "fixedPrice": "Fase de Precio Fijo",
+    "decliningPrice": "Fase de Precio Decreciente",
+    "zeroPrice": "Fase de Precio Cero"
+  },
+  "title": "Desafío de Posición"
+}

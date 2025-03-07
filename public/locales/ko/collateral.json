@@ -1,0 +1,13 @@
+{
+  "title": "담보",
+  "headerTitle": "새 OFD 발행",
+  "noSavings": "아직 저축이 없습니다.",
+  "table": {
+    "collateral": "담보",
+    "loanToValue": "대출 대 가치",
+    "effectiveInterest": "실효 이자",
+    "liquidationPrice": "청산 가격",
+    "maturity": "만기",
+    "clone": "복제 및 발행"
+  }
+}
