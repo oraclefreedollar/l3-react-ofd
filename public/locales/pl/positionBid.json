@@ -1,0 +1,24 @@
+{
+  "title": "Złóż ofertę",
+  "back": "Powrót do pozycji",
+  "buttons": {
+    "approve": "Zatwierdź",
+    "bid": "Złóż ofertę"
+  },
+  "details": {
+    "challengeLabel": "Kupujesz",
+    "challengePlaceholder": "Kwota wyzwania",
+    "challenger": "Wyzywający",
+    "expectedPrice": "Oczekiwana całkowita cena: {{amount}} OFD",
+    "originalSize": "Oryginalny rozmiar",
+    "phaseDuration": "Czas trwania fazy",
+    "pricePerUnit": "Cena za jednostkę",
+    "reachingZero": "Osiąganie zera o",
+    "remainingCollateral": "Pozostałe zabezpieczenie",
+    "title": "Szczegóły oferty"
+  },
+  "errors": {
+    "noEnoughBalance": "Niewystarczające saldo w twoim portfelu",
+    "expectedWinningCollateral": "Oczekiwane wygrywające zabezpieczenie powinno być niższe niż pozostałe zabezpieczenie"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "title": "Pozycje",
+  "myPositions": "Moje pozycje",
+  "otherPositions": "Inne pozycje",
+  "table": {
+    "adjust": "Dostosuj",
+    "clone": "Klonuj i twórz",
+    "closed": "Zamknięte",
+    "denied": "Odrzucone",
+    "header": {
+      "collateral": "Zabezpieczenie",
+      "liqPrice": "Cena likwidacji",
+      "availableAmount": "Dostępna kwota"
+    },
+    "noPositions": "Nie ma jeszcze innych pozycji.",
+    "noPositionsAccount": "Nie masz żadnych pozycji."
+  }
+}

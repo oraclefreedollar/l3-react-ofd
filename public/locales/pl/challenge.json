@@ -1,0 +1,54 @@
+{
+  "buttons": {
+    "approve": "Zatwierdź",
+    "challenge": "Wyzwanie"
+  },
+  "columns": {
+    "auctionPrice": "Cena aukcji",
+    "cap": "Limit",
+    "state": "Stan",
+    "progress": "Postęp"
+  },
+  "details": {
+    "startingPrice": "Cena początkowa",
+    "maxProceeds": "Maksymalne wpływy",
+    "collateralInPosition": "Zabezpieczenie w pozycji",
+    "minimumAmount": "Minimalna kwota",
+    "fixedPhase": "Faza stałej ceny",
+    "decliningPhase": "Faza malejącej ceny"
+  },
+  "form": {
+    "title": "Szczegóły wyzwania",
+    "amount": {
+      "label": "Kwota",
+      "placeholder": "Kwota zabezpieczenia"
+    },
+    "errors": {
+      "tooHighCollateral": "Zabezpieczenie wyzwania powinno być niższe niż zabezpieczenie pozycji",
+      "tooLowCollateral": "Zabezpieczenie wyzwania powinno być wyższe niż minimalne zabezpieczenie"
+    }
+  },
+  "header": {
+    "title": "Rozpocznij wyzwanie",
+    "backText": "Powrót do pozycji"
+  },
+  "info": {
+    "title": "Jak to działa?",
+    "description": "Ilość aktywów zabezpieczających, które dostarczasz, zostanie publicznie wystawiona na aukcji w aukcji holenderskiej. Aukcja ma dwie fazy, fazę stałej ceny i fazę malejącej ceny.",
+    "phases": {
+      "fixed": "Podczas fazy stałej ceny, każdy może kupić dostarczoną przez ciebie {{symbol}} po cenie likwidacji. Jeśli wszystko zostanie sprzedane przed końcem fazy, wyzwanie zostanie odwrócone, a ty skutecznie sprzedałeś dostarczoną {{symbol}} oferentom za {{price}} OFD za jednostkę.",
+      "declining": "Jeśli wyzwanie nie zostanie odwrócone, po fazie stałej ceny następuje faza malejącej ceny, podczas której cena, po której można uzyskać tokeny {{symbol}}, liniowo spada do zera. W tym przypadku wyzwanie uznaje się za udane i odzyskujesz dostarczone tokeny {{symbol}}. Tokeny sprzedane w tej fazie nie pochodzą od wyzywającego, ale od właściciela pozycji. Całkowita ilość tokenów, które można kupić z pozycji, jest ograniczona ilością pozostałą w wyzwaniu na koniec fazy stałej ceny. Jako nagrodę za rozpoczęcie udanego wyzwania, otrzymujesz 2% wpływów ze sprzedaży."
+    }
+  },
+  "priceInfo": {
+    "startsFalling": "Cena zaczyna spadać za {{time}}",
+    "reachesZero": "Zero zostanie osiągnięte za {{time}}",
+    "reachedZero": "Osiągnięto zero o {{time}}"
+  },
+  "states": {
+    "fixedPrice": "Faza stałej ceny",
+    "decliningPrice": "Faza malejącej ceny",
+    "zeroPrice": "Faza zerowej ceny"
+  },
+  "title": "Wyzwanie pozycji"
+}

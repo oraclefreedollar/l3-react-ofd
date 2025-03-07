@@ -1,0 +1,16 @@
+{
+  "buttons": {
+    "approve": "Zatwierdź",
+    "swap": "Wymień",
+    "switchDirection": "Zmień kierunek wymiany"
+  },
+  "errors": {
+    "insufficientSwapLimit": "Niewystarczająca ilość {{symbol}} dostępna do wymiany."
+  },
+  "exchangeRate": "1 {{fromSymbol}} = 1 {{toSymbol}}",
+  "header": "Wymień USDT i OFD",
+  "receive": "Otrzymaj",
+  "swapAmount": "Kwota wymiany",
+  "swapLimit": "Limit wymiany",
+  "title": "Wymiana"
+}

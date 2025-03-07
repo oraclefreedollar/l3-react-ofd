@@ -1,0 +1,41 @@
+{
+  "title": "Strona główna",
+  "description": "Strona główna",
+  "hero": {
+    "title": "Oracle Free Dollar",
+    "subtitle": "Zdecentralizowana, zabezpieczona stablecoin, która śledzi Dolara Amerykańskiego bez polegania na oraclach"
+  },
+  "stats": {
+    "price": "Cena",
+    "tvl": "Całkowita zablokowana wartość",
+    "marketCap": "Kapitalizacja rynkowa",
+    "totalSupply": "Całkowita podaż"
+  },
+  "navigation": {
+    "swap": {
+      "title": "Wymień OFD",
+      "description": "Zainwestuj w Oracle Free Dollar, wymieniając USDT"
+    },
+    "createPosition": {
+      "title": "Utwórz pozycję",
+      "description": "Otwórz nową pozycję zabezpieczenia i utwórz OFD"
+    },
+    "pool": {
+      "title": "OFDPS / Kapitał",
+      "description": "Przeglądaj udziały puli OFD reprezentujące kapitał"
+    }
+  },
+  "about": {
+    "title": "Zdecentralizowana stabilność",
+    "description": "Oracle Free Dollar (OFD) to rewolucyjny stablecoin, który utrzymuje swój peg do Dolara Amerykańskiego poprzez unikalny, zdecentralizowany mechanizm. Nasz system likwidacji oparty na aukcjach zapewnia stabilność bez polegania na zewnętrznych źródłach cenowych, czyniąc OFD jednym z najbardziej solidnych i bezpiecznych stablecoinów na rynku."
+  },
+  "officialContracts": {
+    "title": "Oficjalne kontrakty",
+    "ofd": {
+      "title": "Dodaj OFD do swojego portfela"
+    },
+    "ofdps": {
+      "title": "Dodaj OFDPS do swojego portfela"
+    }
+  }
+}

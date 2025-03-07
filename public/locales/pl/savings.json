@@ -1,0 +1,58 @@
+{
+  "title": "Oszczędności",
+  "sections": {
+    "deposits": {
+      "noSavings": "Nie ma jeszcze oszczędności.",
+      "title":"Ostatnie wpłaty",
+      "table": {
+        "amount": "Kwota",
+        "balance": "Saldo",
+        "date": "Data",
+        "saver": "Oszczędzający"
+      }
+    },
+    "interest": {
+      "noInterest": "Nie ma jeszcze roszczeń odsetek.",
+      "title": "Ostatnie roszczenia odsetek",
+      "table": {
+        "balance": "Saldo",
+        "date": "Data",
+        "interest": "Odsetki",
+        "saver": "Oszczędzający"
+      }
+    },
+    "withdrawals": {
+      "noWithdrawals": "Nie ma jeszcze wypłat.",
+      "title":"Ostatnie wypłaty",
+      "table": {
+        "amount": "Kwota",
+        "balance": "Saldo",
+        "date": "Data",
+        "saver": "Oszczędzający"
+      }
+    }
+  },
+
+  "infoCard": {
+    "currentRate": "Aktualna stopa procentowa",
+    "moduleContract": "Kontrakt modułu",
+    "totalSavings": "Łączne oszczędności"
+  },
+  "interactionCard": {
+    "balanceLabel": "Maks:",
+    "button": "Dostosuj",
+    "label": "Twoje oszczędności",
+    "placeholder": "Kwota {{symbol}}",
+    "title": "Dostosowanie"
+  },
+  "outcome": {
+    "addToYourWallet": "Do dodania z twojego portfela",
+    "balance": "Twoje aktualne saldo",
+    "interest": "Odsetki do pobrania",
+    "locktime": "Podczas oszczędzania dodatkowych środków, twoje saldo zostanie zablokowane do czasu rozpoczęcia naliczania odsetek, co może potrwać do trzech dni. Ta zasada służy zniechęceniu do oszczędzania środków utrzymywanych do celów transakcyjnych.",
+    "locktime2": "Twoje środki są nadal zablokowane przez {{hours}} godzin.",
+    "resultingBalance": "Wynikowe saldo",
+    "title": "Wynik",
+    "withdrawFromWallet": "Wypłać z portfela"
+  }
+}
