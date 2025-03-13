@@ -29,24 +29,24 @@ export default function ChallengeRow({ auctionEnd, challengeSize, filledSize, fi
 	const stateText = useMemo(
 		() =>
 			!isFixedEnd
-				? t('pages:challenge:states:fixedPrice')
+				? t('challenge:states:fixedPrice')
 				: !isAuctionExpired
-					? t('pages:challenge:states:decliningPrice')
-					: t('pages:challenge:states:zeroPrice'),
+					? t('challenge:states:decliningPrice')
+					: t('challenge:states:zeroPrice'),
 		[isFixedEnd, isAuctionExpired, t]
 	)
 
 	const priceText = useMemo(
 		() =>
 			!isFixedEnd
-				? t('pages:challenge:priceInfo:startsFalling', {
+				? t('challenge:priceInfo:startsFalling', {
 						time: formatDuration(fixedEnd - BigInt(Math.floor(Date.now() / 1000))),
 					})
 				: !isAuctionExpired
-					? t('pages:challenge:priceInfo:reachesZero', {
+					? t('challenge:priceInfo:reachesZero', {
 							time: formatDuration(auctionEnd - BigInt(Math.floor(Date.now() / 1000))),
 						})
-					: t('pages:challenge:priceInfo:reachedZero', {
+					: t('challenge:priceInfo:reachedZero', {
 							time: formatDate(auctionEnd),
 						}),
 		[auctionEnd, fixedEnd, isAuctionExpired, isFixedEnd, t]
@@ -59,25 +59,25 @@ export default function ChallengeRow({ auctionEnd, challengeSize, filledSize, fi
 		>
 			<div className="grid grid-cols-3">
 				<div>
-					<div className="text-sm">{t('pages:challenge:columns:auctionPrice')}</div>
+					<div className="text-sm">{t('challenge:columns:auctionPrice')}</div>
 					<div className="text-white font-bold">
 						{formatBigInt(price)} {CoinTicker.OFD}
 					</div>
 				</div>
 				<div className="text-center">
-					<div className="text-sm">{t('pages:challenge:columns:cap')}</div>
+					<div className="text-sm">{t('challenge:columns:cap')}</div>
 					<div className="text-white font-bold">
 						{formatBigInt(challengeSize, positionStats.collateralDecimal)} {positionStats.collateralSymbol}
 					</div>
 				</div>
 				<div className="text-right">
-					<div className="text-sm">{t('pages:challenge:columns:state')}</div>
+					<div className="text-sm">{t('challenge:columns:state')}</div>
 					<div className={`font-bold ${isAuctionExpired ? 'text-gray-300' : 'text-green-300'}`}>{stateText}</div>
 				</div>
 			</div>
 			<div className="text-sm text-gray text-right">{priceText}</div>
 			<div className="flex">
-				<span>{t('pages:challenge:columns:progress')}</span>
+				<span>{t('challenge:columns:progress')}</span>
 			</div>
 			<div className="flex bg-gray-500 h-2 rounded-lg">
 				<div className="bg-rose-400 rounded-lg" style={{ width: `${Number(filledRate / 100n)}%` }} />
