@@ -11,7 +11,6 @@ export interface ChallengeQuery {
 	size: bigint
 	filledSize: bigint
 	acquiredCollateral: bigint
-	bid: bigint
 	status: string
 }
 
@@ -42,7 +41,6 @@ export const useChallengeLists = ({ position }: Props) => {
           filledSize
           acquiredCollateral
           number
-          bid
           status
         }
       }
@@ -58,7 +56,6 @@ export const useChallengeLists = ({ position }: Props) => {
 		data.challenges.items.forEach((challenge: any) => {
 			challenges.push({
 				acquiredCollateral: BigInt(challenge.acquiredCollateral),
-				bid: BigInt(challenge.bid),
 				challenger: getAddress(challenge.challenger),
 				duration: BigInt(challenge.duration),
 				filledSize: BigInt(challenge.filledSize),
