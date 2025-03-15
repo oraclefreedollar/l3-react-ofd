@@ -1,0 +1,13 @@
+{
+  "title": "Garantía",
+  "headerTitle": "Acuñar OFD nuevo",
+  "noSavings": "No hay ahorros aún.",
+  "table": {
+    "collateral": "Garantía",
+    "loanToValue": "Ratio Préstamo-Valor",
+    "effectiveInterest": "Interés Efectivo",
+    "liquidationPrice": "Precio de Liquidación",
+    "maturity": "Vencimiento",
+    "clone": "Clonar y Acuñar"
+  }
+}

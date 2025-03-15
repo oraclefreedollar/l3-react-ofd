@@ -1,0 +1,31 @@
+{
+  "positionCreate": {
+    "auctionDuration": "Auktionsdauer muss länger als 1 Monat sein.",
+    "buffer": {
+      "max": "Puffer muss weniger als 100% betragen.",
+      "min": "Puffer muss mindestens 10% betragen."
+    },
+    "collateralAddress": {
+      "invalid": "Ungültige Sicherheitsadresse.",
+      "noData": "Token-Daten konnten nicht abgerufen werden.",
+      "notSupported": "Token-Dezimalstellen sollten weniger als 24 sein."
+    },
+    "initialCollateral": {
+      "greaterThanZero": "Anfangssicherheit muss größer als 0 sein.",
+      "greaterThanMinimum": "Anfangssicherheit muss größer als der Mindestbetrag sein."
+    },
+    "initPeriod": {
+      "min": "Initialisierungsperiode muss länger als 5 Tage sein."
+    },
+    "interest": {
+      "min": "Jährlicher Zinssatz sollte größer als 0% sein.",
+      "max": "Jährlicher Zinssatz sollte kleiner als 100% sein."
+    },
+    "liqPrice": {
+      "min": "Liquidationswert der Sicherheit muss mindestens 3500 OFD betragen."
+    },
+    "maturity": {
+      "min": "Laufzeit muss größer als 0 sein."
+    }
+  }
+}

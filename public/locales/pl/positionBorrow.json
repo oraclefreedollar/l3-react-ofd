@@ -1,0 +1,54 @@
+{
+  "back": "Powrót do pozycji",
+  "title": "Twórz świeże OracleFreeDollars",
+  "mintingSection": {
+    "title": "Kwota tworzenia i zabezpieczenie",
+    "amount": {
+      "label": "Kwota",
+      "balanceLabel": "Limit:",
+      "placeholder": "Całkowita kwota do stworzenia"
+    },
+    "collateral": {
+      "label": "Wymagane zabezpieczenie",
+      "balanceLabel": "Twoje saldo:",
+      "valueNote": "Wycenione na {{price}} OFD, minimum to {{minimum}} {{symbol}}"
+    },
+    "expiration": {
+      "label": "Wygaśnięcie",
+      "error": "Data wygaśnięcia powinna być między Teraz a Limitem"
+    },
+    "buttons": {
+      "approve": "Zatwierdź",
+      "clone": "Klonuj pozycję",
+      "minimumError": "Pozycja musi mieć co najmniej {{minimum}} {{symbol}}"
+    },
+    "errors": {
+      "notEnoughOFD": "Niewystarczająca ilość OFD dostępna dla tej pozycji.",
+      "cannotMintMore": "Nie można utworzyć więcej niż {{limit}}.{{value}}"
+    }
+  },
+  "outcome": {
+    "title": "Wynik",
+    "sentToWallet": "Wysłane do twojego portfela",
+    "lockedInReserve": "Zablokowane w rezerwie pożyczkobiorców",
+    "fees": "Opłaty ({{percent}}%)",
+    "total": "Łącznie"
+  },
+  "notes": {
+    "title": "Uwagi",
+    "description1": "Pożyczona kwota może zostać zmieniona później, ale nie może zostać zwiększona ponad początkową kwotę.",
+    "description2": "Cena likwidacji jest dziedziczona z pozycji rodzicielskiej, ale może zostać dostosowana później. Na przykład, cena likwidacji mogłaby zostać podwojona, a następnie połowa zabezpieczenia wycofana, jeśli nowa cena likwidacji nie zostanie zakwestionowana.",
+    "description3": "Możliwe jest częściowe spłacenie lub przedterminowe spłacenie w celu odzyskania zabezpieczenia, ale opłata jest płacona z góry i nigdy nie jest zwracana."
+  },
+  "options": {
+    "title": "Jak planujesz pożyczyć?",
+    "openNewPosition": {
+      "title": "Otwórz nową pozycję (Zabezpieczenie)",
+      "description": "Zacznij od nowa z nową pozycją pożyczkową. Ta opcja pozwala skonfigurować zabezpieczenie i warunki od podstaw."
+    },
+    "cloneExistingPosition": {
+      "title": "Klonuj istniejącą pozycję (Zabezpieczenie)",
+      "description": "Skopiuj parametry istniejącej pozycji, aby szybko skonfigurować nową o podobnych warunkach."
+    }
+  }
+}

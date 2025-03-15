@@ -1,0 +1,18 @@
+{
+  "title": "Positionen",
+  "myPositions": "Meine Positionen",
+  "otherPositions": "Andere Positionen",
+  "table": {
+    "adjust": "Anpassen",
+    "clone": "Klonen & Erstellen",
+    "closed": "Geschlossen",
+    "denied": "Abgelehnt",
+    "header": {
+      "collateral": "Sicherheit",
+      "liqPrice": "Liquidationspreis",
+      "availableAmount": "Verfügbarer Betrag"
+    },
+    "noPositions": "Es gibt noch keine anderen Positionen.",
+    "noPositionsAccount": "Sie haben keine Positionen."
+  }
+}

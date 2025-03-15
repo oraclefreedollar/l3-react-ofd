@@ -1,0 +1,173 @@
+{
+  "cancel": "Abbrechen",
+  "confirm": "Bestätigen",
+  "days": "Tage",
+  "hours": "Stunden",
+  "months": "Monate",
+  "insufficientBalance": "Nicht genug {{symbol}} in Ihrer Wallet",
+  "connectWallet": "Bitte verbinden Sie Ihre Wallet",
+  "equity": {
+    "votes": "% Stimmen"
+  },
+  "navigation": {
+    "auctions": "Auktionen",
+    "borrow": "Leihen",
+    "equity": "Eigenkapital",
+    "faucet": "Faucet",
+    "governance": "Governance",
+    "home": "Startseite",
+    "monitoring": "Überwachung",
+    "myPositions": "Meine Positionen",
+    "savings": "Sparen",
+    "swap": "Tauschen"
+  },
+  "footer": {
+    "fork": "Fork von",
+    "frankencoin": "Frankencoin",
+    "terms": "Allgemeine Geschäftsbedingungen"
+  },
+  "table": {
+    "action": "Aktion"
+  },
+  "toasts": {
+    "adjust": {
+      "amount": "Betrag: ",
+      "collateralAmount": "Sicherheitsbetrag: ",
+      "liquidationPrice": "Liquidationspreis: ",
+      "success": "Position erfolgreich angepasst",
+      "pending": "Position wird angepasst"
+    },
+    "approve": {
+      "pending": "{{symbol}} wird genehmigt",
+      "success": "{{symbol}} erfolgreich genehmigt",
+      "amount": "Betrag",
+      "spender": "Empfänger"
+    },
+    "bid": {
+      "pending": "Gebot wird platziert",
+      "success": "Gebot erfolgreich platziert",
+      "bidAmount": "Gebotsbetrag: ",
+      "expectedOFD": "Erwarteter OFD"
+    },
+    "borrow": {
+      "pending": "OFD wird geprägt",
+      "success": "OFD erfolgreich geprägt",
+      "amount": "Betrag: ",
+      "collateral": "Sicherheit: "
+    },
+    "challenge": {
+      "pending": "Herausforderung wird gestartet",
+      "success": "Herausforderung erfolgreich gestartet",
+      "size": "Größe: ",
+      "price": "Preis: "
+    },
+    "clone": {
+      "amount": "Betrag: ",
+      "collateral": "Sicherheit: ",
+      "pending": "OFD wird geprägt",
+      "success": "OFD erfolgreich geprägt"
+    },
+    "governance": {
+      "delegateTo": "Delegieren an:",
+      "pending": "Stimmen werden delegiert",
+      "success": "Stimmen erfolgreich delegiert",
+      "minterProposal": {
+        "title": "Grund:",
+        "description": "Nein",
+        "pending": "Vorschlag wird abgelehnt...",
+        "success": "Vorschlag erfolgreich abgelehnt"
+      },
+      "leadrate": {
+        "pending": "Zinsänderung wird vorgeschlagen...",
+        "success": "Zinsänderung erfolgreich vorgeschlagen!",
+        "title1": "Von: ",
+        "title2": "Vorgeschlagen zu: ",
+        "apply": {
+          "pending": "Zinsänderung wird angewendet...",
+          "success": "Neuer Zinssatz erfolgreich angewendet!",
+          "title1": "Von: ",
+          "title2": "Angewendet auf: "
+        },
+        "deny": {
+          "pending": "Zinsänderung wird abgelehnt...",
+          "success": "Zinsänderung erfolgreich abgelehnt!",
+          "title1": "Aktuell: ",
+          "title2": "Abgelehnt: "
+        }
+      }
+    },
+    "pool": {
+      "invest": {
+        "pending": "OFD wird investiert",
+        "success": "OFD erfolgreich investiert",
+        "amount": "Betrag: ",
+        "shares": "Anteile: "
+      },
+      "redeem": {
+        "pending": "OFDPS wird eingelöst",
+        "success": "Erfolgreich eingelöst",
+        "amount": "Betrag: ",
+        "receive": "Erhalten: "
+      }
+    },
+    "savings": {
+      "interest": {
+        "pending": "Zinsen werden beansprucht...",
+        "success": "Erfolgreich beansprucht",
+        "title1": "Gesparter Betrag: ",
+        "title2": "Zinsen beanspruchen: "
+      },
+      "save": {
+        "pending": "Ersparnisse werden erhöht...",
+        "success": "Ersparnisse erhöht",
+        "title1": "Sparen: ",
+        "title2": "Aufgelaufene Zinsen: "
+      },
+      "withdraw": {
+        "pending": "Abhebung von Ersparnissen...",
+        "success": "Erfolgreich abgehoben",
+        "title1": "Gesparter Betrag: ",
+        "title2": "Abheben: "
+      }
+    },
+    "swap": {
+      "pending": "{{fromSymbol}} wird zu {{toSymbol}} getauscht",
+      "success": "{{fromSymbol}} erfolgreich zu {{toSymbol}} getauscht",
+      "amount": {
+        "from": "{{symbol}} Betrag",
+        "to": "{{symbol}} Betrag"
+      }
+    },
+    "transaction": {
+      "error": "Transaktion fehlgeschlagen!",
+      "title": "Transaktion: "
+    }
+  },
+  "tooltips": {
+    "footer": "Wie Frankencoin verwendet OFD einen auktionsbasierten Liquidationsmechanismus, der ohne externe Preisfeeds funktioniert, aber den US-Dollar anstelle des Schweizer Frankens verfolgt.",
+    "position": {
+      "header": "Schlagen Sie eine völlig neue Position mit einer Sicherheit Ihrer Wahl vor.",
+      "auctionDuration":
+      "Die Auktionsdauer bezieht sich auf die Zeitspanne, die eine Auktion läuft, wenn eine Position herausgefordert wird. Sie bestimmt, wie lange Bieter Zeit haben, ihre Gebote für die mit der Position verbundene Sicherheit abzugeben.",
+      "buffer":
+      "Die zurückbehaltene Reserve ist der Teil der Sicherheit, der zur Gewährleistung der Stabilität der Position und des Gesamtsystems beiseite gelegt wird. Beim Eröffnen einer neuen Position zum Prägen von Oracle Free Dollar (OFD) dient die zurückbehaltene Reserve als Sicherheitsnetz, um potenzielle Verluste abzudecken und Risiken im Zusammenhang mit Marktvolatilität zu mindern. Diese Reserve wird auf Grundlage der Reserveanforderung berechnet und ist wichtig für die Aufrechterhaltung des Vertrauens in das System, insbesondere während Herausforderungen oder Liquidationen. Sie hilft sicherzustellen, dass ausreichend Mittel zur Verfügung stehen, um mit ungünstigen Situationen umzugehen, die auftreten könnten.",
+      "collateralAddress": "Hier wird die Token-Vertragsadresse der Sicherheit eingefügt",
+      "initialCollateral":
+      "Die Menge an Sicherheiten, die Sie in die Position einzahlen möchten. Dieser Betrag muss größer sein als der Mindestsicherheitsbetrag.",
+      "initPeriod":
+      "Ein Vorschlag (eine neue Position) kann in den ersten fünf Tagen abgelehnt werden. Die Mindestzeit für die Gemeinschaft, ein Veto einzulegen, beträgt 5 Tage. Wenn Sie möchten, können Sie den Zeitraum verlängern, in dem ein Vorschlag abgelehnt werden kann",
+      "interest":
+      "Der jährliche Zins ist die Gebühr, die im Voraus erhoben wird, wenn Sie eine neue Position zum Prägen von Oracle Free Dollar (OFD) eröffnen. Dieser Zins wird auf Grundlage des Betrags berechnet, den Sie prägen möchten, und wird in der Regel vom Benutzer festgelegt. Die Gebühr wird für die gesamte Laufzeit der Position gezahlt, die je nach der von Ihnen gewählten Laufzeit (z.B. 6 Monate, 12 Monate) angepasst werden kann.",
+      "limitAmount":
+      "Das Prägelimit bezieht sich auf den maximalen Betrag an Oracle Free Dollar (OFD), der gegen diese Position und ihre Klone geprägt werden kann. Wenn Sie eine neue Position eröffnen, wird dieses Limit auf Grundlage der von Ihnen bereitgestellten Sicherheit und der Parameter der Position festgelegt.",
+      "liqPrice":
+      "Der Liquidationspreis ist der Schwellenwert, zu dem eine Position liquidiert wird, wenn der Marktpreis der Sicherheit darunter fällt. Wenn Sie eine neue Position zum Prägen von Oracle Free Dollar (OFD) eröffnen, können Sie den Liquidationspreis frei festlegen, jedoch muss sichergestellt sein, dass die Position für mindestens einen Mindestbetrag (z.B. 3.500 OFD) liquidiert werden kann. Dieser Preis ist entscheidend, da er das System vor Verlusten schützt, indem sichergestellt wird, dass die Sicherheit die geprägten OFD im Falle eines Marktabschwungs decken kann.",
+      "maturity":
+      "Die Laufzeit bezieht sich auf die Dauer, für die die Position bei der Eröffnung einer neuen Position zum Prägen von Oracle Free Dollar (OFD) festgelegt wird. Sie definiert den Zeitraum bis zum Ablauf der Position, der zwischen heute und dem Grenztermin (ein Jahr ab dem Datum, an dem die übergeordnete Position geprägt wurde) festgelegt werden kann. Die Laufzeit beeinflusst den erhobenen Jahreszins, da kürzere Laufzeiten zu einem anderen endgültigen Zinsbetrag führen.",
+      "minCollateral":
+      "Der Mindestsicherheitsbetrag, der hinterlegt werden muss. Wenn der Betrag geringer ist als dieser, wird die Position nicht erstellt.",
+      "proposalFee":
+      "Die Eröffnung einer neuen Position erfordert eine einmalige Gebühr von 1000 OFD. Dieser Betrag wird in die Reserve für die Gesundheit des Ökosystems eingezahlt"
+    }
+  }
+}

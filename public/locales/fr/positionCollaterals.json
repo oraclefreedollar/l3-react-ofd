@@ -1,0 +1,7 @@
+{
+  "status": {
+    "danger": "Danger, en dessous de {{percentage}}% de collatéralisation",
+    "safe": "Sûr, en dessous de {{percentage}}% de collatéralisation",
+    "warning": "Avertissement, en dessous de {{percentage}}% de collatéralisation"
+  }
+}

@@ -16,7 +16,8 @@ module.exports = {
 	debug: isDev,
 	i18n: {
 		defaultLocale: 'en',
-		locales: ['en'],
+		locales: ['en', 'es', 'ko', 'fr', 'de', 'pl'],
+		localeDetection: false, // This prevents automatic locale detection from URL
 	},
 	initAsync: false,
 	/** To avoid issues when deploying to some paas (vercel...) */

@@ -1,0 +1,173 @@
+{
+  "cancel": "Cancelar",
+  "confirm": "Confirmar",
+  "days": "días",
+  "hours": "horas",
+  "months": "meses",
+  "insufficientBalance": "No hay suficiente {{symbol}} en su cartera",
+  "connectWallet": "Por favor conecte su Cartera",
+  "equity": {
+    "votes": "% Votos"
+  },
+  "navigation": {
+    "auctions": "Subastas",
+    "borrow": "Préstamo",
+    "equity": "Capital",
+    "faucet": "Grifo",
+    "governance": "Gobernanza",
+    "home": "Inicio",
+    "monitoring": "Monitorización",
+    "myPositions": "Mis Posiciones",
+    "savings": "Ahorros",
+    "swap": "Intercambio"
+  },
+  "footer": {
+    "fork": "Bifurcación de",
+    "frankencoin": "Frankencoin",
+    "terms": "Términos y Condiciones"
+  },
+  "table": {
+    "action": "Acción"
+  },
+  "toasts": {
+    "adjust": {
+      "amount": "Cantidad: ",
+      "collateralAmount": "Cantidad de Garantía: ",
+      "liquidationPrice": "Precio de Liquidación: ",
+      "success": "Posición Ajustada Exitosamente",
+      "pending": "Ajustando Posición"
+    },
+    "approve": {
+      "pending": "Aprobando {{symbol}}",
+      "success": "{{symbol}} Aprobado Exitosamente",
+      "amount": "Cantidad",
+      "spender": "Gastador"
+    },
+    "bid": {
+      "pending": "Realizando una oferta",
+      "success": "Oferta Realizada Exitosamente",
+      "bidAmount": "Cantidad de Oferta: ",
+      "expectedOFD": "OFD Esperado"
+    },
+    "borrow": {
+      "pending": "Acuñando OFD",
+      "success": "OFD Acuñado Exitosamente",
+      "amount": "Cantidad: ",
+      "collateral": "Garantía: "
+    },
+    "challenge": {
+      "pending": "Lanzando un desafío",
+      "success": "Desafío Lanzado Exitosamente",
+      "size": "Tamaño: ",
+      "price": "Precio: "
+    },
+    "clone": {
+      "amount": "Cantidad: ",
+      "collateral": "Garantía: ",
+      "pending": "Acuñando OFD",
+      "success": "OFD Acuñado Exitosamente"
+    },
+    "governance": {
+      "delegateTo": "Delegar A:",
+      "pending": "Delegando Votos",
+      "success": "Votos Delegados Exitosamente",
+      "minterProposal": {
+        "title": "Razón:",
+        "description": "No",
+        "pending": "Vetando propuesta...",
+        "success": "Propuesta vetada exitosamente"
+      },
+      "leadrate": {
+        "pending": "Proponiendo cambio de tasa...",
+        "success": "¡Cambio de tasa propuesto exitosamente!",
+        "title1": "De: ",
+        "title2": "Proponiendo a: ",
+        "apply": {
+          "pending": "Aplicando cambio de tasa...",
+          "success": "¡Nueva tasa aplicada exitosamente!",
+          "title1": "De: ",
+          "title2": "Aplicando a: "
+        },
+        "deny": {
+          "pending": "Denegando cambio de tasa...",
+          "success": "¡Cambio de tasa denegado exitosamente!",
+          "title1": "Actual: ",
+          "title2": "Denegando: "
+        }
+      }
+    },
+    "pool": {
+      "invest": {
+        "pending": "Invirtiendo OFD",
+        "success": "OFD Invertido Exitosamente",
+        "amount": "Cantidad: ",
+        "shares": "Acciones: "
+      },
+      "redeem": {
+        "pending": "Canjeando OFDPS",
+        "success": "Canjeado Exitosamente",
+        "amount": "Cantidad: ",
+        "receive": "Recibir: "
+      }
+    },
+    "savings": {
+      "interest": {
+        "pending": "Reclamando Interés...",
+        "success": "Reclamado exitosamente",
+        "title1": "Cantidad ahorrada: ",
+        "title2": "Reclamar Interés: "
+      },
+      "save": {
+        "pending": "Aumentando ahorros...",
+        "success": "Ahorros aumentados",
+        "title1": "Ahorrando: ",
+        "title2": "Interés acumulado: "
+      },
+      "withdraw": {
+        "pending": "Retirando de ahorros...",
+        "success": "Retirado exitosamente",
+        "title1": "Cantidad ahorrada: ",
+        "title2": "Retirar: "
+      }
+    },
+    "swap": {
+      "pending": "Intercambiando {{fromSymbol}} por {{toSymbol}}",
+      "success": "{{fromSymbol}} Intercambiado por {{toSymbol}} Exitosamente",
+      "amount": {
+        "from": "Cantidad de {{symbol}}",
+        "to": "Cantidad de {{symbol}}"
+      }
+    },
+    "transaction": {
+      "error": "¡Transacción fallida!",
+      "title": "Transacción: "
+    }
+  },
+  "tooltips": {
+    "footer": "Como Frankencoin, OFD utiliza un mecanismo de liquidación basado en subastas que opera sin feeds de precios externos, pero rastrea el Dólar Estadounidense en lugar del Franco Suizo.",
+    "position": {
+      "header": "Proponga una posición completamente nueva con una garantía de su elección.",
+      "auctionDuration":
+      "La duración de la subasta se refiere a la cantidad de tiempo que durará una subasta cuando se desafía una posición. Determina cuánto tiempo tienen los oferentes para realizar sus ofertas sobre la garantía asociada con la posición.",
+      "buffer":
+      "La reserva retenida es la porción de la garantía que se reserva para asegurar la estabilidad de la posición y del sistema en general. Al abrir una nueva posición para acuñar Oracle Free Dollar (OFD), la reserva retenida actúa como una red de seguridad para cubrir posibles pérdidas y mitigar riesgos asociados con la volatilidad del mercado. Esta reserva se calcula en base al requisito de reserva y es importante para mantener la confianza en el sistema, especialmente durante desafíos o liquidaciones. Ayuda a asegurar que haya fondos suficientes disponibles para gestionar cualquier situación adversa que pueda surgir.",
+      "collateralAddress": "Aquí se inserta la dirección del contrato del token de garantía",
+      "initialCollateral":
+      "La cantidad de garantía que desea depositar en la posición. Esta cantidad debe ser mayor que la cantidad mínima de garantía.",
+      "initPeriod":
+      "Una propuesta (una nueva posición) puede ser vetada en los primeros cinco días. El período mínimo para que la comunidad vete es de 5 días. Si lo desea, puede extender el período durante el cual una propuesta puede ser vetada",
+      "interest":
+      "El interés anual es la comisión que se cobra por adelantado cuando abre una nueva posición para acuñar Oracle Free Dollar (OFD). Este interés se calcula en base a la cantidad que desea acuñar y normalmente es establecido por el usuario. La comisión se paga por toda la duración de la posición, que puede ajustarse en función del período de vencimiento que elija (por ejemplo, 6 meses, 12 meses).",
+      "limitAmount":
+      "El límite de acuñación se refiere a la cantidad máxima de Oracle Free Dollar (OFD) que puede acuñarse contra esta posición y sus clones. Cuando abre una nueva posición, este límite se establece en base a la garantía que proporciona y los parámetros de la posición.",
+      "liqPrice":
+      "El precio de liquidación es el valor umbral al cual se liquidará una posición si el precio de mercado de la garantía cae por debajo de él. Al abrir una nueva posición para acuñar Oracle Free Dollar (OFD), puede establecer el precio de liquidación libremente, pero debe asegurar que la posición pueda ser liquidada por al menos una cantidad mínima (por ejemplo, 3,500 OFD). Este precio es crucial ya que ayuda a proteger al sistema de pérdidas asegurando que la garantía pueda cubrir el OFD acuñado en caso de una caída del mercado.",
+      "maturity":
+      "El vencimiento se refiere a la duración para la cual se establece la posición al abrir una nueva posición para acuñar Oracle Free Dollar (OFD). Define el período de tiempo hasta que la posición expira, que puede establecerse entre hoy y la fecha límite (un año desde la fecha en que se acuñó la posición padre). El período de vencimiento afecta el interés anual cobrado, ya que vencimientos más cortos resultarán en una cantidad de interés final diferente.",
+      "minCollateral":
+      "La cantidad mínima de garantía que debe depositarse. Si la cantidad es menor que esta, la posición no se creará.",
+      "proposalFee":
+      "Abrir una nueva posición requiere 1000 OFD que se pagan una sola vez como tarifa. Esta cantidad se envía a la reserva para la salud del ecosistema"
+    }
+  }
+}

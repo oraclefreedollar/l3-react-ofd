@@ -1,0 +1,15 @@
+{
+  "title": "Enchères",
+  "header": {
+    "yourAuctions": "Vos Enchères",
+    "allAuctions": "Toutes les Enchères"
+  },
+  "noContent": {
+    "yourAuctions": "Vous n'avez aucune enchère.",
+    "allAuctions": "Il n'y a pas encore d'enchères."
+  },
+  "challengeTable": {
+    "title": "Défis Ouverts",
+    "loading": "Chargement..."
+  }
+}

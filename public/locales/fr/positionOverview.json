@@ -1,0 +1,32 @@
+{
+  "title": "Aperçu de la Position",
+  "back": "Retour aux positions",
+  "buttons": {
+    "adjust": "Ajuster",
+    "clone": "Cloner la Position",
+    "challenge": "Contester"
+  },
+  "subTitle": "Aperçu de la Position {{address}}",
+  "section": {
+    "annualInterest": "Intérêt Annuel",
+    "collateral": "Garantie",
+    "closed": "Fermé",
+    "expirationDate": "Date d'Expiration",
+    "limit": "Limite",
+    "liqPrice": "Prix de Liquidation",
+    "mintedTotal": "Total Créé",
+    "owner": "Propriétaire",
+    "positionDetails": "Détails de la Position",
+    "reserveRequirement": "Exigence de Réserve",
+    "retainedReserve": "Réserve Retenue"
+  },
+  "cooldown": {
+    "title": "Période de Refroidissement",
+    "description": "Cette position est soumise à une période de refroidissement qui se termine le {{cooldown}} car son propriétaire a récemment augmenté le prix de liquidation applicable. La période de refroidissement donne à d'autres utilisateurs la possibilité de contester la position avant que des oracleFreeDollars supplémentaires puissent être créés."
+  },
+  "challengeTable": {
+    "noContent": "Cette position n'est actuellement pas contestée.",
+    "title": "Défis Ouverts",
+    "loading": "Chargement des défis..."
+  }
+}

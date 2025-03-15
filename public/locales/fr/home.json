@@ -1,0 +1,41 @@
+{
+  "title": "Accueil",
+  "description": "Page d'accueil",
+  "hero": {
+    "title": "Oracle Free Dollar",
+    "subtitle": "Une monnaie stable décentralisée et garantie qui suit le Dollar Américain sans s'appuyer sur des oracles"
+  },
+  "stats": {
+    "price": "Prix",
+    "tvl": "Valeur Totale Verrouillée",
+    "marketCap": "Capitalisation Boursière",
+    "totalSupply": "Offre Totale"
+  },
+  "navigation": {
+    "swap": {
+      "title": "Échanger OFD",
+      "description": "Investissez dans Oracle Free Dollar en échangeant USDT"
+    },
+    "createPosition": {
+      "title": "Créer une Position",
+      "description": "Ouvrez une nouvelle position de garantie et créez des OFD"
+    },
+    "pool": {
+      "title": "OFDPS / Capital",
+      "description": "Explorez les parts du pool OFD représentant le capital"
+    }
+  },
+  "about": {
+    "title": "Stabilité Décentralisée",
+    "description": "Oracle Free Dollar (OFD) est une monnaie stable révolutionnaire qui maintient sa parité avec le Dollar Américain grâce à un mécanisme unique et décentralisé. Notre système de liquidation basé sur des enchères assure la stabilité sans s'appuyer sur des flux de prix externes, faisant d'OFD l'une des monnaies stables les plus robustes et les plus fiables du marché."
+  },
+  "officialContracts": {
+    "title": "Contrats officiels",
+    "ofd": {
+      "title": "Ajouter OFD à votre portefeuille"
+    },
+    "ofdps": {
+      "title": "Ajouter OFDPS à votre portefeuille"
+    }
+  }
+}

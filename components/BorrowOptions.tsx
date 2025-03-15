@@ -4,8 +4,10 @@ import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 
+const nameSpaces = ['positionBorrow']
+
 const BorrowOptions: React.FC = () => {
-	const { t } = useTranslation('positionBorrow')
+	const { t } = useTranslation(nameSpaces)
 
 	return (
 		<div className="mb-8">

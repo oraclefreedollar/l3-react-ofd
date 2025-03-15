@@ -1,0 +1,94 @@
+{
+  "buttons": {
+    "back": "뒤로",
+    "next": "다음",
+    "propose": "포지션 제안",
+    "submit": "제출"
+  },
+  "header": {
+    "backText": "포지션으로 돌아가기",
+    "title": "새 포지션 유형 제안"
+  },
+  "stepCounter": "단계 {{current}}/{{total}}",
+  "title": "포지션 제안",
+  "collateral": {
+    "title": "담보",
+    "addressLabel": "어떤 토큰을 담보로 사용하시겠습니까?",
+    "addressPlaceholder": "토큰 계약 주소",
+    "amountLabel": "담보 금액",
+    "approveButton": "{{symbol}} 승인",
+    "minCollateral": "최소 담보",
+    "minCollateralPlaceholder": "최소 담보 금액",
+    "initialCollateral": "초기 담보",
+    "initialCollateralPlaceholder": "초기 담보 금액"
+  },
+"financial": {
+    "title": "금융 조건",
+    "section": {
+      "interestLabel": "연간 이자",
+      "interestPlaceholder": "연간 이자",
+      "interestTooltip": "연간 이자는 Oracle Free Dollar(OFD)를 발행하기 위해 새 포지션을 열 때 선불로 청구되는 수수료입니다. 이 이자는 발행하고자 하는 금액을 기준으로 계산되며 일반적으로 사용자가 설정합니다. 수수료는 포지션의 전체 기간 동안 지불되며, 선택한 만기 기간(예: 6개월, 12개월)에 따라 조정될 수 있습니다.",
+      "limitAmountLabel": "발행 한도",
+      "limitAmountPlaceholder": "한도 금액",
+      "maturityLabel": "만기"
+    }
+  },
+  "initialization": {
+    "title": "포지션 상세정보",
+    "section": {
+      "title": "초기화",
+      "proposalFeeLabel": "제안 수수료",
+      "proposalFeeError": "OFD가 부족합니다",
+      "initPeriodLabel": "초기화 기간",
+      "discuss": {
+        "title": "토론",
+        "description1": "탈중앙화된 거버넌스 프로세스를 통과할 확률을 높이기 위해 ",
+        "description2": " 새 포지션을 시작하기 전에 논의하는 것이 좋습니다."
+      }
+    }
+  },
+  "liquidation": {
+    "title": "청산 설정",
+    "section": {
+      "title": "청산",
+      "liqPriceLabel": "청산 가격",
+      "liqPricePlaceholder": "가격",
+      "bufferLabel": "보유 준비금",
+      "bufferPlaceholder": "퍼센트",
+      "auctionDurationLabel": "경매 기간"
+    }
+  },
+  "requirements": {
+    "title": "요구사항",
+    "section": {
+      "title": "포지션을 열 준비가 되셨나요?",
+      "walletBalance": {
+        "title": "지갑 잔액:",
+        "description": "지갑에 1000 OFD 준비 - 이 금액은 포지션을 여는 비용을 충당하는 데 필요합니다.",
+        "sufficientOFDBalance": "충분한 OFD 잔액",
+        "notEnoughOFD": "OFD가 부족합니다. USDT로 OFD를 구매하세요"
+      },
+      "collateral": {
+        "title": "담보:",
+        "description": "포지션을 확보하기 위해 최소 3,500 OFD 가치의 담보가 필요합니다. 이 담보는 발행할 금액에 대한 보안 역할을 하며, 안전하게 자산을 활용할 수 있게 합니다."
+      }
+    }
+  },
+  "success": {
+    "title": "포지션이 성공적으로 제안되었습니다!",
+    "description": "귀하의 포지션이 생성되었으며 현재 거버넌스 승인을 기다리고 있습니다.",
+    "afterApproval": "승인 후에는 OFD를 OFDPS로 전환하고 프로토콜에 적극적으로 참여할 수 있습니다.",
+    "button": "모든 포지션 보기"
+  },
+  "summary": {
+    "title": "요약",
+    "section": {
+      "title": "포지션 요약",
+      "note": "포지션 생성을 진행하기 전에 모든 세부 사항을 주의 깊게 검토해주세요."
+    },
+    "form": {
+      "collateral": "담보 토큰",
+      "proposalFee": "제안 수수료"
+    }
+  }
+}

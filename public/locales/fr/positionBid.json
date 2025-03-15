@@ -1,0 +1,24 @@
+{
+  "title": "Placer une Offre",
+  "back": "Retour à la position",
+  "buttons": {
+    "approve": "Approuver",
+    "bid": "Placer une Offre"
+  },
+  "details": {
+    "challengeLabel": "Vous achetez",
+    "challengePlaceholder": "Montant du Défi",
+    "challenger": "Contestateur",
+    "expectedPrice": "Prix total attendu : {{amount}} OFD",
+    "originalSize": "Taille Originale",
+    "phaseDuration": "Durée de Phase",
+    "pricePerUnit": "Prix par Unité",
+    "reachingZero": "Atteint Zéro à",
+    "remainingCollateral": "Garantie Restante",
+    "title": "Détails de l'Offre"
+  },
+  "errors": {
+    "noEnoughBalance": "Pas assez de solde dans votre portefeuille",
+    "expectedWinningCollateral": "La garantie gagnante attendue devrait être inférieure à la garantie restante"
+  }
+}

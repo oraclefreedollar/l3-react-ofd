@@ -1,0 +1,54 @@
+{
+  "back": "Volver a la posición",
+  "title": "Acuñar OracleFreeDollars Nuevos",
+  "mintingSection": {
+    "title": "Cantidad de Acuñación y Garantía",
+    "amount": {
+      "label": "Cantidad",
+      "balanceLabel": "Límite:",
+      "placeholder": "Cantidad Total a ser Acuñada"
+    },
+    "collateral": {
+      "label": "Garantía Requerida",
+      "balanceLabel": "Su saldo:",
+      "valueNote": "Valorado en {{price}} OFD, el mínimo es {{minimum}} {{symbol}}"
+    },
+    "expiration": {
+      "label": "Vencimiento",
+      "error": "La Fecha de Vencimiento debe estar entre Ahora y el Límite"
+    },
+    "buttons": {
+      "approve": "Aprobar",
+      "clone": "Clonar Posición",
+      "minimumError": "Una posición debe tener al menos {{minimum}} {{symbol}}"
+    },
+    "errors": {
+      "notEnoughOFD": "No hay suficiente OFD disponible para esta posición.",
+      "cannotMintMore": "No se puede acuñar más de {{limit}}.{{value}}"
+    }
+  },
+  "outcome": {
+    "title": "Resultado",
+    "sentToWallet": "Enviado a su cartera",
+    "lockedInReserve": "Bloqueado en la reserva de prestatarios",
+    "fees": "Tarifas ({{percent}}%)",
+    "total": "Total"
+  },
+  "notes": {
+    "title": "Notas",
+    "description1": "La cantidad prestada puede cambiarse más tarde, pero no aumentarse más allá de la cantidad inicial.",
+    "description2": "El precio de liquidación se hereda de la posición padre, pero puede ajustarse más tarde. Por ejemplo, el precio de liquidación podría duplicarse y luego retirarse la mitad de la garantía si el nuevo precio de liquidación no es desafiado.",
+    "description3": "Es posible reembolsar parcialmente o reembolsar anticipadamente para recuperar la garantía, pero la tarifa se paga por adelantado y nunca se devuelve."
+  },
+  "options": {
+    "title": "¿Cómo planea Pedir Prestado?",
+    "openNewPosition": {
+      "title": "Abrir Nueva Posición (Garantía)",
+      "description": "Comience desde cero con una nueva posición de préstamo. Esta opción le permite configurar su garantía y términos desde el principio."
+    },
+    "cloneExistingPosition": {
+      "title": "Clonar Posición Existente (Garantía)",
+      "description": "Copie los parámetros de una posición existente para configurar rápidamente una nueva con términos y condiciones similares."
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "title": "Sparen",
+  "sections": {
+    "deposits": {
+      "noSavings": "Es gibt noch keine Ersparnisse.",
+      "title":"Aktuelle Einzahlungen",
+      "table": {
+        "amount": "Betrag",
+        "balance": "Guthaben",
+        "date": "Datum",
+        "saver": "Sparer"
+      }
+    },
+    "interest": {
+      "noInterest": "Es gibt noch keine Ertragsansprüche.",
+      "title": "Aktuelle Ertragsansprüche",
+      "table": {
+        "balance": "Guthaben",
+        "date": "Datum",
+        "interest": "Erträge",
+        "saver": "Sparer"
+      }
+    },
+    "withdrawals": {
+      "noWithdrawals": "Es gibt noch keine Abhebungen.",
+      "title":"Aktuelle Abhebungen",
+      "table": {
+        "amount": "Betrag",
+        "balance": "Guthaben",
+        "date": "Datum",
+        "saver": "Sparer"
+      }
+    }
+  },
+
+  "infoCard": {
+    "currentRate": "Aktueller Etragssatz",
+    "moduleContract": "Modulvertrag",
+    "totalSavings": "Gesamtersparnisse"
+  },
+  "interactionCard": {
+    "balanceLabel": "Max:",
+    "button": "Anpassen",
+    "label": "Ihre Erträge",
+    "placeholder": "{{symbol}} Betrag",
+    "title": "Anpassung"
+  },
+  "outcome": {
+    "addToYourWallet": "Von Ihrer Wallet hinzuzufügen",
+    "balance": "Ihr aktuelles Guthaben",
+    "interest": "Zu erhebende Erträge",
+    "locktime": "Wenn Sie zusätzliche Gelder sparen, wird Ihr Guthaben gesperrt, bis die Erträge zu laufen beginnen, was bis zu drei Tage dauern kann. Diese Regel dient dazu, die Nutzung von OFD, das für Transaktionszwecke gehalten wird, zu entmutigen.",
+    "locktime2": "Ihre Gelder sind noch für {{hours}} Stunden gesperrt.",
+    "resultingBalance": "Resultierendes Guthaben",
+    "title": "Ergebnis",
+    "withdrawFromWallet": "Von Ihrer Wallet abheben"
+  }
+}

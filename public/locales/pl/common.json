@@ -1,0 +1,173 @@
+{
+  "cancel": "Anuluj",
+  "confirm": "Potwierdź",
+  "days": "dni",
+  "hours": "godziny",
+  "months": "miesiące",
+  "insufficientBalance": "Niewystarczająca ilość {{symbol}} w portfelu",
+  "connectWallet": "Proszę połączyć portfel",
+  "equity": {
+    "votes": "% Głosów"
+  },
+  "navigation": {
+    "auctions": "Aukcje",
+    "borrow": "Pożyczki",
+    "equity": "Kapitał",
+    "faucet": "Kranik",
+    "governance": "Zarządzanie",
+    "home": "Strona główna",
+    "monitoring": "Monitoring",
+    "myPositions": "Moje pozycje",
+    "savings": "Oszczędności",
+    "swap": "Wymiana"
+  },
+  "footer": {
+    "fork": "Fork od",
+    "frankencoin": "Frankencoin",
+    "terms": "Regulamin"
+  },
+  "table": {
+    "action": "Akcja"
+  },
+  "toasts": {
+    "adjust": {
+      "amount": "Kwota: ",
+      "collateralAmount": "Kwota zabezpieczenia: ",
+      "liquidationPrice": "Cena likwidacji: ",
+      "success": "Pozycja pomyślnie dostosowana",
+      "pending": "Dostosowywanie pozycji"
+    },
+    "approve": {
+      "pending": "Zatwierdzanie {{symbol}}",
+      "success": "Pomyślnie zatwierdzono {{symbol}}",
+      "amount": "Kwota",
+      "spender": "Wydający"
+    },
+    "bid": {
+      "pending": "Składanie oferty",
+      "success": "Oferta złożona pomyślnie",
+      "bidAmount": "Kwota oferty: ",
+      "expectedOFD": "Oczekiwany OFD"
+    },
+    "borrow": {
+      "pending": "Tworzenie OFD",
+      "success": "Pomyślnie utworzono OFD",
+      "amount": "Kwota: ",
+      "collateral": "Zabezpieczenie: "
+    },
+    "challenge": {
+      "pending": "Rozpoczynanie wyzwania",
+      "success": "Pomyślnie rozpoczęto wyzwanie",
+      "size": "Rozmiar: ",
+      "price": "Cena: "
+    },
+    "clone": {
+      "amount": "Kwota: ",
+      "collateral": "Zabezpieczenie: ",
+      "pending": "Tworzenie OFD",
+      "success": "Pomyślnie utworzono OFD"
+    },
+    "governance": {
+      "delegateTo": "Deleguj do:",
+      "pending": "Delegowanie głosów",
+      "success": "Pomyślnie delegowano głosy",
+      "minterProposal": {
+        "title": "Powód:",
+        "description": "Nie",
+        "pending": "Wetowanie propozycji...",
+        "success": "Pomyślnie zawetowano propozycję"
+      },
+      "leadrate": {
+        "pending": "Proponowanie zmiany stopy...",
+        "success": "Pomyślnie zaproponowano zmianę stopy!",
+        "title1": "Od: ",
+        "title2": "Proponowane na: ",
+        "apply": {
+          "pending": "Stosowanie zmiany stopy...",
+          "success": "Pomyślnie zastosowano nową stopę!",
+          "title1": "Od: ",
+          "title2": "Stosowane na: "
+        },
+        "deny": {
+          "pending": "Odrzucanie zmiany stopy...",
+          "success": "Pomyślnie odrzucono zmianę stopy!",
+          "title1": "Obecna: ",
+          "title2": "Odrzucenie: "
+        }
+      }
+    },
+    "pool": {
+      "invest": {
+        "pending": "Inwestowanie OFD",
+        "success": "Pomyślnie zainwestowano OFD",
+        "amount": "Kwota: ",
+        "shares": "Udziały: "
+      },
+      "redeem": {
+        "pending": "Wykupywanie OFDPS",
+        "success": "Pomyślnie wykupiono",
+        "amount": "Kwota: ",
+        "receive": "Otrzymaj: "
+      }
+    },
+    "savings": {
+      "interest": {
+        "pending": "Roszczenie odsetek...",
+        "success": "Pomyślnie roszczono",
+        "title1": "Oszczędzona kwota: ",
+        "title2": "Roszczenie odsetek: "
+      },
+      "save": {
+        "pending": "Zwiększanie oszczędności...",
+        "success": "Oszczędności zwiększone",
+        "title1": "Oszczędzanie: ",
+        "title2": "Naliczone odsetki: "
+      },
+      "withdraw": {
+        "pending": "Wypłacanie z oszczędności...",
+        "success": "Pomyślnie wypłacono",
+        "title1": "Oszczędzona kwota: ",
+        "title2": "Wypłata: "
+      }
+    },
+    "swap": {
+      "pending": "Wymiana {{fromSymbol}} na {{toSymbol}}",
+      "success": "Pomyślnie wymieniono {{fromSymbol}} na {{toSymbol}}",
+      "amount": {
+        "from": "Kwota {{symbol}}",
+        "to": "Kwota {{symbol}}"
+      }
+    },
+    "transaction": {
+      "error": "Transakcja nie powiodła się!",
+      "title": "Transakcja: "
+    }
+  },
+  "tooltips": {
+    "footer": "Podobnie jak Frankencoin, OFD wykorzystuje mechanizm likwidacji oparty na aukcjach, który działa bez zewnętrznych źródeł cenowych, ale śledzi Dolara Amerykańskiego zamiast Franka Szwajcarskiego.",
+    "position": {
+      "header": "Zaproponuj całkowicie nową pozycję z zabezpieczeniem według twojego wyboru.",
+      "auctionDuration":
+      "Czas trwania aukcji odnosi się do okresu, przez który aukcja będzie trwać, gdy pozycja zostanie zakwestionowana. Określa, ile czasu oferenci mają na składanie ofert na zabezpieczenie związane z pozycją.",
+      "buffer":
+      "Zatrzymana rezerwa to część zabezpieczenia, która jest odkładana, aby zapewnić stabilność pozycji i całego systemu. Podczas otwierania nowej pozycji do tworzenia Oracle Free Dollar (OFD), zatrzymana rezerwa działa jako siatka bezpieczeństwa, aby pokryć potencjalne straty i złagodzić ryzyko związane ze zmiennością rynku. Ta rezerwa jest obliczana na podstawie wymogu rezerwy i jest ważna dla utrzymania zaufania do systemu, szczególnie podczas wyzwań lub likwidacji. Pomaga zapewnić, że dostępne są wystarczające środki do zarządzania wszelkimi niekorzystnymi sytuacjami, które mogą powstać.",
+      "collateralAddress": "Tutaj wstawia się adres kontraktu tokena zabezpieczenia",
+      "initialCollateral":
+      "Ilość zabezpieczenia, którą chcesz wpłacić na pozycję. Ta kwota musi być większa niż minimalna kwota zabezpieczenia.",
+      "initPeriod":
+      "Propozycja (nowa pozycja) może zostać zawetowana w ciągu pierwszych pięciu dni. Minimalny okres dla społeczności na zawetowanie wynosi 5 dni. Jeśli chcesz, możesz przedłużyć okres, w którym propozycja może zostać zawetowana",
+      "interest":
+      "Roczne odsetki to opłata pobierana z góry, gdy otwierasz nową pozycję do tworzenia Oracle Free Dollar (OFD). Te odsetki są obliczane na podstawie kwoty, którą chcesz utworzyć, i zazwyczaj są ustalane przez użytkownika. Opłata jest płacona za cały okres trwania pozycji, który może być dostosowany w zależności od wybranego okresu zapadalności (np. 6 miesięcy, 12 miesięcy).",
+      "limitAmount":
+      "Limit tworzenia odnosi się do maksymalnej ilości Oracle Free Dollar (OFD), która może być utworzona przeciwko tej pozycji i jej klonom. Gdy otwierasz nową pozycję, ten limit jest ustalany na podstawie dostarczonego zabezpieczenia i parametrów pozycji.",
+      "liqPrice":
+      "Cena likwidacji to wartość progowa, przy której pozycja zostanie zlikwidowana, jeśli cena rynkowa zabezpieczenia spadnie poniżej niej. Podczas otwierania nowej pozycji do tworzenia Oracle Free Dollar (OFD), możesz swobodnie ustalić cenę likwidacji, ale musi ona zapewniać, że pozycja może zostać zlikwidowana za co najmniej minimalną kwotę (np. 3 500 OFD). Ta cena jest kluczowa, ponieważ pomaga chronić system przed stratami, zapewniając, że zabezpieczenie może pokryć utworzone OFD w przypadku spadku rynku.",
+      "maturity":
+      "Zapadalność odnosi się do okresu, na który pozycja jest ustawiona podczas otwierania nowej pozycji do tworzenia Oracle Free Dollar (OFD). Określa okres czasu do wygaśnięcia pozycji, który może być ustawiony między dzisiaj a datą graniczną (rok od daty, w której pozycja rodzicielska została utworzona). Okres zapadalności wpływa na pobierane roczne odsetki, ponieważ krótsze terminy zapadalności spowodują inną końcową kwotę odsetek.",
+      "minCollateral":
+      "Minimalna kwota zabezpieczenia, która musi zostać wpłacona. Jeśli kwota jest mniejsza niż ta, pozycja nie zostanie utworzona.",
+      "proposalFee":
+      "Otwarcie nowej pozycji wymaga jednorazowej opłaty w wysokości 1000 OFD. Ta kwota jest wysyłana do rezerwy dla zdrowia ekosystemu"
+    }
+  }
+}

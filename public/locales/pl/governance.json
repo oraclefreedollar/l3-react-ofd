@@ -1,0 +1,67 @@
+{
+  "title": "Zarządzanie",
+  "delegation": {
+    "title": "Delegacja",
+    "form": {
+      "label": "Deleguj głosy do",
+      "placeholder": "Adres delegata",
+      "error": "Proszę wprowadzić adres w prawidłowym formacie adresu EOA.",
+      "button": "Ustaw"
+    },
+    "stats": {
+      "delegatedTo": "Delegowane do",
+      "yourRawVotes": "Twoje surowe głosy",
+      "totalVotes": "Łączna liczba głosów",
+      "yourTotalVotes": "Twoja łączna liczba głosów"
+    }
+  },
+  "delegatingToYou": {
+    "title": "Delegowanie do Ciebie"
+  },
+  "proposals": {
+    "title": "Propozycje"
+  },
+  "baseRate": {
+    "title": "Stopa bazowa",
+    "description": "Jest to stopa bazowa, która jest stosowana podczas tworzenia nowych OFD i stopa, z jaką oszczędzający ciągle naliczają odsetki. Każdy z prawem weta może zaproponować zmianę, która może zostać zastosowana, jeśli nie ma kontrpropozycji w ciągu siedmiu dni."
+  },
+  "topVoters": {
+    "title": "Najlepsi głosujący"
+  },
+  "minterProposal": {
+    "date": "Data:",
+    "minter": "Twórca:",
+    "comment": "Komentarz:",
+    "fee": "Opłata:",
+    "votingPeriod": "Okres głosowania:",
+    "button": "Weto",
+    "status": {
+      "active": "Aktywny",
+      "expired": "Wygasły",
+      "passed": "Przyjęty",
+      "ready": "Gotowy",
+      "vetoed": "Zawetowany"
+    }
+  },
+  "leadrate": {
+    "button": "Zaproponuj zmianę",
+    "form": {
+      "label": "Aktualna stopa bazowa",
+      "placeholder": "Aktualna stopa główna: %",
+      "error": "Proszę wprowadzić prawidłową liczbę.",
+      "button": "Zaproponuj"
+    },
+    "table": {
+      "empty": "Nie ma jeszcze propozycji.",
+      "header": {
+        "date": "Data",
+        "proposer": "Proponujący",
+        "rate": "Stopa",
+        "state": "Stan"
+      }
+    },
+    "remainingHours": "Pozostało {{hours}} godzin",
+    "deny": "Odrzuć",
+    "apply": "Zastosuj"
+  }
+}

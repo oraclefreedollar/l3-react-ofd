@@ -1,0 +1,31 @@
+{
+  "positionCreate": {
+    "auctionDuration": "Czas trwania aukcji musi być dłuższy niż 1 miesiąc.",
+    "buffer": {
+      "max": "Bufor musi być mniejszy niż 100%.",
+      "min": "Bufor musi wynosić co najmniej 10%."
+    },
+    "collateralAddress": {
+      "invalid": "Nieprawidłowy adres zabezpieczenia.",
+      "noData": "Nie można uzyskać danych tokenu.",
+      "notSupported": "Miejsca dziesiętne tokenu powinny być mniejsze niż 24."
+    },
+    "initialCollateral": {
+      "greaterThanZero": "Początkowe zabezpieczenie musi być większe niż 0.",
+      "greaterThanMinimum": "Początkowe zabezpieczenie musi być większe niż minimalna kwota."
+    },
+    "initPeriod": {
+      "min": "Okres inicjalizacji musi być dłuższy niż 5 dni."
+    },
+    "interest": {
+      "min": "Roczna stopa procentowa powinna być większa niż 0%.",
+      "max": "Roczna stopa procentowa powinna być mniejsza niż 100%."
+    },
+    "liqPrice": {
+      "min": "Wartość likwidacyjna zabezpieczenia musi wynosić co najmniej 3500 OFD."
+    },
+    "maturity": {
+      "min": "Zapadalność musi być większa niż 0."
+    }
+  }
+}

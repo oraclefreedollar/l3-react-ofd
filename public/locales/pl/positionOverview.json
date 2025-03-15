@@ -1,0 +1,32 @@
+{
+  "title": "Przegląd pozycji",
+  "back": "Powrót do pozycji",
+  "buttons": {
+    "adjust": "Dostosuj",
+    "clone": "Klonuj pozycję",
+    "challenge": "Wyzwanie"
+  },
+  "subTitle": "Przegląd pozycji {{address}}",
+  "section": {
+    "annualInterest": "Roczne odsetki",
+    "collateral": "Zabezpieczenie",
+    "closed": "Zamknięte",
+    "expirationDate": "Data wygaśnięcia",
+    "limit": "Limit",
+    "liqPrice": "Cena likwidacji",
+    "mintedTotal": "Łącznie utworzone",
+    "owner": "Właściciel",
+    "positionDetails": "Szczegóły pozycji",
+    "reserveRequirement": "Wymóg rezerwy",
+    "retainedReserve": "Zatrzymana rezerwa"
+  },
+  "cooldown": {
+    "title": "Okres ochłodzenia",
+    "description": "Ta pozycja podlega okresowi ochłodzenia, który kończy się {{cooldown}}, ponieważ jej właściciel niedawno zwiększył obowiązującą cenę likwidacji. Okres ochłodzenia daje innym użytkownikom możliwość zakwestionowania pozycji przed utworzeniem dodatkowych oracleFreeDollars."
+  },
+  "challengeTable": {
+    "noContent": "Ta pozycja nie jest obecnie kwestionowana.",
+    "title": "Otwarte wyzwania",
+    "loading": "Ładowanie wyzwań..."
+  }
+}

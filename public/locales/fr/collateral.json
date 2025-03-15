@@ -1,0 +1,13 @@
+{
+  "title": "Garantie",
+  "headerTitle": "Créer de nouveaux OFD",
+  "noSavings": "Il n'y a pas encore d'épargne.",
+  "table": {
+    "collateral": "Garantie",
+    "loanToValue": "Prêt-à-Valeur",
+    "effectiveInterest": "Intérêt Effectif",
+    "liquidationPrice": "Prix de Liquidation",
+    "maturity": "Échéance",
+    "clone": "Cloner & Créer"
+  }
+}

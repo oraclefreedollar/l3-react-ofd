@@ -1,0 +1,7 @@
+{
+  "status": {
+    "danger": "Peligro, por debajo del {{percentage}}% de colateralización",
+    "safe": "Seguro, por debajo del {{percentage}}% de colateralización",
+    "warning": "Advertencia, por debajo del {{percentage}}% de colateralización"
+  }
+}

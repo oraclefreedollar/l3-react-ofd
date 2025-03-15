@@ -1,0 +1,40 @@
+{
+  "back": "Zurück zur Position",
+  "title": "Position anpassen",
+  "outcome": {
+    "title": "Ergebnis",
+    "futureMintedAmount": "Zukünftiger geprägter Betrag",
+    "minted": "Aktuell geprägter Betrag",
+    "mintingFee": "Prägegebühr (Zinsen)",
+    "receive": "Sie erhalten",
+    "reserve": "In Ihrem Namen zur Reserve hinzugefügt",
+    "return": "Sie geben zurück",
+    "returnFromReserve": "Aus der Reserve zurückgegeben"
+  },
+  "variables": {
+    "title": "Variablen",
+    "amount": "Betrag",
+    "amountBalanceLabel": "Min:",
+    "amountPlaceholder": "Kreditbetrag",
+    "buttons": {
+      "adjust": "Position anpassen",
+      "adjustError": "Sie können nur Ihre eigene Position anpassen",
+      "approve": "Sicherheit genehmigen"
+    },
+    "collateral": "Sicherheit",
+    "collateralBalanceLabel": "Max:",
+    "collateralPlaceholder": "Sicherheitsbetrag",
+    "collateralSent": "{{amount}} zurück an Ihre Wallet gesendet",
+    "collateralTaken": "{{amount}} von Ihrer Wallet genommen",
+    "errors": {
+      "insufficientBalance": "Unzureichendes OFD in der Wallet",
+      "limitExceeded": "Diese Position ist auf {{limit}} OFD begrenzt",
+      "maxMint": "Mit dem gegebenen Preis und der Sicherheit können höchstens {{maxMint}} OFD geprägt werden",
+      "increaseAfterCooldown": "Der Betrag kann erst erhöht werden, nachdem der neue Preis die Abkühlungsphase durchlaufen hat."
+    },
+    "insufficientCollateral": "Unzureichend {{collateralSymbol}} in Ihrer Wallet",
+    "liqPrice": "Liquidationspreis",
+    "liqPriceBalanceLabel": "Aktueller Wert",
+    "noEnoughCollateral": "Nicht genug Sicherheit für den angegebenen Preis und Prägebetrag"
+  }
+}

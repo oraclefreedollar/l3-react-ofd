@@ -1,0 +1,24 @@
+{
+  "title": "Realizar Oferta",
+  "back": "Volver a la posición",
+  "buttons": {
+    "approve": "Aprobar",
+    "bid": "Realizar Oferta"
+  },
+  "details": {
+    "challengeLabel": "Está comprando",
+    "challengePlaceholder": "Cantidad del Desafío",
+    "challenger": "Desafiante",
+    "expectedPrice": "Precio total esperado: {{amount}} OFD",
+    "originalSize": "Tamaño Original",
+    "phaseDuration": "Duración de Fase",
+    "pricePerUnit": "Precio por Unidad",
+    "reachingZero": "Llegando a Cero en",
+    "remainingCollateral": "Garantía Restante",
+    "title": "Detalles de la Oferta"
+  },
+  "errors": {
+    "noEnoughBalance": "No hay suficiente saldo en su cartera",
+    "expectedWinningCollateral": "La garantía ganadora esperada debe ser menor que la garantía restante"
+  }
+}

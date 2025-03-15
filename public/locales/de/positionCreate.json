@@ -1,0 +1,52 @@
+{
+  "buttons": {
+    "back": "Zurück",
+    "next": "Weiter",
+    "propose": "Position vorschlagen",
+    "submit": "Einreichen"
+  },
+  "header": {
+    "backText": "Zurück zu Positionen",
+    "title": "Neuen Positionstyp vorschlagen"
+  },
+  "stepCounter": "Schritt {{current}} von {{total}}",
+  "title": "Position vorschlagen",
+  "collateral": {
+    "title": "Sicherheit",
+    "addressLabel": "Welchen Token möchten Sie als Sicherheit verwenden?",
+    "addressPlaceholder": "Token-Vertragsadresse",
+    "amountLabel": "Sicherheitsbetrag",
+    "approveButton": "{{symbol}} genehmigen",
+    "minCollateral": "Mindestsicherheit",
+    "minCollateralPlaceholder": "Mindestsicherheitsbetrag",
+    "initialCollateral": "Anfangssicherheit",
+    "initialCollateralPlaceholder": "Anfangssicherheitsbetrag"
+  },
+  "financial": {
+    "title": "Finanzielle Bedingungen",
+    "section": {
+      "interestLabel": "Jährlicher Ertrag",
+      "interestPlaceholder": "Jährlicher Ertrag",
+      "interestTooltip": "Der jährliche Ertrag ist die Gebühr, die im Voraus erhoben wird, wenn Sie eine neue Position zum Prägen von Oracle Free Dollar (OFD) eröffnen. Dieser Ertrag wird auf Grundlage des Betrags berechnet, den Sie prägen möchten, und wird in der Regel vom Benutzer festgelegt. Die Gebühr wird für die gesamte Laufzeit der Position gezahlt, die je nach der von Ihnen gewählten Laufzeit (z.B. 6 Monate, 12 Monate) angepasst werden kann.",
+      "limitAmountLabel": "Prägelimit",
+      "limitAmountPlaceholder": "Limitbetrag",
+      "maturityLabel": "Laufzeit"
+    }
+  },
+  "initialization": {
+    "title": "Positionsdetails",
+    "section": {
+      "title": "Initialisierung",
+      "proposalFeeLabel": "Vorschlagsgebühr",
+      "proposalFeeError": "Nicht genug OFD",
+      "initPeriodLabel": "Initialisierungsperiode",
+      "discuss": {
+        "title": "Diskutieren",
+        "description1": "Es wird empfohlen, ",
+        "description2": " neue Positionen vor der Initiierung zu diskutieren, um die Wahrscheinlichkeit zu erhöhen, den dezentralen Governance-Prozess zu bestehen."
+      }
+    }
+  },
+  "liquidation": {
+    "title": "Liquidationseinstellungen",
+    "section": {

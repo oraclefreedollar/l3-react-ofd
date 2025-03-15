@@ -1,0 +1,54 @@
+{
+  "buttons": {
+    "approve": "Approuver",
+    "challenge": "Contester"
+  },
+  "columns": {
+    "auctionPrice": "Prix d'Enchère",
+    "cap": "Plafond",
+    "state": "État",
+    "progress": "Progression"
+  },
+  "details": {
+    "startingPrice": "Prix de Départ",
+    "maxProceeds": "Recettes Maximales",
+    "collateralInPosition": "Garantie en Position",
+    "minimumAmount": "Montant Minimum",
+    "fixedPhase": "Phase à Prix Fixe",
+    "decliningPhase": "Phase à Prix Décroissant"
+  },
+  "form": {
+    "title": "Détails du Défi",
+    "amount": {
+      "label": "Montant",
+      "placeholder": "Montant de Garantie"
+    },
+    "errors": {
+      "tooHighCollateral": "La garantie du défi devrait être inférieure à la garantie de la position",
+      "tooLowCollateral": "La garantie du défi devrait être supérieure à la garantie minimale"
+    }
+  },
+  "header": {
+    "title": "Lancer un Défi",
+    "backText": "Retour à la position"
+  },
+  "info": {
+    "title": "Comment ça fonctionne ?",
+    "description": "Le montant de l'actif de garantie que vous fournissez sera mis aux enchères publiquement dans une enchère hollandaise. L'enchère a deux phases, une phase à prix fixe et une phase à prix décroissant.",
+    "phases": {
+      "fixed": "Pendant la phase à prix fixe, n'importe qui peut acheter les {{symbol}} que vous avez fournis au prix de liquidation. Si tout est vendu avant la fin de la phase, le défi est évité et vous avez effectivement vendu les {{symbol}} fournis aux enchérisseurs pour {{price}} OFD par unité.",
+      "declining": "Si le défi n'est pas évité, la phase à prix fixe est suivie d'une phase à prix décroissant pendant laquelle le prix auquel les jetons {{symbol}} peuvent être obtenus diminue linéairement vers zéro. Dans ce cas, le défi est considéré comme réussi et vous récupérez les jetons {{symbol}} fournis. Les jetons vendus dans cette phase ne proviennent pas du contestateur, mais du propriétaire de la position. La quantité totale de jetons qui peuvent être achetés à partir de la position est limitée par la quantité restante dans le défi à la fin de la phase à prix fixe. En récompense pour avoir lancé un défi réussi, vous obtenez 2% des recettes des ventes."
+    }
+  },
+  "priceInfo": {
+    "startsFalling": "Le prix commence à baisser dans {{time}}",
+    "reachesZero": "Zéro est atteint dans {{time}}",
+    "reachedZero": "A atteint zéro à {{time}}"
+  },
+  "states": {
+    "fixedPrice": "Phase à Prix Fixe",
+    "decliningPrice": "Phase à Prix Décroissant",
+    "zeroPrice": "Phase à Prix Zéro"
+  },
+  "title": "Défi de Position"
+}

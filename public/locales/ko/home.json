@@ -1,0 +1,41 @@
+{
+  "title": "홈",
+  "description": "홈페이지",
+  "hero": {
+    "title": "Oracle Free Dollar",
+    "subtitle": "오라클에 의존하지 않고 미국 달러를 추적하는 탈중앙화된, 담보화된 스테이블코인"
+  },
+  "stats": {
+    "price": "가격",
+    "tvl": "총 잠긴 가치",
+    "marketCap": "시가총액",
+    "totalSupply": "총 공급량"
+  },
+  "navigation": {
+    "swap": {
+      "title": "OFD 스왑",
+      "description": "USDT를 스왑하여 Oracle Free Dollar에 투자하세요"
+    },
+    "createPosition": {
+      "title": "포지션 생성",
+      "description": "새로운 담보 포지션을 열고 OFD를 발행하세요"
+    },
+    "pool": {
+      "title": "OFDPS / 자본",
+      "description": "자본을 나타내는 OFD 풀 쉐어 탐색"
+    }
+  },
+  "about": {
+    "title": "탈중앙화된 안정성",
+    "description": "Oracle Free Dollar(OFD)는 독특하고 탈중앙화된 메커니즘을 통해 미국 달러와의 페그를 유지하는 혁명적인 스테이블코인입니다. 우리의 경매 기반 청산 시스템은 외부 가격 피드에 의존하지 않고 안정성을 보장하여, OFD를 시장에서 가장 강력하고 신뢰할 수 있는 스테이블코인 중 하나로 만듭니다."
+  },
+  "officialContracts": {
+    "title": "공식 계약",
+    "ofd": {
+      "title": "지갑에 OFD 추가"
+    },
+    "ofdps": {
+      "title": "지갑에 OFDPS 추가"
+    }
+  }
+}

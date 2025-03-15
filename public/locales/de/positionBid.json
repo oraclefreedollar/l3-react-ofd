@@ -1,0 +1,24 @@
+{
+  "title": "Gebot abgeben",
+  "back": "Zurück zur Position",
+  "buttons": {
+    "approve": "Genehmigen",
+    "bid": "Gebot abgeben"
+  },
+  "details": {
+    "challengeLabel": "Sie kaufen",
+    "challengePlaceholder": "Herausforderungsbetrag",
+    "challenger": "Herausforderer",
+    "expectedPrice": "Erwarteter Gesamtpreis: {{amount}} OFD",
+    "originalSize": "Ursprüngliche Größe",
+    "phaseDuration": "Phasendauer",
+    "pricePerUnit": "Preis pro Einheit",
+    "reachingZero": "Erreicht Null um",
+    "remainingCollateral": "Verbleibende Sicherheit",
+    "title": "Gebotsdetails"
+  },
+  "errors": {
+    "noEnoughBalance": "Nicht genug Guthaben in Ihrer Wallet",
+    "expectedWinningCollateral": "Erwartete gewinnende Sicherheit sollte niedriger sein als die verbleibende Sicherheit"
+  }
+}
