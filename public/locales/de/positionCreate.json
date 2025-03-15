@@ -25,9 +25,9 @@
   "financial": {
     "title": "Finanzielle Bedingungen",
     "section": {
-      "interestLabel": "Jährlicher Zins",
-      "interestPlaceholder": "Jährlicher Zins",
-      "interestTooltip": "Der jährliche Zins ist die Gebühr, die im Voraus erhoben wird, wenn Sie eine neue Position zum Prägen von Oracle Free Dollar (OFD) eröffnen. Dieser Zins wird auf Grundlage des Betrags berechnet, den Sie prägen möchten, und wird in der Regel vom Benutzer festgelegt. Die Gebühr wird für die gesamte Laufzeit der Position gezahlt, die je nach der von Ihnen gewählten Laufzeit (z.B. 6 Monate, 12 Monate) angepasst werden kann.",
+      "interestLabel": "Jährlicher Ertrag",
+      "interestPlaceholder": "Jährlicher Ertrag",
+      "interestTooltip": "Der jährliche Ertrag ist die Gebühr, die im Voraus erhoben wird, wenn Sie eine neue Position zum Prägen von Oracle Free Dollar (OFD) eröffnen. Dieser Ertrag wird auf Grundlage des Betrags berechnet, den Sie prägen möchten, und wird in der Regel vom Benutzer festgelegt. Die Gebühr wird für die gesamte Laufzeit der Position gezahlt, die je nach der von Ihnen gewählten Laufzeit (z.B. 6 Monate, 12 Monate) angepasst werden kann.",
       "limitAmountLabel": "Prägelimit",
       "limitAmountPlaceholder": "Limitbetrag",
       "maturityLabel": "Laufzeit"

@@ -12,12 +12,12 @@
       }
     },
     "interest": {
-      "noInterest": "Es gibt noch keine Zinsansprüche.",
-      "title": "Aktuelle Zinsansprüche",
+      "noInterest": "Es gibt noch keine Ertragsansprüche.",
+      "title": "Aktuelle Ertragsansprüche",
       "table": {
         "balance": "Guthaben",
         "date": "Datum",
-        "interest": "Zinsen",
+        "interest": "Erträge",
         "saver": "Sparer"
       }
     },
@@ -34,22 +34,22 @@
   },
 
   "infoCard": {
-    "currentRate": "Aktueller Zinssatz",
+    "currentRate": "Aktueller Etragssatz",
     "moduleContract": "Modulvertrag",
     "totalSavings": "Gesamtersparnisse"
   },
   "interactionCard": {
     "balanceLabel": "Max:",
     "button": "Anpassen",
-    "label": "Ihre Ersparnisse",
+    "label": "Ihre Erträge",
     "placeholder": "{{symbol}} Betrag",
     "title": "Anpassung"
   },
   "outcome": {
     "addToYourWallet": "Von Ihrer Wallet hinzuzufügen",
     "balance": "Ihr aktuelles Guthaben",
-    "interest": "Zu erhebende Zinsen",
-    "locktime": "Wenn Sie zusätzliche Gelder sparen, wird Ihr Guthaben gesperrt, bis die Zinsen zu laufen beginnen, was bis zu drei Tage dauern kann. Diese Regel dient dazu, das Sparen von Geldern, die für Transaktionszwecke gehalten werden, zu entmutigen.",
+    "interest": "Zu erhebende Erträge",
+    "locktime": "Wenn Sie zusätzliche Gelder sparen, wird Ihr Guthaben gesperrt, bis die Erträge zu laufen beginnen, was bis zu drei Tage dauern kann. Diese Regel dient dazu, die Nutzung von OFD, das für Transaktionszwecke gehalten wird, zu entmutigen.",
     "locktime2": "Ihre Gelder sind noch für {{hours}} Stunden gesperrt.",
     "resultingBalance": "Resultierendes Guthaben",
     "title": "Ergebnis",

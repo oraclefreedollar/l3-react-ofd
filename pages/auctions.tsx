@@ -10,8 +10,10 @@ import React from 'react'
 import { InferGetServerSidePropsType } from 'next'
 import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 
+const namespaces = ['auctions', 'challenge']
+
 const Auction: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-	const { t } = useTranslation()
+	const { t } = useTranslation(namespaces)
 
 	const { address } = useAccount()
 	const { challenges, loading: queryLoading } = useChallengeLists({})
@@ -44,6 +46,6 @@ const Auction: React.FC = (_props: InferGetServerSidePropsType<typeof getServerS
 	)
 }
 
-export const getServerSideProps = withServerSideTranslations(['auctions'])
+export const getServerSideProps = withServerSideTranslations(namespaces)
 
 export default Auction
