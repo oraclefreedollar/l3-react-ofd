@@ -3,34 +3,34 @@
   "description": "Startseite",
   "hero": {
     "title": "Oracle Free Dollar",
-    "subtitle": "Ein dezentraler, besicherter Stablecoin, der den US-Dollar verfolgt, ohne sich auf Orakel zu verlassen"
+    "subtitle": "Ein dezentraler, besicherter Stablecoin, der den Preis des US-Dollar abbildet, ohne sich auf Orakel zu verlassen"
   },
   "stats": {
     "price": "Preis",
-    "tvl": "Gesamtwert gesperrt",
+    "tvl": "Gesamtwert hinterlegt",
     "marketCap": "Marktkapitalisierung",
-    "totalSupply": "Gesamtangebot"
+    "totalSupply": "Gesamtwert"
   },
   "navigation": {
     "swap": {
       "title": "OFD tauschen",
-      "description": "Investieren Sie in Oracle Free Dollar durch Tausch von USDT"
+      "description": "Einsteigen in Oracle Free Dollar durch Tausch von USDT"
     },
     "createPosition": {
       "title": "Position erstellen",
-      "description": "Eröffnen Sie eine neue Sicherheitsposition und prägen Sie OFD"
+      "description": "Eröffnen Sie eine neue Position und erstellen Sie OFD"
     },
     "pool": {
       "title": "OFDPS / Eigenkapital",
-      "description": "Erkunden Sie OFD-Pool-Anteile, die Eigenkapital repräsentieren"
+      "description": "Erkunden Sie OFD-Pool-Anteile, die Governance repräsentieren"
     }
   },
   "about": {
     "title": "Dezentrale Stabilität",
-    "description": "Oracle Free Dollar (OFD) ist ein revolutionärer Stablecoin, der seine Bindung an den US-Dollar durch einen einzigartigen, dezentralen Mechanismus aufrechterhält. Unser auktionsbasiertes Liquidationssystem gewährleistet Stabilität ohne Abhängigkeit von externen Preisfeeds, was OFD zu einem der robustesten und vertrauenslosesten Stablecoins auf dem Markt macht."
+    "description": "Oracle Free Dollar (OFD) ist ein ausserordenlticher Stablecoin, der seine Bindung an den US-Dollar durch einen einzigartigen, dezentralen Mechanismus aufrechterhält. Das auktionsbasierte Liquidationssystem gewährleistet Stabilität ohne Abhängigkeit von externen Preisfeeds, was OFD zu einem der robustesten und vertrauenswürdigsten Stablecoins auf dem Markt macht."
   },
   "officialContracts": {
-    "title": "Offizielle Verträge",
+    "title": "Offizielle Contract-Adressen",
     "ofd": {
       "title": "OFD zu Ihrer Wallet hinzufügen"
     },

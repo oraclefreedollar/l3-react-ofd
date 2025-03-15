@@ -22,7 +22,7 @@
   },
   "cooldown": {
     "title": "Abkühlungsphase",
-    "description": "Diese Position unterliegt einer Abkühlungsphase, die am {{cooldown}} endet, da ihr Eigentümer kürzlich den anwendbaren Liquidationspreis erhöht hat. Die Abkühlungsphase gibt anderen Benutzern die Möglichkeit, die Position herauszufordern, bevor zusätzliche oracleFreeDollars geprägt werden können."
+    "description": "Diese Position unterliegt einer Abkühlungsphase, die am {{cooldown}} endet, da ihr Eigentümer kürzlich den anwendbaren Liquidationspreis erhöht hat. Die Abkühlungsphase gibt anderen Benutzern die Möglichkeit, die Position herauszufordern, bevor zusätzliche OFD erstellt werden können."
   },
   "challengeTable": {
     "noContent": "Diese Position wird derzeit nicht herausgefordert.",

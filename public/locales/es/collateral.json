@@ -4,7 +4,7 @@
   "noSavings": "No hay ahorros aún.",
   "table": {
     "collateral": "Garantía",
-    "loanToValue": "Préstamo-a-Valor",
+    "loanToValue": "Ratio Préstamo-Valor",
     "effectiveInterest": "Interés Efectivo",
     "liquidationPrice": "Precio de Liquidación",
     "maturity": "Vencimiento",

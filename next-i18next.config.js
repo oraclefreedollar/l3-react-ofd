@@ -15,7 +15,7 @@ module.exports = {
 	// https://www.i18next.com/overview/configuration-options#logging
 	debug: isDev,
 	i18n: {
-		defaultLocale: 'es',
+		defaultLocale: 'en',
 		locales: ['en', 'es', 'ko', 'fr', 'de', 'pl'],
 		localeDetection: false, // This prevents automatic locale detection from URL
 	},

@@ -9,7 +9,7 @@ import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 import React from 'react'
 import { InferGetServerSidePropsType } from 'next'
 
-const nameSpaces = ['myPositions', 'positionBorrow', 'positionCollaterals']
+const nameSpaces = ['myPositions', 'positionCollaterals']
 
 const Positions: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const { t } = useTranslation(nameSpaces)

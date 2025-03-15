@@ -1,31 +1,31 @@
 {
   "positionCreate": {
-    "auctionDuration": "Auction duration must be greater than 1 month.",
+    "auctionDuration": "Czas trwania aukcji musi być dłuższy niż 1 miesiąc.",
     "buffer": {
-      "max": "Buffer must be less than 100%.",
-      "min": "Buffer must be at least 10%."
+      "max": "Bufor musi być mniejszy niż 100%.",
+      "min": "Bufor musi wynosić co najmniej 10%."
     },
     "collateralAddress": {
-      "invalid": "Invalid collateral address.",
-      "noData": "Could not obtain token data.",
-      "notSupported": "Token decimals should be less than 24."
+      "invalid": "Nieprawidłowy adres zabezpieczenia.",
+      "noData": "Nie można uzyskać danych tokenu.",
+      "notSupported": "Miejsca dziesiętne tokenu powinny być mniejsze niż 24."
     },
     "initialCollateral": {
-      "greaterThanZero": "Initial collateral must be greater than 0.",
-      "greaterThanMinimum": "Initial collateral must be greater than the minimum amount."
+      "greaterThanZero": "Początkowe zabezpieczenie musi być większe niż 0.",
+      "greaterThanMinimum": "Początkowe zabezpieczenie musi być większe niż minimalna kwota."
     },
     "initPeriod": {
-      "min": "Initialization period must be greater than 5 days."
+      "min": "Okres inicjalizacji musi być dłuższy niż 5 dni."
     },
     "interest": {
-      "min": "Annual Interest Rate should be greater than 0%.",
-      "max": "Annual Interest Rate should be less than 100%."
+      "min": "Roczna stopa procentowa powinna być większa niż 0%.",
+      "max": "Roczna stopa procentowa powinna być mniejsza niż 100%."
     },
     "liqPrice": {
-      "min": "Liquidation value of the collateral must be at least 3500 OFD."
+      "min": "Wartość likwidacyjna zabezpieczenia musi wynosić co najmniej 3500 OFD."
     },
     "maturity": {
-      "min": "Maturity must be greater than 0."
+      "min": "Zapadalność musi być większa niż 0."
     }
   }
 }
