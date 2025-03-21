@@ -44,6 +44,6 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 		oracleFreeDollar: '0x591cf237452497335a9850f49f747d95569eb3b1',
 		positionRoller: '0x47db60de931cdc550a04db3f1dec079b9c77fd23',
 		savings: '0x07c9ed9a7f18d166e25a47a2ac321ad4db5c6b36',
-		usdt: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+		usdt: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // Ethereum uses USDC. Consider handle it in a proper way
 	},
 }
