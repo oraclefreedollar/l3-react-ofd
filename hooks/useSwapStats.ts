@@ -39,6 +39,12 @@ export const useSwapStats = (): SwapStats => {
 				functionName: 'balanceOf',
 				args: [ADDRESS[chainId].bridge],
 			},
+			{
+				chainId,
+				address: ADDRESS[chainId].usdt,
+				abi: erc20Abi,
+				functionName: 'decimals',
+			},
 			// oracleFreeDollar Calls
 			{
 				chainId,
@@ -60,6 +66,12 @@ export const useSwapStats = (): SwapStats => {
 				functionName: 'allowance',
 				args: [account, ADDRESS[chainId].bridge],
 			},
+			{
+				chainId,
+				address: ADDRESS[chainId].oracleFreeDollar,
+				abi: ABIS.OracleFreeDollarABI,
+				functionName: 'decimals',
+			},
 			// Bridge Calls
 			{
 				chainId,
@@ -74,20 +86,24 @@ export const useSwapStats = (): SwapStats => {
 	const usdtSymbol: string = data ? String(data[1].result) : ''
 	const usdtUserAllowance: bigint = data ? decodeBigIntCall(data[2]) : BigInt(0)
 	const usdtBridgeBal: bigint = data ? decodeBigIntCall(data[3]) : BigInt(0)
+	const usdtDecimals: number = data ? Number(data[4].result ?? 18) : 0
 
-	const ofdUserBal: bigint = data ? decodeBigIntCall(data[4]) : BigInt(0)
-	const ofdSymbol: string = data ? String(data[5].result) : ''
-	const ofdUserAllowance: bigint = data ? decodeBigIntCall(data[6]) : BigInt(0)
+	const ofdUserBal: bigint = data ? decodeBigIntCall(data[5]) : BigInt(0)
+	const ofdSymbol: string = data ? String(data[6].result) : ''
+	const ofdUserAllowance: bigint = data ? decodeBigIntCall(data[7]) : BigInt(0)
+	const ofdDecimals: number = data ? Number(data[8].result ?? 18) : 0
 
-	const bridgeLimit: bigint = data ? decodeBigIntCall(data[7]) : BigInt(0)
+	const bridgeLimit: bigint = data ? decodeBigIntCall(data[9]) : BigInt(0)
 
 	return {
 		bridgeLimit,
+		ofdDecimals,
 		ofdSymbol,
 		ofdUserAllowance,
 		ofdUserBal,
 		refetch,
 		usdtBridgeBal,
+		usdtDecimals,
 		usdtSymbol,
 		usdtUserAllowance,
 		usdtUserBal,
