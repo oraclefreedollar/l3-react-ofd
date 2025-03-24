@@ -46,6 +46,14 @@ const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 		() => (direction ? swapStats.bridgeLimit - swapStats.usdtBridgeBal : swapStats.usdtBridgeBal),
 		[direction, swapStats]
 	)
+	const fromDecimals = useMemo(
+		() => (direction ? swapStats.usdtDecimals : swapStats.ofdDecimals),
+		[direction, swapStats.ofdDecimals, swapStats.usdtDecimals]
+	)
+	const toDecimals = useMemo(
+		() => (!direction ? swapStats.usdtDecimals : swapStats.ofdDecimals),
+		[direction, swapStats.ofdDecimals, swapStats.usdtDecimals]
+	)
 
 	const { handleApprove, handleBurn, handleMint, isApproving, isBurning, isMinting } = useSwapContractsFunctions({
 		amount,
@@ -90,6 +98,7 @@ const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 				<section className="mx-auto flex max-w-2xl flex-col gap-y-4 px-4 sm:px-8">
 					<div className="bg-gradient-to-br from-purple-900/90 to-slate-900/95 backdrop-blur-md rounded-xl p-8 flex flex-col border border-purple-500/50">
 						<TokenInput
+							digit={fromDecimals}
 							error={error}
 							limit={swapLimit}
 							limitLabel={t('swap:swapLimit')}
@@ -111,10 +120,11 @@ const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 						</div>
 
 						<TokenInput
+							digit={toDecimals}
 							label={t('swap:receive')}
 							max={toBalance}
 							note={t('swap:exchangeRate', { fromSymbol, toSymbol })}
-							output={formatUnits(amount, 18)}
+							output={formatUnits(amount, fromDecimals)}
 							symbol={toSymbol}
 						/>
 
