@@ -4,7 +4,7 @@ import { clientCoingecko, WAGMI_CHAIN } from 'app.config'
 import { uniqueValues } from 'utils/format-array'
 import { fetchPositions } from 'pages/api/positions'
 import { Contracts } from 'utils'
-import { bsc, bscTestnet, mainnet } from 'viem/chains'
+import { base, bsc, bscTestnet, mainnet, polygon } from 'viem/chains'
 import { ADDRESS } from 'contracts'
 
 import { PriceQueryObjectArray, PriceQueryCurrencies } from 'meta/prices'
@@ -32,8 +32,8 @@ let fetchedERC20Infos: ERC20Info[] = [
 	},
 ]
 const fetchedPrices: PriceQueryObjectArray = {
-	[ADDRESS[mainnet.id].oracleFreeDollar]: {
-		address: ADDRESS[mainnet.id].oracleFreeDollar,
+	[ADDRESS[base.id].oracleFreeDollar]: {
+		address: ADDRESS[base.id].oracleFreeDollar,
 		name: 'OracleFreeDollar',
 		symbol: 'OFD',
 		decimals: 18,
@@ -44,6 +44,26 @@ const fetchedPrices: PriceQueryObjectArray = {
 	},
 	[ADDRESS[bsc.id].oracleFreeDollar]: {
 		address: ADDRESS[bsc.id].oracleFreeDollar,
+		name: 'OracleFreeDollar',
+		symbol: 'OFD',
+		decimals: 18,
+		timestamp: 1716389270047,
+		price: {
+			usd: 1.0,
+		},
+	},
+	[ADDRESS[mainnet.id].oracleFreeDollar]: {
+		address: ADDRESS[mainnet.id].oracleFreeDollar,
+		name: 'OracleFreeDollar',
+		symbol: 'OFD',
+		decimals: 18,
+		timestamp: 1716389270047,
+		price: {
+			usd: 1.0,
+		},
+	},
+	[ADDRESS[polygon.id].oracleFreeDollar]: {
+		address: ADDRESS[polygon.id].oracleFreeDollar,
 		name: 'OracleFreeDollar',
 		symbol: 'OFD',
 		decimals: 18,
@@ -81,13 +101,15 @@ type updateDetailsResponse = {
 	infos: ERC20Info[]
 }
 
-type FetchFunction = () => Promise<void>
+type FetchFunction = (contract: Address) => Promise<void>
 
 export const fetchExternalPrices: Record<Address, FetchFunction> = {
-	'0xd9B8CF9f4FD8055c0454389dD6aAB1FDcE2E8781': () => Contracts.Prices.dgc(fetchedERC20Infos, fetchedPrices), // Denario Gold Coin
-	'0x2F30D9EC8Fec8612DBCD54C4C2604Ffc972E8a8d': () => Contracts.Prices.dsc(fetchedERC20Infos, fetchedPrices), // Denario Silver Coin
-	'0x8f73610Dd60185189657c826Df315Cc980ca4A0e': () => Contracts.Prices.oprs(fetchedERC20Infos, fetchedPrices), // Operal
-	'0x09A1aD50Ac7B8ddD40bAfa819847Ab1Ea6974a4f': () => Contracts.Prices.swissDLT(fetchedERC20Infos, fetchedPrices), // SwissDLT
+	'0xd9B8CF9f4FD8055c0454389dD6aAB1FDcE2E8781': (contract) => Contracts.Prices.dgc(contract, fetchedERC20Infos, fetchedPrices), // Denario Gold Coin BSC
+	'0x2F30D9EC8Fec8612DBCD54C4C2604Ffc972E8a8d': (contract) => Contracts.Prices.dsc(contract, fetchedERC20Infos, fetchedPrices), // Denario Silver Coin BSC
+	'0xf3773fa33A89ec29060C3850583309E6737C007A': (contract) => Contracts.Prices.dsc(contract, fetchedERC20Infos, fetchedPrices), // Denario Silver Coin Polygon
+	'0x8f73610Dd60185189657c826Df315Cc980ca4A0e': (contract) => Contracts.Prices.oprs(contract, fetchedERC20Infos, fetchedPrices), // Operal OPRS BSC
+	'0xB2BF2689db4ff1e392d95562c3E71dAAF2d1Bc5F': (contract) => Contracts.Prices.oprs(contract, fetchedERC20Infos, fetchedPrices), // Operal wOPRS Polygon
+	'0x09A1aD50Ac7B8ddD40bAfa819847Ab1Ea6974a4f': (contract) => Contracts.Prices.swissDLT(contract, fetchedERC20Infos, fetchedPrices), // SwissDLT BSC
 }
 
 type Props = { chainId: number }
@@ -157,7 +179,7 @@ export async function updateDetails(props: Props): Promise<updateDetailsResponse
 	// MAINNET ONLY: fetch prices from external resources
 	if (WAGMI_CHAIN !== bscTestnet) {
 		await Promise.allSettled(
-			fetchedAddresses.map(async (c) => fetchExternalPrices[c]?.() ?? (await fetchCoinGecko(c.toLowerCase() as Address)))
+			fetchedAddresses.map(async (c) => fetchExternalPrices[c]?.(c) ?? (await fetchCoinGecko(c.toLowerCase() as Address)))
 		)
 	}
 

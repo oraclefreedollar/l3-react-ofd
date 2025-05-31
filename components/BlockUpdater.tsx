@@ -39,7 +39,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 		if (initializing) return
 		initializing = true
 
-		dispatch(PositionsActions.getAll({ chainId }))
+		dispatch(PositionsActions.getAll({ chainId })).unwrap()
 		dispatch(PricesActions.update({ chainId }))
 	}, [dispatch, chainId, initialized])
 
@@ -69,7 +69,7 @@ export default function BockUpdater({ children }: { children?: React.ReactElemen
 
 		// Block update policy: EACH BLOCK
 		// console.log(`Policy [BlockUpdater]: EACH BLOCK ${fetchedLatestHeight}`);
-		dispatch(PositionsActions.getAll({ chainId }))
+		dispatch(PositionsActions.getAll({ chainId })).unwrap()
 
 		// Block update policy: EACH 10 BLOCKS
 		if (fetchedLatestHeight % 10 === 0) {

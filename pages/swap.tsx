@@ -17,7 +17,7 @@ import { useTranslation } from 'next-i18next'
 import { InferGetServerSidePropsType } from 'next'
 import { withServerSideTranslations } from 'utils/withServerSideTranslations'
 import { useChainId } from 'wagmi'
-import { mainnet } from 'viem/chains'
+import { bsc, bscTestnet } from 'wagmi/chains'
 
 const namespaces = ['common', 'swap']
 
@@ -30,17 +30,17 @@ const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 
 	const chainId = useChainId()
 	const swapStats = useSwapStats()
-	const isEthereumNetwork = useMemo(() => chainId === mainnet.id, [chainId])
+	const isBSCNetwork = useMemo(() => chainId === (bsc.id || bscTestnet.id), [chainId])
 
 	const fromBalance = useMemo(() => (direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats])
 	const toBalance = useMemo(() => (!direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats])
 	const fromSymbol = useMemo(
-		() => (direction ? (isEthereumNetwork ? CoinTicker.USDC : CoinTicker.USDT) : CoinTicker.OFD),
-		[direction, isEthereumNetwork]
+		() => (direction ? (isBSCNetwork ? CoinTicker.USDT : CoinTicker.USDC) : CoinTicker.OFD),
+		[direction, isBSCNetwork]
 	)
 	const toSymbol = useMemo(
-		() => (!direction ? (isEthereumNetwork ? CoinTicker.USDC : CoinTicker.USDT) : CoinTicker.OFD),
-		[direction, isEthereumNetwork]
+		() => (!direction ? (isBSCNetwork ? CoinTicker.USDT : CoinTicker.USDC) : CoinTicker.OFD),
+		[direction, isBSCNetwork]
 	)
 	const swapLimit = useMemo(
 		() => (direction ? swapStats.bridgeLimit - swapStats.usdtBridgeBal : swapStats.usdtBridgeBal),

@@ -3,6 +3,7 @@ import { THE_GRAPH_KEY } from 'app.config'
 
 import { PriceQueryObjectArray } from 'meta/prices'
 import { ERC20Info } from 'meta/positions'
+import { Address } from 'viem'
 
 // Sushiswap subgraph endpoint (for Polygon)
 const SUSHISWAP_SUBGRAPH_URL = `https://gateway.thegraph.com/api/${THE_GRAPH_KEY}/subgraphs/id/G1Q6dviDfMm6hVLvCqbfeB19kLmvs7qrnBvXeFndjhaU`
@@ -25,10 +26,10 @@ const GET_BCTS_USDT_RESERVES = `
 	}
 `
 
-const contract = '0x09A1aD50Ac7B8ddD40bAfa819847Ab1Ea6974a4f'.toLowerCase()
-
-export const swissDLT = async (fetchedERC20Infos: Array<ERC20Info>, fetchedPrices: PriceQueryObjectArray) => {
+export const swissDLT = async (contract: Address, fetchedERC20Infos: Array<ERC20Info>, fetchedPrices: PriceQueryObjectArray) => {
 	try {
+		const contractToLowerCase = contract.toLowerCase()
+
 		const response = await fetch(SUSHISWAP_SUBGRAPH_URL, {
 			method: 'POST',
 			headers: {
@@ -47,11 +48,11 @@ export const swissDLT = async (fetchedERC20Infos: Array<ERC20Info>, fetchedPrice
 		const priceBCTSInUSDT = reserveBCTS / reserveUSDT
 
 		const price = formatCurrency(String(priceBCTSInUSDT))
-		const erc = fetchedERC20Infos.find((i) => i.address?.toLowerCase() == contract)
+		const erc = fetchedERC20Infos.find((i) => i.address?.toLowerCase() == contractToLowerCase)
 
 		if (!erc) return
 
-		fetchedPrices[contract] = {
+		fetchedPrices[contractToLowerCase] = {
 			...erc,
 			timestamp: Date.now(),
 			price: {

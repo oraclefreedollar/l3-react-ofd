@@ -1,5 +1,6 @@
 import { Address } from 'viem'
 import { bsc, bscTestnet, mainnet } from 'wagmi/chains'
+import { base, polygon } from 'viem/chains'
 
 export interface ProtocolAddress {
 	bridge: Address
@@ -16,6 +17,15 @@ export interface ProtocolAddress {
 }
 
 export const ADDRESS: Record<number, ProtocolAddress> = {
+	[base.id]: {
+		bridge: '0x62e9e41925e9e1973f219ae6784e7fdc6e54fe37',
+		equity: '0xd97cf080d7f78c3b5e1a0bd74f9d685cf2071a2c',
+		mintingHub: '0xbab0c2a7b11357245b03a4e81e04435d3893c97e',
+		oracleFreeDollar: '0x7479791022eb1030bbc3b09f6575c5db4ddc0b90',
+		positionRoller: '0xacef382a305b850c1b2fa35521ddd57e5425045c',
+		savings: '0x1ccadd1577cdbb95f3c404fd22ccc82f3ef1531c',
+		usdt: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+	},
 	[bscTestnet.id]: {
 		bridge: '0x2ac1b767378ffdec4a9f71429a6b5aabee559e84',
 		equity: '0x49ea9f8a532f62e0972587704f59ee7364173419',
@@ -45,5 +55,14 @@ export const ADDRESS: Record<number, ProtocolAddress> = {
 		positionRoller: '0x47db60de931cdc550a04db3f1dec079b9c77fd23',
 		savings: '0x07c9ed9a7f18d166e25a47a2ac321ad4db5c6b36',
 		usdt: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // Ethereum uses USDC. Consider handle it in a proper way
+	},
+	[polygon.id]: {
+		bridge: '0xca8d28d62d863f52795c9fdcae73c6eeb0ff504c',
+		equity: '0x35868f0c44f43d2f0b0ca1adc52b38937d0b1df9',
+		mintingHub: '0x178C2Eb681943Ee06D1735ee1f4898aE42E8A03c',
+		oracleFreeDollar: '0x9cfb3b1b217b41c4e748774368099dd8dd7e89a1',
+		positionRoller: '0x0465d5d4abe0383322a33147317a2c0ed2fce8d8',
+		savings: '0x204843b865d87ef85f72801784bed3efc15e7c1d',
+		usdt: '0x3c499c542cef5e3811e1192ce70d8cc03d5c3359',
 	},
 }

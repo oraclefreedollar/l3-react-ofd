@@ -2,6 +2,7 @@ import { formatCurrency } from 'utils'
 
 import { PriceQueryObjectArray } from 'meta/prices'
 import { ERC20Info } from 'meta/positions'
+import { Address } from 'viem'
 
 type DSCPRice = {
 	priceAsk: string
@@ -10,8 +11,9 @@ type DSCPRice = {
 	priceDate: string
 }
 
-export const dsc = async (fetchedERC20Infos: Array<ERC20Info>, fetchedPrices: PriceQueryObjectArray) => {
-	const contract = '0x2f30d9ec8fec8612dbcd54c4c2604ffc972e8a8d'.toLowerCase()
+export const dsc = async (contract: Address, fetchedERC20Infos: Array<ERC20Info>, fetchedPrices: PriceQueryObjectArray) => {
+	const contractToLowerCase = contract.toLowerCase()
+
 	const options = {
 		method: 'GET',
 		headers: {
@@ -23,11 +25,11 @@ export const dsc = async (fetchedERC20Infos: Array<ERC20Info>, fetchedPrices: Pr
 	const response = await data.json()
 	const dscPriceUsd = response.find((o: DSCPRice) => o.currency === 'USD')
 	const price = formatCurrency(String(dscPriceUsd?.priceAsk))
-	const erc = fetchedERC20Infos.find((i) => i.address?.toLowerCase() == contract)
+	const erc = fetchedERC20Infos.find((i) => i.address?.toLowerCase() == contractToLowerCase)
 
 	if (!erc) return
 
-	fetchedPrices[contract] = {
+	fetchedPrices[contractToLowerCase] = {
 		...erc,
 		timestamp: Date.now(),
 		price: {

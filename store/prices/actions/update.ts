@@ -14,8 +14,7 @@ export const update = createAsyncThunk<PriceQueryObjectArray | undefined, Props,
 		const { mintERC20Infos, collateralERC20Infos } = positions
 
 		const infos: ERC20Info[] = mintERC20Infos.concat(...collateralERC20Infos)
-
-		if (infos.length == 0) return
+		if (infos.length === 0) return
 		const response = await fetch(`/api/prices?chainId=${chainId}&forceRefresh=${forceRefresh}`)
 		const prices = ((await response.json())?.prices as PriceQueryObjectArray) || []
 
