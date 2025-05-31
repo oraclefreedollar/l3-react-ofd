@@ -11,9 +11,9 @@ export const useTvl = (): number => {
 	const prices = useCoingeckoPrices()
 
 	const openPositions = useMemo<Array<PositionQuery>>(() => {
-		return openPositionsByCollateral.reduce((acc, positions) => {
+		return openPositionsByCollateral?.reduce((acc, positions) => {
 			return [...acc, ...positions]
-		})
+		}, [])
 	}, [openPositionsByCollateral])
 
 	return useMemo<number>(

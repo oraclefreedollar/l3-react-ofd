@@ -1,17 +1,19 @@
 'use client'
 
-import { bsc, bscTestnet, mainnet } from 'viem/chains'
+import { bsc, bscTestnet, mainnet, polygon } from 'viem/chains'
 import { envConfig } from 'app.env.config'
 import { cookieStorage, createConfig, createStorage, http } from 'wagmi'
 import { coinbaseWallet, injected, walletConnect } from '@wagmi/connectors'
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 
 // >>>>>> SELECTED URI HERE <<<<<<
+export const RPC_URL_BASE = envConfig.RPC_URL_BASE
+export const RPC_URL_ETHEREUM = envConfig.RPC_URL_ETHEREUM
+export const RPC_URL_MAINNET = envConfig.RPC_URL_MAINNET
+export const RPC_URL_POLYGON = envConfig.RPC_URL_POLYGON
+export const RPC_URL_TESTNET = envConfig.RPC_URL_TESTNET
 export const URI_APP_SELECTED = envConfig.URI_APP_SELECTED
 export const URI_PONDER_SELECTED = envConfig.URI_PONDER_DEVELOPER
-export const RPC_URL_MAINNET = envConfig.RPC_URL_MAINNET
-export const RPC_URL_TESTNET = envConfig.RPC_URL_TESTNET
-export const RPC_URL_ETHEREUM = envConfig.RPC_URL_ETHEREUM
 // >>>>>> SELECTED URI HERE <<<<<<
 
 // API KEYS
@@ -32,12 +34,15 @@ export const WAGMI_METADATA = {
 }
 
 export const WAGMI_CONFIG = createConfig({
-	chains: [bsc, mainnet, ...(envConfig.ENV === ('dev' || 'local') ? [bscTestnet] : [])],
+	// TODO: add base to chains array when supported
+	chains: [bsc, mainnet, polygon, ...(envConfig.ENV === ('dev' || 'local') ? [bscTestnet] : [])],
 	syncConnectedChain: true,
 	transports: {
+		// [base.id]: http(RPC_URL_BASE),
 		[bsc.id]: http(RPC_URL_MAINNET),
 		[bscTestnet.id]: http(RPC_URL_TESTNET),
 		[mainnet.id]: http(RPC_URL_ETHEREUM),
+		[polygon.id]: http(RPC_URL_POLYGON),
 	},
 	batch: {
 		multicall: {

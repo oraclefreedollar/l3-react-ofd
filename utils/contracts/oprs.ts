@@ -2,9 +2,11 @@ import { formatCurrency } from 'utils'
 
 import { PriceQueryObjectArray } from 'meta/prices'
 import { ERC20Info } from 'meta/positions'
+import { Address } from 'viem'
 
-export const oprs = async (fetchedERC20Infos: Array<ERC20Info>, fetchedPrices: PriceQueryObjectArray) => {
-	const contract = '0x8f73610Dd60185189657c826Df315Cc980ca4A0e'.toLowerCase()
+export const oprs = async (contract: Address, fetchedERC20Infos: Array<ERC20Info>, fetchedPrices: PriceQueryObjectArray) => {
+	const contractToLowerCase = contract.toLowerCase()
+
 	const options = {
 		method: 'GET',
 		headers: {
@@ -16,11 +18,11 @@ export const oprs = async (fetchedERC20Infos: Array<ERC20Info>, fetchedPrices: P
 	// convert CHF to USD hardcoded
 	// TODO: refactor using a proper currency conversion library
 	const price = formatCurrency(String(response.price * 1.17))
-	const erc = fetchedERC20Infos.find((i) => i.address?.toLowerCase() == contract)
+	const erc = fetchedERC20Infos.find((i) => i.address?.toLowerCase() == contractToLowerCase)
 
 	if (!erc) return
 
-	fetchedPrices[contract] = {
+	fetchedPrices[contractToLowerCase] = {
 		...erc,
 		timestamp: Date.now(),
 		price: {
