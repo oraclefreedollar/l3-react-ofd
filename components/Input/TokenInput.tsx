@@ -9,41 +9,41 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const TokenLogo = dynamic(() => import('../TokenLogo'), { ssr: false })
 
 export interface TokenInputProps {
-	label?: string
-	symbol: string
-	placeholder?: string
 	balanceLabel?: string
-	max?: bigint
 	digit?: bigint | number
-	hideMaxLabel?: boolean
-	limit?: bigint
-	limitLabel?: string
-	output?: string
-	note?: string
-	value?: string
-	onChange?: (value: string) => void
 	disabled?: boolean
 	error?: string
+	hideMaxLabel?: boolean
+	label?: string
+	limit?: bigint
+	limitLabel?: string
+	max?: bigint
+	note?: string
+	onChange?: (value: string) => void
+	output?: string
+	placeholder?: string
+	symbol: string
 	tooltip?: string
+	value?: string
 }
 
 export default function TokenInput({
-	label,
-	placeholder = 'Input Amount',
-	symbol,
-	max = 0n,
-	digit = 18n,
 	balanceLabel = 'Balance: ',
+	digit = 18n,
+	disabled,
+	error,
 	hideMaxLabel,
+	label,
 	limit = 0n,
 	limitLabel,
-	output,
+	max = 0n,
 	note,
-	value,
-	disabled,
 	onChange,
-	error,
+	output,
+	placeholder = 'Input Amount',
+	symbol,
 	tooltip,
+	value,
 }: TokenInputProps) {
 	const { isConnected } = useAccount()
 
@@ -99,7 +99,7 @@ export default function TokenInput({
 				{limit >= 0n && limitLabel && (
 					<>
 						<span>{limitLabel} :&nbsp;</span>
-						<DisplayAmount amount={limit} currency={symbol} />
+						<DisplayAmount amount={limit} currency={symbol} digits={digit} />
 					</>
 				)}
 				{note && <span>{note}</span>}
