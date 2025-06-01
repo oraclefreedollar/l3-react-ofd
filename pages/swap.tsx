@@ -47,7 +47,7 @@ const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 		[direction, swapStats]
 	)
 	const fromDecimals = useMemo(
-		() => (direction ? swapStats.usdtDecimals : swapStats.ofdDecimals),
+		() => (direction ? swapStats.ofdDecimals : swapStats.usdtDecimals),
 		[direction, swapStats.ofdDecimals, swapStats.usdtDecimals]
 	)
 	const toDecimals = useMemo(
