@@ -30,29 +30,34 @@ const Swap: React.FC = (_props: InferGetServerSidePropsType<typeof getServerSide
 
 	const chainId = useChainId()
 	const swapStats = useSwapStats()
-	const isBSCNetwork = useMemo(() => chainId === (bsc.id || bscTestnet.id), [chainId])
+	const isBSCNetwork = useMemo(() => chainId === bsc.id || chainId === bscTestnet.id, [chainId])
+
+	const swapLimit = useMemo(() => {
+		if (direction) {
+			const limit = swapStats.bridgeLimit
+			return limit / BigInt(10 ** (swapStats.ofdDecimals - swapStats.usdtDecimals))
+		} else {
+			return swapStats.usdtBridgeBal * BigInt(10 ** (swapStats.ofdDecimals - swapStats.usdtDecimals))
+		}
+	}, [direction, swapStats])
 
 	const fromBalance = useMemo(() => (direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats])
-	const toBalance = useMemo(() => (!direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats])
+	const fromDecimals = useMemo(
+		() => (direction ? swapStats.usdtDecimals : swapStats.ofdDecimals),
+		[direction, swapStats.ofdDecimals, swapStats.usdtDecimals]
+	)
 	const fromSymbol = useMemo(
 		() => (direction ? (isBSCNetwork ? CoinTicker.USDT : CoinTicker.USDC) : CoinTicker.OFD),
 		[direction, isBSCNetwork]
 	)
-	const toSymbol = useMemo(
-		() => (!direction ? (isBSCNetwork ? CoinTicker.USDT : CoinTicker.USDC) : CoinTicker.OFD),
-		[direction, isBSCNetwork]
-	)
-	const swapLimit = useMemo(
-		() => (direction ? swapStats.bridgeLimit - swapStats.usdtBridgeBal : swapStats.usdtBridgeBal),
-		[direction, swapStats]
-	)
-	const fromDecimals = useMemo(
-		() => (direction ? swapStats.ofdDecimals : swapStats.usdtDecimals),
-		[direction, swapStats.ofdDecimals, swapStats.usdtDecimals]
-	)
+	const toBalance = useMemo(() => (!direction ? swapStats.usdtUserBal : swapStats.ofdUserBal), [direction, swapStats])
 	const toDecimals = useMemo(
 		() => (!direction ? swapStats.usdtDecimals : swapStats.ofdDecimals),
 		[direction, swapStats.ofdDecimals, swapStats.usdtDecimals]
+	)
+	const toSymbol = useMemo(
+		() => (!direction ? (isBSCNetwork ? CoinTicker.USDT : CoinTicker.USDC) : CoinTicker.OFD),
+		[direction, isBSCNetwork]
 	)
 
 	const { handleApprove, handleBurn, handleMint, isApproving, isBurning, isMinting } = useSwapContractsFunctions({
