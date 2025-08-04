@@ -110,6 +110,7 @@ export const fetchExternalPrices: Record<Address, FetchFunction> = {
 	'0x8f73610Dd60185189657c826Df315Cc980ca4A0e': (contract) => Contracts.Prices.oprs(contract, fetchedERC20Infos, fetchedPrices), // Operal OPRS BSC
 	'0xB2BF2689db4ff1e392d95562c3E71dAAF2d1Bc5F': (contract) => Contracts.Prices.oprs(contract, fetchedERC20Infos, fetchedPrices), // Operal wOPRS Polygon
 	'0x09A1aD50Ac7B8ddD40bAfa819847Ab1Ea6974a4f': (contract) => Contracts.Prices.swissDLT(contract, fetchedERC20Infos, fetchedPrices), // SwissDLT BSC
+	'0x01a831D65BD1A1924191656e6EEff6F41EF07091': (contract) => Contracts.Prices.netp(contract, fetchedERC20Infos, fetchedPrices), // NETP Polygon
 }
 
 type Props = { chainId: number }
